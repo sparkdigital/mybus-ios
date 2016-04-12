@@ -9,13 +9,20 @@
 import UIKit
 import CoreData
 
+import Fabric
+import Crashlytics
+import Mapbox
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+    {
+        Fabric.with([Crashlytics.self, MGLAccountManager.self])
+
         // Override point for customization after application launch.
         return true
     }

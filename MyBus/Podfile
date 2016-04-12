@@ -1,0 +1,14 @@
+# Sources
+source 'https://github.com/CocoaPods/Specs.git'
+
+# Target
+platform :ios, '9.0'
+use_frameworks!
+
+#Pods
+pod 'Alamofire', '~> 3.3'
+pod 'MBProgressHUD', '~> 0.9.2'
+pod 'SwiftyJSON', '~> 2.3.2'
+pod 'Fabric'
+pod 'Crashlytics'
+pod 'Mapbox-iOS-SDK'
