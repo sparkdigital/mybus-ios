@@ -45,34 +45,39 @@ These document is intended to be used as guidelines and not as a tutorial of git
 
 If you need to build a new feature, it should come out from develop. After you are done working on that feature, and that code has been reviewed you should:
 
-```git checkout sprint-X```
-
-```git pull origin sprint-X```
-
-```git checkout MYB-FeatureBranch```
-
-```git rebase -i sprint-X```
+```
+git checkout sprint-X
+git pull origin sprint-X
+git checkout MYB-FeatureBranch
+git rebase -i sprint-X
+```
 
 You will see a ‘vi’ console with your commits, you should squash them into one commit.
 
 If ```git rebase -i sprint-X``` is successful you should:
 
-```git checkout sprint-X```
-
-```git merge MYB-FeatureBranch```
+```
+git checkout sprint-X
+git merge MYB-FeatureBranch
+```
 
 ### Branches Conflict Solving Process
 
 If you happen to find conflicts when merging or rebasing your branch when doing the squash of you commits you should resolved those issues on Xcode regarding which parts of the code will stay in the final commit.
 Then you should:
 
-```git add ./Path/Of/The/Conflicted/File```
-
-```git commit -m “MYB-XYZ - Resolved merge conflicts from MYB-FeatureBranch into sprint-X```
+```
+git add ./Path/Of/The/Conflicted/File
+git commit -m “MYB-XYZ - Resolved merge conflicts from MYB-FeatureBranch into sprint-X
+```
 
 Then you should finish your rebasing by
 
-```git rebase --continue```. If your rebasing gets too complicated or difficult to resolve ask for assistance.
+```
+git rebase --continue
+```
+
+If your rebasing gets too complicated or difficult to resolve ask for assistance.
 
 #### Pushing Changes (Pure Push Scheme Procedure)
 
