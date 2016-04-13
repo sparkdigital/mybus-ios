@@ -9,7 +9,7 @@
 import UIKit
 import Mapbox
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MGLMapViewDelegate {
     
     @IBOutlet var mapView : MGLMapView!
 
@@ -19,6 +19,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         mapView.userTrackingMode = .Follow
+        mapView.delegate = self
+    }
+    
+    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
+        //Move map to current user location
+        mapView.centerCoordinate = (userLocation!.location?.coordinate)!
     }
 
     override func didReceiveMemoryWarning() {
