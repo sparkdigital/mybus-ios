@@ -10,22 +10,15 @@ import UIKit
 import Mapbox
 
 class ViewController: UIViewController {
+    
+    @IBOutlet var mapView : MGLMapView!
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let styleURL = NSURL(string: "https://www.mapbox.com/ios-sdk/files/mapbox-raster-v8.json")
-        
-        let mapView = MGLMapView(frame: view.bounds, styleURL: styleURL)
-        mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         mapView.userTrackingMode = .Follow
-        
-        // Set the map's center coordinate
-        mapView.setCenterCoordinate(CLLocationCoordinate2D(latitude: -38.0174483, longitude: -57.5258858), zoomLevel: 14, animated: false)
-        
-        view.addSubview(mapView)
     }
 
     override func didReceiveMemoryWarning() {
