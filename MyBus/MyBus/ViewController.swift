@@ -22,10 +22,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         mapView.delegate = self
     }
     
-    func mapView(
-        mapView: MGLMapView,
-        didUpdateUserLocation userLocation: MGLUserLocation?) {
-        //Move map to current user location 
+    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
+        //Move map to current user location
         mapView.centerCoordinate = (userLocation!.location?.coordinate)!
     }
 
