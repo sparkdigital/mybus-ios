@@ -21,8 +21,6 @@ private let addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=ca
 
 private let coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)"
 
-private let login_state = "login_state"
-
 public class Connectivity: NSObject
 {
     // MARK: - Instantiation
@@ -31,31 +29,7 @@ public class Connectivity: NSObject
         return _sharedInstance
     }
     
-    private var loginState : Bool
-        {
-        get
-        {
-            let returnLoginState: Bool = NSUserDefaults.standardUserDefaults().boolForKey(login_state)
-            
-            return returnLoginState
-        }
-        set (newValue)
-        {
-            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey:login_state)
-        }
-    }
-    
     override init() { }
-    
-    public func getLoginStatus() -> Bool
-    {
-        return self.loginState
-    }
-    
-    private func setLoginStatus(value: Bool)
-    {
-        self.loginState = value
-    }
     
     // MARK: Municipality Endpoints
     public func getStreetNames(forName streetName: String)
