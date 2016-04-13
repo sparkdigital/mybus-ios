@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         mapView.userTrackingMode = .Follow
         
         // Set the map's center coordinate
-        mapView.setCenterCoordinate(CLLocationCoordinate2D(latitude: 40.7326808, longitude: -73.9843407), zoomLevel: 14, animated: false)
+        mapView.setCenterCoordinate(CLLocationCoordinate2D(latitude: -38.0174483, longitude: -57.5258858), zoomLevel: 14, animated: false)
         
         view.addSubview(mapView)
     }
