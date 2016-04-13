@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087E76EF1CBEA5D800FB6050 /* Connectivity.swift */; };
 		08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58501CBD482400E8410A /* AppDelegate.swift */; };
 		08EC58531CBD482400E8410A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58521CBD482400E8410A /* ViewController.swift */; };
 		08EC58561CBD482400E8410A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08EC58541CBD482400E8410A /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		087E76EF1CBEA5D800FB6050 /* Connectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connectivity.swift; path = Services/Connectivity.swift; sourceTree = "<group>"; };
 		08EC584D1CBD482400E8410A /* MyBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EC58501CBD482400E8410A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08EC58521CBD482400E8410A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,7 +90,7 @@
 			children = (
 				08EC58501CBD482400E8410A /* AppDelegate.swift */,
 				08EC58731CBD486000E8410A /* Controllers */,
-				08EC58751CBD486D00E8410A /* Helpers */,
+				08EC58751CBD486D00E8410A /* Services */,
 				08EC58741CBD486600E8410A /* Model */,
 				08EC58771CBD488900E8410A /* Resources */,
 				08EC58761CBD487200E8410A /* UI */,
@@ -121,11 +123,12 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		08EC58751CBD486D00E8410A /* Helpers */ = {
+		08EC58751CBD486D00E8410A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				087E76EF1CBEA5D800FB6050 /* Connectivity.swift */,
 			);
-			name = Helpers;
+			name = Services;
 			sourceTree = "<group>";
 		};
 		08EC58761CBD487200E8410A /* UI */ = {
@@ -337,6 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				08EC58531CBD482400E8410A /* ViewController.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
 				08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */,
