@@ -50,12 +50,53 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+
+        // Double tapping zooms the map, so ensure that can still happen
+        let doubleTap = UITapGestureRecognizer(target: self, action: nil)
+        doubleTap.numberOfTapsRequired = 2
+        mapView.addGestureRecognizer(doubleTap)
+        
+        // Delay single tap recognition until it is clearly not a double
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
+        singleTap.requireGestureRecognizerToFail(doubleTap)
+        mapView.addGestureRecognizer(singleTap)
     }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
+    func handleSingleTap(tap: UITapGestureRecognizer) {
+        // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
+        let tappedLocation: CLLocationCoordinate2D = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
+        
+        // Remove first marker tapped from the map, add marker with coordinates
+        // Prevent having more than two points selected in map
+        if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 ) {
+            mapView.removeAnnotation(mapView.annotations![0])
+        }
+        
+        Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
+            let address = "\(responseObject!["calle"] as! String) \(responseObject!["altura"] as! String)"
+            
+            // Declare the marker point and set its coordinates
+            let mapPoint = MGLPointAnnotation()
+            mapPoint.coordinate = CLLocationCoordinate2D(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude)
+            mapPoint.title = address
+            
+            // Add marker to the map
+            self.mapView.addAnnotation(mapPoint)
+            
+            // Pop-up the callout view
+            self.mapView.selectAnnotation(mapPoint, animated: true)
+        }
 
+    }
+    
+    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool{
+        return true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
