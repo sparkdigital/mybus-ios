@@ -10,6 +10,11 @@ import UIKit
 import Mapbox
 
 class ViewController: UIViewController, MGLMapViewDelegate {
+
+    
+    @IBOutlet var plusButtonView: UIView!
+    @IBOutlet var minusButtonView: UIView!
+    @IBOutlet var compassButtonView: UIView!
     
     @IBOutlet var mapView : MGLMapView!
     let minZoomLevel : Double = 9
@@ -18,8 +23,26 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        plusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
+        plusButtonView.layer.cornerRadius = 20
+        let plusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.plusButtonTap(_:)))
+        plusButtonView.userInteractionEnabled = true
+        plusButtonView.addGestureRecognizer(plusButtonTap)
         
+        minusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
+        minusButtonView.layer.cornerRadius = 20
+        let minusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.minusButtonTap(_:)))
+        minusButtonView.userInteractionEnabled = true
+        minusButtonView.addGestureRecognizer(minusButtonTap)
+        
+        compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
+        compassButtonView.layer.cornerRadius = 20
+        let compassButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
+        compassButtonView.userInteractionEnabled = true
+        compassButtonView.addGestureRecognizer(compassButtonTap)
+        
+        mapView.maximumZoomLevel = maxZoomLevel
+        mapView.minimumZoomLevel = minZoomLevel
         mapView.userTrackingMode = .Follow
         mapView.delegate = self
         
@@ -59,6 +82,23 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 return
             }
             pack!.resume()
+        }
+    }
+    
+    
+    // MARK: - BUTTON HANDLERS
+    
+    func plusButtonTap(sender: UITapGestureRecognizer){
+        mapView.setZoomLevel(mapView.zoomLevel+1, animated: true)
+    }
+    
+    func minusButtonTap(sender: UITapGestureRecognizer){
+        mapView.setZoomLevel(mapView.zoomLevel-1, animated: true)
+    }
+    
+    func compassButtonTap(sender: UITapGestureRecognizer){
+        if let userLocation = mapView.userLocation {
+            mapView.setCenterCoordinate(userLocation.coordinate, animated: true)
         }
     }
     
