@@ -66,4 +66,39 @@ public class Connectivity: NSObject
         }
     }
     
+    public func getAddressFromCoordinate(latitude : Double, longitude: Double)
+    {
+        print("You tapped at: \(latitude), \(longitude)")
+        let addressFromCoordinateURLString = "\(coordinateToAddressEndpointURL)&latitud=\(latitude)&longitud=\(longitude)"
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: addressFromCoordinateURLString)!)
+        request.HTTPMethod = "GET"
+        
+        Alamofire.request(request).responseJSON { (response) -> Void in
+            
+            if(response.result.isFailure)
+            {
+                print("\nError: \(response.result.error!)")
+            }
+            else
+            {
+                let resultValue = response.result.value!
+                
+                print(resultValue)
+                
+                var bodyData: NSData?
+                do
+                {
+                    bodyData = try NSJSONSerialization.dataWithJSONObject(resultValue, options: .PrettyPrinted)
+                    print(bodyData)
+                }
+                catch
+                {
+                    bodyData = nil
+                    print(error)
+                }
+            }
+        }
+    }
+    
 }
