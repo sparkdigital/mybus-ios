@@ -70,21 +70,33 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
         let tappedLocation: CLLocationCoordinate2D = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
         
-        // Declare the marker point and set its coordinates
-        let mapPoint = MGLPointAnnotation()
-        mapPoint.coordinate = CLLocationCoordinate2D(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude)
-        
         // Remove first marker tapped from the map, add marker with coordinates
         // Prevent having more than two points selected in map
         if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 ) {
             mapView.removeAnnotation(mapView.annotations![0])
         }
         
-        // Add marker to the map
-        mapView.addAnnotation(mapPoint)
-        Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude)
-    }
+        Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
+            let address = "\(responseObject!["calle"] as! String) \(responseObject!["altura"] as! String)"
+            
+            // Declare the marker point and set its coordinates
+            let mapPoint = MGLPointAnnotation()
+            mapPoint.coordinate = CLLocationCoordinate2D(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude)
+            mapPoint.title = address
+            
+            // Add marker to the map
+            self.mapView.addAnnotation(mapPoint)
+            
+            // Pop-up the callout view
+            self.mapView.selectAnnotation(mapPoint, animated: true)
+        }
 
+    }
+    
+    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool{
+        return true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
