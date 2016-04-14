@@ -5,6 +5,11 @@ PODS:
   - Fabric (1.6.7)
   - Mapbox-iOS-SDK (3.2.0)
   - MBProgressHUD (0.9.2)
+  - Realm (0.98.7):
+    - Realm/Headers (= 0.98.7)
+  - Realm/Headers (0.98.7)
+  - RealmSwift (0.98.7):
+    - Realm (= 0.98.7)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -13,6 +18,7 @@ DEPENDENCIES:
   - Fabric
   - Mapbox-iOS-SDK
   - MBProgressHUD (~> 0.9.2)
+  - RealmSwift
   - SwiftyJSON (~> 2.3.2)
 
 SPEC CHECKSUMS:
@@ -21,6 +27,8 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Mapbox-iOS-SDK: 3b9e8d0f77098494cc236384fde2a26eb6683f3d
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  Realm: 46df2178359b6b57812e6cf957956febaba513a5
+  RealmSwift: 3056e6d7ad30ed50dd866185a615fccea73db5f5
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0
