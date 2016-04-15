@@ -91,6 +91,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
             self.mapView.selectAnnotation(mapPoint, animated: true)
         }
 
+<<<<<<< 6b7d98c2cf9429fc6fddedb22cd93b3a72b07e72
     }
     
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool{
@@ -98,6 +99,10 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     }
     
     override func didReceiveMemoryWarning() {
+=======
+    override func didReceiveMemoryWarning()
+    {
+>>>>>>> MYB-51 Added SearchViewController and updated storyboard.
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -176,7 +181,6 @@ class ViewController: UIViewController, MGLMapViewDelegate {
             print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
         }
     }
-
 
 }
 

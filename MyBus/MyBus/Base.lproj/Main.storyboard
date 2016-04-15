@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -100,15 +101,28 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="showsUserLocation" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7lU-AH-Jfc">
+                                <rect key="frame" x="568" y="30" width="22" height="22"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="Uw6-eA-Nyo" kind="popoverPresentation" popoverAnchorView="7lU-AH-Jfc" id="xoX-zf-u7t">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="2aR-D6-fly"/>
+                            <constraint firstItem="7lU-AH-Jfc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="8wp-C0-T7d"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Ced-vb-6ii"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Eg5-vr-toL"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="Ijh-XV-HCt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7lU-AH-Jfc" secondAttribute="trailing" constant="-10" id="ZBA-Ib-za5"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="compassButtonView" destination="dPk-NU-HBA" id="9Pd-wd-JVb"/>
                         <outlet property="mapView" destination="HHz-A5-EQO" id="duV-i3-dnI"/>
@@ -117,8 +131,60 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="fjF-4k-1fi">
+                    <connections>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="adC-9y-bWP"/>
+                        <outlet property="searchContentsController" destination="BYZ-38-t0r" id="XXX-UB-5fj"/>
+                        <outlet property="searchResultsDataSource" destination="BYZ-38-t0r" id="SMm-8d-ocS"/>
+                        <outlet property="searchResultsDelegate" destination="BYZ-38-t0r" id="Qgp-nX-R2h"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="375" y="210"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="avW-RO-0oO">
+            <objects>
+                <viewController id="Uw6-eA-Nyo" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Csw-hQ-Mfn"/>
+                        <viewControllerLayoutGuide type="bottom" id="fjw-U6-Gbf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wB6-Zo-VHA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" placeholder="Enter" translatesAutoresizingMaskIntoConstraints="NO" id="5dr-Xa-5Yv">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Uw6-eA-Nyo" id="coF-l0-Cai"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5dr-Xa-5Yv" firstAttribute="top" secondItem="Csw-hQ-Mfn" secondAttribute="bottom" constant="8" id="96H-Vb-1t4"/>
+                            <constraint firstItem="5dr-Xa-5Yv" firstAttribute="centerX" secondItem="wB6-Zo-VHA" secondAttribute="centerX" id="Dkz-rI-oNb"/>
+                            <constraint firstItem="5dr-Xa-5Yv" firstAttribute="width" secondItem="wB6-Zo-VHA" secondAttribute="width" id="Vdu-6f-KX0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="k0G-TX-yVb" id="UaH-To-ana"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z9K-Wh-uGy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="k0G-TX-yVb">
+                    <connections>
+                        <outlet property="delegate" destination="Uw6-eA-Nyo" id="lvs-US-OqK"/>
+                        <outlet property="searchBar" destination="5dr-Xa-5Yv" id="6HZ-Qa-Jpa"/>
+                        <outlet property="searchContentsController" destination="Uw6-eA-Nyo" id="mB6-q9-ZoU"/>
+                        <outlet property="searchResultsDataSource" destination="Uw6-eA-Nyo" id="NNB-FE-vYC"/>
+                        <outlet property="searchResultsDelegate" destination="Uw6-eA-Nyo" id="Lh7-pO-II6"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="1121" y="210"/>
         </scene>
     </scenes>
     <resources>
