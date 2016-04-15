@@ -9,8 +9,8 @@
 import UIKit
 import Mapbox
 
-class ViewController: UIViewController, MGLMapViewDelegate {
-
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate
+{
     
     @IBOutlet var plusButtonView: UIView!
     @IBOutlet var minusButtonView: UIView!
@@ -19,6 +19,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     @IBOutlet var mapView : MGLMapView!
     let minZoomLevel : Double = 9
     let maxZoomLevel : Double = 16
+    
+    // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
     {
@@ -62,17 +64,17 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         mapView.addGestureRecognizer(singleTap)
     }
     
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
+    // MARK: - Tapping Methods
     
-    func handleSingleTap(tap: UITapGestureRecognizer) {
+    func handleSingleTap(tap: UITapGestureRecognizer)
+    {
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
         let tappedLocation: CLLocationCoordinate2D = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
         
         // Remove first marker tapped from the map, add marker with coordinates
         // Prevent having more than two points selected in map
-        if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 ) {
+        if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 )
+        {
             mapView.removeAnnotation(mapView.annotations![0])
         }
         
@@ -90,97 +92,174 @@ class ViewController: UIViewController, MGLMapViewDelegate {
             // Pop-up the callout view
             self.mapView.selectAnnotation(mapPoint, animated: true)
         }
-
-<<<<<<< 6b7d98c2cf9429fc6fddedb22cd93b3a72b07e72
     }
     
-    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool{
-        return true
+    // MARK: - IBAction Methods
+    
+    @IBAction func searchButtonTapped(sender: AnyObject)
+    {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let searchController: SearchViewController = storyboard.instantiateViewControllerWithIdentifier("SearchViewController") as! SearchViewController
+        
+        let sourceView = self.view
+        
+        searchController.modalPresentationStyle = .Popover
+        
+        // configure the Popover presentation controller
+        let popoverController: UIPopoverPresentationController = searchController.popoverPresentationController!
+        popoverController.permittedArrowDirections = .Any
+        popoverController.sourceView = sourceView
+        popoverController.sourceRect = sender.frame
+        popoverController.delegate = self
+        
+        self.presentViewController(searchController, animated: true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning() {
-=======
+    // MARK: - Private Methods
+    
+    func dismissSearchController(controller: UIViewController)
+    {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: - Memory Management Methods
+    
     override func didReceiveMemoryWarning()
     {
->>>>>>> MYB-51 Added SearchViewController and updated storyboard.
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: - MGLMapViewDelegate Methods
+    
+    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool
+    {
+        return true
+    }
+    
+    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?)
+    {
         mapView.centerCoordinate = (userLocation!.location?.coordinate)!
     }
     
-    func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
-        if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
+    func mapViewDidFinishLoadingMap(mapView: MGLMapView)
+    {
+        if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0
+        {
             startOfflinePackDownload()
         }
     }
     
-    func startOfflinePackDownload() {
-        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: minZoomLevel, toZoomLevel: maxZoomLevel)
-        let userInfo = ["name": "OfflineMap"]
-        let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
-        
-        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context) { (pack, error) in
-            guard error == nil else {
-                print("Error: \(error?.localizedFailureReason)")
-                return
-            }
-            pack!.resume()
-        }
+    // MARK: - UIPopoverPresentationControllerDelegate Methods
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
+    {
+        return .None
     }
     
+    func prepareForPopoverPresentation(popoverPresentationController: UIPopoverPresentationController)
+    {
+        print("prepare for presentation")
+    }
     
-    // MARK: - BUTTON HANDLERS
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController)
+    {
+        print("did dismiss")
+    }
     
-    func plusButtonTap(sender: UITapGestureRecognizer){
+    func popoverPresentationControllerShouldDismissPopover(popoverPresentationController: UIPopoverPresentationController) -> Bool
+    {
+        print("should dismiss")
+        return true
+    }
+
+    // MARK: - Button Handlers
+    
+    func plusButtonTap(sender: UITapGestureRecognizer)
+    {
         mapView.setZoomLevel(mapView.zoomLevel+1, animated: true)
     }
     
-    func minusButtonTap(sender: UITapGestureRecognizer){
+    func minusButtonTap(sender: UITapGestureRecognizer)
+    {
         mapView.setZoomLevel(mapView.zoomLevel-1, animated: true)
     }
     
-    func compassButtonTap(sender: UITapGestureRecognizer){
-        if let userLocation = mapView.userLocation {
+    func compassButtonTap(sender: UITapGestureRecognizer)
+    {
+        if let userLocation = mapView.userLocation
+        {
             mapView.setCenterCoordinate(userLocation.coordinate, animated: true)
         }
     }
     
-    // MARK: - MGLOfflinePack notification handlers
+    // MARK: - Pack Download
     
-    func offlinePackProgressDidChange(notification: NSNotification) {
+    func startOfflinePackDownload()
+    {
+        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: minZoomLevel, toZoomLevel: maxZoomLevel)
+        let userInfo = ["name": "OfflineMap"]
+        let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
+        
+        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context)
+        { (pack, error) in
+            guard error == nil else
+            {
+                print("Error: \(error?.localizedFailureReason)")
+                return
+            }
+            
+            pack!.resume()
+        }
+    }
+    
+    // MARK: - MGLOfflinePack Notification Handlers
+    
+    func offlinePackProgressDidChange(notification: NSNotification)
+    {
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String] {
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String]
+        {
             let progress = pack.progress
             let completedResources = progress.countOfResourcesCompleted
             let expectedResources = progress.countOfResourcesExpected
             let progressPercentage = Float(completedResources) / Float(expectedResources)
-            if completedResources == expectedResources {
+            
+            if completedResources == expectedResources
+            {
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
                 print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
-            } else {
+            }
+            else
+            {
                 print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
             }
         }
     }
     
-    func offlinePackDidReceiveError(notification: NSNotification) {
+    func offlinePackDidReceiveError(notification: NSNotification)
+    {
         if let pack = notification.object as? MGLOfflinePack,
             userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
+            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError
+        {
             print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
         }
     }
     
-    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification) {
+    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification)
+    {
         if let pack = notification.object as? MGLOfflinePack,
             userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue {
+            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue
+        {
             print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
         }
     }
 
 }
-
