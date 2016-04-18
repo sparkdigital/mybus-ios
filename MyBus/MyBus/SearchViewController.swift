@@ -33,9 +33,15 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("FavoritesIdentifier", forIndexPath: indexPath) as UITableViewCell
             let fav = favourites[indexPath.row]
-            
-            cell.textLabel?.text = fav.name
-            cell.detailTextLabel?.text = fav.address
+            let cellLabel : String
+            if(fav.name.isEmpty){
+                cellLabel = fav.address
+            } else
+            {
+                cellLabel = fav.name
+                cell.detailTextLabel?.text = fav.address
+            }
+            cell.textLabel?.text = cellLabel
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("BestMatchesIdentifier", forIndexPath: indexPath) as UITableViewCell
