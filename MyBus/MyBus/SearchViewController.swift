@@ -14,12 +14,23 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet var resultsTableView: UITableView!
     
+    @IBOutlet var favoriteOriginButton: UIButton!
+    @IBOutlet var favoriteDestinationButton: UIButton!
+    
     // MARK: - View Lifecycle Methods
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
     }
+    
+    // MARK: - IBAction Methods
+    
+    @IBAction func favoriteOriginTapped(sender: AnyObject)
+    {}
+    
+    @IBAction func favoriteDestinationTapped(sender: AnyObject)
+    {}
     
     // MARK: - UITableViewDataSource Methods
     
