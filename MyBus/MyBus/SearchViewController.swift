@@ -15,6 +15,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet var resultsTableView: UITableView!
     var favourites : List<Location>!
+    
+    @IBOutlet var favoriteOriginButton: UIButton!
+    @IBOutlet var favoriteDestinationButton: UIButton!
+    
     // MARK: - View Lifecycle Methods
     
     override func viewDidLoad()
@@ -23,6 +27,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         let realm = try! Realm() // Create realm pointing to default file
         favourites = realm.objects(User).first?.favourites
     }
+    
+    // MARK: - IBAction Methods
+    
+    @IBAction func favoriteOriginTapped(sender: AnyObject)
+    {}
+    
+    @IBAction func favoriteDestinationTapped(sender: AnyObject)
+    {}
     
     // MARK: - UITableViewDataSource Methods
     
