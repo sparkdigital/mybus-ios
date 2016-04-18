@@ -8,17 +8,20 @@
 
 import UIKit
 import Mapbox
+import RealmSwift
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
     
     @IBOutlet var resultsTableView: UITableView!
-    
+    var favourites : List<Location>!
     // MARK: - View Lifecycle Methods
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        let realm = try! Realm() // Create realm pointing to default file
+        favourites = realm.objects(User).first?.favourites
     }
     
     // MARK: - UITableViewDataSource Methods
@@ -29,7 +32,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("FavoritesIdentifier", forIndexPath: indexPath) as UITableViewCell
+            let fav = favourites[indexPath.row]
             
+            cell.textLabel?.text = fav.name
+            cell.detailTextLabel?.text = fav.address
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("BestMatchesIdentifier", forIndexPath: indexPath) as UITableViewCell
@@ -53,7 +59,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         switch section
         {
         case 0:
-            return 5
+            if let listFavs = favourites{
+                return listFavs.count
+            }
+            return 0
         case 1:
             return 10
             

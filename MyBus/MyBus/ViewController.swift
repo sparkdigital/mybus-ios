@@ -8,6 +8,7 @@
 
 import UIKit
 import Mapbox
+import RealmSwift
 
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate
 {
@@ -91,6 +92,33 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             
             // Pop-up the callout view
             self.mapView.selectAnnotation(mapPoint, animated: true)
+            
+            let location = Location()
+            location.latitude = tappedLocation.latitude
+            location.longitude = tappedLocation.longitude
+            location.address = address
+            
+            // Realms are used to group data together
+            let realm = try! Realm() // Create realm pointing to default file
+            let users = realm.objects(User)
+            
+            if(users.count > 0)
+            {
+                let user = users.first
+                // Save your object
+                try! realm.write
+                {
+                    user!.favourites.append(location)
+                }
+            } else
+            {
+                let user = User()
+                user.favourites.append(location)
+                realm.beginWrite()
+                realm.add(user)
+                try! realm.commitWrite()
+            }
+            
         }
     }
     
