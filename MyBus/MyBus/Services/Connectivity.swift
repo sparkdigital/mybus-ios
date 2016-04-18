@@ -32,7 +32,7 @@ public class Connectivity: NSObject
     override init() { }
     
     // MARK: Municipality Endpoints
-    public func getStreetNames(forName streetName: String)
+    func getStreetNames(forName streetName: String, completionHandler: ([Street]?, NSError?) -> ())
     {
         let streetNameURLString = "\(streetNamesEndpointURL)\(streetName)"
         
@@ -44,24 +44,18 @@ public class Connectivity: NSObject
             if(response.result.isFailure)
             {
                 print("\nError: \(response.result.error!)")
+                completionHandler(nil, response.result.error!)
             }
             else
             {
-                let resultValue = response.result.value!
-                
-                print(resultValue)
-                
-                var bodyData: NSData?
-                do
-                {
-                    bodyData = try NSJSONSerialization.dataWithJSONObject(resultValue, options: .PrettyPrinted)
-                    print(bodyData)
+                var streetsNames : [Street] = [Street]()
+                let json = JSON(response.result.value!)
+                if let streets = json.array {
+                    for street in streets {
+                        streetsNames.append(Street(json: street))
+                    }
                 }
-                catch
-                {
-                    bodyData = nil
-                    print(error)
-                }
+                completionHandler(streetsNames, nil)
             }
         }
     }
