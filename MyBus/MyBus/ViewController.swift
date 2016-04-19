@@ -92,13 +92,6 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             
             // Pop-up the callout view
             self.mapView.selectAnnotation(mapPoint, animated: true)
-            
-            let location = Location()
-            location.latitude = tappedLocation.latitude
-            location.longitude = tappedLocation.longitude
-            location.address = address
-            
-            User().addFavouriteLocation(location)
         }
     }
     

@@ -24,7 +24,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        let realm = try! Realm() // Create realm pointing to default file
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        // Create realm pointing to default file
+        let realm = try! Realm()
+        // Retrive favs locations for user
         favourites = realm.objects(User).first?.favourites
     }
     
