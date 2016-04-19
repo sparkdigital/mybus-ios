@@ -18,6 +18,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     var bestMatches : [String] = []
     
+    @IBOutlet var favoriteOriginButton: UIButton!
+    @IBOutlet var favoriteDestinationButton: UIButton!
+    
     // MARK: - View Lifecycle Methods
     
     override func viewDidLoad()
@@ -26,6 +29,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         self.originTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
         self.destinationTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
     }
+    
+    // MARK: - IBAction Methods
+    
+    @IBAction func favoriteOriginTapped(sender: AnyObject)
+    {}
+    
+    @IBAction func favoriteDestinationTapped(sender: AnyObject)
+    {}
     
     // MARK: - UITableViewDataSource Methods
     
