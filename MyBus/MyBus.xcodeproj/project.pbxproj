@@ -18,6 +18,7 @@
 		08EC58691CBD482400E8410A /* MyBusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58681CBD482400E8410A /* MyBusTests.swift */; };
 		4895C2F9544532381499F326 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98D816095DB973CAEBACCA90 /* Pods.framework */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
+		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		639B0E3606BDD55C6A8F0ABF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9982576D1CC532ED00909F1B /* Street.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Street.swift; path = Model/Street.swift; sourceTree = "<group>"; };
+		998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BestMatchTableViewCell.swift; path = Cells/BestMatchTableViewCell.swift; sourceTree = "<group>"; };
 		A1E95EACFB67BDA2BC04F167 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +142,7 @@
 		08EC58761CBD487200E8410A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9982576F1CC5520E00909F1B /* Cells */,
 				08EC58541CBD482400E8410A /* Main.storyboard */,
 				08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */,
 			);
@@ -170,6 +173,14 @@
 				639B0E3606BDD55C6A8F0ABF /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9982576F1CC5520E00909F1B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		CC85FE20DFF084B8042A3803 /* Frameworks */ = {
@@ -347,6 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
+				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				08EC58531CBD482400E8410A /* ViewController.swift in Sources */,

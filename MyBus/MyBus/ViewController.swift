@@ -113,6 +113,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         popoverController.delegate = self
         
         self.presentViewController(searchController, animated: true, completion: nil)
+        
     }
     
     // MARK: - Private Methods

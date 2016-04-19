@@ -13,12 +13,18 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
 {
     
     @IBOutlet var resultsTableView: UITableView!
+    @IBOutlet var originTextfield: UITextField!
+    @IBOutlet var destinationTextfield: UITextField!
+    
+    var bestMatches : [String] = []
     
     // MARK: - View Lifecycle Methods
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.originTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        self.destinationTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
     }
     
     // MARK: - UITableViewDataSource Methods
@@ -32,8 +38,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCellWithIdentifier("BestMatchesIdentifier", forIndexPath: indexPath) as UITableViewCell
-            
+            let cell = tableView.dequeueReusableCellWithIdentifier("BestMatchesIdentifier", forIndexPath: indexPath) as! BestMatchTableViewCell
+            cell.name.text = self.bestMatches[indexPath.row]
             return cell
             
         default:
@@ -55,10 +61,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         case 0:
             return 5
         case 1:
-            return 10
+            return bestMatches.count
             
         default:
-            return 10
+            return bestMatches.count
         }
     }
     
@@ -80,6 +86,20 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {}
+    
+    // MARK: - Textfields Methods
+    
+    func textFieldDidChange(sender: UITextField){
+        Connectivity.sharedInstance.getStreetNames(forName: sender.text!) { (streets, error) in
+            if error == nil {
+                self.bestMatches = []
+                for street in streets! {
+                    self.bestMatches.append(street.name)
+                }
+                self.resultsTableView.reloadData()
+            }
+        }
+    }
     
     // MARK: - Memory Management Methods
     

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -188,13 +188,30 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BestMatchesIdentifier" id="3yf-nX-lIa">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BestMatchesIdentifier" id="3yf-nX-lIa" customClass="BestMatchTableViewCell" customModule="MyBus" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3yf-nX-lIa" id="9jS-cr-7da">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matching name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlx-Br-YYV">
+                                                    <rect key="frame" x="8" y="8" width="584" height="27.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="leading" secondItem="9jS-cr-7da" secondAttribute="leadingMargin" id="QDZ-zE-nQD"/>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="bottom" secondItem="9jS-cr-7da" secondAttribute="bottomMargin" id="SLs-gA-B22"/>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="trailing" secondItem="9jS-cr-7da" secondAttribute="trailingMargin" id="h56-Cx-57W"/>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="top" secondItem="9jS-cr-7da" secondAttribute="topMargin" id="mDy-VM-UuP"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="name" destination="mlx-Br-YYV" id="hFf-ZK-Iea"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -220,6 +237,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="destinationTextfield" destination="hRq-lT-ScW" id="VnX-GC-qKP"/>
+                        <outlet property="originTextfield" destination="M5r-za-ZEf" id="d7P-XR-iZ7"/>
                         <outlet property="resultsTableView" destination="wPL-l8-UkP" id="Lxu-Sy-uA9"/>
                         <outlet property="searchDisplayController" destination="k0G-TX-yVb" id="UaH-To-ana"/>
                     </connections>
