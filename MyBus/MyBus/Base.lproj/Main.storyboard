@@ -175,6 +175,9 @@
                                     <constraint firstAttribute="height" constant="32" id="spl-Zs-lKM"/>
                                 </constraints>
                                 <state key="normal" image="swap"/>
+                                <connections>
+                                    <action selector="invertButton:" destination="Uw6-eA-Nyo" eventType="touchUpInside" id="WhL-Lc-Zw2"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wPL-l8-UkP">
                                 <rect key="frame" x="0.0" y="144" width="600" height="456"/>
@@ -184,17 +187,34 @@
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kJk-3Q-0du" id="fwy-bp-vdu">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BestMatchesIdentifier" id="3yf-nX-lIa">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BestMatchesIdentifier" id="3yf-nX-lIa" customClass="BestMatchTableViewCell" customModule="MyBus" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3yf-nX-lIa" id="9jS-cr-7da">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Matching name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlx-Br-YYV">
+                                                    <rect key="frame" x="8" y="8" width="584" height="28"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="leading" secondItem="9jS-cr-7da" secondAttribute="leadingMargin" id="QDZ-zE-nQD"/>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="bottom" secondItem="9jS-cr-7da" secondAttribute="bottomMargin" id="SLs-gA-B22"/>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="trailing" secondItem="9jS-cr-7da" secondAttribute="trailingMargin" id="h56-Cx-57W"/>
+                                                <constraint firstItem="mlx-Br-YYV" firstAttribute="top" secondItem="9jS-cr-7da" secondAttribute="topMargin" id="mDy-VM-UuP"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="name" destination="mlx-Br-YYV" id="hFf-ZK-Iea"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -246,8 +266,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="destinationTextfield" destination="hRq-lT-ScW" id="VnX-GC-qKP"/>
                         <outlet property="favoriteDestinationButton" destination="cuh-lh-yxW" id="HpX-1M-r9A"/>
                         <outlet property="favoriteOriginButton" destination="kLc-qa-QFq" id="vQf-4o-6SU"/>
+                        <outlet property="originTextfield" destination="M5r-za-ZEf" id="d7P-XR-iZ7"/>
                         <outlet property="resultsTableView" destination="wPL-l8-UkP" id="Lxu-Sy-uA9"/>
                         <outlet property="searchDisplayController" destination="k0G-TX-yVb" id="UaH-To-ana"/>
                     </connections>

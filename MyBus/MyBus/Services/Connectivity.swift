@@ -32,36 +32,28 @@ public class Connectivity: NSObject
     override init() { }
     
     // MARK: Municipality Endpoints
-    public func getStreetNames(forName streetName: String)
+    func getStreetNames(forName streetName: String, completionHandler: ([Street]?, NSError?) -> ())
     {
-        let streetNameURLString = "\(streetNamesEndpointURL)\(streetName)"
+        let escapedStreet = streetName.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
+        let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
         
         let request = NSMutableURLRequest(URL: NSURL(string: streetNameURLString)!)
         request.HTTPMethod = "GET"
         
-        Alamofire.request(request).responseJSON { (response) -> Void in
-            
-            if(response.result.isFailure)
-            {
-                print("\nError: \(response.result.error!)")
-            }
-            else
-            {
-                let resultValue = response.result.value!
-                
-                print(resultValue)
-                
-                var bodyData: NSData?
-                do
-                {
-                    bodyData = try NSJSONSerialization.dataWithJSONObject(resultValue, options: .PrettyPrinted)
-                    print(bodyData)
+        Alamofire.request(request).responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                var streetsNames : [Street] = [Street]()
+                let json = JSON(value)
+                if let streets = json.array {
+                    for street in streets {
+                        streetsNames.append(Street(json: street))
+                    }
                 }
-                catch
-                {
-                    bodyData = nil
-                    print(error)
-                }
+                completionHandler(streetsNames, nil)
+            case .Failure(let error):
+                print("\nError: \(error)")
+                completionHandler(nil, error)
             }
         }
     }
