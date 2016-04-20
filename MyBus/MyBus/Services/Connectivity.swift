@@ -34,28 +34,26 @@ public class Connectivity: NSObject
     // MARK: Municipality Endpoints
     func getStreetNames(forName streetName: String, completionHandler: ([Street]?, NSError?) -> ())
     {
-        let streetNameURLString = "\(streetNamesEndpointURL)\(streetName)"
+        let escapedStreet = streetName.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
+        let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
         
         let request = NSMutableURLRequest(URL: NSURL(string: streetNameURLString)!)
         request.HTTPMethod = "GET"
         
-        Alamofire.request(request).responseJSON { (response) -> Void in
-            
-            if(response.result.isFailure)
-            {
-                print("\nError: \(response.result.error!)")
-                completionHandler(nil, response.result.error!)
-            }
-            else
-            {
+        Alamofire.request(request).responseJSON { response in
+            switch response.result {
+            case .Success(let value):
                 var streetsNames : [Street] = [Street]()
-                let json = JSON(response.result.value!)
+                let json = JSON(value)
                 if let streets = json.array {
                     for street in streets {
                         streetsNames.append(Street(json: street))
                     }
                 }
                 completionHandler(streetsNames, nil)
+            case .Failure(let error):
+                print("\nError: \(error)")
+                completionHandler(nil, error)
             }
         }
     }
