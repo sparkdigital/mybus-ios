@@ -8,6 +8,7 @@
 
 import UIKit
 import Mapbox
+import RealmSwift
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
@@ -17,6 +18,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var destinationTextfield: UITextField!
     
     var bestMatches : [String] = []
+    var favourites : List<Location>!
     
     @IBOutlet var favoriteOriginButton: UIButton!
     @IBOutlet var favoriteDestinationButton: UIButton!
@@ -28,6 +30,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         self.originTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
         self.destinationTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        // Create realm pointing to default file
+        let realm = try! Realm()
+        // Retrive favs locations for user
+        favourites = realm.objects(User).first?.favourites
     }
     
     // MARK: - IBAction Methods
@@ -46,7 +56,16 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         {
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("FavoritesIdentifier", forIndexPath: indexPath) as UITableViewCell
-            
+            let fav = favourites[indexPath.row]
+            let cellLabel : String
+            if(fav.name.isEmpty){
+                cellLabel = fav.address
+            } else
+            {
+                cellLabel = fav.name
+                cell.detailTextLabel?.text = fav.address
+            }
+            cell.textLabel?.text = cellLabel
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("BestMatchesIdentifier", forIndexPath: indexPath) as! BestMatchTableViewCell
@@ -70,7 +89,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         switch section
         {
         case 0:
-            return 5
+            if let listFavs = favourites{
+                return listFavs.count
+            }
+            return 0
         case 1:
             return bestMatches.count
             
