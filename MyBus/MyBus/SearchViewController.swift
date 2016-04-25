@@ -49,6 +49,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func favoriteDestinationTapped(sender: AnyObject)
     {}
     
+    @IBAction func searchButtonTapped(sender: AnyObject)
+    {
+        Connectivity.sharedInstance.getBusLinesFromOriginDestination(-38.0184963929001, longitudeOrigin: -57.5284607195163, latitudeDestination: -38.0284822413709, longitudeDestination: -57.56271741574) { responseObject, error in
+            print(responseObject)
+            //TODO
+        }
+    }
     
     @IBAction func invertButton(sender: AnyObject)
     {
