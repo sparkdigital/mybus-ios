@@ -7,3 +7,21 @@
 //
 
 import Foundation
+import SwiftyJSON
+
+class Route: NSObject {
+    var mPointList : [RoutePoint] = [RoutePoint]()
+    
+    static func parse(routeJson : [JSON]) -> Route
+    {
+        let route = Route()
+        var points : [RoutePoint] = [RoutePoint]()
+        for routePoint in routeJson
+        {
+            let point = RoutePoint.parse(routePoint)
+            points.append(point)
+        }
+        route.mPointList = points
+        return route
+    }
+}
