@@ -52,7 +52,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(-38.0184963929001, longitudeOrigin: -57.5284607195163, latitudeDestination: -38.0284822413709, longitudeDestination: -57.56271741574) { responseObject, error in
-            print(responseObject)
             for busRouteResult in responseObject! {
                 var 🚌 : String = "🚍"
                 for route in busRouteResult.mBusRoutes {
@@ -60,6 +59,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 🚌.removeAtIndex(🚌.endIndex.predecessor())
                 self.bestMatches.append(🚌)
+            }
+            let busRouteSelected = responseObject![0].mBusRoutes
+            Connectivity.sharedInstance.getCombinedResultRoadApi(busRouteSelected[0].mIdBusLine!, idLine2: busRouteSelected[1].mIdBusLine!, direction1: busRouteSelected[0].mBusLineDirection!, direction2: busRouteSelected[1].mBusLineDirection!, L1stop1: busRouteSelected[0].mStartBusStopNumber!, L1stop2: busRouteSelected[0].mDestinationBusStopNumber!, L2stop1: busRouteSelected[1].mStartBusStopNumber!, L2stop2: busRouteSelected[1].mDestinationBusStopNumber!) {
+                responseObject, error in
+                print(responseObject)
             }
             self.resultsTableView.reloadData()
         }

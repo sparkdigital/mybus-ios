@@ -20,20 +20,24 @@ class BusRouteResult: NSObject {
     }
     
     // MARK: Parse search results
-    func parseResults(results : JSON, type : Int) -> [BusRouteResult]
+    static func parseResults(results : JSON, type : Int) -> [BusRouteResult]
     {
         var listBusRouteResult : [BusRouteResult] = [BusRouteResult]()
         
-        if let routes = results.array {
-            switch type {
+        if let routes = results.array
+        {
+            switch type
+            {
             case 0:
-                for route in routes {
+                for route in routes
+                {
                     let busRoute : BusRouteResult = parseSingleRoute(route)
                     listBusRouteResult.append(busRoute)
                 }
                 return listBusRouteResult
             case 1:
-                for route in routes {
+                for route in routes
+                {
                     let busRoute : BusRouteResult = parseCombinedRoute(route)
                     listBusRouteResult.append(busRoute)
                 }
@@ -47,7 +51,7 @@ class BusRouteResult: NSObject {
     }
     
     // MARK: Parse route
-    func parseSingleRoute(route : JSON) -> BusRouteResult
+    static func parseSingleRoute(route : JSON) -> BusRouteResult
     {
         let busRouteResult : BusRouteResult = BusRouteResult(type: 0)
         var busRoute : BusRoute = BusRoute()
@@ -62,7 +66,7 @@ class BusRouteResult: NSObject {
         
     }
     
-    func parseCombinedRoute(route : JSON) -> BusRouteResult
+    static func parseCombinedRoute(route : JSON) -> BusRouteResult
     {
         let busRouteResult : BusRouteResult = BusRouteResult(type: 1)
         var firstBusRoute : BusRoute = BusRoute()
@@ -88,7 +92,8 @@ class BusRouteResult: NSObject {
     
     
     // MARK: Set bus route info
-    func setBusLineInfo(lineInfo : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute {
+    static func setBusLineInfo(lineInfo : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute
+    {
         var path : String = ""
         if(isCombinated)
         {
@@ -102,7 +107,8 @@ class BusRouteResult: NSObject {
         return busRoute
     }
     
-    func setStartBusStopInfo(startBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute {
+    static func setStartBusStopInfo(startBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute
+    {
         var path : String = ""
         if(isCombinated)
         {
@@ -117,7 +123,8 @@ class BusRouteResult: NSObject {
         return busRoute
     }
     
-    func setDestinationBusStopInfo(destinationBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute {
+    static func setDestinationBusStopInfo(destinationBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute
+    {
         var path : String = ""
         if(isCombinated)
         {

@@ -104,7 +104,7 @@ public class Connectivity: NSObject
                 let results = json["Results"]
                 let busResults : [BusRouteResult]
                 
-                busResults = BusRouteResult(type: type).parseResults(results, type: type)
+                busResults = BusRouteResult.parseResults(results, type: type)
                 
                 completionHandler(busResults, nil)
             case .Failure(let error):
