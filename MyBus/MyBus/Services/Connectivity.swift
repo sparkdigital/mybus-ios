@@ -90,7 +90,7 @@ public class Connectivity: NSObject
     }
     
     // MARK: MyBus Endpoints
-    public func getBusLinesFromOriginDestination(latitudeOrigin : Double, longitudeOrigin : Double, latitudeDestination : Double, longitudeDestination : Double, completionHandler : (NSDictionary?, NSError?) -> ())
+    func getBusLinesFromOriginDestination(latitudeOrigin : Double, longitudeOrigin : Double, latitudeDestination : Double, longitudeDestination : Double, completionHandler : ([BusRouteResult]?, NSError?) -> ())
     {
         let availableBusLinesFromOriginDestinationURLString = "\(availableBusLinesFromOriginDestinationEndpointURL)lat0=\(latitudeOrigin)&lng0=\(longitudeOrigin)&lat1=\(latitudeDestination)&lng1=\(longitudeDestination)&tk=\(myBusAccessToken)"
         let request = NSMutableURLRequest(URL: NSURL(string: availableBusLinesFromOriginDestinationURLString)!)
@@ -99,7 +99,14 @@ public class Connectivity: NSObject
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
-                completionHandler(value as? NSDictionary, nil)
+                let json = JSON(value)
+                let type = json["Type"].intValue
+                let results = json["Results"]
+                let busResults : [BusRouteResult]
+                
+                busResults = BusRouteResult(type: type).parseResults(results, type: type)
+                
+                completionHandler(busResults, nil)
             case .Failure(let error):
                 completionHandler(nil, error)
             }
