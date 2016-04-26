@@ -19,113 +19,65 @@ class BusRouteResult: NSObject {
         self.mType = type
     }
     
+    // MARK: Parse search results
     func parseResults(results : JSON, type : Int) -> [BusRouteResult]
     {
         var listBusRouteResult : [BusRouteResult] = [BusRouteResult]()
         
         if let routes = results.array {
-            if(type == 0)
-            {
+            switch type {
+            case 0:
                 for route in routes {
                     let busRoute : BusRouteResult = parseSingleRoute(route)
                     listBusRouteResult.append(busRoute)
                 }
                 return listBusRouteResult
-            } else if (type == 1)
-            {
+            case 1:
                 for route in routes {
                     let busRoute : BusRouteResult = parseCombinedRoute(route)
                     listBusRouteResult.append(busRoute)
                 }
                 return listBusRouteResult
+            default:
+                return listBusRouteResult
             }
+
         }
         return listBusRouteResult
     }
     
+    // MARK: Parse route
     func parseSingleRoute(route : JSON) -> BusRouteResult
     {
-//        if (route == null) {
-//            return null;
-//        } TODO
-
         let busRouteResult : BusRouteResult = BusRouteResult(type: 0)
         var busRoute : BusRoute = BusRoute()
         
-        busRoute.mIdBusLine = route["IdBusLine"].intValue
-        busRoute.mBusLineName = route["BusLineName"].stringValue
-        busRoute.mBusLineDirection = route["BusLineDirection"].intValue
-        busRoute.mBusLineColor = route["BusLineColor"].stringValue
-        
-        busRoute.mStartBusStopNumber = route["StartBusStopNumber"].intValue
-        busRoute.mStartBusStopLat = route["StartBusStopLat"].stringValue
-        busRoute.mStartBusStopLng = route["StartBusStopLng"].stringValue
-        busRoute.mStartBusStopStreetName = route["StartBusStopStreetName"].stringValue
-        busRoute.mStartBusStopStreetNumber = route["StartBusStopStreetNumber"].intValue
-        busRoute.mStartBusStopDistanceToOrigin = route["StartBusStopDistanceToOrigin"].doubleValue
-        
-        busRoute.mDestinationBusStopNumber = route["DestinationBusStopNumber"].intValue
-        busRoute.mDestinationBusStopLat = route["DestinationBusStopLat"].stringValue
-        busRoute.mDestinationBusStopLng = route["DestinatioBusStopLng"].stringValue
-        busRoute.mDestinationBusStopStreetName = route["DestinatioBusStopStreetName"].stringValue
-        busRoute.mDestinationBusStopStreetNumber = route["DestinatioBusStopStreetNumber"].intValue
-        busRoute.mDestinationBusStopDistanceToDestination = route["DestinatioBusStopDistanceToDestination"].doubleValue
+        busRoute = setBusLineInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
+        busRoute = setStartBusStopInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
+        busRoute = setDestinationBusStopInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
         
         busRouteResult.mBusRoutes.append(busRoute)
         
         return busRouteResult
+        
     }
     
     func parseCombinedRoute(route : JSON) -> BusRouteResult
     {
-        //        if (route == null) {
-        //            return null;
-        //        } TODO
-        
         let busRouteResult : BusRouteResult = BusRouteResult(type: 1)
         var firstBusRoute : BusRoute = BusRoute()
         
-        firstBusRoute.mIdBusLine = route["IdBusLine"].intValue
-        firstBusRoute.mBusLineName = route["BusLineName"].stringValue
-        firstBusRoute.mBusLineDirection = route["BusLineDirection"].intValue
-        firstBusRoute.mBusLineColor = route["BusLineColor"].stringValue
-        
-        firstBusRoute.mStartBusStopNumber = route["StartBusStopNumber"].intValue
-        firstBusRoute.mStartBusStopLat = route["StartBusStopLat"].stringValue
-        firstBusRoute.mStartBusStopLng = route["StartBusStopLng"].stringValue
-        firstBusRoute.mStartBusStopStreetName = route["StartBusStopStreetName"].stringValue
-        firstBusRoute.mStartBusStopStreetNumber = route["StartBusStopStreetNumber"].intValue
-        firstBusRoute.mStartBusStopDistanceToOrigin = route["StartBusStopDistanceToOrigin"].doubleValue
-        
-        firstBusRoute.mDestinationBusStopNumber = route["DestinationBusStopNumber"].intValue
-        firstBusRoute.mDestinationBusStopLat = route["DestinationBusStopLat"].stringValue
-        firstBusRoute.mDestinationBusStopLng = route["DestinatioBusStopLng"].stringValue
-        firstBusRoute.mDestinationBusStopStreetName = route["DestinatioBusStopStreetName"].stringValue
-        firstBusRoute.mDestinationBusStopStreetNumber = route["DestinatioBusStopStreetNumber"].intValue
-        firstBusRoute.mDestinationBusStopDistanceToDestination = route["DestinatioBusStopDistanceToDestination"].doubleValue
-        
+        firstBusRoute = setBusLineInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
+        firstBusRoute = setStartBusStopInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
+        firstBusRoute = setDestinationBusStopInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
+
         busRouteResult.mBusRoutes.append(firstBusRoute)
         
         var secondBusRoute : BusRoute = BusRoute()
         
-        secondBusRoute.mIdBusLine = route["IdBusLine"].intValue
-        secondBusRoute.mBusLineName = route["BusLineName"].stringValue
-        secondBusRoute.mBusLineDirection = route["BusLineDirection"].intValue
-        secondBusRoute.mBusLineColor = route["BusLineColor"].stringValue
-        
-        secondBusRoute.mStartBusStopNumber = route["StartBusStopNumber"].intValue
-        secondBusRoute.mStartBusStopLat = route["StartBusStopLat"].stringValue
-        secondBusRoute.mStartBusStopLng = route["StartBusStopLng"].stringValue
-        secondBusRoute.mStartBusStopStreetName = route["StartBusStopStreetName"].stringValue
-        secondBusRoute.mStartBusStopStreetNumber = route["StartBusStopStreetNumber"].intValue
-        secondBusRoute.mStartBusStopDistanceToOrigin = route["StartBusStopDistanceToOrigin"].doubleValue
-        
-        secondBusRoute.mDestinationBusStopNumber = route["DestinationBusStopNumber"].intValue
-        secondBusRoute.mDestinationBusStopLat = route["DestinationBusStopLat"].stringValue
-        secondBusRoute.mDestinationBusStopLng = route["DestinatioBusStopLng"].stringValue
-        secondBusRoute.mDestinationBusStopStreetName = route["DestinatioBusStopStreetName"].stringValue
-        secondBusRoute.mDestinationBusStopStreetNumber = route["DestinatioBusStopStreetNumber"].intValue
-        secondBusRoute.mDestinationBusStopDistanceToDestination = route["DestinatioBusStopDistanceToDestination"].doubleValue
+        secondBusRoute = setBusLineInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
+        secondBusRoute = setStartBusStopInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
+        secondBusRoute = setDestinationBusStopInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
 
         busRouteResult.mBusRoutes.append(secondBusRoute)
         
@@ -134,5 +86,50 @@ class BusRouteResult: NSObject {
         return busRouteResult
     }
     
+    
+    // MARK: Set bus route info
+    func setBusLineInfo(lineInfo : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute {
+        var path : String = ""
+        if(isCombinated)
+        {
+            path = isFirstLine ? "First" : "Second"
+        }
+        
+        busRoute.mIdBusLine = lineInfo["Id\(path)BusLine"].intValue
+        busRoute.mBusLineName = lineInfo["\(path)BusLineName"].stringValue
+        busRoute.mBusLineDirection = lineInfo["\(path)BusLineDirection"].intValue
+        busRoute.mBusLineColor = lineInfo["\(path)BusLineColor"].stringValue
+        return busRoute
+    }
+    
+    func setStartBusStopInfo(startBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute {
+        var path : String = ""
+        if(isCombinated)
+        {
+            path = isFirstLine ? "FirstLine" : "SecondLine"
+        }
+        busRoute.mStartBusStopNumber = startBusStop["\(path)StartBusStopNumber"].intValue
+        busRoute.mStartBusStopLat = startBusStop["\(path)StartBusStopLat"].stringValue
+        busRoute.mStartBusStopLng = startBusStop["\(path)StartBusStopLng"].stringValue
+        busRoute.mStartBusStopStreetName = startBusStop["\(path)StartBusStopStreetName"].stringValue
+        busRoute.mStartBusStopStreetNumber = startBusStop["\(path)StartBusStopStreetNumber"].intValue
+        busRoute.mStartBusStopDistanceToOrigin = startBusStop["\(path)StartBusStopDistanceToOrigin"].doubleValue
+        return busRoute
+    }
+    
+    func setDestinationBusStopInfo(destinationBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute {
+        var path : String = ""
+        if(isCombinated)
+        {
+            path = isFirstLine ? "FirstLine" : "SecondLine"
+        }
+        busRoute.mDestinationBusStopNumber = destinationBusStop["\(path)DestinationBusStopNumber"].intValue
+        busRoute.mDestinationBusStopLat = destinationBusStop["\(path)DestinationBusStopLat"].stringValue
+        busRoute.mDestinationBusStopLng = destinationBusStop["\(path)DestinatioBusStopLng"].stringValue
+        busRoute.mDestinationBusStopStreetName = destinationBusStop["\(path)DestinatioBusStopStreetName"].stringValue
+        busRoute.mDestinationBusStopStreetNumber = destinationBusStop["\(path)DestinatioBusStopStreetNumber"].intValue
+        busRoute.mDestinationBusStopDistanceToDestination = destinationBusStop["\(path)DestinatioBusStopDistanceToDestination"].doubleValue
+        return busRoute
+    }
     
 }

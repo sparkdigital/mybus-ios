@@ -8,21 +8,22 @@
 
 import Foundation
 
-struct BusRoute {
-    var mIdBusLine : Int?
-    var mBusLineName : String?
-    var mBusLineDirection : Int?
-    var mBusLineColor : String?
-    var mStartBusStopNumber : Int?
-    var mStartBusStopLat : String?
-    var mStartBusStopLng : String?
-    var mStartBusStopStreetName : String?
-    var mStartBusStopStreetNumber : Int?
+class BusRoute : NSObject {
+    var mIdBusLine : Int? = 0
+    var mBusLineName : String? = " "
+    var mBusLineDirection : Int? = 0
+    var mBusLineColor : String? = " "
+    var mStartBusStopNumber : Int? = 0
+    var mStartBusStopLat : String? = " "
+    var mStartBusStopLng : String? = " "
+    var mStartBusStopStreetName : String? = " "
+    var mStartBusStopStreetNumber : Int? = 0
     var mStartBusStopDistanceToOrigin : Double?
-    var mDestinationBusStopNumber : Int?
-    var mDestinationBusStopLat : String?
-    var mDestinationBusStopLng : String?
-    var mDestinationBusStopStreetName : String?
-    var mDestinationBusStopStreetNumber : Int?
-    var mDestinationBusStopDistanceToDestination : Double?
+    var mDestinationBusStopNumber : Int? = 0
+    var mDestinationBusStopLat : String? = " "
+    var mDestinationBusStopLng : String? = " "
+    var mDestinationBusStopStreetName : String? = " "
+    var mDestinationBusStopStreetNumber : Int? = 0
+    var mDestinationBusStopDistanceToDestination : Double? = 0.0
+    
 }
