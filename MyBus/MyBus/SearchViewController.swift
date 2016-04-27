@@ -55,7 +55,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             for busRouteResult in responseObject! {
                 var 🚌 : String = "🚍"
                 for route in busRouteResult.busRoutes {
-                    🚌 = "\(🚌) \(route.busLineName!) ➡"
+                    let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
+                    🚌 = "\(🚌) \(busLineFormatted) ➡"
                 }
                 🚌.removeAtIndex(🚌.endIndex.predecessor())
                 self.bestMatches.append(🚌)
