@@ -10,13 +10,13 @@ import Foundation
 import SwiftyJSON
 
 class BusRouteResult: NSObject {
-    var mType : Int
-    var mBusRoutes : [BusRoute] = [BusRoute]()
-    var mCombinationDistance : Double = 0.0 //Only used when type is 1
+    var busRouteType : Int
+    var busRoutes : [BusRoute] = [BusRoute]()
+    var combinationDistance : Double = 0.0 //Only used when type is 1
     
     init(type : Int)
     {
-        self.mType = type
+        self.busRouteType = type
     }
     
     // MARK: Parse search results
@@ -60,7 +60,7 @@ class BusRouteResult: NSObject {
         busRoute = setStartBusStopInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
         busRoute = setDestinationBusStopInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
         
-        busRouteResult.mBusRoutes.append(busRoute)
+        busRouteResult.busRoutes.append(busRoute)
         
         return busRouteResult
         
@@ -75,7 +75,7 @@ class BusRouteResult: NSObject {
         firstBusRoute = setStartBusStopInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
         firstBusRoute = setDestinationBusStopInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
 
-        busRouteResult.mBusRoutes.append(firstBusRoute)
+        busRouteResult.busRoutes.append(firstBusRoute)
         
         var secondBusRoute : BusRoute = BusRoute()
         
@@ -83,9 +83,9 @@ class BusRouteResult: NSObject {
         secondBusRoute = setStartBusStopInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
         secondBusRoute = setDestinationBusStopInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
 
-        busRouteResult.mBusRoutes.append(secondBusRoute)
+        busRouteResult.busRoutes.append(secondBusRoute)
         
-        busRouteResult.mCombinationDistance = route["CombinationDistance"].doubleValue
+        busRouteResult.combinationDistance = route["CombinationDistance"].doubleValue
     
         return busRouteResult
     }
@@ -100,10 +100,10 @@ class BusRouteResult: NSObject {
             path = isFirstLine ? "First" : "Second"
         }
         
-        busRoute.mIdBusLine = lineInfo["Id\(path)BusLine"].intValue
-        busRoute.mBusLineName = lineInfo["\(path)BusLineName"].stringValue
-        busRoute.mBusLineDirection = lineInfo["\(path)BusLineDirection"].intValue
-        busRoute.mBusLineColor = lineInfo["\(path)BusLineColor"].stringValue
+        busRoute.idBusLine = lineInfo["Id\(path)BusLine"].intValue
+        busRoute.busLineName = lineInfo["\(path)BusLineName"].stringValue
+        busRoute.busLineDirection = lineInfo["\(path)BusLineDirection"].intValue
+        busRoute.busLineColor = lineInfo["\(path)BusLineColor"].stringValue
         return busRoute
     }
     
@@ -114,12 +114,12 @@ class BusRouteResult: NSObject {
         {
             path = isFirstLine ? "FirstLine" : "SecondLine"
         }
-        busRoute.mStartBusStopNumber = startBusStop["\(path)StartBusStopNumber"].intValue
-        busRoute.mStartBusStopLat = startBusStop["\(path)StartBusStopLat"].stringValue
-        busRoute.mStartBusStopLng = startBusStop["\(path)StartBusStopLng"].stringValue
-        busRoute.mStartBusStopStreetName = startBusStop["\(path)StartBusStopStreetName"].stringValue
-        busRoute.mStartBusStopStreetNumber = startBusStop["\(path)StartBusStopStreetNumber"].intValue
-        busRoute.mStartBusStopDistanceToOrigin = startBusStop["\(path)StartBusStopDistanceToOrigin"].doubleValue
+        busRoute.startBusStopNumber = startBusStop["\(path)StartBusStopNumber"].intValue
+        busRoute.startBusStopLat = startBusStop["\(path)StartBusStopLat"].stringValue
+        busRoute.startBusStopLng = startBusStop["\(path)StartBusStopLng"].stringValue
+        busRoute.startBusStopStreetName = startBusStop["\(path)StartBusStopStreetName"].stringValue
+        busRoute.startBusStopStreetNumber = startBusStop["\(path)StartBusStopStreetNumber"].intValue
+        busRoute.startBusStopDistanceToOrigin = startBusStop["\(path)StartBusStopDistanceToOrigin"].doubleValue
         return busRoute
     }
     
@@ -130,12 +130,12 @@ class BusRouteResult: NSObject {
         {
             path = isFirstLine ? "FirstLine" : "SecondLine"
         }
-        busRoute.mDestinationBusStopNumber = destinationBusStop["\(path)DestinationBusStopNumber"].intValue
-        busRoute.mDestinationBusStopLat = destinationBusStop["\(path)DestinationBusStopLat"].stringValue
-        busRoute.mDestinationBusStopLng = destinationBusStop["\(path)DestinatioBusStopLng"].stringValue
-        busRoute.mDestinationBusStopStreetName = destinationBusStop["\(path)DestinatioBusStopStreetName"].stringValue
-        busRoute.mDestinationBusStopStreetNumber = destinationBusStop["\(path)DestinatioBusStopStreetNumber"].intValue
-        busRoute.mDestinationBusStopDistanceToDestination = destinationBusStop["\(path)DestinatioBusStopDistanceToDestination"].doubleValue
+        busRoute.destinationBusStopNumber = destinationBusStop["\(path)DestinationBusStopNumber"].intValue
+        busRoute.destinationBusStopLat = destinationBusStop["\(path)DestinationBusStopLat"].stringValue
+        busRoute.destinationBusStopLng = destinationBusStop["\(path)DestinatioBusStopLng"].stringValue
+        busRoute.destinationBusStopStreetName = destinationBusStop["\(path)DestinatioBusStopStreetName"].stringValue
+        busRoute.destinationBusStopStreetNumber = destinationBusStop["\(path)DestinatioBusStopStreetNumber"].intValue
+        busRoute.destinationBusStopDistanceToDestination = destinationBusStop["\(path)DestinatioBusStopDistanceToDestination"].doubleValue
         return busRoute
     }
     

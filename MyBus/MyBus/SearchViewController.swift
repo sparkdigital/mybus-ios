@@ -54,14 +54,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(-38.0184963929001, longitudeOrigin: -57.5284607195163, latitudeDestination: -38.0284822413709, longitudeDestination: -57.56271741574) { responseObject, error in
             for busRouteResult in responseObject! {
                 var 🚌 : String = "🚍"
-                for route in busRouteResult.mBusRoutes {
-                    🚌 = "\(🚌) \(route.mBusLineName!) ➡"
+                for route in busRouteResult.busRoutes {
+                    🚌 = "\(🚌) \(route.busLineName!) ➡"
                 }
                 🚌.removeAtIndex(🚌.endIndex.predecessor())
                 self.bestMatches.append(🚌)
             }
-            let busRouteSelected = responseObject![0].mBusRoutes
-            Connectivity.sharedInstance.getCombinedResultRoadApi(busRouteSelected[0].mIdBusLine!, idLine2: busRouteSelected[1].mIdBusLine!, direction1: busRouteSelected[0].mBusLineDirection!, direction2: busRouteSelected[1].mBusLineDirection!, L1stop1: busRouteSelected[0].mStartBusStopNumber!, L1stop2: busRouteSelected[0].mDestinationBusStopNumber!, L2stop1: busRouteSelected[1].mStartBusStopNumber!, L2stop2: busRouteSelected[1].mDestinationBusStopNumber!) {
+            let busRouteSelected = responseObject![0].busRoutes
+            Connectivity.sharedInstance.getCombinedResultRoadApi(busRouteSelected[0].idBusLine!, idLine2: busRouteSelected[1].idBusLine!, direction1: busRouteSelected[0].busLineDirection!, direction2: busRouteSelected[1].busLineDirection!, L1stop1: busRouteSelected[0].startBusStopNumber!, L1stop2: busRouteSelected[0].destinationBusStopNumber!, L2stop1: busRouteSelected[1].startBusStopNumber!, L2stop2: busRouteSelected[1].destinationBusStopNumber!) {
                 responseObject, error in
                 print(responseObject)
             }

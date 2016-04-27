@@ -10,10 +10,10 @@ import Foundation
 import SwiftyJSON
 
 class RoutePoint: NSObject {
-    var mStopId : String = " "
-    var mLat : String = " "
-    var mLng : String = " "
-    var mAddress : String = " "
+    var stopId : String = " "
+    var latitude : String = " "
+    var longitude : String = " "
+    var address : String = " "
     var isWaypoint : Bool = false
     
     static func parse(routePointJson : JSON) -> RoutePoint
@@ -21,10 +21,10 @@ class RoutePoint: NSObject {
         let point = RoutePoint()
         if let stopId = routePointJson["StopId"].string
         {
-            point.mStopId = stopId
-            point.mLat = routePointJson["Lat"].stringValue
-            point.mLng = routePointJson["Lng"].stringValue
-            point.mAddress = routePointJson["Address"].stringValue
+            point.stopId = stopId
+            point.latitude = routePointJson["Lat"].stringValue
+            point.longitude = routePointJson["Lng"].stringValue
+            point.address = routePointJson["Address"].stringValue
             point.isWaypoint = routePointJson["StopId"].boolValue
             
             return point

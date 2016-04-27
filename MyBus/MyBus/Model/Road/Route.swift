@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 
 class Route: NSObject {
-    var mPointList : [RoutePoint] = [RoutePoint]()
+    var pointList : [RoutePoint] = [RoutePoint]()
     
     static func parse(routeJson : [JSON]) -> Route
     {
@@ -21,7 +21,7 @@ class Route: NSObject {
             let point = RoutePoint.parse(routePoint)
             points.append(point)
         }
-        route.mPointList = points
+        route.pointList = points
         return route
     }
 }

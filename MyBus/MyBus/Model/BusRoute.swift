@@ -9,21 +9,21 @@
 import Foundation
 
 class BusRoute : NSObject {
-    var mIdBusLine : Int? = 0
-    var mBusLineName : String? = " "
-    var mBusLineDirection : Int? = 0
-    var mBusLineColor : String? = " "
-    var mStartBusStopNumber : Int? = 0
-    var mStartBusStopLat : String? = " "
-    var mStartBusStopLng : String? = " "
-    var mStartBusStopStreetName : String? = " "
-    var mStartBusStopStreetNumber : Int? = 0
-    var mStartBusStopDistanceToOrigin : Double?
-    var mDestinationBusStopNumber : Int? = 0
-    var mDestinationBusStopLat : String? = " "
-    var mDestinationBusStopLng : String? = " "
-    var mDestinationBusStopStreetName : String? = " "
-    var mDestinationBusStopStreetNumber : Int? = 0
-    var mDestinationBusStopDistanceToDestination : Double? = 0.0
+    var idBusLine : Int? = 0
+    var busLineName : String? = " "
+    var busLineDirection : Int? = 0
+    var busLineColor : String? = " "
+    var startBusStopNumber : Int? = 0
+    var startBusStopLat : String? = " "
+    var startBusStopLng : String? = " "
+    var startBusStopStreetName : String? = " "
+    var startBusStopStreetNumber : Int? = 0
+    var startBusStopDistanceToOrigin : Double?
+    var destinationBusStopNumber : Int? = 0
+    var destinationBusStopLat : String? = " "
+    var destinationBusStopLng : String? = " "
+    var destinationBusStopStreetName : String? = " "
+    var destinationBusStopStreetNumber : Int? = 0
+    var destinationBusStopDistanceToDestination : Double? = 0.0
     
 }

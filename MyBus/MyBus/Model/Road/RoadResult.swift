@@ -10,13 +10,13 @@ import Foundation
 import SwiftyJSON
 
 class RoadResult: NSObject {
-    var mType : Int = 0
-    var mTotalDistances : Double = 0.0
-    var mTravelTime : Int = 0
-    var mArrivalTime : Int = 0
-    var mRouteList : [Route] = [Route]()
-    var mIdBusLine1 : String = ""
-    var mIdBusLine2 : String = ""
+    var roadResultType : Int = 0
+    var totalDistances : Double = 0.0
+    var travelTime : Int = 0
+    var arrivalTime : Int = 0
+    var routeList : [Route] = [Route]()
+    var idBusLine1 : String = ""
+    var idBusLine2 : String = ""
     
     func parse(roadResultResponse : JSON) -> RoadResult
     {
@@ -24,20 +24,20 @@ class RoadResult: NSObject {
         
         if let type = roadResultResponse["Type"].int
         {
-            singleRoad.mType = type
-            singleRoad.mTotalDistances = roadResultResponse["TotalDistance"].doubleValue
-            singleRoad.mTravelTime = roadResultResponse["TravelTime"].intValue
-            singleRoad.mArrivalTime = roadResultResponse["ArrivalTime"].intValue
-            singleRoad.mTotalDistances = roadResultResponse["TotalDistance"].doubleValue
+            singleRoad.roadResultType = type
+            singleRoad.totalDistances = roadResultResponse["TotalDistance"].doubleValue
+            singleRoad.travelTime = roadResultResponse["TravelTime"].intValue
+            singleRoad.arrivalTime = roadResultResponse["ArrivalTime"].intValue
+            singleRoad.totalDistances = roadResultResponse["TotalDistance"].doubleValue
             let route = Route.parse(roadResultResponse["Route1"].array!)
-            singleRoad.mRouteList.append(route)
+            singleRoad.routeList.append(route)
             
             if let routeTwo = roadResultResponse["Route2"].array
             {
                 let route = Route.parse(routeTwo)
-                singleRoad.mRouteList.append(route)
-                singleRoad.mIdBusLine1 = roadResultResponse["IdBusLine1"].stringValue
-                singleRoad.mIdBusLine2 = roadResultResponse["IdBusLine2"].stringValue
+                singleRoad.routeList.append(route)
+                singleRoad.idBusLine1 = roadResultResponse["IdBusLine1"].stringValue
+                singleRoad.idBusLine2 = roadResultResponse["IdBusLine2"].stringValue
             }
         }
         return singleRoad
@@ -46,11 +46,11 @@ class RoadResult: NSObject {
     func getPointList() -> [RoutePoint]
     {
         var pointsInRoute = [RoutePoint]()
-        if(!mRouteList.isEmpty)
+        if(!routeList.isEmpty)
         {
-            for route in mRouteList
+            for route in routeList
             {
-                pointsInRoute.appendContentsOf(route.mPointList)
+                pointsInRoute.appendContentsOf(route.pointList)
             }
             return pointsInRoute
         } else
