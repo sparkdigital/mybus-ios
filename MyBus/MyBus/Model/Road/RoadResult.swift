@@ -43,6 +43,9 @@ class RoadResult: NSObject {
         return singleRoad
     }
     
+    /**
+        Return a list of point reference that form a result road route
+     */
     func getPointList() -> [RoutePoint]
     {
         var pointsInRoute = [RoutePoint]()

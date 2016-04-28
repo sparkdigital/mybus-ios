@@ -51,6 +51,9 @@ class BusRouteResult: NSObject {
     }
     
     // MARK: Parse route
+    /**
+        Parse result of a single route
+     */
     static func parseSingleRoute(route : JSON) -> BusRouteResult
     {
         let busRouteResult : BusRouteResult = BusRouteResult(type: 0)
@@ -66,6 +69,9 @@ class BusRouteResult: NSObject {
         
     }
     
+    /**
+        Parse result of a combinated route to arrive destination
+     */
     static func parseCombinedRoute(route : JSON) -> BusRouteResult
     {
         let busRouteResult : BusRouteResult = BusRouteResult(type: 1)
@@ -92,6 +98,9 @@ class BusRouteResult: NSObject {
     
     
     // MARK: Set bus route info
+    /**
+        Set bus related information in a BusRoute
+    */
     static func setBusLineInfo(lineInfo : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute
     {
         var path : String = ""
@@ -107,6 +116,9 @@ class BusRouteResult: NSObject {
         return busRoute
     }
     
+    /**
+        Set stop information of bus to start itineray
+     */
     static func setStartBusStopInfo(startBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute
     {
         var path : String = ""
@@ -123,6 +135,9 @@ class BusRouteResult: NSObject {
         return busRoute
     }
     
+    /**
+        Set stop information of bus to descent and continue to destination
+     */
     static func setDestinationBusStopInfo(destinationBusStop : JSON, busRoute : BusRoute, isCombinated : Bool, isFirstLine : Bool) -> BusRoute
     {
         var path : String = ""
