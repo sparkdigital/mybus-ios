@@ -21,6 +21,11 @@
 		4895C2F9544532381499F326 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98D816095DB973CAEBACCA90 /* Pods.framework */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
+		A03514E91CCEF38C009443AF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03514E71CCEF38C009443AF /* Route.swift */; };
+		A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03514E81CCEF38C009443AF /* RoutePoint.swift */; };
+		A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */; };
+		A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */; };
+		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,11 @@
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9982576D1CC532ED00909F1B /* Street.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Street.swift; path = Model/Street.swift; sourceTree = "<group>"; };
 		998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BestMatchTableViewCell.swift; path = Cells/BestMatchTableViewCell.swift; sourceTree = "<group>"; };
+		A03514E71CCEF38C009443AF /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Model/Road/Route.swift; sourceTree = "<group>"; };
+		A03514E81CCEF38C009443AF /* RoutePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoutePoint.swift; path = Model/Road/RoutePoint.swift; sourceTree = "<group>"; };
+		A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResult.swift; path = Model/BusRouteResult.swift; sourceTree = "<group>"; };
+		A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRoute.swift; path = Model/BusRoute.swift; sourceTree = "<group>"; };
+		A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResult.swift; path = Model/Road/RoadResult.swift; sourceTree = "<group>"; };
 		A1E95EACFB67BDA2BC04F167 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,8 +139,11 @@
 		08EC58741CBD486600E8410A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A0AFB0F01CCED902001DD3B6 /* Road */,
 				08EC58781CBD48B100E8410A /* Persistence */,
 				9982576D1CC532ED00909F1B /* Street.swift */,
+				A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */,
+				A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -187,6 +200,16 @@
 				998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		A0AFB0F01CCED902001DD3B6 /* Road */ = {
+			isa = PBXGroup;
+			children = (
+				A03514E71CCEF38C009443AF /* Route.swift */,
+				A03514E81CCEF38C009443AF /* RoutePoint.swift */,
+				A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */,
+			);
+			name = Road;
 			sourceTree = "<group>";
 		};
 		CC85FE20DFF084B8042A3803 /* Frameworks */ = {
@@ -363,15 +386,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
+				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
+				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
+				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				08EC58531CBD482400E8410A /* ViewController.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
 				11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */,
 				08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */,
 				11DAE9021CC534D400A35D6A /* User.swift in Sources */,
+				A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
