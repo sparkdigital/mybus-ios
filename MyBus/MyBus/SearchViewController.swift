@@ -51,6 +51,27 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
+        let originTextFieldValue = originTextfield.text!
+        let origin = originTextFieldValue[originTextFieldValue.startIndex..<originTextFieldValue.endIndex.advancedBy(-5)]
+        let originHouseNumber = Int(originTextFieldValue[originTextFieldValue.endIndex.advancedBy(-4)..<originTextFieldValue.endIndex])
+
+        Connectivity.sharedInstance.getCoordinateFromAddress(origin, houseNumber: originHouseNumber!) {
+            originGeocoded, error in
+            print(originGeocoded, error)
+            // Declare the marker point and set its coordinates
+            let mapPoint = MGLPointAnnotation()
+            mapPoint.coordinate = CLLocationCoordinate2D(latitude: originGeocoded!["lat"] as! Double, longitude: originGeocoded!["lng"] as! Double)
+            mapPoint.title = originTextFieldValue
+            
+            // Add marker to the map
+//            self.mapView.addAnnotation(mapPoint)
+            
+            // Pop-up the callout view
+//            self.mapView.selectAnnotation(mapPoint, animated: true)
+
+        }
+        
+        
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(-38.0184963929001, longitudeOrigin: -57.5284607195163, latitudeDestination: -38.0284822413709, longitudeDestination: -57.56271741574) { responseObject, error in
             for busRouteResult in responseObject! {
                 var 🚌 : String = "🚍"
