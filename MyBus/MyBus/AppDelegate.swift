@@ -12,6 +12,7 @@ import CoreData
 import Fabric
 import Crashlytics
 import Mapbox
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
         Fabric.with([Crashlytics.self, MGLAccountManager.self])
-        
+        GMSServices.provideAPIKey("AIzaSyBFevQvpz1HCVO85Bcbg2UEeW3CNMLLfpA")
         //MGLAccountManager.setAccessToken("pk.eyJ1Ijoibm9zb3VsODgiLCJhIjoiY2lteGt2dHhsMDNrNXZxbHU0M29mcHZnZiJ9.MMbmK9GfcdhpDw2siu0wuA")
 
         // Override point for customization after application launch.
