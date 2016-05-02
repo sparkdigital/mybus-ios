@@ -71,6 +71,28 @@ public class Connectivity: NSObject
         }
     }
     
+    public func getCoordinateFromAddress(streetName : String, houseNumber : Int, completionHandler: (NSDictionary?, NSError?) -> ())
+    {
+        print("Address to resolve geocoding: \(streetName), \(houseNumber)")
+        getStreetNames(forName: streetName) {
+            streetObject, error in
+            let address = streetObject![0]
+            let coordinateFromAddressURLString = "\(addressToCoordinateEndpointURL)&codigocalle=\(address.code)&altura=\(houseNumber)"
+            let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
+            request.HTTPMethod = "GET"
+            
+            Alamofire.request(request).responseJSON { response in
+                switch response.result {
+                case .Success(let value):
+                    completionHandler(value as? NSDictionary, nil)
+                case .Failure(let error):
+                    completionHandler(nil, error)
+                }
+            }
+        }
+        
+    }
+    
     public func getAddressFromCoordinate(latitude : Double, longitude: Double, completionHandler: (NSDictionary?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")

@@ -51,23 +51,78 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
-        Connectivity.sharedInstance.getBusLinesFromOriginDestination(-38.0184963929001, longitudeOrigin: -57.5284607195163, latitudeDestination: -38.0284822413709, longitudeDestination: -57.56271741574) { responseObject, error in
-            for busRouteResult in responseObject! {
-                var 🚌 : String = "🚍"
-                for route in busRouteResult.busRoutes {
-                    let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
-                    🚌 = "\(🚌) \(busLineFormatted) ➡"
-                }
-                🚌.removeAtIndex(🚌.endIndex.predecessor())
-                self.bestMatches.append(🚌)
-            }
-            let busRouteSelected = responseObject![0].busRoutes
-            Connectivity.sharedInstance.getCombinedResultRoadApi(busRouteSelected[0].idBusLine!, idLine2: busRouteSelected[1].idBusLine!, direction1: busRouteSelected[0].busLineDirection!, direction2: busRouteSelected[1].busLineDirection!, L1stop1: busRouteSelected[0].startBusStopNumber!, L1stop2: busRouteSelected[0].destinationBusStopNumber!, L2stop1: busRouteSelected[1].startBusStopNumber!, L2stop2: busRouteSelected[1].destinationBusStopNumber!) {
-                responseObject, error in
-                print(responseObject)
-            }
-            self.resultsTableView.reloadData()
+        let originTextFieldValue = originTextfield.text!
+        let originStreet = originTextFieldValue[originTextFieldValue.startIndex..<originTextFieldValue.endIndex.advancedBy(-5)]
+        let originHouseNumber = Int(originTextFieldValue[originTextFieldValue.endIndex.advancedBy(-4)..<originTextFieldValue.endIndex]) //Just work with a house number of 4 digits
+        
+        
+        // Trying get houseNumber substring with a Regex (TODO)
+        if let regex = try? NSRegularExpression(pattern: "(\\d{1,5}$)", options: .CaseInsensitive)
+        {
+            
+            let result = regex.stringByReplacingMatchesInString(originTextFieldValue, options: NSMatchingOptions.WithTransparentBounds, range: NSRange(location:0,
+                length:originTextFieldValue.characters.count), withTemplate: "$3")
+            print("result : \(result)")
         }
+        
+        let destinationTextFieldValue = destinationTextfield.text!
+        let destinationStreet = destinationTextFieldValue[destinationTextFieldValue.startIndex..<destinationTextFieldValue.endIndex.advancedBy(-5)]
+        let destinationNumber = Int(destinationTextFieldValue[destinationTextFieldValue.endIndex.advancedBy(-4)..<destinationTextFieldValue.endIndex])
+
+        //TODO : Extract some pieces of code to clean
+        Connectivity.sharedInstance.getCoordinateFromAddress(originStreet, houseNumber: originHouseNumber!) {
+            originGeocoded, error in
+            print(originGeocoded, error)
+            
+            var latitudeOrigin : Double
+            var longitudeOrigin : Double
+            if let lat = originGeocoded!["lat"] as? String {
+                latitudeOrigin = Double(lat)!
+                if let lng = originGeocoded!["lng"] as? String {
+                    longitudeOrigin = Double(lng)!
+                    Connectivity.sharedInstance.getCoordinateFromAddress(destinationStreet, houseNumber: destinationNumber!) {
+                        destinationGeocoded, error in
+                        print("destination \(destinationGeocoded)", error)
+                        
+                        var latDestination : Double
+                        var lngDestination : Double
+                        if let lat = destinationGeocoded!["lat"] as? String {
+                            latDestination = Double(lat)!
+                            if let lng = destinationGeocoded!["lng"] as? String {
+                                lngDestination = Double(lng)!
+                                Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { responseObject, error in
+                                    for busRouteResult in responseObject! {
+                                        var 🚌 : String = "🚍"
+                                        for route in busRouteResult.busRoutes {
+                                            let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
+                                            🚌 = "\(🚌) \(busLineFormatted) ➡"
+                                        }
+                                        🚌.removeAtIndex(🚌.endIndex.predecessor())
+                                        self.bestMatches.append(🚌)
+                                    }
+                                    self.resultsTableView.reloadData()
+                                    
+                                    
+                                    for busRouteResult in responseObject! {
+                                        print(busRouteResult.busRouteType)
+                                        if(busRouteResult.busRouteType == 0) //single road
+                                        {
+                                            print("It is a single bus route")
+                                        } else if(busRouteResult.busRouteType == 1) //combined road
+                                        {
+                                            print("It is a combined route")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        
     }
     
     @IBAction func invertButton(sender: AnyObject)
