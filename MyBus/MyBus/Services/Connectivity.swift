@@ -49,9 +49,9 @@ public class Connectivity: NSObject
     override init() { }
     
     // MARK: Municipality Endpoints
-    func getStreetNames(forName streetName: String, completionHandler: ([Street]?, NSError?) -> ())
+    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
     {
-        let escapedStreet = streetName.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
+        let escapedStreet = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
         let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
         
         let request = NSMutableURLRequest(URL: NSURL(string: streetNameURLString)!)
@@ -75,28 +75,21 @@ public class Connectivity: NSObject
         }
     }
     
-    public func getCoordinateFromAddress(streetName : String, houseNumber : Int, completionHandler: (NSDictionary?, NSError?) -> ())
+    public func getCoordinateFromAddress(streetName : String, completionHandler: (JSON?, NSError?) -> ())
     {
-        print("Address to resolve geocoding: \(streetName), \(houseNumber)")
-        var address = "\(streetName) \(houseNumber), mar del plata"
-        address = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
-        let coordinateFromAddressURLString = "\(googleMapsGeocodingBaseURL)&address=\(address)&key=\(googleGeocodingApiKey)"
-        
+        print("Address to resolve geocoding: \(streetName)")
+        let address = "\(streetName), mar del plata"
+        var coordinateFromAddressURLString = "\(googleMapsGeocodingBaseURL)&address=\(address)&components=administrative_area:General Pueyrredón&key=\(googleGeocodingApiKey)"
+        coordinateFromAddressURLString = coordinateFromAddressURLString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
         let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
         request.HTTPMethod = "GET"
         
         Alamofire.request(request).responseJSON { response in
-            switch response.result {
+            switch response.result
+            {
             case .Success(let value):
-                // Get the response status.
-                let status = value["status"] as! String
-                
-                if status == "OK" {
-                    completionHandler(value as? NSDictionary, nil)
-                }
-                else {
-                    completionHandler(value as? NSDictionary, nil)
-                }
+                let json = JSON(value)
+                completionHandler(json, nil)
             case .Failure(let error):
                 print("\nError: \(error)")
                 completionHandler(nil, error)
