@@ -15,7 +15,11 @@ private let municipalityAccessToken = "rwef3253465htrt546dcasadg4343"
 
 private let myBusAccessToken = "94a08da1fecbb6e8b46990538c7b50b2"
 
+private let googleGeocodingApiKey = "AIzaSyCXgPZbEkpO_KsQqr5_q7bShcOhRlvodyc"
+
 private let municipalityBaseURL = "http://gis.mardelplata.gob.ar/opendata/ws.php?method=rest"
+
+private let googleMapsGeocodingBaseURL = "https://maps.googleapis.com/maps/api/geocode/json?"
 
 private let myBusBaseURL = "http://www.mybus.com.ar/api/v1/"
 
@@ -74,23 +78,30 @@ public class Connectivity: NSObject
     public func getCoordinateFromAddress(streetName : String, houseNumber : Int, completionHandler: (NSDictionary?, NSError?) -> ())
     {
         print("Address to resolve geocoding: \(streetName), \(houseNumber)")
-        getStreetNames(forName: streetName) {
-            streetObject, error in
-            let address = streetObject![0]
-            let coordinateFromAddressURLString = "\(addressToCoordinateEndpointURL)&codigocalle=\(address.code)&altura=\(houseNumber)"
-            let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
-            request.HTTPMethod = "GET"
-            
-            Alamofire.request(request).responseJSON { response in
-                switch response.result {
-                case .Success(let value):
+        var address = "\(streetName) \(houseNumber), mar del plata"
+        address = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
+        let coordinateFromAddressURLString = "\(googleMapsGeocodingBaseURL)&address=\(address)&key=\(googleGeocodingApiKey)"
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
+        request.HTTPMethod = "GET"
+        
+        Alamofire.request(request).responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                // Get the response status.
+                let status = value["status"] as! String
+                
+                if status == "OK" {
                     completionHandler(value as? NSDictionary, nil)
-                case .Failure(let error):
-                    completionHandler(nil, error)
                 }
+                else {
+                    completionHandler(value as? NSDictionary, nil)
+                }
+            case .Failure(let error):
+                print("\nError: \(error)")
+                completionHandler(nil, error)
             }
         }
-        
     }
     
     public func getAddressFromCoordinate(latitude : Double, longitude: Double, completionHandler: (NSDictionary?, NSError?) -> ())
