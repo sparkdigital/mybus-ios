@@ -91,6 +91,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     func getBusLines(latitudeOrigin : Double, longitudeOrigin : Double, latDestination : Double, lngDestination : Double) -> Void {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { responseObject, error in
+            self.bestMatches = []
             for busRouteResult in responseObject! {
                 var 🚌 : String = "🚍"
                 for route in busRouteResult.busRoutes {
