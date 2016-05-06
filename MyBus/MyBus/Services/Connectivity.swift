@@ -15,7 +15,11 @@ private let municipalityAccessToken = "rwef3253465htrt546dcasadg4343"
 
 private let myBusAccessToken = "94a08da1fecbb6e8b46990538c7b50b2"
 
+private let googleGeocodingApiKey = "AIzaSyCXgPZbEkpO_KsQqr5_q7bShcOhRlvodyc"
+
 private let municipalityBaseURL = "http://gis.mardelplata.gob.ar/opendata/ws.php?method=rest"
+
+private let googleMapsGeocodingBaseURL = "https://maps.googleapis.com/maps/api/geocode/json?"
 
 private let myBusBaseURL = "http://www.mybus.com.ar/api/v1/"
 
@@ -45,9 +49,9 @@ public class Connectivity: NSObject
     override init() { }
     
     // MARK: Municipality Endpoints
-    func getStreetNames(forName streetName: String, completionHandler: ([Street]?, NSError?) -> ())
+    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
     {
-        let escapedStreet = streetName.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
+        let escapedStreet = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
         let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
         
         let request = NSMutableURLRequest(URL: NSURL(string: streetNameURLString)!)
@@ -71,26 +75,26 @@ public class Connectivity: NSObject
         }
     }
     
-    public func getCoordinateFromAddress(streetName : String, houseNumber : Int, completionHandler: (NSDictionary?, NSError?) -> ())
+    public func getCoordinateFromAddress(streetName : String, completionHandler: (JSON?, NSError?) -> ())
     {
-        print("Address to resolve geocoding: \(streetName), \(houseNumber)")
-        getStreetNames(forName: streetName) {
-            streetObject, error in
-            let address = streetObject![0]
-            let coordinateFromAddressURLString = "\(addressToCoordinateEndpointURL)&codigocalle=\(address.code)&altura=\(houseNumber)"
-            let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
-            request.HTTPMethod = "GET"
-            
-            Alamofire.request(request).responseJSON { response in
-                switch response.result {
-                case .Success(let value):
-                    completionHandler(value as? NSDictionary, nil)
-                case .Failure(let error):
-                    completionHandler(nil, error)
-                }
+        print("Address to resolve geocoding: \(streetName)")
+        let address = "\(streetName), mar del plata"
+        var coordinateFromAddressURLString = "\(googleMapsGeocodingBaseURL)&address=\(address)&components=administrative_area:General Pueyrredón&key=\(googleGeocodingApiKey)"
+        coordinateFromAddressURLString = coordinateFromAddressURLString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
+        let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
+        request.HTTPMethod = "GET"
+        
+        Alamofire.request(request).responseJSON { response in
+            switch response.result
+            {
+            case .Success(let value):
+                let json = JSON(value)
+                completionHandler(json, nil)
+            case .Failure(let error):
+                print("\nError: \(error)")
+                completionHandler(nil, error)
             }
         }
-        
     }
     
     public func getAddressFromCoordinate(latitude : Double, longitude: Double, completionHandler: (NSDictionary?, NSError?) -> ())

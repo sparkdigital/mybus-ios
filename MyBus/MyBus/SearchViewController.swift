@@ -52,77 +52,68 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
         let originTextFieldValue = originTextfield.text!
-        let originStreet = originTextFieldValue[originTextFieldValue.startIndex..<originTextFieldValue.endIndex.advancedBy(-5)]
-        let originHouseNumber = Int(originTextFieldValue[originTextFieldValue.endIndex.advancedBy(-4)..<originTextFieldValue.endIndex]) //Just work with a house number of 4 digits
-        
-        
-        // Trying get houseNumber substring with a Regex (TODO)
-        if let regex = try? NSRegularExpression(pattern: "(\\d{1,5}$)", options: .CaseInsensitive)
-        {
-            
-            let result = regex.stringByReplacingMatchesInString(originTextFieldValue, options: NSMatchingOptions.WithTransparentBounds, range: NSRange(location:0,
-                length:originTextFieldValue.characters.count), withTemplate: "$3")
-            print("result : \(result)")
-        }
-        
         let destinationTextFieldValue = destinationTextfield.text!
-        let destinationStreet = destinationTextFieldValue[destinationTextFieldValue.startIndex..<destinationTextFieldValue.endIndex.advancedBy(-5)]
-        let destinationNumber = Int(destinationTextFieldValue[destinationTextFieldValue.endIndex.advancedBy(-4)..<destinationTextFieldValue.endIndex])
 
-        //TODO : Extract some pieces of code to clean
-        Connectivity.sharedInstance.getCoordinateFromAddress(originStreet, houseNumber: originHouseNumber!) {
+        //TODO : Extract some pieces of code to clean and do async parallel
+        Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
             originGeocoded, error in
-            print(originGeocoded, error)
             
-            var latitudeOrigin : Double
-            var longitudeOrigin : Double
-            if let lat = originGeocoded!["lat"] as? String {
-                latitudeOrigin = Double(lat)!
-                if let lng = originGeocoded!["lng"] as? String {
-                    longitudeOrigin = Double(lng)!
-                    Connectivity.sharedInstance.getCoordinateFromAddress(destinationStreet, houseNumber: destinationNumber!) {
+            let status = originGeocoded!["status"].stringValue
+            switch status
+            {
+                case "OK":
+                    let originLocation = originGeocoded!["results"][0]["geometry"]["location"]
+                    let latitudeOrigin : Double = Double(originLocation["lat"].stringValue)!
+                    let longitudeOrigin : Double = Double(originLocation["lng"].stringValue)!
+                    Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
                         destinationGeocoded, error in
-                        print("destination \(destinationGeocoded)", error)
                         
-                        var latDestination : Double
-                        var lngDestination : Double
-                        if let lat = destinationGeocoded!["lat"] as? String {
-                            latDestination = Double(lat)!
-                            if let lng = destinationGeocoded!["lng"] as? String {
-                                lngDestination = Double(lng)!
-                                Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { responseObject, error in
-                                    for busRouteResult in responseObject! {
-                                        var 🚌 : String = "🚍"
-                                        for route in busRouteResult.busRoutes {
-                                            let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
-                                            🚌 = "\(🚌) \(busLineFormatted) ➡"
-                                        }
-                                        🚌.removeAtIndex(🚌.endIndex.predecessor())
-                                        self.bestMatches.append(🚌)
-                                    }
-                                    self.resultsTableView.reloadData()
-                                    
-                                    
-                                    for busRouteResult in responseObject! {
-                                        print(busRouteResult.busRouteType)
-                                        if(busRouteResult.busRouteType == 0) //single road
-                                        {
-                                            print("It is a single bus route")
-                                        } else if(busRouteResult.busRouteType == 1) //combined road
-                                        {
-                                            print("It is a combined route")
-                                        }
-                                    }
-                                }
-                            }
+                        let status = destinationGeocoded!["status"].stringValue
+                        switch status
+                        {
+                            case "OK":
+                                let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
+                                let latitudeDestination : Double = Double(destinationLocation["lat"].stringValue)!
+                                let longitudeDestination : Double = Double(destinationLocation["lng"].stringValue)!
+                                self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
+                            default:
+                                //TODO Notify user about error
+                                break
                         }
                     }
+                default:
+                    //TODO Notify user about error
+                    break
+                
+            }
+        }
+    }
+    
+    func getBusLines(latitudeOrigin : Double, longitudeOrigin : Double, latDestination : Double, lngDestination : Double) -> Void {
+        Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { responseObject, error in
+            self.bestMatches = []
+            for busRouteResult in responseObject! {
+                var 🚌 : String = "🚍"
+                for route in busRouteResult.busRoutes {
+                    let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
+                    🚌 = "\(🚌) \(busLineFormatted) ➡"
+                }
+                🚌.removeAtIndex(🚌.endIndex.predecessor())
+                self.bestMatches.append(🚌)
+            }
+            self.resultsTableView.reloadData()
+            
+            
+            for busRouteResult in responseObject! {
+                if(busRouteResult.busRouteType == 0) //single road
+                {
+                    print("It is a single bus route")
+                } else if(busRouteResult.busRouteType == 1) //combined road
+                {
+                    print("It is a combined route")
                 }
             }
         }
-        
-        
-        
     }
     
     @IBAction func invertButton(sender: AnyObject)
