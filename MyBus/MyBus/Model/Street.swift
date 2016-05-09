@@ -11,11 +11,11 @@ import SwiftyJSON
 
 class Street: NSObject {
     
-    var code : Int
+    var code : String
     var name : String
     
     init(json: JSON){
-        self.code = json["codigo"].intValue
+        self.code = json["codigo"].stringValue
         self.name = json["descripcion"].stringValue
     }
 

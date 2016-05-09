@@ -160,12 +160,12 @@
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origen: " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M5r-za-ZEf">
                                 <rect key="frame" x="60" y="42" width="475" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destino:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hRq-lT-ScW">
                                 <rect key="frame" x="60" y="80" width="475" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdt-DL-wEK">
@@ -180,7 +180,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wPL-l8-UkP">
-                                <rect key="frame" x="0.0" y="144" width="600" height="456"/>
+                                <rect key="frame" x="0.0" y="153" width="600" height="447"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FavoritesIdentifier" id="kJk-3Q-0du">
@@ -198,8 +198,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Matching name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlx-Br-YYV">
-                                                    <rect key="frame" x="8" y="8" width="584" height="28"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matching name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlx-Br-YYV">
+                                                    <rect key="frame" x="8" y="8" width="584" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -244,6 +244,13 @@
                                     <action selector="favoriteDestinationTapped:" destination="Uw6-eA-Nyo" eventType="touchUpInside" id="Kpu-l7-zhZ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gat-Px-mT0" userLabel="searchButton">
+                                <rect key="frame" x="60" y="118" width="475" height="30"/>
+                                <state key="normal" title="Buscar"/>
+                                <connections>
+                                    <action selector="searchButtonTapped:" destination="Uw6-eA-Nyo" eventType="touchUpInside" id="Mqd-n6-DdQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -254,12 +261,15 @@
                             <constraint firstItem="cuh-lh-yxW" firstAttribute="leading" secondItem="hRq-lT-ScW" secondAttribute="trailing" constant="13" id="EaF-es-3bS"/>
                             <constraint firstItem="kLc-qa-QFq" firstAttribute="leading" secondItem="M5r-za-ZEf" secondAttribute="trailing" constant="13" id="I5Q-ak-nuh"/>
                             <constraint firstItem="wPL-l8-UkP" firstAttribute="width" secondItem="wB6-Zo-VHA" secondAttribute="width" id="Qst-dz-T5A"/>
+                            <constraint firstItem="gat-Px-mT0" firstAttribute="centerX" secondItem="hRq-lT-ScW" secondAttribute="centerX" id="UrO-aP-lEc"/>
+                            <constraint firstItem="gat-Px-mT0" firstAttribute="top" secondItem="hRq-lT-ScW" secondAttribute="bottom" constant="8" id="V85-n9-FuH"/>
                             <constraint firstAttribute="leadingMargin" secondItem="bdt-DL-wEK" secondAttribute="leading" id="cdB-Dd-ANe"/>
-                            <constraint firstItem="wPL-l8-UkP" firstAttribute="top" secondItem="hRq-lT-ScW" secondAttribute="bottom" constant="34" id="dtN-Y4-akS"/>
                             <constraint firstItem="hRq-lT-ScW" firstAttribute="top" secondItem="M5r-za-ZEf" secondAttribute="bottom" constant="8" id="fIE-uD-Kt0"/>
                             <constraint firstItem="hRq-lT-ScW" firstAttribute="width" secondItem="M5r-za-ZEf" secondAttribute="width" id="fds-ef-q38"/>
+                            <constraint firstItem="wPL-l8-UkP" firstAttribute="top" secondItem="gat-Px-mT0" secondAttribute="bottom" constant="5" id="j3d-NF-GTi"/>
                             <constraint firstItem="kLc-qa-QFq" firstAttribute="centerY" secondItem="M5r-za-ZEf" secondAttribute="centerY" id="k3r-MP-P1R"/>
                             <constraint firstItem="M5r-za-ZEf" firstAttribute="top" secondItem="Csw-hQ-Mfn" secondAttribute="bottom" constant="22" id="ohy-nP-6V0"/>
+                            <constraint firstItem="gat-Px-mT0" firstAttribute="width" secondItem="hRq-lT-ScW" secondAttribute="width" id="pGN-E9-XyC"/>
                             <constraint firstItem="wPL-l8-UkP" firstAttribute="centerX" secondItem="wB6-Zo-VHA" secondAttribute="centerX" id="psh-Bn-uPd"/>
                             <constraint firstItem="M5r-za-ZEf" firstAttribute="leading" secondItem="bdt-DL-wEK" secondAttribute="trailing" constant="8" id="sMm-SO-INg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cuh-lh-yxW" secondAttribute="trailing" id="tjr-xV-bcF"/>

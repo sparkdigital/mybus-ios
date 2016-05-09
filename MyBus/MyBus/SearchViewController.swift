@@ -49,6 +49,72 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func favoriteDestinationTapped(sender: AnyObject)
     {}
     
+    @IBAction func searchButtonTapped(sender: AnyObject)
+    {
+        let originTextFieldValue = originTextfield.text!
+        let destinationTextFieldValue = destinationTextfield.text!
+
+        //TODO : Extract some pieces of code to clean and do async parallel
+        Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
+            originGeocoded, error in
+            
+            let status = originGeocoded!["status"].stringValue
+            switch status
+            {
+                case "OK":
+                    let originLocation = originGeocoded!["results"][0]["geometry"]["location"]
+                    let latitudeOrigin : Double = Double(originLocation["lat"].stringValue)!
+                    let longitudeOrigin : Double = Double(originLocation["lng"].stringValue)!
+                    Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
+                        destinationGeocoded, error in
+                        
+                        let status = destinationGeocoded!["status"].stringValue
+                        switch status
+                        {
+                            case "OK":
+                                let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
+                                let latitudeDestination : Double = Double(destinationLocation["lat"].stringValue)!
+                                let longitudeDestination : Double = Double(destinationLocation["lng"].stringValue)!
+                                self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
+                            default:
+                                //TODO Notify user about error
+                                break
+                        }
+                    }
+                default:
+                    //TODO Notify user about error
+                    break
+                
+            }
+        }
+    }
+    
+    func getBusLines(latitudeOrigin : Double, longitudeOrigin : Double, latDestination : Double, lngDestination : Double) -> Void {
+        Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { responseObject, error in
+            self.bestMatches = []
+            for busRouteResult in responseObject! {
+                var 🚌 : String = "🚍"
+                for route in busRouteResult.busRoutes {
+                    let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
+                    🚌 = "\(🚌) \(busLineFormatted) ➡"
+                }
+                🚌.removeAtIndex(🚌.endIndex.predecessor())
+                self.bestMatches.append(🚌)
+            }
+            self.resultsTableView.reloadData()
+            
+            
+            for busRouteResult in responseObject! {
+                if(busRouteResult.busRouteType == 0) //single road
+                {
+                    print("It is a single bus route")
+                } else if(busRouteResult.busRouteType == 1) //combined road
+                {
+                    print("It is a combined route")
+                }
+            }
+        }
+    }
     
     @IBAction func invertButton(sender: AnyObject)
     {
