@@ -140,7 +140,7 @@ public class Connectivity: NSObject
         
     }
     
-    public func getSingleResultRoadApi(idLine : Int, direction : Int, stop1: Int, stop2 : Int, completionHandler : (NSDictionary?, NSError?) -> ())
+    func getSingleResultRoadApi(idLine : Int, direction : Int, stop1: Int, stop2 : Int, completionHandler : (RoadResult?, NSError?) -> ())
     {
         let singleResultRoadURLString = "\(singleResultRoadEndpointURL)idline=\(idLine)&direction=\(direction)&stop1=\(stop1)&stop2=\(stop2)&tk=\(myBusAccessToken)"
         
@@ -150,7 +150,9 @@ public class Connectivity: NSObject
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
-                completionHandler(value as? NSDictionary, nil)
+                let json = JSON(value)
+                let singleRoadResult = RoadResult.parse(json)
+                completionHandler(singleRoadResult, nil)
             case .Failure(let error):
                 completionHandler(nil, error)
             }
@@ -158,7 +160,7 @@ public class Connectivity: NSObject
         
     }
     
-    public func getCombinedResultRoadApi(idLine1 : Int, idLine2 : Int, direction1 : Int, direction2: Int, L1stop1: Int, L1stop2 : Int, L2stop1: Int, L2stop2 : Int, completionHandler : (NSDictionary?, NSError?) -> ())
+    func getCombinedResultRoadApi(idLine1 : Int, idLine2 : Int, direction1 : Int, direction2: Int, L1stop1: Int, L1stop2 : Int, L2stop1: Int, L2stop2 : Int, completionHandler : (RoadResult?, NSError?) -> ())
     {
         let combinedResultRoadURLString = "\(combinedResultRoadEndpointURL)idline1=\(idLine1)&idline2=\(idLine2)&direction1=\(direction1)&direction2=\(direction2)&L1stop1=\(L1stop1)&L1stop2=\(L1stop2)&L2stop1=\(L2stop1)&L2stop2=\(L2stop2)&tk=\(myBusAccessToken)"
         
@@ -168,7 +170,9 @@ public class Connectivity: NSObject
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
-                completionHandler(value as? NSDictionary, nil)
+                let json = JSON(value)
+                let combinedRoadResult = RoadResult.parse(json)
+                completionHandler(combinedRoadResult, nil)
             case .Failure(let error):
                 completionHandler(nil, error)
             }

@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import Mapbox
 
 class RoutePoint: NSObject {
     var stopId : String = " "
@@ -31,5 +32,9 @@ class RoutePoint: NSObject {
         } else {
             return point
         }
+    }
+    
+    func getLatLng() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
     }
 }

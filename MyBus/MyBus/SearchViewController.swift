@@ -19,6 +19,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     var bestMatches : [String] = []
     var favourites : List<Location>!
+    var roadResultList : [MapBusRoad] = []
     
     @IBOutlet var favoriteOriginButton: UIButton!
     @IBOutlet var favoriteDestinationButton: UIButton!
@@ -90,9 +91,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func getBusLines(latitudeOrigin : Double, longitudeOrigin : Double, latDestination : Double, lngDestination : Double) -> Void {
-        Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { responseObject, error in
+        Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { busRouteResults, error in
             self.bestMatches = []
-            for busRouteResult in responseObject! {
+            for busRouteResult in busRouteResults! {
                 var 🚌 : String = "🚍"
                 for route in busRouteResult.busRoutes {
                     let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
@@ -102,15 +103,27 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 self.bestMatches.append(🚌)
             }
             self.resultsTableView.reloadData()
-            
-            
-            for busRouteResult in responseObject! {
-                if(busRouteResult.busRouteType == 0) //single road
-                {
-                    print("It is a single bus route")
-                } else if(busRouteResult.busRouteType == 1) //combined road
-                {
-                    print("It is a combined route")
+            self.getBusRoads(busRouteResults!)
+        }
+    }
+    
+    func getBusRoads(busRouteResults : [BusRouteResult]) -> Void {
+        for busRouteResult in busRouteResults {
+            if(busRouteResult.busRouteType == 0) //single road
+            {
+                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, direction: (busRouteResult.busRoutes.first?.busLineDirection)!, stop1: (busRouteResult.busRoutes.first?.startBusStopNumber)!, stop2: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
+                    singleRoad, error in
+                    print("Single road")
+                    self.roadResultList.append(MapBusRoad().addBusRoadOnMap(singleRoad!))
+                    print(self.roadResultList.count)
+                }
+            } else if(busRouteResult.busRouteType == 1) { //combined road
+                let firstBusRoute = busRouteResult.busRoutes.first
+                let secondBusRoute = busRouteResult.busRoutes.last
+                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idLine2: (secondBusRoute?.idBusLine)!, direction1: (firstBusRoute?.busLineDirection)!, direction2: (secondBusRoute?.busLineDirection)!, L1stop1: (firstBusRoute?.startBusStopNumber)!, L1stop2: (firstBusRoute?.destinationBusStopNumber)!, L2stop1: (secondBusRoute?.startBusStopNumber)!, L2stop2: (secondBusRoute?.destinationBusStopNumber)!){
+                    combinedRoad, error in
+                    print("Combinated road")
+                    self.roadResultList.append(MapBusRoad().addBusRoadOnMap(combinedRoad!))
                 }
             }
         }

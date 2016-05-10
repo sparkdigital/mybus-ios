@@ -18,7 +18,7 @@ class RoadResult: NSObject {
     var idBusLine1 : String = ""
     var idBusLine2 : String = ""
     
-    func parse(roadResultResponse : JSON) -> RoadResult
+    static func parse(roadResultResponse : JSON) -> RoadResult
     {
         let singleRoad = RoadResult()
         

@@ -16,6 +16,7 @@
 		08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08EC585A1CBD482400E8410A /* Assets.xcassets */; };
 		08EC585E1CBD482400E8410A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */; };
 		08EC58691CBD482400E8410A /* MyBusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58681CBD482400E8410A /* MyBusTests.swift */; };
+		112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112A11031CE1286600D00709 /* MapBusRoad.swift */; };
 		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
 		4895C2F9544532381499F326 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98D816095DB973CAEBACCA90 /* Pods.framework */; };
@@ -52,6 +53,7 @@
 		08EC58641CBD482400E8410A /* MyBusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyBusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EC58681CBD482400E8410A /* MyBusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBusTests.swift; sourceTree = "<group>"; };
 		08EC586A1CBD482400E8410A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		112A11031CE1286600D00709 /* MapBusRoad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBusRoad.swift; path = Model/Road/MapBusRoad.swift; sourceTree = "<group>"; };
 		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		639B0E3606BDD55C6A8F0ABF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				A03514E71CCEF38C009443AF /* Route.swift */,
 				A03514E81CCEF38C009443AF /* RoutePoint.swift */,
 				A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */,
+				112A11031CE1286600D00709 /* MapBusRoad.swift */,
 			);
 			name = Road;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 			files = (
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
+				112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
