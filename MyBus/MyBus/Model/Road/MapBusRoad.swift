@@ -20,15 +20,34 @@ class MapBusRoad: NSObject {
             // Declare the marker point and set its coordinates
             let mapPoint = MGLPointAnnotation()
             mapPoint.coordinate = (roadResult.routeList.first?.getFirstLatLng())!
-            mapPoint.title = "Parada Origen"
+            mapPoint.title = MyBusTitle.StopOriginTitle.rawValue
             markerList.append(mapPoint)
             
             let mapPoint2 = MGLPointAnnotation()
             mapPoint2.coordinate = (roadResult.routeList.last?.getLastLatLng())!
-            mapPoint2.title = "Parada Destino"
+            mapPoint2.title = MyBusTitle.StopDestinationTitle.rawValue
             markerList.append(mapPoint2)
         } else {
-            //TODO
+            let mapStopOriginRouteOne = MGLPointAnnotation()
+            mapStopOriginRouteOne.coordinate = (roadResult.routeList.first?.getFirstLatLng())!
+            mapStopOriginRouteOne.title = MyBusTitle.StopOriginTitle.rawValue
+            markerList.append(mapStopOriginRouteOne)
+            
+            let mapStopDestinationRouteOne = MGLPointAnnotation()
+            mapStopDestinationRouteOne.coordinate = (roadResult.routeList.first?.getLastLatLng())!
+            mapStopDestinationRouteOne.title = MyBusTitle.StopDestinationTitle.rawValue
+            markerList.append(mapStopDestinationRouteOne)
+
+            
+            let mapStopOriginRouteTwo = MGLPointAnnotation()
+            mapStopOriginRouteTwo.coordinate = (roadResult.routeList.last?.getFirstLatLng())!
+            mapStopOriginRouteTwo.title = MyBusTitle.StopOriginTitle.rawValue
+            markerList.append(mapStopOriginRouteTwo)
+            
+            let mapStopDestinationRouteTwo = MGLPointAnnotation()
+            mapStopDestinationRouteTwo.coordinate = (roadResult.routeList.last?.getLastLatLng())!
+            mapStopDestinationRouteTwo.title = MyBusTitle.StopDestinationTitle.rawValue
+            markerList.append(mapStopDestinationRouteTwo)
         }
         
         
@@ -42,7 +61,7 @@ class MapBusRoad: NSObject {
             coordinates.append(coordinate)
         }
         let line = MGLPolyline(coordinates: &coordinates, count: UInt(coordinates.count))
-        line.title = "Crema to Council Crest"
+        line.title = MyBusTitle.BusLineRouteTitle.rawValue
         polyLineList.append(line)
     
         coordinates = []
@@ -56,30 +75,10 @@ class MapBusRoad: NSObject {
             }
             let line2 = MGLPolyline(coordinates: &coordinates, count: UInt(coordinates.count))
 
-            line2.title = "222222"
+            line2.title = MyBusTitle.BusLineRouteTitle.rawValue
             polyLineList.append(line2)
         }
         
         return self;
-    }
-    
-    func clearBusRoadFromMap() -> Void {
-//        for (Marker marker : mMarkerList) {
-//            marker.remove();
-//        }
-//        for (Polyline polyline : mPolylineList) {
-//            polyline.remove();
-//        }
-//        mMarkerList.clear();
-//        mPolylineList.clear();
-    }
-    
-    func showBusRoadFromMap(show : Bool) -> Void {
-//        for (Marker marker : mMarkerList) {
-//            marker.setVisible(show);
-//        }
-//        for (Polyline polyline : mPolylineList) {
-//            polyline.setVisible(show);
-//        }
     }
 }

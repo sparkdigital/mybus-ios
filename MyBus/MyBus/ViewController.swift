@@ -24,6 +24,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     let markerOriginLabelText = "Origen"
     let markerDestinationLabelText = "Destino"
     
+    var origin : CLLocationCoordinate2D?
+    var destination : CLLocationCoordinate2D?
+    
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
@@ -177,11 +180,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
                 var image = UIImage(named: imageName)!
                 image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
                 annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
-            } else if annotationTitle == "Parada Origen" {
+            } else if annotationTitle == MyBusTitle.StopOriginTitle.rawValue {
                 var image = UIImage(named: "stopOrigen")!
                 image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
                 annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
-            } else if annotationTitle == "Parada Destino" {
+            } else if annotationTitle == MyBusTitle.StopDestinationTitle.rawValue {
                 var image = UIImage(named: "stopDestino")!
                 image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
                 annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
@@ -196,32 +199,58 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     
     func newBusRoad(mapBusRoad : MapBusRoad)
     {
+        for currentMapAnnotation in self.mapView.annotations! {
+            let annotationTitle = currentMapAnnotation.title!! as String
+            if(annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue || annotationTitle == MyBusTitle.StopOriginTitle.rawValue || annotationTitle == MyBusTitle.StopDestinationTitle.rawValue) {
+                self.mapView.removeAnnotation(currentMapAnnotation)
+            }
+        }
+        
         for marker in mapBusRoad.markerList {
             self.mapView.addAnnotation(marker)
         }
         for polyline in mapBusRoad.polyLineList {
             self.mapView.addAnnotation(polyline)
         }
+        
+        let bounds = MGLCoordinateBounds(
+            sw: (mapBusRoad.markerList.first?.coordinate)!,
+            ne: (mapBusRoad.markerList.last?.coordinate)!)
+        self.mapView.setZoomLevel(10, animated: true)
+        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
     }
     
     func newOrigin(origin : CLLocationCoordinate2D)
     {
+        if let annotations = self.mapView.annotations {
+            self.mapView.removeAnnotations(annotations)
+        }
+
+        self.origin = origin
         // Declare the marker point and set its coordinates
         let mapPoint = MGLPointAnnotation()
         mapPoint.coordinate = origin
         mapPoint.title = markerOriginLabelText
         
         self.mapView.addAnnotation(mapPoint)
+        self.mapView.setCenterCoordinate(origin, animated: true)
     }
     
     func newDestination(destination : CLLocationCoordinate2D)
     {
+        self.destination = destination
         // Declare the marker point and set its coordinates
         let mapPoint = MGLPointAnnotation()
         mapPoint.coordinate = destination
         mapPoint.title = markerDestinationLabelText
 
+        let bounds = MGLCoordinateBounds(
+            sw: self.origin!,
+            ne: self.destination!)
+        self.mapView.setZoomLevel(10, animated: true)
+        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
         self.mapView.addAnnotation(mapPoint)
+        
     }
     
     // MARK: - UIPopoverPresentationControllerDelegate Methods
