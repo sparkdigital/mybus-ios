@@ -10,12 +10,20 @@ import UIKit
 import Mapbox
 import RealmSwift
 
+protocol MapBusRoadDelegate {
+    func newBusRoad(mapBusRoad : MapBusRoad)
+    func newOrigin(coordinate : CLLocationCoordinate2D)
+    func newDestination(coordinate : CLLocationCoordinate2D)
+}
+
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
     
     @IBOutlet var resultsTableView: UITableView!
     @IBOutlet var originTextfield: UITextField!
     @IBOutlet var destinationTextfield: UITextField!
+    
+    var searchViewProtocol : MapBusRoadDelegate?
     
     var bestMatches : [String] = []
     var favourites : List<Location>!
@@ -66,6 +74,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                     let originLocation = originGeocoded!["results"][0]["geometry"]["location"]
                     let latitudeOrigin : Double = Double(originLocation["lat"].stringValue)!
                     let longitudeOrigin : Double = Double(originLocation["lng"].stringValue)!
+                    self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin))
                     Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
                         destinationGeocoded, error in
                         
@@ -76,6 +85,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                                 let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
                                 let latitudeDestination : Double = Double(destinationLocation["lat"].stringValue)!
                                 let longitudeDestination : Double = Double(destinationLocation["lng"].stringValue)!
+                                self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination))
+
                                 self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
                             default:
                                 //TODO Notify user about error
@@ -113,16 +124,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             {
                 Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, direction: (busRouteResult.busRoutes.first?.busLineDirection)!, stop1: (busRouteResult.busRoutes.first?.startBusStopNumber)!, stop2: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
                     singleRoad, error in
-                    print("Single road")
-                    self.roadResultList.append(MapBusRoad().addBusRoadOnMap(singleRoad!))
-                    print(self.roadResultList.count)
+                    let mapBusRoad = MapBusRoad().addBusRoadOnMap(singleRoad!)
+                    self.roadResultList.append(mapBusRoad)
                 }
             } else if(busRouteResult.busRouteType == 1) { //combined road
                 let firstBusRoute = busRouteResult.busRoutes.first
                 let secondBusRoute = busRouteResult.busRoutes.last
                 Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idLine2: (secondBusRoute?.idBusLine)!, direction1: (firstBusRoute?.busLineDirection)!, direction2: (secondBusRoute?.busLineDirection)!, L1stop1: (firstBusRoute?.startBusStopNumber)!, L1stop2: (firstBusRoute?.destinationBusStopNumber)!, L2stop1: (secondBusRoute?.startBusStopNumber)!, L2stop2: (secondBusRoute?.destinationBusStopNumber)!){
                     combinedRoad, error in
-                    print("Combinated road")
                     self.roadResultList.append(MapBusRoad().addBusRoadOnMap(combinedRoad!))
                 }
             }
@@ -219,11 +228,16 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         case 0:
             uiTextField.text = "\(favourites[indexPath.row].streetName) \(favourites[indexPath.row].houseNumber)"
         case 1:
-            uiTextField.text = "\(bestMatches[indexPath.row]) "
-            // Change & update keyboard type
-            uiTextField.keyboardType = UIKeyboardType.NumberPad
-            uiTextField.resignFirstResponder()
-            uiTextField.becomeFirstResponder()
+            if self.roadResultList.count == 0 {
+                uiTextField.text = "\(bestMatches[indexPath.row]) "
+                // Change & update keyboard type
+                uiTextField.keyboardType = UIKeyboardType.NumberPad
+                uiTextField.resignFirstResponder()
+                uiTextField.becomeFirstResponder()
+            } else {
+                let road = roadResultList[indexPath.row]
+                searchViewProtocol?.newBusRoad(road)
+            }
         default: break
         }
     }

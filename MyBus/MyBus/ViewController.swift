@@ -10,7 +10,7 @@ import UIKit
 import Mapbox
 import RealmSwift
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
 {
     
     @IBOutlet var plusButtonView: UIView!
@@ -19,7 +19,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     
     @IBOutlet var mapView : MGLMapView!
     let minZoomLevel : Double = 9
-    let maxZoomLevel : Double = 16
+    let maxZoomLevel : Double = 18
+    
+    let markerOriginLabelText = "Origen"
+    let markerDestinationLabelText = "Destino"
     
     // MARK: - View Lifecycle Methods
 
@@ -105,6 +108,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let sourceView = self.view
         
         searchController.modalPresentationStyle = .Popover
+        searchController.searchViewProtocol = self
         
         // configure the Popover presentation controller
         let popoverController: UIPopoverPresentationController = searchController.popoverPresentationController!
@@ -155,6 +159,69 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         {
             startOfflinePackDownload()
         }
+    }
+    
+    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
+        
+        let annotationTitle = annotation.title!! as String
+        let imageName = "marker"+annotation.title!! as String
+
+        var annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier(annotationTitle)
+        
+        if annotationImage == nil {
+            if annotationTitle == markerOriginLabelText {
+                var image = UIImage(named: imageName)!
+                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
+            } else if annotationTitle == markerDestinationLabelText {
+                var image = UIImage(named: imageName)!
+                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
+            } else if annotationTitle == "Parada Origen" {
+                var image = UIImage(named: "stopOrigen")!
+                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
+            } else if annotationTitle == "Parada Destino" {
+                var image = UIImage(named: "stopDestino")!
+                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
+            }
+            
+        }
+        
+        return annotationImage
+    }
+    
+    // MARK : MapBusRoadDelegate methods
+    
+    func newBusRoad(mapBusRoad : MapBusRoad)
+    {
+        for marker in mapBusRoad.markerList {
+            self.mapView.addAnnotation(marker)
+        }
+        for polyline in mapBusRoad.polyLineList {
+            self.mapView.addAnnotation(polyline)
+        }
+    }
+    
+    func newOrigin(origin : CLLocationCoordinate2D)
+    {
+        // Declare the marker point and set its coordinates
+        let mapPoint = MGLPointAnnotation()
+        mapPoint.coordinate = origin
+        mapPoint.title = markerOriginLabelText
+        
+        self.mapView.addAnnotation(mapPoint)
+    }
+    
+    func newDestination(destination : CLLocationCoordinate2D)
+    {
+        // Declare the marker point and set its coordinates
+        let mapPoint = MGLPointAnnotation()
+        mapPoint.coordinate = destination
+        mapPoint.title = markerDestinationLabelText
+
+        self.mapView.addAnnotation(mapPoint)
     }
     
     // MARK: - UIPopoverPresentationControllerDelegate Methods

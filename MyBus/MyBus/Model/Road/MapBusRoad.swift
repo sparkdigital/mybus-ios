@@ -20,12 +20,12 @@ class MapBusRoad: NSObject {
             // Declare the marker point and set its coordinates
             let mapPoint = MGLPointAnnotation()
             mapPoint.coordinate = (roadResult.routeList.first?.getFirstLatLng())!
-            mapPoint.title = "Origen"
+            mapPoint.title = "Parada Origen"
             markerList.append(mapPoint)
             
             let mapPoint2 = MGLPointAnnotation()
             mapPoint2.coordinate = (roadResult.routeList.last?.getLastLatLng())!
-            mapPoint2.title = "Destino"
+            mapPoint2.title = "Parada Destino"
             markerList.append(mapPoint2)
         } else {
             //TODO
