@@ -164,7 +164,8 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
     
-    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
+    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage?
+    {
         
         let annotationTitle = annotation.title!! as String
         let imageName = "marker"+annotation.title!! as String
@@ -172,27 +173,26 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         var annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier(annotationTitle)
         
         if annotationImage == nil {
-            if annotationTitle == markerOriginLabelText {
-                var image = UIImage(named: imageName)!
-                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
-                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
-            } else if annotationTitle == markerDestinationLabelText {
-                var image = UIImage(named: imageName)!
-                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
-                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
-            } else if annotationTitle == MyBusTitle.StopOriginTitle.rawValue {
-                var image = UIImage(named: "stopOrigen")!
-                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
-                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
-            } else if annotationTitle == MyBusTitle.StopDestinationTitle.rawValue {
-                var image = UIImage(named: "stopDestino")!
-                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
-                annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
+            switch annotationTitle {
+            case markerOriginLabelText:
+                annotationImage =  self.getMarkerImage(imageName, annotationTitle: annotationTitle)
+            case markerDestinationLabelText:
+                annotationImage =  self.getMarkerImage(imageName, annotationTitle: annotationTitle)
+            case MyBusTitle.StopOriginTitle.rawValue:
+                annotationImage =  self.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
+            case MyBusTitle.StopDestinationTitle.rawValue:
+                annotationImage =  self.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
+            default:
+                break
             }
-            
         }
-        
         return annotationImage
+    }
+    
+    func getMarkerImage(imageResourceIdentifier : String, annotationTitle : String) -> MGLAnnotationImage {
+        var image = UIImage(named: imageResourceIdentifier)!
+        image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+        return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
     
     // MARK : MapBusRoadDelegate methods
