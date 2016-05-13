@@ -9,6 +9,7 @@
 import UIKit
 import Mapbox
 import RealmSwift
+import MapKit
 
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
 {
@@ -213,11 +214,15 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             self.mapView.addAnnotation(polyline)
         }
 
+        let span = MGLCoordinateSpanMake(0.0045, 0.0057)
+        
         let bounds = MGLCoordinateBounds(
             sw: (mapBusRoad.markerList.first?.coordinate)!,
             ne: (mapBusRoad.markerList.last?.coordinate)!)
-        self.mapView.setZoomLevel(10, animated: true)
-        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        
+        let bounds1 = MGLCoordinateBoundsOffset(bounds, span)
+        //self.mapView.setZoomLevel(10, animated: true)
+        //self.mapView.setVisibleCoordinateBounds(bounds1, animated: true)
     }
 
     func newOrigin(origin : CLLocationCoordinate2D)
@@ -243,11 +248,19 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let mapPoint = MGLPointAnnotation()
         mapPoint.coordinate = destination
         mapPoint.title = markerDestinationLabelText
+        
+        let origin = MKCoordinateRegionMakeWithDistance(self.origin!, 100, 100)
+        let dest = MKCoordinateRegionMakeWithDistance(self.destination!, 100, 100)
+
+        
+        let newOrigin = CLLocationCoordinate2DMake(self.origin!.longitude + origin.span.longitudeDelta, self.origin!.latitude + origin.span.latitudeDelta)
+        let newDest = CLLocationCoordinate2DMake(self.destination!.longitude + dest.span.longitudeDelta, self.destination!.latitude + dest.span.latitudeDelta)
 
         let bounds = MGLCoordinateBounds(
-            sw: self.origin!,
-            ne: self.destination!)
-        self.mapView.setZoomLevel(10, animated: true)
+            sw: newOrigin,
+            ne: dest.center)
+
+        //self.mapView.setZoomLevel(10, animated: true)
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
         self.mapView.addAnnotation(mapPoint)
 

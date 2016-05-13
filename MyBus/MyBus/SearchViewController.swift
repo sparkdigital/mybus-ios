@@ -120,18 +120,23 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
 
     func getBusRoads(busRouteResults : [BusRouteResult]) -> Void {
         for busRouteResult in busRouteResults {
+            let index = busRouteResults.indexOf(busRouteResult)
             if(busRouteResult.busRouteType == 0) //single road
             {
-                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, direction: (busRouteResult.busRoutes.first?.busLineDirection)!, stop1: (busRouteResult.busRoutes.first?.startBusStopNumber)!, stop2: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
+                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, direction: (busRouteResult.busRoutes.first?.busLineDirection)!, stop1: (busRouteResult.busRoutes.first?.startBusStopNumber)!, stop2: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!)
+                {
                     singleRoad, error in
                     let mapBusRoad = MapBusRoad().addBusRoadOnMap(singleRoad!)
+                    print("single \(index)")
                     self.roadResultList.append(mapBusRoad)
                 }
             } else if(busRouteResult.busRouteType == 1) { //combined road
                 let firstBusRoute = busRouteResult.busRoutes.first
                 let secondBusRoute = busRouteResult.busRoutes.last
-                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idLine2: (secondBusRoute?.idBusLine)!, direction1: (firstBusRoute?.busLineDirection)!, direction2: (secondBusRoute?.busLineDirection)!, L1stop1: (firstBusRoute?.startBusStopNumber)!, L1stop2: (firstBusRoute?.destinationBusStopNumber)!, L2stop1: (secondBusRoute?.startBusStopNumber)!, L2stop2: (secondBusRoute?.destinationBusStopNumber)!){
+                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idLine2: (secondBusRoute?.idBusLine)!, direction1: (firstBusRoute?.busLineDirection)!, direction2: (secondBusRoute?.busLineDirection)!, L1stop1: (firstBusRoute?.startBusStopNumber)!, L1stop2: (firstBusRoute?.destinationBusStopNumber)!, L2stop1: (secondBusRoute?.startBusStopNumber)!, L2stop2: (secondBusRoute?.destinationBusStopNumber)!)
+                {
                     combinedRoad, error in
+                    print("combined \(index)")
                     self.roadResultList.append(MapBusRoad().addBusRoadOnMap(combinedRoad!))
                 }
             }
