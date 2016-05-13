@@ -17,11 +17,11 @@ class RoadResult: NSObject {
     var routeList : [Route] = [Route]()
     var idBusLine1 : String = ""
     var idBusLine2 : String = ""
-    
+
     static func parse(roadResultResponse : JSON) -> RoadResult
     {
         let singleRoad = RoadResult()
-        
+
         if let type = roadResultResponse["Type"].int
         {
             singleRoad.roadResultType = type
@@ -31,7 +31,7 @@ class RoadResult: NSObject {
             singleRoad.totalDistances = roadResultResponse["TotalDistance"].doubleValue
             let route = Route.parse(roadResultResponse["Route1"].array!)
             singleRoad.routeList.append(route)
-            
+
             if let routeTwo = roadResultResponse["Route2"].array
             {
                 let route = Route.parse(routeTwo)
@@ -42,7 +42,7 @@ class RoadResult: NSObject {
         }
         return singleRoad
     }
-    
+
     /**
         Return a list of point reference that form a result road route
      */

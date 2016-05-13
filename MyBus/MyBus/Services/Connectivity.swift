@@ -45,18 +45,18 @@ public class Connectivity: NSObject
     {
         return _sharedInstance
     }
-    
+
     override init() { }
-    
+
     // MARK: Municipality Endpoints
     func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
     {
         let escapedStreet = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
         let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
-        
+
         let request = NSMutableURLRequest(URL: NSURL(string: streetNameURLString)!)
         request.HTTPMethod = "GET"
-        
+
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
@@ -74,7 +74,7 @@ public class Connectivity: NSObject
             }
         }
     }
-    
+
     public func getCoordinateFromAddress(streetName : String, completionHandler: (JSON?, NSError?) -> ())
     {
         print("Address to resolve geocoding: \(streetName)")
@@ -83,7 +83,7 @@ public class Connectivity: NSObject
         coordinateFromAddressURLString = coordinateFromAddressURLString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
         let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
         request.HTTPMethod = "GET"
-        
+
         Alamofire.request(request).responseJSON { response in
             switch response.result
             {
@@ -96,15 +96,15 @@ public class Connectivity: NSObject
             }
         }
     }
-    
+
     public func getAddressFromCoordinate(latitude : Double, longitude: Double, completionHandler: (NSDictionary?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
         let addressFromCoordinateURLString = "\(coordinateToAddressEndpointURL)&latitud=\(latitude)&longitud=\(longitude)"
-        
+
         let request = NSMutableURLRequest(URL: NSURL(string: addressFromCoordinateURLString)!)
         request.HTTPMethod = "GET"
-        
+
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
@@ -114,14 +114,14 @@ public class Connectivity: NSObject
             }
         }
     }
-    
+
     // MARK: MyBus Endpoints
     func getBusLinesFromOriginDestination(latitudeOrigin : Double, longitudeOrigin : Double, latitudeDestination : Double, longitudeDestination : Double, completionHandler : ([BusRouteResult]?, NSError?) -> ())
     {
         let availableBusLinesFromOriginDestinationURLString = "\(availableBusLinesFromOriginDestinationEndpointURL)lat0=\(latitudeOrigin)&lng0=\(longitudeOrigin)&lat1=\(latitudeDestination)&lng1=\(longitudeDestination)&tk=\(myBusAccessToken)"
         let request = NSMutableURLRequest(URL: NSURL(string: availableBusLinesFromOriginDestinationURLString)!)
         request.HTTPMethod = "GET"
-        
+
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
@@ -129,24 +129,24 @@ public class Connectivity: NSObject
                 let type = json["Type"].intValue
                 let results = json["Results"]
                 let busResults : [BusRouteResult]
-                
+
                 busResults = BusRouteResult.parseResults(results, type: type)
-                
+
                 completionHandler(busResults, nil)
             case .Failure(let error):
                 completionHandler(nil, error)
             }
         }
-        
+
     }
-    
+
     func getSingleResultRoadApi(idLine : Int, direction : Int, stop1: Int, stop2 : Int, completionHandler : (RoadResult?, NSError?) -> ())
     {
         let singleResultRoadURLString = "\(singleResultRoadEndpointURL)idline=\(idLine)&direction=\(direction)&stop1=\(stop1)&stop2=\(stop2)&tk=\(myBusAccessToken)"
-        
+
         let request = NSMutableURLRequest(URL: NSURL(string: singleResultRoadURLString)!)
         request.HTTPMethod = "GET"
-        
+
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
@@ -157,16 +157,16 @@ public class Connectivity: NSObject
                 completionHandler(nil, error)
             }
         }
-        
+
     }
-    
+
     func getCombinedResultRoadApi(idLine1 : Int, idLine2 : Int, direction1 : Int, direction2: Int, L1stop1: Int, L1stop2 : Int, L2stop1: Int, L2stop2 : Int, completionHandler : (RoadResult?, NSError?) -> ())
     {
         let combinedResultRoadURLString = "\(combinedResultRoadEndpointURL)idline1=\(idLine1)&idline2=\(idLine2)&direction1=\(direction1)&direction2=\(direction2)&L1stop1=\(L1stop1)&L1stop2=\(L1stop2)&L2stop1=\(L2stop1)&L2stop2=\(L2stop2)&tk=\(myBusAccessToken)"
-        
+
         let request = NSMutableURLRequest(URL: NSURL(string: combinedResultRoadURLString)!)
         request.HTTPMethod = "GET"
-        
+
         Alamofire.request(request).responseJSON { response in
             switch response.result {
             case .Success(let value):
@@ -177,7 +177,7 @@ public class Connectivity: NSObject
                 completionHandler(nil, error)
             }
         }
-        
+
     }
-    
+
 }

@@ -18,29 +18,29 @@ protocol MapBusRoadDelegate {
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
-    
+
     @IBOutlet var resultsTableView: UITableView!
     @IBOutlet var originTextfield: UITextField!
     @IBOutlet var destinationTextfield: UITextField!
-    
+
     var searchViewProtocol : MapBusRoadDelegate?
-    
+
     var bestMatches : [String] = []
     var favourites : List<Location>!
     var roadResultList : [MapBusRoad] = []
-    
+
     @IBOutlet var favoriteOriginButton: UIButton!
     @IBOutlet var favoriteDestinationButton: UIButton!
-    
+
     // MARK: - View Lifecycle Methods
-    
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
         self.originTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
         self.destinationTextfield.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
     }
-    
+
     override func viewDidAppear(animated: Bool)
     {
         // Create realm pointing to default file
@@ -49,15 +49,15 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         favourites = realm.objects(User).first?.favourites
         self.resultsTableView.reloadData()
     }
-    
+
     // MARK: - IBAction Methods
-    
+
     @IBAction func favoriteOriginTapped(sender: AnyObject)
     {}
-    
+
     @IBAction func favoriteDestinationTapped(sender: AnyObject)
     {}
-    
+
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
         let originTextFieldValue = originTextfield.text!
@@ -66,7 +66,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         //TODO : Extract some pieces of code to clean and do async parallel
         Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
             originGeocoded, error in
-            
+
             let status = originGeocoded!["status"].stringValue
             switch status
             {
@@ -77,7 +77,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                     self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin))
                     Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
                         destinationGeocoded, error in
-                        
+
                         let status = destinationGeocoded!["status"].stringValue
                         switch status
                         {
@@ -96,11 +96,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 default:
                     //TODO Notify user about error
                     break
-                
+
             }
         }
     }
-    
+
     func getBusLines(latitudeOrigin : Double, longitudeOrigin : Double, latDestination : Double, lngDestination : Double) -> Void {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { busRouteResults, error in
             self.bestMatches = []
@@ -117,7 +117,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             self.getBusRoads(busRouteResults!)
         }
     }
-    
+
     func getBusRoads(busRouteResults : [BusRouteResult]) -> Void {
         for busRouteResult in busRouteResults {
             if(busRouteResult.busRouteType == 0) //single road
@@ -137,16 +137,16 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             }
         }
     }
-    
+
     @IBAction func invertButton(sender: AnyObject)
     {
         let originText = self.originTextfield.text
         self.originTextfield.text = self.destinationTextfield.text
         self.destinationTextfield.text = originText
     }
-    
+
     // MARK: - UITableViewDataSource Methods
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         switch indexPath.section
@@ -158,14 +158,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             let cell = tableView.dequeueReusableCellWithIdentifier("BestMatchesIdentifier", forIndexPath: indexPath) as! BestMatchTableViewCell
             cell.name.text = self.bestMatches[indexPath.row]
             return cell
-            
+
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("BestMatchesIdentifier", forIndexPath: indexPath) as UITableViewCell
-            
+
             return cell
         }
     }
-    
+
     func buildFavCell(indexPath: NSIndexPath, cell : UITableViewCell) -> UITableViewCell
     {
         let fav = favourites[indexPath.row]
@@ -181,12 +181,12 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         cell.textLabel?.text = cellLabel
         return cell
     }
-    
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return 2
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         switch section
@@ -198,12 +198,12 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             return 0
         case 1:
             return bestMatches.count
-            
+
         default:
             return bestMatches.count
         }
     }
-    
+
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         switch section
@@ -212,14 +212,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             return "Favorites"
         case 1:
             return "Best Matches"
-            
+
         default:
             return "Best Matches"
         }
     }
-    
+
     // MARK: - UITableViewDelegate Methods
-    
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let uiTextField = self.originTextfield.isFirstResponder() ? self.originTextfield : self.destinationTextfield
@@ -241,9 +241,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         default: break
         }
     }
-    
+
     // MARK: - Textfields Methods
-    
+
     func textFieldDidChange(sender: UITextField){
         if(sender.text?.characters.count > 2)
         {
@@ -265,13 +265,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             self.originTextfield.becomeFirstResponder()
         }
     }
-    
+
     // MARK: - Memory Management Methods
-    
+
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
 }
