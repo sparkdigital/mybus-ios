@@ -200,29 +200,35 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     func newBusRoad(mapBusRoad : MapBusRoad)
     {
-        for currentMapAnnotation in self.mapView.annotations! {
-            let annotationTitle = currentMapAnnotation.title!! as String
-            if(annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue || annotationTitle == MyBusTitle.StopOriginTitle.rawValue || annotationTitle == MyBusTitle.StopDestinationTitle.rawValue) {
+        for currentMapAnnotation in self.mapView.annotations!
+        {
+            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
+            {
                 self.mapView.removeAnnotation(currentMapAnnotation)
             }
         }
 
-        for marker in mapBusRoad.markerList {
+        for marker in mapBusRoad.markerList
+        {
             self.mapView.addAnnotation(marker)
         }
-        for polyline in mapBusRoad.polyLineList {
+        for polyline in mapBusRoad.polyLineList
+        {
             self.mapView.addAnnotation(polyline)
         }
-
-        let span = MGLCoordinateSpanMake(0.0045, 0.0057)
+    }
+    
+    func isAnnotationPartOfMyBusResult(annotation : MGLAnnotation) -> Bool {
+        let annotationTitle = annotation.title!! as String
         
-        let bounds = MGLCoordinateBounds(
-            sw: (mapBusRoad.markerList.first?.coordinate)!,
-            ne: (mapBusRoad.markerList.last?.coordinate)!)
-        
-        let bounds1 = MGLCoordinateBoundsOffset(bounds, span)
-        //self.mapView.setZoomLevel(10, animated: true)
-        //self.mapView.setVisibleCoordinateBounds(bounds1, animated: true)
+        if (annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopDestinationTitle.rawValue)
+        {
+            return true
+        } else {
+            return false
+        }
     }
 
     func newOrigin(origin : CLLocationCoordinate2D)
@@ -248,24 +254,51 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let mapPoint = MGLPointAnnotation()
         mapPoint.coordinate = destination
         mapPoint.title = markerDestinationLabelText
-        
-        let origin = MKCoordinateRegionMakeWithDistance(self.origin!, 100, 100)
-        let dest = MKCoordinateRegionMakeWithDistance(self.destination!, 100, 100)
 
-        
-        let newOrigin = CLLocationCoordinate2DMake(self.origin!.longitude + origin.span.longitudeDelta, self.origin!.latitude + origin.span.latitudeDelta)
-        let newDest = CLLocationCoordinate2DMake(self.destination!.longitude + dest.span.longitudeDelta, self.destination!.latitude + dest.span.latitudeDelta)
+        let bounds = getSearchResultsMapsBounds()
 
-        let bounds = MGLCoordinateBounds(
-            sw: newOrigin,
-            ne: dest.center)
-
-        //self.mapView.setZoomLevel(10, animated: true)
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        
         self.mapView.addAnnotation(mapPoint)
 
     }
 
+    
+    /**
+     What are we doing in this method?
+        
+     Having origin and destination coordinate, we have to define an area (aka bounds) where user can see all markers in map
+     
+     First of all we define which position is more at south & north, and we create a padding of 800 mts for each one.
+     Finally we create new coordinate with padding included and build bounds with each corners
+    */
+    func getSearchResultsMapsBounds() -> MGLCoordinateBounds
+    {
+        var south, north : CLLocationCoordinate2D
+        let latitudinalMeters : CLLocationDistance = 800
+        let longitudinalMeters : CLLocationDistance = -800
+        
+        if self.destination?.latitude < self.origin?.latitude
+        {
+            south = self.destination!
+            north = self.origin!
+        } else {
+            south = self.origin!
+            north = self.destination!
+        }
+        
+        // We move future Northcorner of bounds further north and more to west
+        let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, longitudinalMeters)
+        // We move future Southcorner of bounds further south and more to east
+        let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, latitudinalMeters)
+        
+        let northeastCorner = CLLocationCoordinate2D(latitude: north.latitude + northeastCornerPadding.span.latitudeDelta, longitude: north.longitude + northeastCornerPadding.span.longitudeDelta)
+        let southwestCorner = CLLocationCoordinate2D(latitude: south.latitude + southwestCornerPadding.span.latitudeDelta, longitude: south.longitude + southwestCornerPadding.span.longitudeDelta)
+        
+        let markerResultsBounds = MGLCoordinateBounds(sw: southwestCorner, ne: northeastCorner)
+        return markerResultsBounds
+    }
+    
     // MARK: - UIPopoverPresentationControllerDelegate Methods
 
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
