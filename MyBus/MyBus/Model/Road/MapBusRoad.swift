@@ -10,75 +10,91 @@ import Foundation
 import Mapbox
 
 class MapBusRoad: NSObject {
-    var markerList : [MGLPointAnnotation] = [MGLPointAnnotation]()
-    var polyLineList : [MGLPolyline] = [MGLPolyline]()
+    var roadStopsMarkerList : [MGLPointAnnotation] = [MGLPointAnnotation]()
+    var busRoutePolylineList : [MGLPolyline] = [MGLPolyline]()
 
     func addBusRoadOnMap(roadResult : RoadResult) -> MapBusRoad
     {
-        if(roadResult.roadResultType == 0)
+        addRoadMarkers(roadResult)
+        addBusRoutePolyline(roadResult)
+        return self;
+    }
+
+
+    func addBusRoutePolyline(roadResult : RoadResult) -> Void {
+        // First bus route polyline
+        let firstBusRoute : Route = (roadResult.routeList.first)!
+        let firstBusLine = busPolylineBuilder(firstBusRoute)
+        busRoutePolylineList.append(firstBusLine)
+
+        // If road is combinated, we add second bus route polyline
+        let isCombinatedRoad = roadResult.roadResultType == 1
+
+        if (isCombinatedRoad)
         {
-            // Declare the marker point and set its coordinates
-            let mapPoint = MGLPointAnnotation()
-            mapPoint.coordinate = (roadResult.routeList.first?.getFirstLatLng())!
-            mapPoint.title = MyBusTitle.StopOriginTitle.rawValue
-            markerList.append(mapPoint)
-
-            let mapPoint2 = MGLPointAnnotation()
-            mapPoint2.coordinate = (roadResult.routeList.last?.getLastLatLng())!
-            mapPoint2.title = MyBusTitle.StopDestinationTitle.rawValue
-            markerList.append(mapPoint2)
-        } else {
-            let mapStopOriginRouteOne = MGLPointAnnotation()
-            mapStopOriginRouteOne.coordinate = (roadResult.routeList.first?.getFirstLatLng())!
-            mapStopOriginRouteOne.title = MyBusTitle.StopOriginTitle.rawValue
-            markerList.append(mapStopOriginRouteOne)
-
-            let mapStopDestinationRouteOne = MGLPointAnnotation()
-            mapStopDestinationRouteOne.coordinate = (roadResult.routeList.first?.getLastLatLng())!
-            mapStopDestinationRouteOne.title = MyBusTitle.StopDestinationTitle.rawValue
-            markerList.append(mapStopDestinationRouteOne)
-
-
-            let mapStopOriginRouteTwo = MGLPointAnnotation()
-            mapStopOriginRouteTwo.coordinate = (roadResult.routeList.last?.getFirstLatLng())!
-            mapStopOriginRouteTwo.title = MyBusTitle.StopOriginTitle.rawValue
-            markerList.append(mapStopOriginRouteTwo)
-
-            let mapStopDestinationRouteTwo = MGLPointAnnotation()
-            mapStopDestinationRouteTwo.coordinate = (roadResult.routeList.last?.getLastLatLng())!
-            mapStopDestinationRouteTwo.title = MyBusTitle.StopDestinationTitle.rawValue
-            markerList.append(mapStopDestinationRouteTwo)
+            let secondBusRoute = roadResult.routeList[1];
+            let secondBusLine = busPolylineBuilder(secondBusRoute)
+            busRoutePolylineList.append(secondBusLine)
         }
+    }
+
+    func addRoadMarkers(roadResult : RoadResult) -> Void {
+        let isSingleRoad = roadResult.roadResultType == 0
+        if let firstRoute = roadResult.routeList.first, let lastRoute = roadResult.routeList.last {
+            if(isSingleRoad)
+            {
+                let busRoute = firstRoute
+                let stopOriginCoordinates = busRoute.getFirstLatLng()
+                let stopOriginMapPoint = annotationBuilder(stopOriginCoordinates, annotationTitle: MyBusTitle.StopOriginTitle.rawValue)
+                roadStopsMarkerList.append(stopOriginMapPoint)
+
+                let stopDestinationCoordinates = busRoute.getLastLatLng()
+                let stopDestinationMapPoint = annotationBuilder(stopDestinationCoordinates, annotationTitle: MyBusTitle.StopDestinationTitle.rawValue)
+                roadStopsMarkerList.append(stopDestinationMapPoint)
+            } else {
+                //First bus
+                let firstBusRoute = firstRoute
+
+                let stopOriginRouteOne = firstBusRoute.getFirstLatLng()
+                let mapStopOriginRouteOne = annotationBuilder(stopOriginRouteOne, annotationTitle: MyBusTitle.StopOriginTitle.rawValue)
+                roadStopsMarkerList.append(mapStopOriginRouteOne)
+
+                let stopDestinationRouteOne = firstBusRoute.getLastLatLng()
+                let mapStopDestinationRouteOne = annotationBuilder(stopDestinationRouteOne, annotationTitle: MyBusTitle.StopDestinationTitle.rawValue)
+                roadStopsMarkerList.append(mapStopDestinationRouteOne)
+
+                // Second bus
+                let secondBusRoute = lastRoute
+
+                let stopOriginRouteTwo = secondBusRoute.getFirstLatLng()
+                let mapStopOriginRouteTwo = annotationBuilder(stopOriginRouteTwo, annotationTitle: MyBusTitle.StopOriginTitle.rawValue)
+                roadStopsMarkerList.append(mapStopOriginRouteTwo)
 
 
-        let route : Route = (roadResult.routeList.first)!
-        var coordinates: [CLLocationCoordinate2D] = []
+                let stopDestinationRouteTwo = secondBusRoute.getLastLatLng()
+                let mapStopDestinationRouteTwo = annotationBuilder(stopDestinationRouteTwo, annotationTitle: MyBusTitle.StopDestinationTitle.rawValue)
+                roadStopsMarkerList.append(mapStopDestinationRouteTwo)
+            }
+        }
+    }
 
-        for point in route.pointList {
+    func annotationBuilder(coordinate : CLLocationCoordinate2D, annotationTitle : String) -> MGLPointAnnotation {
+        let mapBoxAnnotation = MGLPointAnnotation()
+        mapBoxAnnotation.coordinate = coordinate
+        mapBoxAnnotation.title = annotationTitle
+        return mapBoxAnnotation
+    }
+
+    func busPolylineBuilder(busRoute : Route) -> MGLPolyline {
+        var busRouteCoordinates: [CLLocationCoordinate2D] = []
+        for point in busRoute.pointList {
             // Make a CLLocationCoordinate2D with the lat, lng
             let coordinate = CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
             // Add coordinate to coordinates array
-            coordinates.append(coordinate)
+            busRouteCoordinates.append(coordinate)
         }
-        let line = MGLPolyline(coordinates: &coordinates, count: UInt(coordinates.count))
-        line.title = MyBusTitle.BusLineRouteTitle.rawValue
-        polyLineList.append(line)
-
-        coordinates = []
-        if (roadResult.roadResultType == 1) {
-            let route = roadResult.routeList[1];
-            for point in route.pointList {
-                // Make a CLLocationCoordinate2D with the lat, lng
-                let coordinate = CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
-                // Add coordinate to coordinates array
-                coordinates.append(coordinate)
-            }
-            let line2 = MGLPolyline(coordinates: &coordinates, count: UInt(coordinates.count))
-
-            line2.title = MyBusTitle.BusLineRouteTitle.rawValue
-            polyLineList.append(line2)
-        }
-
-        return self;
+        let busPolyline = MGLPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
+        busPolyline.title = MyBusTitle.BusLineRouteTitle.rawValue
+        return busPolyline
     }
 }

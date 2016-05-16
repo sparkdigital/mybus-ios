@@ -10,6 +10,6 @@ import Foundation
 
 enum MyBusTitle : String {
     case StopOriginTitle = "Parada origen"
-    case StopDestinationTitle = "Parada Destino"
+    case StopDestinationTitle = "Parada destino"
     case BusLineRouteTitle = "Ruta"
 }
