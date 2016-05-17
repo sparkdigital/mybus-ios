@@ -13,14 +13,14 @@ class User: Object
 {
     dynamic var name = "DeviceiOS"
     let favourites = List<Location>()
-    
+
     func addFavouriteLocation(favLocation : Location)
     {
-        
+
         // Realms are used to group data together
         let realm = try! Realm() // Create realm pointing to default file
         let users = realm.objects(User)
-        
+
         if(users.count > 0)
         {
             let user = users.first

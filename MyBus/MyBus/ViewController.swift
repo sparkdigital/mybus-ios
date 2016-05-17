@@ -9,18 +9,25 @@
 import UIKit
 import Mapbox
 import RealmSwift
+import MapKit
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
 {
-    
+
     @IBOutlet var plusButtonView: UIView!
     @IBOutlet var minusButtonView: UIView!
     @IBOutlet var compassButtonView: UIView!
-    
+
     @IBOutlet var mapView : MGLMapView!
     let minZoomLevel : Double = 9
-    let maxZoomLevel : Double = 16
-    
+    let maxZoomLevel : Double = 18
+
+    let markerOriginLabelText = "Origen"
+    let markerDestinationLabelText = "Destino"
+
+    var origin : CLLocationCoordinate2D?
+    var destination : CLLocationCoordinate2D?
+
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
@@ -31,24 +38,24 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let plusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.plusButtonTap(_:)))
         plusButtonView.userInteractionEnabled = true
         plusButtonView.addGestureRecognizer(plusButtonTap)
-        
+
         minusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
         minusButtonView.layer.cornerRadius = 20
         let minusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.minusButtonTap(_:)))
         minusButtonView.userInteractionEnabled = true
         minusButtonView.addGestureRecognizer(minusButtonTap)
-        
+
         compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
         compassButtonView.layer.cornerRadius = 20
         let compassButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
         compassButtonView.userInteractionEnabled = true
         compassButtonView.addGestureRecognizer(compassButtonTap)
-        
+
         mapView.maximumZoomLevel = maxZoomLevel
         mapView.minimumZoomLevel = minZoomLevel
         mapView.userTrackingMode = .Follow
         mapView.delegate = self
-        
+
         // Setup offline pack notification handlers.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
@@ -58,97 +65,98 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let doubleTap = UITapGestureRecognizer(target: self, action: nil)
         doubleTap.numberOfTapsRequired = 2
         mapView.addGestureRecognizer(doubleTap)
-        
+
         // Delay single tap recognition until it is clearly not a double
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
         singleTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleTap)
     }
-    
+
     // MARK: - Tapping Methods
-    
+
     func handleSingleTap(tap: UITapGestureRecognizer)
     {
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
         let tappedLocation: CLLocationCoordinate2D = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
-        
+
         // Remove first marker tapped from the map, add marker with coordinates
         // Prevent having more than two points selected in map
         if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 )
         {
             mapView.removeAnnotation(mapView.annotations![0])
         }
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
             let address = "\(responseObject!["calle"] as! String) \(responseObject!["altura"] as! String)"
-            
+
             // Declare the marker point and set its coordinates
             let mapPoint = MGLPointAnnotation()
             mapPoint.coordinate = CLLocationCoordinate2D(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude)
             mapPoint.title = address
-            
+
             // Add marker to the map
             self.mapView.addAnnotation(mapPoint)
-            
+
             // Pop-up the callout view
             self.mapView.selectAnnotation(mapPoint, animated: true)
         }
     }
-    
+
     // MARK: - IBAction Methods
-    
+
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let searchController: SearchViewController = storyboard.instantiateViewControllerWithIdentifier("SearchViewController") as! SearchViewController
-        
+
         let sourceView = self.view
-        
+
         searchController.modalPresentationStyle = .Popover
-        
+        searchController.searchViewProtocol = self
+
         // configure the Popover presentation controller
         let popoverController: UIPopoverPresentationController = searchController.popoverPresentationController!
         popoverController.permittedArrowDirections = .Any
         popoverController.sourceView = sourceView
         popoverController.sourceRect = sender.frame
         popoverController.delegate = self
-        
+
         self.presentViewController(searchController, animated: true, completion: nil)
-        
+
     }
-    
+
     // MARK: - Private Methods
-    
+
     func dismissSearchController(controller: UIViewController)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
-    
+
     // MARK: - Memory Management Methods
-    
+
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     deinit
     {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
+
     // MARK: - MGLMapViewDelegate Methods
-    
+
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool
     {
         return true
     }
-    
+
     func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?)
     {
         mapView.centerCoordinate = (userLocation!.location?.coordinate)!
     }
-    
+
     func mapViewDidFinishLoadingMap(mapView: MGLMapView)
     {
         if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0
@@ -156,24 +164,158 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             startOfflinePackDownload()
         }
     }
+
+    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage?
+    {
+
+        let annotationTitle = annotation.title!! as String
+        let imageName = "marker"+annotation.title!! as String
+
+        var annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier(annotationTitle)
+
+        if annotationImage == nil {
+            switch annotationTitle {
+            case markerOriginLabelText:
+                annotationImage =  self.getMarkerImage(imageName, annotationTitle: annotationTitle)
+            case markerDestinationLabelText:
+                annotationImage =  self.getMarkerImage(imageName, annotationTitle: annotationTitle)
+            case MyBusTitle.StopOriginTitle.rawValue:
+                annotationImage =  self.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
+            case MyBusTitle.StopDestinationTitle.rawValue:
+                annotationImage =  self.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
+            default:
+                break
+            }
+        }
+        return annotationImage
+    }
+
+    func getMarkerImage(imageResourceIdentifier : String, annotationTitle : String) -> MGLAnnotationImage {
+        var image = UIImage(named: imageResourceIdentifier)!
+        image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+        return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
+    }
+
+    // MARK: - MapBusRoadDelegate Methods
+
+    func newBusRoad(mapBusRoad : MapBusRoad)
+    {
+        for currentMapAnnotation in self.mapView.annotations!
+        {
+            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
+            {
+                self.mapView.removeAnnotation(currentMapAnnotation)
+            }
+        }
+
+        for marker in mapBusRoad.roadStopsMarkerList
+        {
+            self.mapView.addAnnotation(marker)
+        }
+        for polyline in mapBusRoad.busRoutePolylineList
+        {
+            self.mapView.addAnnotation(polyline)
+        }
+    }
+    
+    func isAnnotationPartOfMyBusResult(annotation : MGLAnnotation) -> Bool {
+        let annotationTitle = annotation.title!! as String
+        
+        if (annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopDestinationTitle.rawValue)
+        {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    func newOrigin(origin : CLLocationCoordinate2D)
+    {
+        if let annotations = self.mapView.annotations {
+            self.mapView.removeAnnotations(annotations)
+        }
+
+        self.origin = origin
+        // Declare the marker point and set its coordinates
+        let mapPoint = MGLPointAnnotation()
+        mapPoint.coordinate = origin
+        mapPoint.title = markerOriginLabelText
+
+        self.mapView.addAnnotation(mapPoint)
+        self.mapView.setCenterCoordinate(origin, animated: true)
+    }
+
+    func newDestination(destination : CLLocationCoordinate2D)
+    {
+        self.destination = destination
+        // Declare the marker point and set its coordinates
+        let mapPoint = MGLPointAnnotation()
+        mapPoint.coordinate = destination
+        mapPoint.title = markerDestinationLabelText
+
+        let bounds = getSearchResultsMapsBounds()
+
+        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        
+        self.mapView.addAnnotation(mapPoint)
+
+    }
+
+    
+    /**
+     What are we doing in this method?
+        
+     Having origin and destination coordinate, we have to define an area (aka bounds) where user can see all markers in map
+     
+     First of all we define which position is more at south & north, and we create a padding of 800 mts for each one.
+     Finally we create new coordinate with padding included and build bounds with each corners
+    */
+    func getSearchResultsMapsBounds() -> MGLCoordinateBounds
+    {
+        var south, north : CLLocationCoordinate2D
+        let latitudinalMeters : CLLocationDistance = 800
+        let longitudinalMeters : CLLocationDistance = -800
+        
+        if self.destination?.latitude < self.origin?.latitude
+        {
+            south = self.destination!
+            north = self.origin!
+        } else {
+            south = self.origin!
+            north = self.destination!
+        }
+        
+        // We move future Northcorner of bounds further north and more to west
+        let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, longitudinalMeters)
+        // We move future Southcorner of bounds further south and more to east
+        let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, latitudinalMeters)
+        
+        let northeastCorner = CLLocationCoordinate2D(latitude: north.latitude + northeastCornerPadding.span.latitudeDelta, longitude: north.longitude + northeastCornerPadding.span.longitudeDelta)
+        let southwestCorner = CLLocationCoordinate2D(latitude: south.latitude + southwestCornerPadding.span.latitudeDelta, longitude: south.longitude + southwestCornerPadding.span.longitudeDelta)
+        
+        let markerResultsBounds = MGLCoordinateBounds(sw: southwestCorner, ne: northeastCorner)
+        return markerResultsBounds
+    }
     
     // MARK: - UIPopoverPresentationControllerDelegate Methods
-    
+
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
     {
         return .None
     }
-    
+
     func prepareForPopoverPresentation(popoverPresentationController: UIPopoverPresentationController)
     {
         print("prepare for presentation")
     }
-    
+
     func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController)
     {
         print("did dismiss")
     }
-    
+
     func popoverPresentationControllerShouldDismissPopover(popoverPresentationController: UIPopoverPresentationController) -> Bool
     {
         print("should dismiss")
@@ -181,17 +323,17 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     }
 
     // MARK: - Button Handlers
-    
+
     func plusButtonTap(sender: UITapGestureRecognizer)
     {
         mapView.setZoomLevel(mapView.zoomLevel+1, animated: true)
     }
-    
+
     func minusButtonTap(sender: UITapGestureRecognizer)
     {
         mapView.setZoomLevel(mapView.zoomLevel-1, animated: true)
     }
-    
+
     func compassButtonTap(sender: UITapGestureRecognizer)
     {
         if let userLocation = mapView.userLocation
@@ -199,15 +341,15 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             mapView.setCenterCoordinate(userLocation.coordinate, animated: true)
         }
     }
-    
+
     // MARK: - Pack Download
-    
+
     func startOfflinePackDownload()
     {
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: minZoomLevel, toZoomLevel: maxZoomLevel)
         let userInfo = ["name": "OfflineMap"]
         let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
-        
+
         MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context)
         { (pack, error) in
             guard error == nil else
@@ -215,13 +357,13 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
                 print("Error: \(error?.localizedFailureReason)")
                 return
             }
-            
+
             pack!.resume()
         }
     }
-    
+
     // MARK: - MGLOfflinePack Notification Handlers
-    
+
     func offlinePackProgressDidChange(notification: NSNotification)
     {
         if let pack = notification.object as? MGLOfflinePack,
@@ -231,7 +373,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             let completedResources = progress.countOfResourcesCompleted
             let expectedResources = progress.countOfResourcesExpected
             let progressPercentage = Float(completedResources) / Float(expectedResources)
-            
+
             if completedResources == expectedResources
             {
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
@@ -243,7 +385,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             }
         }
     }
-    
+
     func offlinePackDidReceiveError(notification: NSNotification)
     {
         if let pack = notification.object as? MGLOfflinePack,
@@ -253,7 +395,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
         }
     }
-    
+
     func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification)
     {
         if let pack = notification.object as? MGLOfflinePack,
