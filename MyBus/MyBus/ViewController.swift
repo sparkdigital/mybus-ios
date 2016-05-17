@@ -208,11 +208,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             }
         }
 
-        for marker in mapBusRoad.markerList
+        for marker in mapBusRoad.roadStopsMarkerList
         {
             self.mapView.addAnnotation(marker)
         }
-        for polyline in mapBusRoad.polyLineList
+        for polyline in mapBusRoad.busRoutePolylineList
         {
             self.mapView.addAnnotation(polyline)
         }
