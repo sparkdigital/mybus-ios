@@ -25,5 +25,5 @@ class BusRoute : NSObject {
     var destinationBusStopStreetName : String? = " "
     var destinationBusStopStreetNumber : Int? = 0
     var destinationBusStopDistanceToDestination : Double? = 0.0
-    
+
 }
