@@ -10,6 +10,8 @@ import UIKit
 import Mapbox
 import RealmSwift
 import MapKit
+import MapboxDirections
+import Polyline
 
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
 {
@@ -196,6 +198,28 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
 
+    func mapView(mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
+        // Set the alpha for all shape annotations to 1 (full opacity)
+        return 1
+    }
+
+    func mapView(mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat {
+        // Set the line width for polyline annotations
+        return 2.0
+    }
+
+    func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
+        // Give our polyline a unique color by checking for its `title` property
+        if (annotation.title == "Caminando" && annotation is MGLPolyline) {
+            // Mapbox cyan
+            return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
+        }
+        else
+        {
+            return UIColor.grayColor()
+        }
+    }
+
     // MARK: - MapBusRoadDelegate Methods
 
     func newBusRoad(mapBusRoad : MapBusRoad)
@@ -208,8 +232,30 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             }
         }
 
-        for marker in mapBusRoad.roadStopsMarkerList
+        for (index, marker) in mapBusRoad.roadStopsMarkerList.enumerate()
         {
+            /**
+             Resolve walking directions from user origin to first bus stop
+             */
+            
+            switch index
+            {
+            case 0:
+                resolveAndAddWalkingPath(self.origin!, destinationCoordinate: marker.coordinate)
+            case 1:
+                let isCombinatedRoad = mapBusRoad.roadStopsMarkerList.count > 2
+                if isCombinatedRoad {
+                    let nextBustStop = mapBusRoad.roadStopsMarkerList[2].coordinate
+                    resolveAndAddWalkingPath(marker.coordinate, destinationCoordinate: nextBustStop)
+                } else {
+                    resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
+                }
+            case 3:
+                resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
+            default:
+                break
+            }
+
             self.mapView.addAnnotation(marker)
         }
         for polyline in mapBusRoad.busRoutePolylineList
@@ -217,10 +263,39 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             self.mapView.addAnnotation(polyline)
         }
     }
-    
+
+    func resolveAndAddWalkingPath(sourceCoordinate : CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void {
+        Connectivity.sharedInstance.getWalkingDirections(sourceCoordinate, destinationCoordinate: destinationCoordinate)
+        {
+            response, error in
+            print(error)
+            if let route = response?.routes.first
+            {
+                let polyline = self.createWalkingPathPolyline(route)
+                self.mapView.addAnnotation(polyline)
+            }
+            
+        }
+    }
+
+    func createWalkingPathPolyline(route : MBRoute) -> MGLPolyline {
+        var coordinates: [CLLocationCoordinate2D] = []
+        print(route.distance)
+        for stepCoordinate in route.geometry
+        {
+            let coordinate = CLLocationCoordinate2DMake(Double(stepCoordinate.latitude), Double(stepCoordinate.longitude))
+            coordinates.append(coordinate)
+        }
+        
+        let walkingPathPolyline = MGLPolyline(coordinates: &coordinates, count: UInt(coordinates.count))
+        walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
+        return walkingPathPolyline
+    }
+
+
     func isAnnotationPartOfMyBusResult(annotation : MGLAnnotation) -> Bool {
         let annotationTitle = annotation.title!! as String
-        
+
         if (annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
             annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
             annotationTitle == MyBusTitle.StopDestinationTitle.rawValue)
@@ -258,17 +333,17 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let bounds = getSearchResultsMapsBounds()
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
-        
+
         self.mapView.addAnnotation(mapPoint)
 
     }
 
-    
+
     /**
      What are we doing in this method?
-        
+
      Having origin and destination coordinate, we have to define an area (aka bounds) where user can see all markers in map
-     
+
      First of all we define which position is more at south & north, and we create a padding of 800 mts for each one.
      Finally we create new coordinate with padding included and build bounds with each corners
     */
@@ -277,7 +352,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         var south, north : CLLocationCoordinate2D
         let latitudinalMeters : CLLocationDistance = 800
         let longitudinalMeters : CLLocationDistance = -800
-        
+
         if self.destination?.latitude < self.origin?.latitude
         {
             south = self.destination!
@@ -286,19 +361,19 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             south = self.origin!
             north = self.destination!
         }
-        
+
         // We move future Northcorner of bounds further north and more to west
         let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, longitudinalMeters)
         // We move future Southcorner of bounds further south and more to east
         let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, latitudinalMeters)
-        
+
         let northeastCorner = CLLocationCoordinate2D(latitude: north.latitude + northeastCornerPadding.span.latitudeDelta, longitude: north.longitude + northeastCornerPadding.span.longitudeDelta)
         let southwestCorner = CLLocationCoordinate2D(latitude: south.latitude + southwestCornerPadding.span.latitudeDelta, longitude: south.longitude + southwestCornerPadding.span.longitudeDelta)
-        
+
         let markerResultsBounds = MGLCoordinateBounds(sw: southwestCorner, ne: northeastCorner)
         return markerResultsBounds
     }
-    
+
     // MARK: - UIPopoverPresentationControllerDelegate Methods
 
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle

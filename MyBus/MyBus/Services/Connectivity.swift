@@ -8,8 +8,12 @@
 
 import Alamofire
 import SwiftyJSON
+import MapboxDirections
+import Mapbox
 
 private let _sharedInstance = Connectivity()
+
+private let mapboxAccessToken = "pk.eyJ1Ijoibm9zb3VsODgiLCJhIjoiY2lteGt2dHhsMDNrNXZxbHU0M29mcHZnZiJ9.MMbmK9GfcdhpDw2siu0wuA"
 
 private let municipalityAccessToken = "rwef3253465htrt546dcasadg4343"
 
@@ -176,6 +180,20 @@ public class Connectivity: NSObject
             case .Failure(let error):
                 completionHandler(nil, error)
             }
+        }
+
+    }
+    
+    func getWalkingDirections(sourceCoordinate : CLLocationCoordinate2D, destinationCoordinate : CLLocationCoordinate2D, completionHandler : (MBDirectionsResponse?, NSError?) -> ())
+    {
+        let walkingToDestinationDirectionsRequest = MBDirectionsRequest(sourceCoordinate: sourceCoordinate, destinationCoordinate: destinationCoordinate)
+        walkingToDestinationDirectionsRequest.transportType = .Walking
+        
+        let destinationDirections = MBDirections(request: walkingToDestinationDirectionsRequest, accessToken: mapboxAccessToken)
+        destinationDirections.calculateDirectionsWithCompletionHandler {
+            response, error in
+            print("here")
+            completionHandler(response, error)
         }
 
     }

@@ -71,6 +71,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             switch status
             {
                 case "OK":
+                    let isAddress = originGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
+                    guard isAddress else {
+                        let alert = UIAlertController.init(title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen ingresada", preferredStyle: .Alert)
+                        let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                        alert.addAction(action)
+                        self.presentViewController(alert, animated: true, completion: nil)
+                        break
+                    }
                     let originLocation = originGeocoded!["results"][0]["geometry"]["location"]
                     let latitudeOrigin : Double = Double(originLocation["lat"].stringValue)!
                     let longitudeOrigin : Double = Double(originLocation["lng"].stringValue)!
@@ -82,6 +90,14 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                         switch status
                         {
                             case "OK":
+                                let isAddress = destinationGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
+                                guard isAddress else {
+                                    let alert = UIAlertController.init(title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada", preferredStyle: .Alert)
+                                    let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                                    alert.addAction(action)
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                    break
+                                }
                                 let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
                                 let latitudeDestination : Double = Double(destinationLocation["lat"].stringValue)!
                                 let longitudeDestination : Double = Double(destinationLocation["lng"].stringValue)!
@@ -89,12 +105,18 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
 
                                 self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
                             default:
-                                //TODO Notify user about error
+                                let alert = UIAlertController.init(title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada", preferredStyle: .Alert)
+                                let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                                alert.addAction(action)
+                                self.presentViewController(alert, animated: true, completion: nil)
                                 break
                         }
                     }
                 default:
-                    //TODO Notify user about error
+                    let alert = UIAlertController.init(title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen ingresada", preferredStyle: .Alert)
+                    let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                    alert.addAction(action)
+                    self.presentViewController(alert, animated: true, completion: nil)
                     break
 
             }
