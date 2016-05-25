@@ -124,8 +124,12 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func getBusLines(latitudeOrigin : Double, longitudeOrigin : Double, latDestination : Double, lngDestination : Double) -> Void {
-        Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) { busRouteResults, error in
+        Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination)
+        {
+            busRouteResults, error in
+            // Reset previous streets names or bus lines and road from a previous search
             self.bestMatches = []
+            self.roadResultList = []
             for busRouteResult in busRouteResults! {
                 var 🚌 : String = "🚍"
                 for route in busRouteResult.busRoutes {
