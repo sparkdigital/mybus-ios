@@ -192,7 +192,6 @@ public class Connectivity: NSObject
         let destinationDirections = MBDirections(request: walkingToDestinationDirectionsRequest, accessToken: mapboxAccessToken)
         destinationDirections.calculateDirectionsWithCompletionHandler {
             response, error in
-            print("here")
             completionHandler(response, error)
         }
 
