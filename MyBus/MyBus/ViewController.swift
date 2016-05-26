@@ -10,6 +10,8 @@ import UIKit
 import Mapbox
 import RealmSwift
 import MapKit
+import MapboxDirections
+import Polyline
 
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
 {
@@ -190,6 +192,28 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         return annotationImage
     }
 
+    func mapView(mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
+        // Set the alpha for all shape annotations to 1 (full opacity)
+        return 1
+    }
+
+    func mapView(mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat {
+        // Set the line width for polyline annotations
+        return 2.0
+    }
+
+    func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
+        // Give our polyline a unique color by checking for its `title` property
+        if (annotation.title == "Caminando" && annotation is MGLPolyline) {
+            // Mapbox cyan
+            return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
+        }
+        else
+        {
+            return UIColor.grayColor()
+        }
+    }
+
     func getMarkerImage(imageResourceIdentifier : String, annotationTitle : String) -> MGLAnnotationImage {
         var image = UIImage(named: imageResourceIdentifier)!
         image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
@@ -200,34 +224,43 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     func newBusRoad(mapBusRoad : MapBusRoad)
     {
-        for currentMapAnnotation in self.mapView.annotations!
-        {
-            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
-            {
-                self.mapView.removeAnnotation(currentMapAnnotation)
-            }
-        }
+        removeExistingAnnotationsOfBusRoad()
 
-        for marker in mapBusRoad.roadStopsMarkerList
+        for (index, marker) in mapBusRoad.roadStopsMarkerList.enumerate()
         {
+            /**
+             Resolve walking directions from user origin to first bus stop
+             */
+
+            switch index
+            {
+            case 0:
+                // Walking path from user origin to first bus stop
+                resolveAndAddWalkingPath(self.origin!, destinationCoordinate: marker.coordinate)
+            case 1:
+                // We check if it's a combinated road so we need three walking paths
+                let isCombinatedRoad = mapBusRoad.roadStopsMarkerList.count > 2
+                if isCombinatedRoad {
+                    // Walking path from first bus descent stop to second bus stop
+                    let nextBustStop = mapBusRoad.roadStopsMarkerList[2].coordinate
+                    resolveAndAddWalkingPath(marker.coordinate, destinationCoordinate: nextBustStop)
+                } else {
+                    // Walking path from descent bus stop to destination
+                    resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
+                }
+            case 3:
+                // Walking path from descent bus stop to destination
+                resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
+            default:
+                break
+            }
+
             self.mapView.addAnnotation(marker)
         }
+        
         for polyline in mapBusRoad.busRoutePolylineList
         {
             self.mapView.addAnnotation(polyline)
-        }
-    }
-    
-    func isAnnotationPartOfMyBusResult(annotation : MGLAnnotation) -> Bool {
-        let annotationTitle = annotation.title!! as String
-        
-        if (annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
-            annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
-            annotationTitle == MyBusTitle.StopDestinationTitle.rawValue)
-        {
-            return true
-        } else {
-            return false
         }
     }
 
@@ -255,28 +288,30 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         mapPoint.coordinate = destination
         mapPoint.title = markerDestinationLabelText
 
-        let bounds = getSearchResultsMapsBounds()
+        let bounds = getOriginAndDestinationInMapsBounds()
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
-        
+
         self.mapView.addAnnotation(mapPoint)
 
     }
 
-    
+    // MARK: - Map bus road annotations utils Methods
     /**
      What are we doing in this method?
-        
+
      Having origin and destination coordinate, we have to define an area (aka bounds) where user can see all markers in map
-     
+
      First of all we define which position is more at south & north, and we create a padding of 800 mts for each one.
+     Then we have to know if south or north is more at east to define for each one a longitude padding
      Finally we create new coordinate with padding included and build bounds with each corners
-    */
-    func getSearchResultsMapsBounds() -> MGLCoordinateBounds
+     */
+    func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds
     {
         var south, north : CLLocationCoordinate2D
         let latitudinalMeters : CLLocationDistance = 800
         let longitudinalMeters : CLLocationDistance = -800
+        let southLongitudinal, northLongitudinal : CLLocationDistance
         
         if self.destination?.latitude < self.origin?.latitude
         {
@@ -287,18 +322,75 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             north = self.destination!
         }
         
+        if south.longitude < north.longitude
+        {
+            southLongitudinal = -800
+            northLongitudinal = 800
+        } else {
+            southLongitudinal = 800
+            northLongitudinal = -800
+        }
+
         // We move future Northcorner of bounds further north and more to west
-        let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, longitudinalMeters)
+        let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, northLongitudinal)
         // We move future Southcorner of bounds further south and more to east
-        let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, latitudinalMeters)
-        
+        let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, southLongitudinal)
+
         let northeastCorner = CLLocationCoordinate2D(latitude: north.latitude + northeastCornerPadding.span.latitudeDelta, longitude: north.longitude + northeastCornerPadding.span.longitudeDelta)
         let southwestCorner = CLLocationCoordinate2D(latitude: south.latitude + southwestCornerPadding.span.latitudeDelta, longitude: south.longitude + southwestCornerPadding.span.longitudeDelta)
-        
+
         let markerResultsBounds = MGLCoordinateBounds(sw: southwestCorner, ne: northeastCorner)
         return markerResultsBounds
     }
-    
+
+    func resolveAndAddWalkingPath(sourceCoordinate : CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void
+    {
+        Connectivity.sharedInstance.getWalkingDirections(sourceCoordinate, destinationCoordinate: destinationCoordinate)
+        {
+            response, error in
+            print(error)
+            if let route = response?.routes.first
+            {
+                let polyline = self.createWalkingPathPolyline(route)
+                self.mapView.addAnnotation(polyline)
+            }
+
+        }
+    }
+
+    func createWalkingPathPolyline(route : MBRoute) -> MGLPolyline
+    {
+        var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
+        let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
+        walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
+        return walkingPathPolyline
+    }
+
+
+    func removeExistingAnnotationsOfBusRoad() -> Void {
+        for currentMapAnnotation in self.mapView.annotations!
+        {
+            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
+            {
+                self.mapView.removeAnnotation(currentMapAnnotation)
+            }
+        }
+    }
+
+    func isAnnotationPartOfMyBusResult(annotation : MGLAnnotation) -> Bool {
+        let annotationTitle = annotation.title!! as String
+
+        if (annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopDestinationTitle.rawValue ||
+            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue)
+        {
+            return true
+        } else {
+            return false
+        }
+    }
+
     // MARK: - UIPopoverPresentationControllerDelegate Methods
 
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
