@@ -42,7 +42,7 @@ private let combinedResultRoadEndpointURL = "\(myBusBaseURL)CombinedRoadApi.php?
 private let rechargeCardPointsEndpointURL = "\(myBusBaseURL)RechargeCardPointApi.php?"
 
 
-public class Connectivity: NSObject
+public class Connectivity: NSObject, MyBusServiceDelegate
 {
     // MARK: - Instantiation
     public class var sharedInstance: Connectivity
