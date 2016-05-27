@@ -20,46 +20,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HHz-A5-EQO" customClass="MGLMapView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uze-Zd-Ut1">
-                                        <rect key="frame" x="552" y="98" width="40" height="40"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="minus" translatesAutoresizingMaskIntoConstraints="NO" id="IO1-ge-GDI">
-                                                <rect key="frame" x="8" y="8" width="24" height="24"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="24" id="TPU-jn-mnG"/>
-                                                    <constraint firstAttribute="height" constant="24" id="x4K-um-rqs"/>
-                                                </constraints>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="7Tw-Gh-bF1"/>
-                                            <constraint firstAttribute="height" constant="40" id="8FV-Pl-174"/>
-                                            <constraint firstItem="IO1-ge-GDI" firstAttribute="top" secondItem="uze-Zd-Ut1" secondAttribute="top" constant="8" id="Bck-gE-j4m"/>
-                                            <constraint firstAttribute="trailing" secondItem="IO1-ge-GDI" secondAttribute="trailing" constant="8" id="yil-dO-hvJ"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4O6-lf-IvF">
-                                        <rect key="frame" x="552" y="50" width="40" height="40"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" translatesAutoresizingMaskIntoConstraints="NO" id="zxw-Em-ep4">
-                                                <rect key="frame" x="8" y="8" width="24" height="24"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="24" id="7CJ-Ad-WUl"/>
-                                                    <constraint firstAttribute="width" constant="24" id="Gq3-dV-rkY"/>
-                                                </constraints>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="zxw-Em-ep4" firstAttribute="top" secondItem="4O6-lf-IvF" secondAttribute="top" constant="8" id="8tn-qn-uw6"/>
-                                            <constraint firstAttribute="height" constant="40" id="H8J-bE-hb9"/>
-                                            <constraint firstAttribute="trailing" secondItem="zxw-Em-ep4" secondAttribute="trailing" constant="8" id="MVP-1x-ko3"/>
-                                            <constraint firstAttribute="width" constant="40" id="XrK-oj-VGr"/>
-                                        </constraints>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPk-NU-HBA">
-                                        <rect key="frame" x="552" y="146" width="40" height="40"/>
+                                        <rect key="frame" x="552" y="50" width="40" height="40"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="center" translatesAutoresizingMaskIntoConstraints="NO" id="Xm1-eh-tNh">
                                                 <rect key="frame" x="8" y="8" width="24" height="24"/>
@@ -80,12 +42,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="4O6-lf-IvF" firstAttribute="top" secondItem="HHz-A5-EQO" secondAttribute="top" constant="50" id="B2N-yk-QBU"/>
                                     <constraint firstAttribute="trailing" secondItem="dPk-NU-HBA" secondAttribute="trailing" constant="8" id="Ecl-fT-ept"/>
-                                    <constraint firstAttribute="trailing" secondItem="4O6-lf-IvF" secondAttribute="trailing" constant="8" id="H8K-T4-dV2"/>
-                                    <constraint firstItem="dPk-NU-HBA" firstAttribute="top" secondItem="uze-Zd-Ut1" secondAttribute="bottom" constant="8" id="N2L-Zo-zE1"/>
-                                    <constraint firstAttribute="trailing" secondItem="uze-Zd-Ut1" secondAttribute="trailing" constant="8" id="fQu-bL-0aJ"/>
-                                    <constraint firstItem="uze-Zd-Ut1" firstAttribute="top" secondItem="4O6-lf-IvF" secondAttribute="bottom" constant="8" id="rgb-YP-weo"/>
+                                    <constraint firstItem="dPk-NU-HBA" firstAttribute="top" secondItem="HHz-A5-EQO" secondAttribute="top" constant="50" id="ehs-Rj-hAu"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="latitude">
@@ -98,7 +56,8 @@
                                         <real key="value" value="-57.557540000000003"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="string" keyPath="styleURL__" value="mapbox://styles/mapbox/streets-v9"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showsUserLocation" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showsUserLocation" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="allowsRotating" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7lU-AH-Jfc">
@@ -130,8 +89,6 @@
                     <connections>
                         <outlet property="compassButtonView" destination="dPk-NU-HBA" id="9Pd-wd-JVb"/>
                         <outlet property="mapView" destination="HHz-A5-EQO" id="duV-i3-dnI"/>
-                        <outlet property="minusButtonView" destination="uze-Zd-Ut1" id="WXD-Dn-Rkb"/>
-                        <outlet property="plusButtonView" destination="4O6-lf-IvF" id="soL-YU-0wV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -300,8 +257,6 @@
     <resources>
         <image name="center" width="100" height="100"/>
         <image name="favorite" width="64" height="64"/>
-        <image name="minus" width="100" height="100"/>
-        <image name="plus" width="100" height="100"/>
         <image name="search" width="64" height="64"/>
         <image name="swap" width="64" height="64"/>
     </resources>

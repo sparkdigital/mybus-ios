@@ -16,8 +16,6 @@ import Polyline
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
 {
 
-    @IBOutlet var plusButtonView: UIView!
-    @IBOutlet var minusButtonView: UIView!
     @IBOutlet var compassButtonView: UIView!
 
     @IBOutlet var mapView : MGLMapView!
@@ -35,17 +33,6 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        plusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
-        plusButtonView.layer.cornerRadius = 20
-        let plusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.plusButtonTap(_:)))
-        plusButtonView.userInteractionEnabled = true
-        plusButtonView.addGestureRecognizer(plusButtonTap)
-
-        minusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
-        minusButtonView.layer.cornerRadius = 20
-        let minusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.minusButtonTap(_:)))
-        minusButtonView.userInteractionEnabled = true
-        minusButtonView.addGestureRecognizer(minusButtonTap)
 
         compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
         compassButtonView.layer.cornerRadius = 20
@@ -69,7 +56,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         mapView.addGestureRecognizer(doubleTap)
 
         // Delay single tap recognition until it is clearly not a double
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
+        let singleTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
         singleTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleTap)
     }
@@ -83,10 +70,15 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
         // Remove first marker tapped from the map, add marker with coordinates
         // Prevent having more than two points selected in map
+        
+        /*
+         The idea is change this behaivour, if user tap a location the idea is asking him in callout what they want to do with this point (use as origin, destination, waypoint)
+         
         if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 )
         {
             mapView.removeAnnotation(mapView.annotations![0])
         }
+        */
 
         Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
             let address = "\(responseObject!["calle"] as! String) \(responseObject!["altura"] as! String)"
@@ -213,7 +205,15 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             return UIColor.grayColor()
         }
     }
-
+    
+    func mapViewRegionIsChanging(mapView: MGLMapView) {
+        mapView.showsUserLocation = false
+    }
+    
+    func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
+        print("error locating user")
+    }
+    
     func getMarkerImage(imageResourceIdentifier : String, annotationTitle : String) -> MGLAnnotationImage {
         var image = UIImage(named: imageResourceIdentifier)!
         image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
@@ -416,22 +416,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     // MARK: - Button Handlers
 
-    func plusButtonTap(sender: UITapGestureRecognizer)
-    {
-        mapView.setZoomLevel(mapView.zoomLevel+1, animated: true)
-    }
-
-    func minusButtonTap(sender: UITapGestureRecognizer)
-    {
-        mapView.setZoomLevel(mapView.zoomLevel-1, animated: true)
-    }
-
     func compassButtonTap(sender: UITapGestureRecognizer)
     {
-        if let userLocation = mapView.userLocation
-        {
-            mapView.setCenterCoordinate(userLocation.coordinate, animated: true)
-        }
+        mapView.showsUserLocation = true
+        mapView.setZoomLevel(16, animated: false)
     }
 
     // MARK: - Pack Download
