@@ -15,8 +15,8 @@ public enum MyBusRouteResultType {
 }
 
 protocol MyBusServiceDelegate {
-    func searchRoutes(latitudeOrigin : Double, longitudeOrigin : Double, latitudeDestination : Double, longitudeDestination : Double, completionHandler : ([BusRouteResult]?, NSError?) -> ())
-    func searchRoads(roadType : MyBusRouteResultType, roadSearch : RoadSearch, completionHandler : (RoadResult?, NSError?) -> ())
+    func searchRoutes(latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: ([BusRouteResult]?, NSError?) -> ())
+    func searchRoads(roadType: MyBusRouteResultType, roadSearch: RoadSearch, completionHandler: (RoadResult?, NSError?) -> ())
 }
 
 private let myBusAccessToken = "94a08da1fecbb6e8b46990538c7b50b2"
@@ -46,7 +46,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 let json = JSON(value)
                 let type = json["Type"].intValue
                 let results = json["Results"]
-                let busResults : [BusRouteResult]
+                let busResults: [BusRouteResult]
 
                 busResults = BusRouteResult.parseResults(results, type: type)
 
