@@ -62,7 +62,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     {
         let originTextFieldValue = originTextfield.text!
         let destinationTextFieldValue = destinationTextfield.text!
-
+        self.view.endEditing(true)
+        
         //TODO : Extract some pieces of code to clean and do async parallel
         Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
             originGeocoded, error in
