@@ -11,8 +11,8 @@ import SwiftyJSON
 
 class Street: NSObject {
 
-    var code : String
-    var name : String
+    var code: String
+    var name: String
 
     init(json: JSON){
         self.code = json["codigo"].stringValue
