@@ -27,6 +27,9 @@
 		A03514E91CCEF38C009443AF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03514E71CCEF38C009443AF /* Route.swift */; };
 		A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03514E81CCEF38C009443AF /* RoutePoint.swift */; };
 		A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D0E1CFA13B600246534 /* RoadSearch.swift */; };
+		A0926D111CFA44EE00246534 /* MapBoxDirectionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */; };
+		A0926D131CFA44FE00246534 /* GisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D121CFA44FE00246534 /* GisService.swift */; };
+		A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D161CFA540F00246534 /* GeoCodingService.swift */; };
 		A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */; };
 		A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */; };
 		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
@@ -69,6 +72,9 @@
 		A03514E71CCEF38C009443AF /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Model/Road/Route.swift; sourceTree = "<group>"; };
 		A03514E81CCEF38C009443AF /* RoutePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoutePoint.swift; path = Model/Road/RoutePoint.swift; sourceTree = "<group>"; };
 		A0926D0E1CFA13B600246534 /* RoadSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadSearch.swift; path = Model/Road/RoadSearch.swift; sourceTree = "<group>"; };
+		A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBoxDirectionsService.swift; path = Services/MapBoxDirectionsService.swift; sourceTree = "<group>"; };
+		A0926D121CFA44FE00246534 /* GisService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GisService.swift; path = Services/GisService.swift; sourceTree = "<group>"; };
+		A0926D161CFA540F00246534 /* GeoCodingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingService.swift; path = Services/GeoCodingService.swift; sourceTree = "<group>"; };
 		A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResult.swift; path = Model/BusRouteResult.swift; sourceTree = "<group>"; };
 		A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRoute.swift; path = Model/BusRoute.swift; sourceTree = "<group>"; };
 		A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResult.swift; path = Model/Road/RoadResult.swift; sourceTree = "<group>"; };
@@ -162,6 +168,9 @@
 			children = (
 				087E76EF1CBEA5D800FB6050 /* Connectivity.swift */,
 				A00AD4531CF7C0530088F592 /* MyBusService.swift */,
+				A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */,
+				A0926D121CFA44FE00246534 /* GisService.swift */,
+				A0926D161CFA540F00246534 /* GeoCodingService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -401,6 +410,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
+				A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */,
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
 				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
@@ -418,6 +428,8 @@
 				08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */,
 				11DAE9021CC534D400A35D6A /* User.swift in Sources */,
 				A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */,
+				A0926D131CFA44FE00246534 /* GisService.swift in Sources */,
+				A0926D111CFA44EE00246534 /* MapBoxDirectionsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
