@@ -59,4 +59,8 @@ class RoadResult: NSObject {
         }
         return pointsInRoute
     }
+
+    func busRouteResultType() -> MyBusRouteResultType {
+        return self.roadResultType == 0 ? .Single : .Combined
+    }
 }

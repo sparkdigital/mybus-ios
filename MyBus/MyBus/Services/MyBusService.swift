@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import SwiftyJSON
 
 public enum MyBusRouteResultType {
@@ -32,28 +31,25 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
     private let rechargeCardPointsEndpointURL = "\(myBusBaseURL)RechargeCardPointApi.php?"
 
+    private let baseNetworkService = BaseNetworkService()
+
     func searchRoutes(latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: ([BusRouteResult]?, NSError?) -> ()) {
 
         let availableBusLinesFromOriginDestinationURLString = "\(availableBusLinesFromOriginDestinationEndpointURL)lat0=\(latitudeOrigin)&lng0=\(longitudeOrigin)&lat1=\(latitudeDestination)&lng1=\(longitudeDestination)&tk=\(myBusAccessToken)"
 
-        let request = NSMutableURLRequest(URL: NSURL(string: availableBusLinesFromOriginDestinationURLString)!)
-
-        request.HTTPMethod = "GET"
-
-        Alamofire.request(request).responseJSON { response in
-            switch response.result {
-            case .Success(let value):
-                let json = JSON(value)
-                let type = json["Type"].intValue
-                let results = json["Results"]
-                let busResults: [BusRouteResult]
-
-                busResults = BusRouteResult.parseResults(results, type: type)
-
-                completionHandler(busResults, nil)
-            case .Failure(let error):
-                completionHandler(nil, error)
+        baseNetworkService.performRequest(availableBusLinesFromOriginDestinationURLString)
+        {
+            json, error in
+            guard json != nil else {
+                return completionHandler(nil, error)
             }
+
+            let type = json!["Type"].intValue
+            let results = json!["Results"]
+            let busResults: [BusRouteResult]
+
+            busResults = BusRouteResult.parseResults(results, type: type)
+            completionHandler(busResults, nil)
         }
     }
 
@@ -71,40 +67,28 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
         let beginStopSecondLine = roadSearch.beginStopSecondLine
         let endStopSecondLine = roadSearch.endStopSecondLine
 
+        let resultRoadURLString: String
+
         switch roadType {
         case .Single:
             let singleResultRoadURLString = "\(singleResultRoadEndpointURL)idline=\(idFirstLine)&direction=\(firstDirection)&stop1=\(beginStopFirstLine)&stop2=\(endStopFirstLine)&tk=\(myBusAccessToken)"
-
-            let request = NSMutableURLRequest(URL: NSURL(string: singleResultRoadURLString)!)
-            request.HTTPMethod = "GET"
-
-            Alamofire.request(request).responseJSON { response in
-                switch response.result {
-                case .Success(let value):
-                    let json = JSON(value)
-                    let singleRoadResult = RoadResult.parse(json)
-                    completionHandler(singleRoadResult, nil)
-                case .Failure(let error):
-                    completionHandler(nil, error)
-                }
-            }
+            resultRoadURLString = singleResultRoadURLString
         case .Combined:
             let combinedResultRoadURLString = "\(combinedResultRoadEndpointURL)idline1=\(idFirstLine)&idline2=\(idSecondLine)&direction1=\(firstDirection)&direction2=\(secondDirection)&L1stop1=\(beginStopFirstLine)&L1stop2=\(endStopFirstLine)&L2stop1=\(beginStopSecondLine)&L2stop2=\(endStopSecondLine)&tk=\(myBusAccessToken)"
-            print(combinedResultRoadURLString)
-            let request = NSMutableURLRequest(URL: NSURL(string: combinedResultRoadURLString)!)
-            request.HTTPMethod = "GET"
+            resultRoadURLString = combinedResultRoadURLString
+        }
 
-            Alamofire.request(request).responseJSON { response in
-                switch response.result {
-                case .Success(let value):
-                    let json = JSON(value)
-                    let combinedRoadResult = RoadResult.parse(json)
-                    completionHandler(combinedRoadResult, nil)
-                case .Failure(let error):
-                    completionHandler(nil, error)
-                }
+        baseNetworkService.performRequest(resultRoadURLString)
+        {
+            response, error in
+            if let json = response {
+                completionHandler(RoadResult.parse(json), nil)
+            } else {
+                completionHandler(nil, error)
             }
         }
+
+
     }
 
 }

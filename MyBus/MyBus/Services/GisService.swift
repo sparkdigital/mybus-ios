@@ -8,11 +8,10 @@
 
 import Foundation
 import SwiftyJSON
-import Alamofire
 
 protocol GisServiceDelegate {
     func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
-    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (NSDictionary?, NSError?) -> ())
+    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
 }
 
 
@@ -32,42 +31,29 @@ public class GisService: NSObject, GisServiceDelegate {
         let escapedStreet = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
         let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
 
-        let request = NSMutableURLRequest(URL: NSURL(string: streetNameURLString)!)
-        request.HTTPMethod = "GET"
-
-        Alamofire.request(request).responseJSON { response in
-            switch response.result {
-            case .Success(let value):
+        BaseNetworkService().performRequest(streetNameURLString)
+        {
+            response, error in
+            if let json = response {
                 var streetsNames: [Street] = [Street]()
-                let json = JSON(value)
                 if let streets = json.array {
                     for street in streets {
                         streetsNames.append(Street(json: street))
                     }
                 }
                 completionHandler(streetsNames, nil)
-            case .Failure(let error):
-                print("\nError: \(error)")
+            } else {
+                print("\nError: \(error!.localizedDescription)")
                 completionHandler(nil, error)
             }
         }
     }
 
-    public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (NSDictionary?, NSError?) -> ())
+    public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
         let addressFromCoordinateURLString = "\(coordinateToAddressEndpointURL)&latitud=\(latitude)&longitud=\(longitude)"
 
-        let request = NSMutableURLRequest(URL: NSURL(string: addressFromCoordinateURLString)!)
-        request.HTTPMethod = "GET"
-
-        Alamofire.request(request).responseJSON { response in
-            switch response.result {
-            case .Success(let value):
-                completionHandler(value as? NSDictionary, nil)
-            case .Failure(let error):
-                completionHandler(nil, error)
-            }
-        }
+        BaseNetworkService().performRequest(addressFromCoordinateURLString, completionHandler: completionHandler)
     }
 }

@@ -35,7 +35,7 @@ public class Connectivity: NSObject
         mgpGisService.getStreetNames(forName: address, completionHandler: completionHandler)
     }
 
-    public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (NSDictionary?, NSError?) -> ())
+    public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
     {
         mgpGisService.getAddressFromCoordinate(latitude, longitude : longitude, completionHandler : completionHandler)
     }

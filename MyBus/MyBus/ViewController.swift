@@ -81,7 +81,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         */
 
         Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
-            let address = "\(responseObject!["calle"] as! String) \(responseObject!["altura"] as! String)"
+            let address = "\(responseObject!["calle"].stringValue) \(responseObject!["altura"].stringValue)"
 
             // Declare the marker point and set its coordinates
             let mapPoint = MGLPointAnnotation()
@@ -212,7 +212,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     }
 
     func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
-        print("error locating user")
+        print("error locating user: \(error.localizedDescription)")
     }
 
     func getMarkerImage(imageResourceIdentifier: String, annotationTitle: String) -> MGLAnnotationImage {

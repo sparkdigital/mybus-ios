@@ -28,9 +28,7 @@ class MapBusRoad: NSObject {
         busRoutePolylineList.append(firstBusLine)
 
         // If road is combinated, we add second bus route polyline
-        let isCombinatedRoad = roadResult.roadResultType == 1
-
-        if isCombinatedRoad
+        if roadResult.busRouteResultType() == .Combined
         {
             let secondBusRoute = roadResult.routeList[1]
             let secondBusLine = busPolylineBuilder(secondBusRoute)
@@ -39,7 +37,7 @@ class MapBusRoad: NSObject {
     }
 
     func addRoadMarkers(roadResult: RoadResult) -> Void {
-        let busRouteType: MyBusRouteResultType = roadResult.roadResultType == 0 ? MyBusRouteResultType.Single : MyBusRouteResultType.Combined
+        let busRouteType: MyBusRouteResultType = roadResult.busRouteResultType()
 
         if let firstRoute = roadResult.routeList.first, let lastRoute = roadResult.routeList.last {
             switch busRouteType {

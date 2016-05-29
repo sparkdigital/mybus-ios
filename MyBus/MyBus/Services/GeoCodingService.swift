@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import Alamofire
 
 protocol GeoCodingServiceDelegate {
     func getCoordinateFromAddress(streetName: String, completionHandler: (JSON?, NSError?) -> ())
@@ -25,19 +24,7 @@ public class GeoCodingService: NSObject, GeoCodingServiceDelegate {
         let address = "\(streetName), mar del plata"
         var coordinateFromAddressURLString = "\(googleMapsGeocodingBaseURL)&address=\(address)&components=administrative_area:General Pueyrredón&key=\(googleGeocodingApiKey)"
         coordinateFromAddressURLString = coordinateFromAddressURLString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
-        let request = NSMutableURLRequest(URL: NSURL(string: coordinateFromAddressURLString)!)
-        request.HTTPMethod = "GET"
 
-        Alamofire.request(request).responseJSON { response in
-            switch response.result
-            {
-            case .Success(let value):
-                let json = JSON(value)
-                completionHandler(json, nil)
-            case .Failure(let error):
-                print("\nError: \(error)")
-                completionHandler(nil, error)
-            }
-        }
+        BaseNetworkService().performRequest(coordinateFromAddressURLString, completionHandler: completionHandler)
     }
 }
