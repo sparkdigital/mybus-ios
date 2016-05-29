@@ -1,6 +1,7 @@
 whitelist_rules:
   - trailing_whitespace
   - trailing_semicolon
+  - trailing_newline
   - colon
   - comma
   - control_statement
