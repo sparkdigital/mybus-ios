@@ -11,9 +11,9 @@ import Mapbox
 import RealmSwift
 
 protocol MapBusRoadDelegate {
-    func newBusRoad(mapBusRoad : MapBusRoad)
-    func newOrigin(coordinate : CLLocationCoordinate2D)
-    func newDestination(coordinate : CLLocationCoordinate2D)
+    func newBusRoad(mapBusRoad: MapBusRoad)
+    func newOrigin(coordinate: CLLocationCoordinate2D)
+    func newDestination(coordinate: CLLocationCoordinate2D)
 }
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
@@ -23,11 +23,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var originTextfield: UITextField!
     @IBOutlet var destinationTextfield: UITextField!
 
-    var searchViewProtocol : MapBusRoadDelegate?
+    var searchViewProtocol: MapBusRoadDelegate?
 
-    var bestMatches : [String] = []
-    var favourites : List<Location>!
-    var roadResultList : [MapBusRoad] = []
+    var bestMatches: [String] = []
+    var favourites: List<Location>!
+    var roadResultList: [MapBusRoad] = []
 
     @IBOutlet var favoriteOriginButton: UIButton!
     @IBOutlet var favoriteDestinationButton: UIButton!
@@ -62,6 +62,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     {
         let originTextFieldValue = originTextfield.text!
         let destinationTextFieldValue = destinationTextfield.text!
+        self.view.endEditing(true)
 
         //TODO : Extract some pieces of code to clean and do async parallel
         Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
@@ -80,8 +81,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                         break
                     }
                     let originLocation = originGeocoded!["results"][0]["geometry"]["location"]
-                    let latitudeOrigin : Double = Double(originLocation["lat"].stringValue)!
-                    let longitudeOrigin : Double = Double(originLocation["lng"].stringValue)!
+                    let latitudeOrigin: Double = Double(originLocation["lat"].stringValue)!
+                    let longitudeOrigin: Double = Double(originLocation["lng"].stringValue)!
                     self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin))
                     Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
                         destinationGeocoded, error in
@@ -99,8 +100,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                                     break
                                 }
                                 let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
-                                let latitudeDestination : Double = Double(destinationLocation["lat"].stringValue)!
-                                let longitudeDestination : Double = Double(destinationLocation["lng"].stringValue)!
+                                let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
+                                let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
                                 self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination))
 
                                 self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
@@ -123,7 +124,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func getBusLines(latitudeOrigin : Double, longitudeOrigin : Double, latDestination : Double, lngDestination : Double) -> Void {
+    func getBusLines(latitudeOrigin: Double, longitudeOrigin: Double, latDestination: Double, lngDestination: Double) -> Void {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination)
         {
             busRouteResults, error in
@@ -144,22 +145,25 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func getBusRoads(busRouteResults : [BusRouteResult]) -> Void {
+    func getBusRoads(busRouteResults: [BusRouteResult]) -> Void {
         for busRouteResult in busRouteResults {
             let index = busRouteResults.indexOf(busRouteResult)
-            if(busRouteResult.busRouteType == 0) //single road
-            {
-                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, direction: (busRouteResult.busRoutes.first?.busLineDirection)!, stop1: (busRouteResult.busRoutes.first?.startBusStopNumber)!, stop2: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!)
+            let busRouteType: MyBusRouteResultType = busRouteResult.busRouteType == 0 ? MyBusRouteResultType.Single : MyBusRouteResultType.Combined
+
+
+            switch busRouteType {
+            case .Single:
+                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, firstDirection: (busRouteResult.busRoutes.first?.busLineDirection)!, beginStopFirstLine: (busRouteResult.busRoutes.first?.startBusStopNumber)!, endStopFirstLine: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!)
                 {
                     singleRoad, error in
                     let mapBusRoad = MapBusRoad().addBusRoadOnMap(singleRoad!)
                     print("single \(index)")
                     self.roadResultList.append(mapBusRoad)
                 }
-            } else if(busRouteResult.busRouteType == 1) { //combined road
+            case .Combined:
                 let firstBusRoute = busRouteResult.busRoutes.first
                 let secondBusRoute = busRouteResult.busRoutes.last
-                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idLine2: (secondBusRoute?.idBusLine)!, direction1: (firstBusRoute?.busLineDirection)!, direction2: (secondBusRoute?.busLineDirection)!, L1stop1: (firstBusRoute?.startBusStopNumber)!, L1stop2: (firstBusRoute?.destinationBusStopNumber)!, L2stop1: (secondBusRoute?.startBusStopNumber)!, L2stop2: (secondBusRoute?.destinationBusStopNumber)!)
+                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idSecondLine: (secondBusRoute?.idBusLine)!, firstDirection: (firstBusRoute?.busLineDirection)!, secondDirection: (secondBusRoute?.busLineDirection)!, beginStopFirstLine: (firstBusRoute?.startBusStopNumber)!, endStopFirstLine: (firstBusRoute?.destinationBusStopNumber)!, beginStopSecondLine: (secondBusRoute?.startBusStopNumber)!, endStopSecondLine: (secondBusRoute?.destinationBusStopNumber)!)
                 {
                     combinedRoad, error in
                     print("combined \(index)")
@@ -197,12 +201,12 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func buildFavCell(indexPath: NSIndexPath, cell : UITableViewCell) -> UITableViewCell
+    func buildFavCell(indexPath: NSIndexPath, cell: UITableViewCell) -> UITableViewCell
     {
         let fav = favourites[indexPath.row]
-        let cellLabel : String
+        let cellLabel: String
         let address = "\(fav.streetName) \(fav.houseNumber)"
-        if(fav.name.isEmpty){
+        if fav.name.isEmpty {
             cellLabel = address
         } else
         {
@@ -276,7 +280,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     // MARK: - Textfields Methods
 
     func textFieldDidChange(sender: UITextField){
-        if(sender.text?.characters.count > 2)
+        if sender.text?.characters.count > 2
         {
             Connectivity.sharedInstance.getStreetNames(forName: sender.text!) { (streets, error) in
                 if error == nil {
@@ -287,8 +291,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                     self.resultsTableView.reloadData()
                 }
             }
-        } else if (sender.text?.characters.count == 0)
-        {
+        } else if sender.text?.characters.count == 0 {
             self.bestMatches = []
             self.resultsTableView.reloadData()
             self.originTextfield.keyboardType = UIKeyboardType.Alphabet

@@ -16,40 +16,27 @@ import Polyline
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
 {
 
-    @IBOutlet var plusButtonView: UIView!
-    @IBOutlet var minusButtonView: UIView!
     @IBOutlet var compassButtonView: UIView!
 
-    @IBOutlet var mapView : MGLMapView!
-    let minZoomLevel : Double = 9
-    let maxZoomLevel : Double = 18
+    @IBOutlet var mapView: MGLMapView!
+    let minZoomLevel: Double = 9
+    let maxZoomLevel: Double = 18
 
     let markerOriginLabelText = "Origen"
     let markerDestinationLabelText = "Destino"
 
-    var origin : CLLocationCoordinate2D?
-    var destination : CLLocationCoordinate2D?
+    var origin: CLLocationCoordinate2D?
+    var destination: CLLocationCoordinate2D?
 
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        plusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
-        plusButtonView.layer.cornerRadius = 20
-        let plusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.plusButtonTap(_:)))
-        plusButtonView.userInteractionEnabled = true
-        plusButtonView.addGestureRecognizer(plusButtonTap)
-
-        minusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
-        minusButtonView.layer.cornerRadius = 20
-        let minusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.minusButtonTap(_:)))
-        minusButtonView.userInteractionEnabled = true
-        minusButtonView.addGestureRecognizer(minusButtonTap)
 
         compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
         compassButtonView.layer.cornerRadius = 20
-        let compassButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
+        let compassButtonTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
         compassButtonView.userInteractionEnabled = true
         compassButtonView.addGestureRecognizer(compassButtonTap)
 
@@ -69,7 +56,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         mapView.addGestureRecognizer(doubleTap)
 
         // Delay single tap recognition until it is clearly not a double
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
+        let singleTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
         singleTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleTap)
     }
@@ -83,13 +70,18 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
         // Remove first marker tapped from the map, add marker with coordinates
         // Prevent having more than two points selected in map
+
+        /*
+         The idea is change this behaivour, if user tap a location the idea is asking him in callout what they want to do with this point (use as origin, destination, waypoint)
+
         if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 )
         {
             mapView.removeAnnotation(mapView.annotations![0])
         }
+        */
 
         Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
-            let address = "\(responseObject!["calle"] as! String) \(responseObject!["altura"] as! String)"
+            let address = "\(responseObject!["calle"].stringValue) \(responseObject!["altura"].stringValue)"
 
             // Declare the marker point and set its coordinates
             let mapPoint = MGLPointAnnotation()
@@ -108,7 +100,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let searchController: SearchViewController = storyboard.instantiateViewControllerWithIdentifier("SearchViewController") as! SearchViewController
 
         let sourceView = self.view
@@ -204,7 +196,8 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
         // Give our polyline a unique color by checking for its `title` property
-        if (annotation.title == "Caminando" && annotation is MGLPolyline) {
+        let isWalkingPathPolyline = annotation.title == "Caminando" && annotation is MGLPolyline
+        if isWalkingPathPolyline {
             // Mapbox cyan
             return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
         }
@@ -214,7 +207,15 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
 
-    func getMarkerImage(imageResourceIdentifier : String, annotationTitle : String) -> MGLAnnotationImage {
+    func mapViewRegionIsChanging(mapView: MGLMapView) {
+        mapView.showsUserLocation = false
+    }
+
+    func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
+        print("error locating user: \(error.localizedDescription)")
+    }
+
+    func getMarkerImage(imageResourceIdentifier: String, annotationTitle: String) -> MGLAnnotationImage {
         var image = UIImage(named: imageResourceIdentifier)!
         image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
@@ -222,7 +223,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     // MARK: - MapBusRoadDelegate Methods
 
-    func newBusRoad(mapBusRoad : MapBusRoad)
+    func newBusRoad(mapBusRoad: MapBusRoad)
     {
         removeExistingAnnotationsOfBusRoad()
 
@@ -257,14 +258,14 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
             self.mapView.addAnnotation(marker)
         }
-        
+
         for polyline in mapBusRoad.busRoutePolylineList
         {
             self.mapView.addAnnotation(polyline)
         }
     }
 
-    func newOrigin(origin : CLLocationCoordinate2D)
+    func newOrigin(origin: CLLocationCoordinate2D)
     {
         if let annotations = self.mapView.annotations {
             self.mapView.removeAnnotations(annotations)
@@ -280,7 +281,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         self.mapView.setCenterCoordinate(origin, animated: true)
     }
 
-    func newDestination(destination : CLLocationCoordinate2D)
+    func newDestination(destination: CLLocationCoordinate2D)
     {
         self.destination = destination
         // Declare the marker point and set its coordinates
@@ -308,11 +309,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
      */
     func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds
     {
-        var south, north : CLLocationCoordinate2D
-        let latitudinalMeters : CLLocationDistance = 800
-        let longitudinalMeters : CLLocationDistance = -800
-        let southLongitudinal, northLongitudinal : CLLocationDistance
-        
+        var south, north: CLLocationCoordinate2D
+        let latitudinalMeters: CLLocationDistance = 800
+        let longitudinalMeters: CLLocationDistance = -800
+        let southLongitudinal, northLongitudinal: CLLocationDistance
+
         if self.destination?.latitude < self.origin?.latitude
         {
             south = self.destination!
@@ -321,7 +322,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             south = self.origin!
             north = self.destination!
         }
-        
+
         if south.longitude < north.longitude
         {
             southLongitudinal = -800
@@ -343,7 +344,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         return markerResultsBounds
     }
 
-    func resolveAndAddWalkingPath(sourceCoordinate : CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void
+    func resolveAndAddWalkingPath(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void
     {
         Connectivity.sharedInstance.getWalkingDirections(sourceCoordinate, destinationCoordinate: destinationCoordinate)
         {
@@ -358,7 +359,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
 
-    func createWalkingPathPolyline(route : MBRoute) -> MGLPolyline
+    func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline
     {
         var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
         let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
@@ -377,13 +378,13 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
 
-    func isAnnotationPartOfMyBusResult(annotation : MGLAnnotation) -> Bool {
+    func isAnnotationPartOfMyBusResult(annotation: MGLAnnotation) -> Bool {
         let annotationTitle = annotation.title!! as String
 
-        if (annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
+        if annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
             annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
             annotationTitle == MyBusTitle.StopDestinationTitle.rawValue ||
-            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue)
+            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue
         {
             return true
         } else {
@@ -416,22 +417,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     // MARK: - Button Handlers
 
-    func plusButtonTap(sender: UITapGestureRecognizer)
-    {
-        mapView.setZoomLevel(mapView.zoomLevel+1, animated: true)
-    }
-
-    func minusButtonTap(sender: UITapGestureRecognizer)
-    {
-        mapView.setZoomLevel(mapView.zoomLevel-1, animated: true)
-    }
-
     func compassButtonTap(sender: UITapGestureRecognizer)
     {
-        if let userLocation = mapView.userLocation
-        {
-            mapView.setCenterCoordinate(userLocation.coordinate, animated: true)
-        }
+        mapView.showsUserLocation = true
+        mapView.setZoomLevel(16, animated: false)
     }
 
     // MARK: - Pack Download
