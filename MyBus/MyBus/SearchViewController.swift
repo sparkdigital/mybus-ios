@@ -12,8 +12,10 @@ import RealmSwift
 
 protocol MapBusRoadDelegate {
     func newBusRoad(mapBusRoad: MapBusRoad)
+    func newResults(busResults: [String])
     func newOrigin(coordinate: CLLocationCoordinate2D)
     func newDestination(coordinate: CLLocationCoordinate2D)
+    func detailBusRoadResults(mapBusRoads: [MapBusRoad])
 }
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
@@ -24,7 +26,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet var destinationTextfield: UITextField!
 
     var searchViewProtocol: MapBusRoadDelegate?
-
+    var busResults: [String] = []
     var bestMatches: [String] = []
     var favourites: List<Location>!
     var roadResultList: [MapBusRoad] = []
@@ -129,7 +131,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         {
             busRouteResults, error in
             // Reset previous streets names or bus lines and road from a previous search
-            self.bestMatches = []
+            self.busResults = []
             self.roadResultList = []
             for busRouteResult in busRouteResults! {
                 var 🚌 : String = "🚍"
@@ -138,9 +140,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                     🚌 = "\(🚌) \(busLineFormatted) ➡"
                 }
                 🚌.removeAtIndex(🚌.endIndex.predecessor())
-                self.bestMatches.append(🚌)
+                self.busResults.append(🚌)
             }
-            self.resultsTableView.reloadData()
+            self.searchViewProtocol?.newResults(self.busResults)
             self.getBusRoads(busRouteResults!)
         }
     }
@@ -159,6 +161,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                     let mapBusRoad = MapBusRoad().addBusRoadOnMap(singleRoad!)
                     print("single \(index)")
                     self.roadResultList.append(mapBusRoad)
+                    if self.roadResultList.count == self.busResults.count {
+                        self.searchViewProtocol?.detailBusRoadResults(self.roadResultList)
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
                 }
             case .Combined:
                 let firstBusRoute = busRouteResult.busRoutes.first
@@ -168,6 +174,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                     combinedRoad, error in
                     print("combined \(index)")
                     self.roadResultList.append(MapBusRoad().addBusRoadOnMap(combinedRoad!))
+                    if self.roadResultList.count == self.busResults.count {
+                        self.searchViewProtocol?.detailBusRoadResults(self.roadResultList)
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
                 }
             }
         }

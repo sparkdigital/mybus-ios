@@ -39,11 +39,37 @@
                                             <constraint firstAttribute="width" constant="40" id="sIe-3e-4Q5"/>
                                         </constraints>
                                     </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hBw-zP-7wM" userLabel="Bus Results Table View">
+                                        <rect key="frame" x="0.0" y="512" width="600" height="44"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="xhU-Rf-c54"/>
+                                        </constraints>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BusIdentifier" id="agw-7U-ijB" userLabel="busIdentifier">
+                                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="agw-7U-ijB" id="AYr-iE-bsc">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                                <accessibility key="accessibilityConfiguration">
+                                                    <accessibilityTraits key="traits" staticText="YES"/>
+                                                </accessibility>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <sections/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="Dwd-aM-QxV"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="hHI-Lo-fwg"/>
+                                        </connections>
+                                    </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="dPk-NU-HBA" secondAttribute="trailing" constant="8" id="Ecl-fT-ept"/>
                                     <constraint firstItem="dPk-NU-HBA" firstAttribute="top" secondItem="HHz-A5-EQO" secondAttribute="top" constant="50" id="ehs-Rj-hAu"/>
+                                    <constraint firstItem="hBw-zP-7wM" firstAttribute="centerX" secondItem="HHz-A5-EQO" secondAttribute="centerX" id="kTg-y9-SGg"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="latitude">
@@ -82,12 +108,17 @@
                             <constraint firstAttribute="leadingMargin" secondItem="7lU-AH-Jfc" secondAttribute="leading" id="E5z-uc-iTa"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Eg5-vr-toL"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="Ijh-XV-HCt"/>
+                            <constraint firstItem="hBw-zP-7wM" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Z82-gn-fZa"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hBw-zP-7wM" secondAttribute="bottom" id="gRv-GO-9vZ"/>
+                            <constraint firstItem="hBw-zP-7wM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lvY-97-fVc"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="busResultsTableView" destination="hBw-zP-7wM" id="vcj-gg-iB4"/>
                         <outlet property="compassButtonView" destination="dPk-NU-HBA" id="9Pd-wd-JVb"/>
+                        <outlet property="constraintTableViewHeight" destination="xhU-Rf-c54" id="aLI-bq-eeo"/>
                         <outlet property="mapView" destination="HHz-A5-EQO" id="duV-i3-dnI"/>
                     </connections>
                 </viewController>

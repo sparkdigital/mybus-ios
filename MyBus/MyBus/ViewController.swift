@@ -13,11 +13,13 @@ import MapKit
 import MapboxDirections
 import Polyline
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate, UITableViewDelegate
 {
 
     @IBOutlet var compassButtonView: UIView!
 
+    @IBOutlet weak var busResultsTableView: UITableView!
+    @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
     @IBOutlet var mapView: MGLMapView!
     let minZoomLevel: Double = 9
     let maxZoomLevel: Double = 18
@@ -28,11 +30,16 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     var origin: CLLocationCoordinate2D?
     var destination: CLLocationCoordinate2D?
 
+    var bestMatches: [String] = []
+    var roadResultList: [MapBusRoad] = []
+
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.constraintTableViewHeight.constant = 0
+        self.busResultsTableView.layoutIfNeeded()
 
         compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
         compassButtonView.layer.cornerRadius = 20
@@ -265,6 +272,15 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
 
+    func newResults(results: [String])
+    {
+        self.bestMatches = results
+        self.busResultsTableView.reloadData()
+        let newHeight = 44 * bestMatches.count
+        self.constraintTableViewHeight.constant = CGFloat(newHeight)
+        self.busResultsTableView.layoutIfNeeded()
+    }
+
     func newOrigin(origin: CLLocationCoordinate2D)
     {
         if let annotations = self.mapView.annotations {
@@ -295,6 +311,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
         self.mapView.addAnnotation(mapPoint)
 
+    }
+
+    func detailBusRoadResults(mapBusRoads: [MapBusRoad])
+    {
+        self.roadResultList = mapBusRoads
     }
 
     // MARK: - Map bus road annotations utils Methods
@@ -487,4 +508,30 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
 
+    // MARK: - UITableViewDataSource Methods
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("BusIdentifier", forIndexPath: indexPath) as UITableViewCell
+        cell.textLabel?.text = self.bestMatches[indexPath.row]
+        return cell
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return bestMatches.count
+    }
+
+    // MARK: - UITableViewDelegate Methods
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let road = roadResultList[indexPath.row]
+        newBusRoad(road)
+    }
 }
