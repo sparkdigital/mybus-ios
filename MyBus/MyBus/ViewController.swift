@@ -274,9 +274,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     func newResults(results: [String])
     {
+        let busResultsCellHeight : Int = 40
         self.bestMatches = results
         self.busResultsTableView.reloadData()
-        let newHeight = 44 * bestMatches.count
+        let newHeight = busResultsCellHeight * bestMatches.count
         self.constraintTableViewHeight.constant = CGFloat(newHeight)
         self.busResultsTableView.layoutIfNeeded()
     }
