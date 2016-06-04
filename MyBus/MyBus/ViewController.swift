@@ -21,9 +21,12 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     @IBOutlet weak var busResultsTableView: UITableView!
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
     @IBOutlet var mapView: MGLMapView!
+
     let minZoomLevel: Double = 9
     let maxZoomLevel: Double = 18
 
+    let busResultCellHeight: Int = 45
+    let busResultTableHeightToHide: CGFloat = 0
     let markerOriginLabelText = "Origen"
     let markerDestinationLabelText = "Destino"
 
@@ -38,15 +41,22 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.constraintTableViewHeight.constant = 0
-        self.busResultsTableView.layoutIfNeeded()
+        setBusResultsTableViewHeight(busResultTableHeightToHide)
+        initButtonToLocateUser()
+        initMapboxView()
+    }
 
+    func initButtonToLocateUser()
+    {
         compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
         compassButtonView.layer.cornerRadius = 20
         let compassButtonTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
         compassButtonView.userInteractionEnabled = true
         compassButtonView.addGestureRecognizer(compassButtonTap)
+    }
 
+    func initMapboxView()
+    {
         mapView.maximumZoomLevel = maxZoomLevel
         mapView.minimumZoomLevel = minZoomLevel
         mapView.userTrackingMode = .Follow
@@ -79,7 +89,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         // Prevent having more than two points selected in map
 
         /*
-         The idea is change this behaivour, if user tap a location the idea is asking him in callout what they want to do with this point (use as origin, destination, waypoint)
+         The idea is change this behavior, if user tap a location the idea is asking him in callout what they want to do with this point (use as origin, destination, waypoint)
 
         if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 )
         {
@@ -232,7 +242,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     func newBusRoad(mapBusRoad: MapBusRoad)
     {
+        let bounds = getOriginAndDestinationInMapsBounds()
+
         removeExistingAnnotationsOfBusRoad()
+
+        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
 
         for (index, marker) in mapBusRoad.roadStopsMarkerList.enumerate()
         {
@@ -274,15 +288,13 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     func newResults(results: [String])
     {
-        let busResultsCellHeight : Int = 40
         self.bestMatches = results
         self.busResultsTableView.reloadData()
-        let newHeight = busResultsCellHeight * bestMatches.count
-        self.constraintTableViewHeight.constant = CGFloat(newHeight)
+        self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
     }
 
-    func newOrigin(origin: CLLocationCoordinate2D)
+    func newOrigin(origin: CLLocationCoordinate2D, address: String)
     {
         if let annotations = self.mapView.annotations {
             self.mapView.removeAnnotations(annotations)
@@ -290,27 +302,29 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
         self.origin = origin
         // Declare the marker point and set its coordinates
-        let mapPoint = MGLPointAnnotation()
-        mapPoint.coordinate = origin
-        mapPoint.title = markerOriginLabelText
+        let originMarker = MGLPointAnnotation()
+        originMarker.coordinate = origin
+        originMarker.title = markerOriginLabelText
+        originMarker.subtitle = address
 
-        self.mapView.addAnnotation(mapPoint)
+        self.mapView.addAnnotation(originMarker)
         self.mapView.setCenterCoordinate(origin, animated: true)
     }
 
-    func newDestination(destination: CLLocationCoordinate2D)
+    func newDestination(destination: CLLocationCoordinate2D, address: String)
     {
         self.destination = destination
         // Declare the marker point and set its coordinates
-        let mapPoint = MGLPointAnnotation()
-        mapPoint.coordinate = destination
-        mapPoint.title = markerDestinationLabelText
+        let destinationMarker = MGLPointAnnotation()
+        destinationMarker.coordinate = destination
+        destinationMarker.title = markerDestinationLabelText
+        destinationMarker.subtitle = address
 
         let bounds = getOriginAndDestinationInMapsBounds()
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
 
-        self.mapView.addAnnotation(mapPoint)
+        self.mapView.addAnnotation(destinationMarker)
 
     }
 
@@ -534,5 +548,17 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     {
         let road = roadResultList[indexPath.row]
         newBusRoad(road)
+        setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
+        self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
+    }
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        setBusResultsTableViewHeight(CGFloat(busResultCellHeight * self.bestMatches.count))
+    }
+
+    func setBusResultsTableViewHeight(height: CGFloat)
+    {
+        self.constraintTableViewHeight.constant = CGFloat(height)
+        self.busResultsTableView.layoutIfNeeded()
     }
 }
