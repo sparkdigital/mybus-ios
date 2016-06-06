@@ -8,14 +8,15 @@
 
 import Foundation
 import SwiftyJSON
+import Mapbox
 
 class Route: NSObject {
-    var pointList : [RoutePoint] = [RoutePoint]()
-    
-    static func parse(routeJson : [JSON]) -> Route
+    var pointList: [RoutePoint] = [RoutePoint]()
+
+    static func parse(routeJson: [JSON]) -> Route
     {
         let route = Route()
-        var points : [RoutePoint] = [RoutePoint]()
+        var points: [RoutePoint] = [RoutePoint]()
         for routePoint in routeJson
         {
             let point = RoutePoint.parse(routePoint)
@@ -23,5 +24,13 @@ class Route: NSObject {
         }
         route.pointList = points
         return route
+    }
+
+    func getFirstLatLng() -> CLLocationCoordinate2D {
+        return (pointList.first?.getLatLng())!
+    }
+
+    func getLastLatLng() -> CLLocationCoordinate2D {
+        return (pointList.last?.getLatLng())!
     }
 }

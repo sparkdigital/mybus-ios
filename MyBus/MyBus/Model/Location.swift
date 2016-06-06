@@ -11,10 +11,10 @@ import RealmSwift
 
 class Location: Object
 {
-    dynamic var name:String = ""
-    dynamic var latitude:Double = 0
-    dynamic var longitude:Double = 0
-    dynamic var streetCode:Int = 0
-    dynamic var streetName:String = ""
-    dynamic var houseNumber:Int = 0
+    dynamic var name: String = ""
+    dynamic var latitude: Double = 0
+    dynamic var longitude: Double = 0
+    dynamic var streetCode: Int = 0
+    dynamic var streetName: String = ""
+    dynamic var houseNumber: Int = 0
 }

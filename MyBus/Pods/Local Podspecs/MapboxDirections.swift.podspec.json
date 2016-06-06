@@ -1,0 +1,36 @@
+{
+  "name": "MapboxDirections.swift",
+  "version": "0.4.0",
+  "summary": "Mapbox Directions API wrapper for Swift.",
+  "description": "MapboxDirections.swift makes it easy to connect your iOS or OS X application to the Mapbox Directions API. MapboxDirections.swift combines the power of the OSRM routing engine with the simplicity of MapKit’s directions API.",
+  "homepage": "https://www.mapbox.com/api-documentation/#directions",
+  "license": {
+    "type": "ISC",
+    "file": "LICENSE.md"
+  },
+  "authors": {
+    "Mapbox": "mobile@mapbox.com"
+  },
+  "social_media_url": "https://twitter.com/mapbox",
+  "platforms": {
+    "ios": "8.0",
+    "osx": "10.10",
+    "watchos": "2.0",
+    "tvos": "9.0"
+  },
+  "source": {
+    "git": "https://github.com/mapbox/MapboxDirections.swift.git",
+    "tag": "v0.4.0"
+  },
+  "source_files": "MapboxDirections",
+  "requires_arc": true,
+  "module_name": "MapboxDirections",
+  "dependencies": {
+    "NBNRequestKit": [
+
+    ],
+    "Polyline": [
+      "~> 3.0"
+    ]
+  }
+}
