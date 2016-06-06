@@ -31,9 +31,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     var favourites: List<Location>!
     var roadResultList: [MapBusRoad] = []
 
-    @IBOutlet var favoriteOriginButton: UIButton!
-    @IBOutlet var favoriteDestinationButton: UIButton!
-
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
