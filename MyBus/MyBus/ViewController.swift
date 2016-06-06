@@ -10,47 +10,53 @@ import UIKit
 import Mapbox
 import RealmSwift
 import MapKit
+import MapboxDirections
+import Polyline
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate, UITableViewDelegate
 {
 
-    @IBOutlet var plusButtonView: UIView!
-    @IBOutlet var minusButtonView: UIView!
     @IBOutlet var compassButtonView: UIView!
 
-    @IBOutlet var mapView : MGLMapView!
-    let minZoomLevel : Double = 9
-    let maxZoomLevel : Double = 18
+    @IBOutlet weak var busResultsTableView: UITableView!
+    @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
+    @IBOutlet var mapView: MGLMapView!
 
+    let minZoomLevel: Double = 9
+    let maxZoomLevel: Double = 18
+
+    let busResultCellHeight: Int = 45
+    let busResultTableHeightToHide: CGFloat = 0
     let markerOriginLabelText = "Origen"
     let markerDestinationLabelText = "Destino"
 
-    var origin : CLLocationCoordinate2D?
-    var destination : CLLocationCoordinate2D?
+    var origin: CLLocationCoordinate2D?
+    var destination: CLLocationCoordinate2D?
+
+    var bestMatches: [String] = []
+    var roadResultList: [MapBusRoad] = []
 
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        plusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
-        plusButtonView.layer.cornerRadius = 20
-        let plusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.plusButtonTap(_:)))
-        plusButtonView.userInteractionEnabled = true
-        plusButtonView.addGestureRecognizer(plusButtonTap)
+        setBusResultsTableViewHeight(busResultTableHeightToHide)
+        initButtonToLocateUser()
+        initMapboxView()
+    }
 
-        minusButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
-        minusButtonView.layer.cornerRadius = 20
-        let minusButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.minusButtonTap(_:)))
-        minusButtonView.userInteractionEnabled = true
-        minusButtonView.addGestureRecognizer(minusButtonTap)
-
+    func initButtonToLocateUser()
+    {
         compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
         compassButtonView.layer.cornerRadius = 20
-        let compassButtonTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
+        let compassButtonTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
         compassButtonView.userInteractionEnabled = true
         compassButtonView.addGestureRecognizer(compassButtonTap)
+    }
 
+    func initMapboxView()
+    {
         mapView.maximumZoomLevel = maxZoomLevel
         mapView.minimumZoomLevel = minZoomLevel
         mapView.userTrackingMode = .Follow
@@ -67,7 +73,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         mapView.addGestureRecognizer(doubleTap)
 
         // Delay single tap recognition until it is clearly not a double
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
+        let singleTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
         singleTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleTap)
     }
@@ -81,13 +87,18 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
         // Remove first marker tapped from the map, add marker with coordinates
         // Prevent having more than two points selected in map
+
+        /*
+         The idea is change this behavior, if user tap a location the idea is asking him in callout what they want to do with this point (use as origin, destination, waypoint)
+
         if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 )
         {
             mapView.removeAnnotation(mapView.annotations![0])
         }
+        */
 
         Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
-            let address = "\(responseObject!["calle"] as! String) \(responseObject!["altura"] as! String)"
+            let address = "\(responseObject!["calle"].stringValue) \(responseObject!["altura"].stringValue)"
 
             // Declare the marker point and set its coordinates
             let mapPoint = MGLPointAnnotation()
@@ -106,7 +117,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     @IBAction func searchButtonTapped(sender: AnyObject)
     {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let searchController: SearchViewController = storyboard.instantiateViewControllerWithIdentifier("SearchViewController") as! SearchViewController
 
         let sourceView = self.view
@@ -190,7 +201,38 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         return annotationImage
     }
 
-    func getMarkerImage(imageResourceIdentifier : String, annotationTitle : String) -> MGLAnnotationImage {
+    func mapView(mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
+        // Set the alpha for all shape annotations to 1 (full opacity)
+        return 1
+    }
+
+    func mapView(mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat {
+        // Set the line width for polyline annotations
+        return 2.0
+    }
+
+    func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
+        // Give our polyline a unique color by checking for its `title` property
+        let isWalkingPathPolyline = annotation.title == "Caminando" && annotation is MGLPolyline
+        if isWalkingPathPolyline {
+            // Mapbox cyan
+            return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
+        }
+        else
+        {
+            return UIColor.grayColor()
+        }
+    }
+
+    func mapViewRegionIsChanging(mapView: MGLMapView) {
+        mapView.showsUserLocation = false
+    }
+
+    func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
+        print("error locating user: \(error.localizedDescription)")
+    }
+
+    func getMarkerImage(imageResourceIdentifier: String, annotationTitle: String) -> MGLAnnotationImage {
         var image = UIImage(named: imageResourceIdentifier)!
         image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
@@ -198,40 +240,61 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     // MARK: - MapBusRoadDelegate Methods
 
-    func newBusRoad(mapBusRoad : MapBusRoad)
+    func newBusRoad(mapBusRoad: MapBusRoad)
     {
-        for currentMapAnnotation in self.mapView.annotations!
-        {
-            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
-            {
-                self.mapView.removeAnnotation(currentMapAnnotation)
-            }
-        }
+        let bounds = getOriginAndDestinationInMapsBounds()
 
-        for marker in mapBusRoad.roadStopsMarkerList
+        removeExistingAnnotationsOfBusRoad()
+
+        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+
+        for (index, marker) in mapBusRoad.roadStopsMarkerList.enumerate()
         {
+            /**
+             Resolve walking directions from user origin to first bus stop
+             */
+
+            switch index
+            {
+            case 0:
+                // Walking path from user origin to first bus stop
+                resolveAndAddWalkingPath(self.origin!, destinationCoordinate: marker.coordinate)
+            case 1:
+                // We check if it's a combinated road so we need three walking paths
+                let isCombinatedRoad = mapBusRoad.roadStopsMarkerList.count > 2
+                if isCombinatedRoad {
+                    // Walking path from first bus descent stop to second bus stop
+                    let nextBustStop = mapBusRoad.roadStopsMarkerList[2].coordinate
+                    resolveAndAddWalkingPath(marker.coordinate, destinationCoordinate: nextBustStop)
+                } else {
+                    // Walking path from descent bus stop to destination
+                    resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
+                }
+            case 3:
+                // Walking path from descent bus stop to destination
+                resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
+            default:
+                break
+            }
+
             self.mapView.addAnnotation(marker)
         }
+
         for polyline in mapBusRoad.busRoutePolylineList
         {
             self.mapView.addAnnotation(polyline)
         }
     }
-    
-    func isAnnotationPartOfMyBusResult(annotation : MGLAnnotation) -> Bool {
-        let annotationTitle = annotation.title!! as String
-        
-        if (annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
-            annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
-            annotationTitle == MyBusTitle.StopDestinationTitle.rawValue)
-        {
-            return true
-        } else {
-            return false
-        }
+
+    func newResults(results: [String])
+    {
+        self.bestMatches = results
+        self.busResultsTableView.reloadData()
+        self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
+        self.busResultsTableView.layoutIfNeeded()
     }
 
-    func newOrigin(origin : CLLocationCoordinate2D)
+    func newOrigin(origin: CLLocationCoordinate2D, address: String)
     {
         if let annotations = self.mapView.annotations {
             self.mapView.removeAnnotations(annotations)
@@ -239,45 +302,54 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
         self.origin = origin
         // Declare the marker point and set its coordinates
-        let mapPoint = MGLPointAnnotation()
-        mapPoint.coordinate = origin
-        mapPoint.title = markerOriginLabelText
+        let originMarker = MGLPointAnnotation()
+        originMarker.coordinate = origin
+        originMarker.title = markerOriginLabelText
+        originMarker.subtitle = address
 
-        self.mapView.addAnnotation(mapPoint)
+        self.mapView.addAnnotation(originMarker)
         self.mapView.setCenterCoordinate(origin, animated: true)
     }
 
-    func newDestination(destination : CLLocationCoordinate2D)
+    func newDestination(destination: CLLocationCoordinate2D, address: String)
     {
         self.destination = destination
         // Declare the marker point and set its coordinates
-        let mapPoint = MGLPointAnnotation()
-        mapPoint.coordinate = destination
-        mapPoint.title = markerDestinationLabelText
+        let destinationMarker = MGLPointAnnotation()
+        destinationMarker.coordinate = destination
+        destinationMarker.title = markerDestinationLabelText
+        destinationMarker.subtitle = address
 
-        let bounds = getSearchResultsMapsBounds()
+        let bounds = getOriginAndDestinationInMapsBounds()
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
-        
-        self.mapView.addAnnotation(mapPoint)
+
+        self.mapView.addAnnotation(destinationMarker)
 
     }
 
-    
+    func detailBusRoadResults(mapBusRoads: [MapBusRoad])
+    {
+        self.roadResultList = mapBusRoads
+    }
+
+    // MARK: - Map bus road annotations utils Methods
     /**
      What are we doing in this method?
-        
+
      Having origin and destination coordinate, we have to define an area (aka bounds) where user can see all markers in map
-     
+
      First of all we define which position is more at south & north, and we create a padding of 800 mts for each one.
+     Then we have to know if south or north is more at east to define for each one a longitude padding
      Finally we create new coordinate with padding included and build bounds with each corners
-    */
-    func getSearchResultsMapsBounds() -> MGLCoordinateBounds
+     */
+    func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds
     {
-        var south, north : CLLocationCoordinate2D
-        let latitudinalMeters : CLLocationDistance = 800
-        let longitudinalMeters : CLLocationDistance = -800
-        
+        var south, north: CLLocationCoordinate2D
+        let latitudinalMeters: CLLocationDistance = 800
+        let longitudinalMeters: CLLocationDistance = -800
+        let southLongitudinal, northLongitudinal: CLLocationDistance
+
         if self.destination?.latitude < self.origin?.latitude
         {
             south = self.destination!
@@ -286,19 +358,76 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             south = self.origin!
             north = self.destination!
         }
-        
+
+        if south.longitude < north.longitude
+        {
+            southLongitudinal = -800
+            northLongitudinal = 800
+        } else {
+            southLongitudinal = 800
+            northLongitudinal = -800
+        }
+
         // We move future Northcorner of bounds further north and more to west
-        let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, longitudinalMeters)
+        let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, northLongitudinal)
         // We move future Southcorner of bounds further south and more to east
-        let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, latitudinalMeters)
-        
+        let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, southLongitudinal)
+
         let northeastCorner = CLLocationCoordinate2D(latitude: north.latitude + northeastCornerPadding.span.latitudeDelta, longitude: north.longitude + northeastCornerPadding.span.longitudeDelta)
         let southwestCorner = CLLocationCoordinate2D(latitude: south.latitude + southwestCornerPadding.span.latitudeDelta, longitude: south.longitude + southwestCornerPadding.span.longitudeDelta)
-        
+
         let markerResultsBounds = MGLCoordinateBounds(sw: southwestCorner, ne: northeastCorner)
         return markerResultsBounds
     }
-    
+
+    func resolveAndAddWalkingPath(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void
+    {
+        Connectivity.sharedInstance.getWalkingDirections(sourceCoordinate, destinationCoordinate: destinationCoordinate)
+        {
+            response, error in
+            print(error)
+            if let route = response?.routes.first
+            {
+                let polyline = self.createWalkingPathPolyline(route)
+                self.mapView.addAnnotation(polyline)
+            }
+
+        }
+    }
+
+    func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline
+    {
+        var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
+        let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
+        walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
+        return walkingPathPolyline
+    }
+
+
+    func removeExistingAnnotationsOfBusRoad() -> Void {
+        for currentMapAnnotation in self.mapView.annotations!
+        {
+            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
+            {
+                self.mapView.removeAnnotation(currentMapAnnotation)
+            }
+        }
+    }
+
+    func isAnnotationPartOfMyBusResult(annotation: MGLAnnotation) -> Bool {
+        let annotationTitle = annotation.title!! as String
+
+        if annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
+            annotationTitle == MyBusTitle.StopDestinationTitle.rawValue ||
+            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue
+        {
+            return true
+        } else {
+            return false
+        }
+    }
+
     // MARK: - UIPopoverPresentationControllerDelegate Methods
 
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
@@ -324,22 +453,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     // MARK: - Button Handlers
 
-    func plusButtonTap(sender: UITapGestureRecognizer)
-    {
-        mapView.setZoomLevel(mapView.zoomLevel+1, animated: true)
-    }
-
-    func minusButtonTap(sender: UITapGestureRecognizer)
-    {
-        mapView.setZoomLevel(mapView.zoomLevel-1, animated: true)
-    }
-
     func compassButtonTap(sender: UITapGestureRecognizer)
     {
-        if let userLocation = mapView.userLocation
-        {
-            mapView.setCenterCoordinate(userLocation.coordinate, animated: true)
-        }
+        mapView.showsUserLocation = true
+        mapView.setZoomLevel(16, animated: false)
     }
 
     // MARK: - Pack Download
@@ -406,4 +523,42 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
 
+    // MARK: - UITableViewDataSource Methods
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("BusIdentifier", forIndexPath: indexPath) as UITableViewCell
+        cell.textLabel?.text = self.bestMatches[indexPath.row]
+        return cell
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return bestMatches.count
+    }
+
+    // MARK: - UITableViewDelegate Methods
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let road = roadResultList[indexPath.row]
+        newBusRoad(road)
+        setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
+        self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
+    }
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        setBusResultsTableViewHeight(CGFloat(busResultCellHeight * self.bestMatches.count))
+    }
+
+    func setBusResultsTableViewHeight(height: CGFloat)
+    {
+        self.constraintTableViewHeight.constant = CGFloat(height)
+        self.busResultsTableView.layoutIfNeeded()
+    }
 }

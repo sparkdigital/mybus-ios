@@ -1,5 +1,10 @@
 whitelist_rules:
   - trailing_whitespace
+  - trailing_semicolon
+  - trailing_newline
+  - colon
+  - comma
+  - control_statement
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Pods
   - MyBusTests

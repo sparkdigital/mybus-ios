@@ -8,8 +8,9 @@
 
 import Foundation
 
-enum MyBusTitle : String {
+enum MyBusTitle: String {
     case StopOriginTitle = "Parada origen"
     case StopDestinationTitle = "Parada destino"
     case BusLineRouteTitle = "Ruta"
+    case WalkingPathTitle = "Caminando"
 }

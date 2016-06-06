@@ -11,13 +11,13 @@ import SwiftyJSON
 import Mapbox
 
 class RoutePoint: NSObject {
-    var stopId : String = " "
-    var latitude : String = " "
-    var longitude : String = " "
-    var address : String = " "
-    var isWaypoint : Bool = false
+    var stopId: String = " "
+    var latitude: String = " "
+    var longitude: String = " "
+    var address: String = " "
+    var isWaypoint: Bool = false
 
-    static func parse(routePointJson : JSON) -> RoutePoint
+    static func parse(routePointJson: JSON) -> RoutePoint
     {
         let point = RoutePoint()
         if let stopId = routePointJson["StopId"].string

@@ -20,14 +20,20 @@
 		112A11091CE5194A00D00709 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112A11081CE5194A00D00709 /* Strings.swift */; };
 		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
-		4895C2F9544532381499F326 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98D816095DB973CAEBACCA90 /* Pods.framework */; };
+		1442CDF06BAB610AD4C299F5 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
+		A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AD4531CF7C0530088F592 /* MyBusService.swift */; };
 		A03514E91CCEF38C009443AF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03514E71CCEF38C009443AF /* Route.swift */; };
 		A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03514E81CCEF38C009443AF /* RoutePoint.swift */; };
+		A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D0E1CFA13B600246534 /* RoadSearch.swift */; };
+		A0926D111CFA44EE00246534 /* MapBoxDirectionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */; };
+		A0926D131CFA44FE00246534 /* GisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D121CFA44FE00246534 /* GisService.swift */; };
+		A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D161CFA540F00246534 /* GeoCodingService.swift */; };
 		A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */; };
 		A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */; };
 		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
+		A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,16 +64,23 @@
 		112A11081CE5194A00D00709 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
-		639B0E3606BDD55C6A8F0ABF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.debug.xcconfig"; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9982576D1CC532ED00909F1B /* Street.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Street.swift; path = Model/Street.swift; sourceTree = "<group>"; };
 		998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BestMatchTableViewCell.swift; path = Cells/BestMatchTableViewCell.swift; sourceTree = "<group>"; };
+		A00AD4531CF7C0530088F592 /* MyBusService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyBusService.swift; path = Services/MyBusService.swift; sourceTree = "<group>"; };
 		A03514E71CCEF38C009443AF /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Model/Road/Route.swift; sourceTree = "<group>"; };
 		A03514E81CCEF38C009443AF /* RoutePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoutePoint.swift; path = Model/Road/RoutePoint.swift; sourceTree = "<group>"; };
+		A0926D0E1CFA13B600246534 /* RoadSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadSearch.swift; path = Model/Road/RoadSearch.swift; sourceTree = "<group>"; };
+		A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBoxDirectionsService.swift; path = Services/MapBoxDirectionsService.swift; sourceTree = "<group>"; };
+		A0926D121CFA44FE00246534 /* GisService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GisService.swift; path = Services/GisService.swift; sourceTree = "<group>"; };
+		A0926D161CFA540F00246534 /* GeoCodingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingService.swift; path = Services/GeoCodingService.swift; sourceTree = "<group>"; };
 		A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResult.swift; path = Model/BusRouteResult.swift; sourceTree = "<group>"; };
 		A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRoute.swift; path = Model/BusRoute.swift; sourceTree = "<group>"; };
 		A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResult.swift; path = Model/Road/RoadResult.swift; sourceTree = "<group>"; };
-		A1E95EACFB67BDA2BC04F167 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseNetworkService.swift; path = Services/BaseNetworkService.swift; sourceTree = "<group>"; };
+		B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4895C2F9544532381499F326 /* Pods.framework in Frameworks */,
+				1442CDF06BAB610AD4C299F5 /* Pods_MyBus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +108,8 @@
 				08EC584F1CBD482400E8410A /* MyBus */,
 				08EC58671CBD482400E8410A /* MyBusTests */,
 				08EC584E1CBD482400E8410A /* Products */,
-				0F293C9DF6BCBBBE6C64EFB1 /* Pods */,
 				CC85FE20DFF084B8042A3803 /* Frameworks */,
+				945D2FB0FB2DD24C7FC75784 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,6 +169,11 @@
 			isa = PBXGroup;
 			children = (
 				087E76EF1CBEA5D800FB6050 /* Connectivity.swift */,
+				A00AD4531CF7C0530088F592 /* MyBusService.swift */,
+				A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */,
+				A0926D121CFA44FE00246534 /* GisService.swift */,
+				A0926D161CFA540F00246534 /* GeoCodingService.swift */,
+				A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -190,11 +208,11 @@
 			name = Persistence;
 			sourceTree = "<group>";
 		};
-		0F293C9DF6BCBBBE6C64EFB1 /* Pods */ = {
+		945D2FB0FB2DD24C7FC75784 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A1E95EACFB67BDA2BC04F167 /* Pods.debug.xcconfig */,
-				639B0E3606BDD55C6A8F0ABF /* Pods.release.xcconfig */,
+				3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */,
+				B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -214,6 +232,7 @@
 				A03514E81CCEF38C009443AF /* RoutePoint.swift */,
 				A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */,
 				112A11031CE1286600D00709 /* MapBusRoad.swift */,
+				A0926D0E1CFA13B600246534 /* RoadSearch.swift */,
 			);
 			name = Road;
 			sourceTree = "<group>";
@@ -222,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				98D816095DB973CAEBACCA90 /* Pods.framework */,
+				35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -233,13 +253,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MyBus" */;
 			buildPhases = (
-				E41D356F12A821A2D199ADF8 /* Check Pods Manifest.lock */,
+				3D3E346DDCD0B05967752984 /* 📦 Check Pods Manifest.lock */,
 				08EC58491CBD482400E8410A /* Sources */,
 				08EC584A1CBD482400E8410A /* Frameworks */,
 				08EC584B1CBD482400E8410A /* Resources */,
-				601A5922C252038CDFF5452A /* Embed Pods Frameworks */,
-				534286EDCD5E46B2913395DF /* Copy Pods Resources */,
 				086A78FF1CBD7EE200370E76 /* ShellScript */,
+				7EFB42BE23BAC68CCC9EDFBA /* 📦 Embed Pods Frameworks */,
+				39223C2EAAEA5D8F816AE536 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,6 +300,7 @@
 				TargetAttributes = {
 					08EC584C1CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = VXBU7JZRFH;
 					};
 					08EC58631CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
@@ -340,49 +361,49 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 8bb8e613a86950d5300af3fc3b466729e6d371eb c71d889e64a5a21d41f9901ea56b8779f95b2047b6bef9ee189009e73e7cad8e";
 		};
-		534286EDCD5E46B2913395DF /* Copy Pods Resources */ = {
+		39223C2EAAEA5D8F816AE536 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBus/Pods-MyBus-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		601A5922C252038CDFF5452A /* Embed Pods Frameworks */ = {
+		3D3E346DDCD0B05967752984 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E41D356F12A821A2D199ADF8 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7EFB42BE23BAC68CCC9EDFBA /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBus/Pods-MyBus-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -393,11 +414,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
+				A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */,
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
+				A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
+				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
 				112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
+				A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */,
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
@@ -408,6 +433,8 @@
 				08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */,
 				11DAE9021CC534D400A35D6A /* User.swift in Sources */,
 				A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */,
+				A0926D131CFA44FE00246534 /* GisService.swift in Sources */,
+				A0926D111CFA44EE00246534 /* MapBoxDirectionsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -534,7 +561,7 @@
 		};
 		08EC586E1CBD482400E8410A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1E95EACFB67BDA2BC04F167 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
@@ -543,13 +570,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c0c48d82-f6f8-4c82-9104-cb29c5a56bab";
+				PROVISIONING_PROFILE = "2f37549a-6565-42db-bc91-3cbac40ceef0";
 			};
 			name = Debug;
 		};
 		08EC586F1CBD482400E8410A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 639B0E3606BDD55C6A8F0ABF /* Pods.release.xcconfig */;
+			baseConfigurationReference = B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
@@ -558,7 +585,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c0c48d82-f6f8-4c82-9104-cb29c5a56bab";
+				PROVISIONING_PROFILE = "2f37549a-6565-42db-bc91-3cbac40ceef0";
 			};
 			name = Release;
 		};
