@@ -16,8 +16,6 @@ import Polyline
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate, UITableViewDelegate
 {
 
-    @IBOutlet var compassButtonView: UIView!
-
     @IBOutlet weak var busResultsTableView: UITableView!
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
     @IBOutlet var mapView: MGLMapView!
@@ -42,17 +40,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     {
         super.viewDidLoad()
         setBusResultsTableViewHeight(busResultTableHeightToHide)
-        initButtonToLocateUser()
         initMapboxView()
-    }
-
-    func initButtonToLocateUser()
-    {
-        compassButtonView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.75)
-        compassButtonView.layer.cornerRadius = 20
-        let compassButtonTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.compassButtonTap(_:)))
-        compassButtonView.userInteractionEnabled = true
-        compassButtonView.addGestureRecognizer(compassButtonTap)
     }
 
     func initMapboxView()
@@ -97,19 +85,26 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
         */
 
-        Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { responseObject, error in
-            let address = "\(responseObject!["calle"].stringValue) \(responseObject!["altura"].stringValue)"
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude))
+        {
+            placemarks, error in
+            if let placemark = placemarks?.first
+            {
+                print()
+                let address = "\(placemark.thoroughfare! as String) \(placemark.subThoroughfare! as String)"
 
-            // Declare the marker point and set its coordinates
-            let mapPoint = MGLPointAnnotation()
-            mapPoint.coordinate = CLLocationCoordinate2D(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude)
-            mapPoint.title = address
+                // Declare the marker point and set its coordinates
+                let mapPoint = MGLPointAnnotation()
+                mapPoint.coordinate = CLLocationCoordinate2D(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude)
+                mapPoint.title = "Marcador"
+                mapPoint.subtitle = address
 
-            // Add marker to the map
-            self.mapView.addAnnotation(mapPoint)
+                // Add marker to the map
+                self.mapView.addAnnotation(mapPoint)
 
-            // Pop-up the callout view
-            self.mapView.selectAnnotation(mapPoint, animated: true)
+                // Pop-up the callout view
+                self.mapView.selectAnnotation(mapPoint, animated: true)
+            }
         }
     }
 
@@ -129,7 +124,6 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let popoverController: UIPopoverPresentationController = searchController.popoverPresentationController!
         popoverController.permittedArrowDirections = .Any
         popoverController.sourceView = sourceView
-        popoverController.sourceRect = sender.frame
         popoverController.delegate = self
 
         self.presentViewController(searchController, animated: true, completion: nil)
@@ -453,8 +447,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     // MARK: - Button Handlers
 
-    func compassButtonTap(sender: UITapGestureRecognizer)
-    {
+    @IBAction func refreshButtonTap(sender: AnyObject) {
         mapView.showsUserLocation = true
         mapView.setZoomLevel(16, animated: false)
     }
