@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HHz-A5-EQO" customClass="MGLMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="451"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="latitude">
@@ -63,12 +63,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="HHz-A5-EQO" firstAttribute="bottom" secondItem="hBw-zP-7wM" secondAttribute="top" id="ExC-Cc-AmW"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="leading" secondItem="hBw-zP-7wM" secondAttribute="leading" id="KLn-Wt-sVp"/>
                             <constraint firstItem="hBw-zP-7wM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="Prh-Y0-SP5"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="QSl-8G-BHX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hBw-zP-7wM" secondAttribute="trailing" constant="-20" id="atB-2w-Qaq"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hBw-zP-7wM" secondAttribute="bottom" constant="60" id="cNe-Ja-Yxs"/>
-                            <constraint firstItem="hBw-zP-7wM" firstAttribute="bottom" secondItem="HHz-A5-EQO" secondAttribute="bottom" constant="-60" id="e7a-Sh-yCa"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sb0-Mq-jVX"/>
                         </constraints>
                     </view>
