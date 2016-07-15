@@ -248,7 +248,7 @@
                                     <barButtonItem systemItem="flexibleSpace" id="hE2-rZ-d7m"/>
                                     <barButtonItem systemItem="refresh" id="kHe-rn-hh9">
                                         <connections>
-                                            <action selector="refreshButtonTap:" destination="BYZ-38-t0r" id="bpo-DO-bCO"/>
+                                            <action selector="refreshButtonTap:" destination="EHy-as-RaF" id="f1g-G9-NSB"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -276,7 +276,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addressSearchBar" destination="IDA-QS-bFU" id="OZY-oN-sIW"/>
                         <outlet property="containerView" destination="PYi-zB-pA7" id="A9d-e5-QeX"/>
+                        <outlet property="locateUserButton" destination="kHe-rn-hh9" id="a2D-nr-cd5"/>
+                        <outlet property="searchToolbar" destination="G5a-Yy-H0k" id="C8i-3h-i74"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LmD-Y2-D9U" userLabel="First Responder" sceneMemberID="firstResponder"/>

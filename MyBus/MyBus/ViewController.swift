@@ -423,13 +423,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         return true
     }
 
-    // MARK: - Button Handlers
-
-    @IBAction func refreshButtonTap(sender: AnyObject) {
-        mapView.showsUserLocation = true
-        mapView.setZoomLevel(16, animated: false)
-    }
-
     // MARK: - Pack Download
 
     func startOfflinePackDownload()

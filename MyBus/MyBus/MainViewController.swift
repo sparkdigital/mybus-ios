@@ -11,11 +11,15 @@ import UIKit
 import MapKit
 
 
-class MainViewController: UIViewController, MapBusRoadDelegate  {
+class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate  {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var addressSearchBar: UISearchBar!
+    @IBOutlet weak var locateUserButton: UIBarButtonItem!
 
+    @IBOutlet weak var searchToolbar: UIToolbar!
+    
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
 
@@ -35,6 +39,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate  {
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
         self.addSubview(self.currentViewController!.view, toView: self.containerView)
+        
+        self.addressSearchBar.delegate = self
     }
 
     //Method that receives a storyboard string identifier and returns a view controller object
@@ -85,7 +91,22 @@ class MainViewController: UIViewController, MapBusRoadDelegate  {
 
 
     }
-
+    
+    // MARK: - Button Handlers
+    
+    @IBAction func refreshButtonTap(sender: AnyObject) {
+        self.mapViewController.mapView.showsUserLocation = true
+        self.mapViewController.mapView.setZoomLevel(16, animated: false)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        self.addressSearchBar.showsCancelButton = false
+        self.locateUserButton.enabled = true
+        self.locateUserButton.tintColor = nil
+        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+        self.currentViewController = self.mapViewController
+    }
+    
     // MARK: - IBAction Methods
 
     @IBAction func searchButtonTapped(sender: AnyObject)
@@ -95,7 +116,12 @@ class MainViewController: UIViewController, MapBusRoadDelegate  {
         vc.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: vc)
         self.currentViewController = vc
+        self.addressSearchBar.showsCancelButton = true
+        self.locateUserButton.enabled = false
+        self.locateUserButton.tintColor = UIColor.clearColor()
     }
+    
+    
 
     // MARK: - MapBusRoadDelegate Methods
 
