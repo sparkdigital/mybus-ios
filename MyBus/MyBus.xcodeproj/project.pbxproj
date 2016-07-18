@@ -574,7 +574,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6e24bfe-6c9a-49bc-a796-334024ae0e2e";
+				PROVISIONING_PROFILE = "341c47bd-5593-42af-b683-99a9245c9edf";
 			};
 			name = Debug;
 		};
@@ -583,13 +583,13 @@
 			baseConfigurationReference = B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Roberto Claudio Martinez (VXBU7JZRFH)";
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d6e24bfe-6c9a-49bc-a796-334024ae0e2e";
+				PROVISIONING_PROFILE = "341c47bd-5593-42af-b683-99a9245c9edf";
 			};
 			name = Release;
 		};
