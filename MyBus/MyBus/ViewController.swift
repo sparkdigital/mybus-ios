@@ -510,9 +510,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
+        // Lisandro added the following line because if table expanded is more than 50% of view height zoom does not work as expected
+        self.mapView.layoutIfNeeded()
         let road = roadResultList[indexPath.row]
         addBusRoad(road)
-        setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
     }
 
