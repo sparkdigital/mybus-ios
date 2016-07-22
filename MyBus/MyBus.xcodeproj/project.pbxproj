@@ -21,6 +21,7 @@
 		11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D4BEE41D343B51005E0031 /* MainViewController.swift */; };
 		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
+		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
 		1442CDF06BAB610AD4C299F5 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
@@ -66,6 +67,7 @@
 		11D4BEE41D343B51005E0031 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsDataSource.swift; sourceTree = "<group>"; };
 		35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.debug.xcconfig"; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +154,7 @@
 				08EC58521CBD482400E8410A /* ViewController.swift */,
 				087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */,
 				11D4BEE41D343B51005E0031 /* MainViewController.swift */,
+				11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */,
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
 				11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */,
 				A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */,
