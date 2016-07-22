@@ -294,7 +294,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     // MARK: - Textfields Methods
-
+    
     func textFieldDidChange(sender: UITextField){
         if sender.text?.characters.count > 2
         {
@@ -302,7 +302,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 if error == nil {
                     self.bestMatches = []
                     for street in streets! {
-                        self.bestMatches.append(street.name)
+                        self.bestMatches.append(street)
                     }
                     self.resultsTableView.reloadData()
                 }
@@ -315,7 +315,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             self.originTextfield.becomeFirstResponder()
         }
     }
-
+    
     // MARK: - Memory Management Methods
 
     override func didReceiveMemoryWarning()

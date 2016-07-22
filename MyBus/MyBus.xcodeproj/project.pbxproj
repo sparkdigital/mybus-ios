@@ -35,6 +35,7 @@
 		A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */; };
 		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
 		A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */; };
+		C5616C2F1D4142D700123FB1 /* Streets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5616C2E1D4142D700123FB1 /* Streets.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResult.swift; path = Model/Road/RoadResult.swift; sourceTree = "<group>"; };
 		A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseNetworkService.swift; path = Services/BaseNetworkService.swift; sourceTree = "<group>"; };
 		B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
+		C5616C2E1D4142D700123FB1 /* Streets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Streets.plist; path = ../../../Desktop/Streets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 		08EC58771CBD488900E8410A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C5616C2E1D4142D700123FB1 /* Streets.plist */,
 				08EC585A1CBD482400E8410A /* Assets.xcassets */,
 				08EC585F1CBD482400E8410A /* Info.plist */,
 			);
@@ -336,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08EC585E1CBD482400E8410A /* LaunchScreen.storyboard in Resources */,
+				C5616C2F1D4142D700123FB1 /* Streets.plist in Resources */,
 				08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */,
 				08EC58561CBD482400E8410A /* Main.storyboard in Resources */,
 			);
