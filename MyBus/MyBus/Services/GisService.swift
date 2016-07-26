@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 
 protocol GisServiceDelegate {
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
+    func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
 }
 
@@ -26,26 +26,18 @@ private let addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=ca
 private let coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)"
 
 public class GisService: NSObject, GisServiceDelegate {
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
-    {
-        let escapedStreet = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
-        let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
 
-        BaseNetworkService().performRequest(streetNameURLString)
-        {
-            response, error in
-            if let json = response {
-                var streetsNames: [Street] = [Street]()
-                if let streets = json.array {
-                    for street in streets {
-                        streetsNames.append(Street(json: street))
-                    }
-                }
-                completionHandler(streetsNames, nil)
-            } else {
-                print("\nError: \(error!.localizedDescription)")
-                completionHandler(nil, error)
-            }
+    func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
+    {
+        let streetsArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Streets", ofType: "plist")!)
+
+        if let streets = streetsArray {
+            let streetsFiltered = (streets as! [String]).filter{($0.lowercaseString).containsString(address.lowercaseString)}
+            completionHandler(streetsFiltered, nil)
+        }
+        else{
+            let error: NSError = NSError(domain:"street plist", code:2, userInfo:nil)
+            completionHandler(nil, error)
         }
     }
 

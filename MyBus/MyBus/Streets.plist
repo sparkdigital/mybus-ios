@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>1 de Mayo</string>
+	<string>10 de Febrero</string>
+	<string>11 de Septiembre</string>
+	<string>12 de Octubre</string>
+	<string>14 de Julio</string>
+	<string>20 de Septiembre</string>
+	<string>25 de Mayo</string>
+	<string>Calle 252</string>
+	<string>Calle 254</string>
+	<string>3 de Febrero</string>
+	<string>9 de Julio</string>
+	<string>A Amaya
+</string>
+	<string>A Courel</string>
+	<string>A Galeana</string>
+	<string>A Martinez</string>
+	<string>A Saenz</string>
+	<string>A Sandino</string>
+	<string>Acevedo MA</string>
+	<string>Acha</string>
+	<string>Agote</string>
+	<string>Agua Blanca</string>
+	<string>Aguado</string>
+	<string>Alberti</string>
+	<string>Alejandro Korn</string>
+	<string>Alfonsina Storni</string>
+	<string>Alfredo Lepera</string>
+	<string>Algarrobos</string>
+	<string>Almafuerte</string>
+	<string>Almirante Brown</string>
+	<string>Alsina</string>
+	<string>Alvarado</string>
+	<string>Alvarez</string>
+	<string>Alvarez Condarco</string>
+	<string>Angelelli</string>
+	<string>Antonio Alice</string>
+	<string>AR Canosa</string>
+	<string>Araña y Goiri</string>
+	<string>Aragon
+</string>
+	<string>Araoz</string>
+	<string>ARENALES</string>
+	<string>Aristobulo del Valle</string>
+	<string>Armenia
+</string>
+	<string>Arolas</string>
+	<string>Aromos</string>
+	<string>Arrue</string>
+	<string>Artigas</string>
+	<string>Asturias</string>
+	<string>Av Antartida Argentina</string>
+	<string>Av Bosque Grande
+</string>
+	<string>Av Carlos Gardel</string>
+	<string>Av Centenario</string>
+	<string>Av Cervantes Saavedra</string>
+	<string>Av Champagnat</string>
+	<string>Av Coelho de Meyrelles</string>
+	<string>Av Colon</string>
+	<string>Av Constitucion</string>
+	<string>Av de Circunvalacion Mario Bravo</string>
+	<string>Av de Las Olimpiadas</string>
+	<string>Av de los Pescadores</string>
+	<string>Av Della Paolera</string>
+	<string>Av Dr Arturo Alio</string>
+	<string>Av Felix U Camet</string>
+	<string>Av Fermin Errera</string>
+	<string>Av Fortunato de la Plaza</string>
+	<string>Av Fray Luis Beltran</string>
+	<string>Av Independencia</string>
+	<string>Av Jorge Newbery</string>
+	<string>Av Jose Manuel Estrada</string>
+	<string>Av Juan B Justo</string>
+	<string>Av Juan H Jara</string>
+	<string>Av Juan Jose Paso</string>
+	<string>Av Libertad
+</string>
+	<string>Av Martinez de Hoz
+</string>
+	<string>Av Monseñor Zabala</string>
+	<string>Av Patricio Peralta Ramos
+</string>
+	<string>Av Pedro Luro
+</string>
+	<string>Av Peralta Ramos
+</string>
+	<string>Av Polonia</string>
+	<string>Av Tejedor</string>
+	<string>Avellaneda</string>
+	<string>Ayacucho</string>
+	<string>Ayelep</string>
+	<string>Ayolas</string>
+	<string>Azcuenaga</string>
+	<string>Azcuenaga Maizani</string>
+	<string>Azopardo</string>
+	<string>B Goñi</string>
+	<string>Bahia Blanca</string>
+	<string>Bahia Thetis</string>
+	<string>Balcarce
+</string>
+	<string>Bartolome Mitre</string>
+	<string>Bayley</string>
+	<string>Belgica</string>
+	<string>Belgrano</string>
+	<string>Belisario Roldan</string>
+	<string>Beltrami</string>
+	<string>Benito Juarez</string>
+	<string>Benito Lynch</string>
+	<string>Benito Quinquela Martin</string>
+	<string>Bermejo</string>
+	<string>Bernardo de Irigoyen</string>
+	<string>Bernardo O Higgins</string>
+	<string>Beruti</string>
+	<string>Bestoso</string>
+	<string>Biedma</string>
+	<string>Blas Parera</string>
+	<string>Bolivar</string>
+	<string>Bolivia</string>
+	<string>Bordabehere</string>
+	<string>Bormida</string>
+	<string>Bouchard</string>
+	<string>Brandsen</string>
+	<string>Brasil</string>
+	<string>Buenos Aires</string>
+	<string>Buque pesquero Dorrego</string>
+	<string>C Arenal</string>
+	<string>C Daglio</string>
+	<string>C Rodriiguez</string>
+	<string>Cabo Corrientes</string>
+	<string>Cabo de Hornos</string>
+	<string>Cabrera</string>
+	<string>Cacique Catriel</string>
+	<string>Cacique Chuyantuya</string>
+	<string>Calabria</string>
+	<string>Calle 1</string>
+	<string>Calle 224</string>
+	<string>Calle 415</string>
+	<string>Calle 445</string>
+	<string>Calle 461</string>
+	<string>Calle 493</string>
+	<string>Calle 6</string>
+	<string>Calle 663</string>
+	<string>Calle 8</string>
+	<string>Calle A</string>
+	<string>Calle C</string>
+	<string>Camino parque hermoso</string>
+	<string>Campaña</string>
+	<string>Canada</string>
+	<string>Candelaria</string>
+	<string>Canesa</string>
+	<string>Carasa</string>
+	<string>Carlos Pellegrini</string>
+	<string>Carmen de Las Flores</string>
+	<string>Carriego</string>
+	<string>Carrillo</string>
+	<string>Caseros</string>
+	<string>Castelli</string>
+	<string>Castex</string>
+	<string>Castro Barros</string>
+	<string>Catalina Daprotis</string>
+	<string>Cataluña</string>
+	<string>Catamarca</string>
+	<string>Ceferino Namuncura</string>
+	<string>Ceretti</string>
+	<string>Cerrito</string>
+	<string>Chacabuco</string>
+	<string>Chaco</string>
+	<string>Chapeau Rouge</string>
+	<string>Charlone</string>
+	<string>Chilabert M</string>
+	<string>Chile</string>
+	<string>Chubut</string>
+	<string>Cipriano</string>
+	<string>Ciudad de Bragado</string>
+	<string>Ciudad de Dolores</string>
+	<string>Ciudad de Oneglia</string>
+	<string>Ciudad de Roma</string>
+	<string>Ciudad de Rosario</string>
+	<string>Ciudad de Toscana</string>
+	<string>Cnel de Marina David Jewett</string>
+	<string>Cnel Suarez</string>
+	<string>Cnel Vidal</string>
+	<string>Colombia</string>
+	<string>Colombres</string>
+	<string>Comodoro Rivadavia</string>
+	<string>Corbeta Uruguay</string>
+	<string>Cordoba</string>
+	<string>Corrientes</string>
+	<string>Costa</string>
+	<string>Costa Atlantica</string>
+	<string>Costa Azul</string>
+	<string>Costa Pampeana</string>
+	<string>Cramer</string>
+	<string>Croce</string>
+	<string>Cuba</string>
+	<string>D Sciocco</string>
+	<string>Daireaux</string>
+	<string>Dardo Rocha</string>
+	<string>Darragueyra</string>
+	<string>David Ortega</string>
+	<string>De Anchorena</string>
+	<string>De la Maza</string>
+	<string>De Los Inmigrantes</string>
+	<string>De Los Reservistas</string>
+	<string>Dean Funes</string>
+	<string>Del Lago</string>
+	<string>Dellepiane</string>
+	<string>Derqui</string>
+	<string>Diag del Hipodromo</string>
+	<string>Diag Elpidio Gonzalez</string>
+	<string>Diag Estados Unidos Norte</string>
+	<string>Diag Jose Garibaldi</string>
+	<string>Diag Juan Bautista Alberdi</string>
+	<string>Diag Leopoldo Lugones</string>
+	<string>Diag A Firpo</string>
+	<string>Diag Canata</string>
+	<string>Diag Pueyrredon</string>
+	<string>Dieckmann</string>
+	<string>Don Bosco</string>
+	<string>Don Orione</string>
+	<string>Dorrego</string>
+	<string>E Bradley</string>
+	<string>E Calabrese</string>
+	<string>E Wilde</string>
+	<string>Echeverria</string>
+	<string>Ecuador</string>
+	<string>Einstein Albert</string>
+	<string>El Benteveo</string>
+	<string>El Cano</string>
+	<string>El Carpintero</string>
+	<string>El Chaja</string>
+	<string>El Chingolo</string>
+	<string>El Churrinche</string>
+	<string>El Corbatita</string>
+	<string>El Flamenco</string>
+	<string>El Gaviotin</string>
+	<string>El Gorrion</string>
+	<string>El Hornero</string>
+	<string>El Jilgero</string>
+	<string>El Leñatero</string>
+	<string>El Mixto</string>
+	<string>El Pampero</string>
+	<string>El Pirincho</string>
+	<string>El Tero</string>
+	<string>El Tordo</string>
+	<string>Elisa A. de Bosch</string>
+	<string>Entre Rios</string>
+	<string>España</string>
+	<string>Esperanto</string>
+	<string>Esquivel</string>
+	<string>Estado de Israel</string>
+	<string>Estancia Chapadmalal</string>
+	<string>Estancia Corona</string>
+	<string>Estancia El Boqueron</string>
+	<string>Estancia la Armonia</string>
+	<string>Estancia la Peregrina</string>
+	<string>Estancia Vivorata</string>
+	<string>Estanislao Zeballos</string>
+	<string>Etchegaray</string>
+	<string>Eusebione</string>
+	<string>F Ferrer</string>
+	<string>F Juan Cetz</string>
+	<string>F Outes</string>
+	<string>Falucho</string>
+	<string>Federico Rauch</string>
+	<string>Felipe de Araña</string>
+	<string>Fernandez JN</string>
+	<string>Fernando Bonet</string>
+	<string>Ferrari</string>
+	<string>Figueroa Alcorta</string>
+	<string>Fitte</string>
+	<string>Fleming</string>
+	<string>Florencio Sanchez</string>
+	<string>Florentino Ameghino</string>
+	<string>Florisbelo Acosta</string>
+	<string>Formosa</string>
+	<string>Fragata Libertad</string>
+	<string>Fragata Sarmiento</string>
+	<string>Francia</string>
+	<string>Francisco Canaro</string>
+	<string>Fray Mamerto Esquiu</string>
+	<string>French</string>
+	<string>Friuli</string>
+	<string>Gaboto</string>
+	<string>Galicia</string>
+	<string>Garagiola</string>
+	<string>Garay</string>
+	<string>Garcia Lorca</string>
+	<string>Gascon</string>
+	<string>Genova</string>
+	<string>Geronimo Rejon</string>
+	<string>Giacobini</string>
+	<string>Gianelli</string>
+	<string>Godoy Cruz</string>
+	<string>Gonzalez Chavez</string>
+	<string>Gonzalez Guerrico</string>
+	<string>Gral Alvear</string>
+	<string>Gral de Riego</string>
+	<string>Gral Madariaga</string>
+	<string>Gral Mosconi</string>
+	<string>Gral Pacheco</string>
+	<string>Gral Paz</string>
+	<string>Gral Rivas</string>
+	<string>Gral Roca</string>
+	<string>Gral Savio</string>
+	<string>Grecia</string>
+	<string>Guanahani</string>
+	<string>Guardacostas Islas Malvinas</string>
+	<string>Guardacostas Rio Iguazu</string>
+	<string>Guayana</string>
+	<string>Guernica</string>
+	<string>Guido</string>
+	<string>Guiraldes</string>
+	<string>Gutemberg</string>
+	<string>Heguilor</string>
+	<string>Herminia Brumana</string>
+	<string>Hernandarias</string>
+	<string>Hipolito Yrigoyen</string>
+	<string>Homero Manzi</string>
+	<string>Houssay</string>
+	<string>Hudson</string>
+	<string>Ignacio Olan</string>
+	<string>Int Camusso</string>
+	<string>Int India</string>
+	<string>Int Mac Gaull</string>
+	<string>Irala</string>
+	<string>Isla Baleares</string>
+	<string>Isla de Los Estados</string>
+	<string>Isla de Serdeña</string>
+	<string>Italia</string>
+	<string>Ituzaingo</string>
+	<string>J Frenguelli</string>
+	<string>J Peña</string>
+	<string>J Pedroni</string>
+	<string>J Pujia</string>
+	<string>J Yahaty</string>
+	<string>Jauretche</string>
+	<string>JB Ambrosetti</string>
+	<string>Joaquin Acevedo</string>
+	<string>Joaquin V Gonzalez</string>
+	<string>Jose Ingenieros</string>
+	<string>Jose Maria Calaza</string>
+	<string>Jose Marmol</string>
+	<string>Jose Marti</string>
+	<string>Jose Hernandez</string>
+	<string>Jovellanos</string>
+	<string>Juan Calchaqui</string>
+	<string>Juan de Dios Filiberto</string>
+	<string>Juan de Solis</string>
+	<string>Juan Jose Valle</string>
+	<string>Juana Azurduy</string>
+	<string>Juana Gorriti</string>
+	<string>Juana Manso</string>
+	<string>Jujuy</string>
+	<string>Julian Aguirre</string>
+	<string>Juncal</string>
+	<string>Juramento</string>
+	<string>Kraglievich</string>
+	<string>L Bautista</string>
+	<string>L Parodi</string>
+	<string>L Scaglia</string>
+	<string>La Aurora</string>
+	<string>La Calandria</string>
+	<string>La Cigueña</string>
+	<string>La Golondrina</string>
+	<string>La Primavera</string>
+	<string>La Ratonera</string>
+	<string>La Rioja</string>
+	<string>La Torcacita</string>
+	<string>Labarden</string>
+	<string>Laguna de Los Padres</string>
+	<string>Lahille</string>
+	<string>Lamadrid</string>
+	<string>Lanzilota</string>
+	<string>Laprida</string>
+	<string>Larrea</string>
+	<string>Las Cabrillas</string>
+	<string>Las Casuarinas</string>
+	<string>Las Dalias</string>
+	<string>Las Fresias</string>
+	<string>Las Heras</string>
+	<string>Las Higueras</string>
+	<string>Las Maravillas</string>
+	<string>Las Margaritas</string>
+	<string>Las Palmeras</string>
+	<string>Las Talas</string>
+	<string>Las Violetas</string>
+	<string>Lavalle</string>
+	<string>Leandro N Alem</string>
+	<string>Lebensohn</string>
+	<string>Leguizamon O</string>
+	<string>Libres del Sud</string>
+	<string>Lijo Lopez</string>
+	<string>Liniers</string>
+	<string>Lisandro de la Torre</string>
+	<string>Lituania</string>
+	<string>Loberia</string>
+	<string>Lombardia</string>
+	<string>Lopez de Gomara</string>
+	<string>Lopez y Planes</string>
+	<string>Lorenzini</string>
+	<string>Los Alamos</string>
+	<string>Los Arrayanes</string>
+	<string>Los Caldenes</string>
+	<string>Los Cedros</string>
+	<string>Los Ceibos</string>
+	<string>Los Cerezos</string>
+	<string>Los Chañares</string>
+	<string>Los Duraznos</string>
+	<string>Los Eucaliptos</string>
+	<string>Los Granados</string>
+	<string>Los Limoneros</string>
+	<string>Los Manzanos</string>
+	<string>Los Naranjos</string>
+	<string>Los Nogales</string>
+	<string>Los Olmos</string>
+	<string>Los Pinos</string>
+	<string>Los Platanos</string>
+	<string>Los Quebrachos</string>
+	<string>Los Robles</string>
+	<string>Los Sauces</string>
+	<string>Lucio Mansilla</string>
+	<string>Luzuriaga</string>
+	<string>M. Baigorria</string>
+	<string>Magallanes</string>
+	<string>Magnasco</string>
+	<string>Maipu</string>
+	<string>Malabia</string>
+	<string>Malvinas</string>
+	<string>Manuela Pedraza</string>
+	<string>Manuwal</string>
+	<string>Marcelo T de Alvear</string>
+	<string>Marchi</string>
+	<string>Marconi</string>
+	<string>Marcos Sastre</string>
+	<string>Maria Curie</string>
+	<string>Mariani</string>
+	<string>Mariano Acosta</string>
+	<string>Mariano Rosa</string>
+	<string>Mariano Rosas</string>
+	<string>Martin Miguel de Guemes</string>
+	<string>Martin Rodriguez</string>
+	<string>Martinez Zuviria</string>
+	<string>Mascias</string>
+	<string>Matheu</string>
+	<string>Medrano</string>
+	<string>Mendez Funes de Millan</string>
+	<string>Mendoza</string>
+	<string>Mexico</string>
+	<string>MF Origone</string>
+	<string>Miguel Sagastizabal</string>
+	<string>Misiones</string>
+	<string>Monsalvo</string>
+	<string>Monseñor de Andrea</string>
+	<string>Monseñor Enrique Rau</string>
+	<string>Montes</string>
+	<string>Montes Carballo</string>
+	<string>Moreno</string>
+	<string>N Romano</string>
+	<string>Napoles</string>
+	<string>NAVARRA</string>
+	<string>Necochea</string>
+	<string>Neuquen</string>
+	<string>Newbery</string>
+	<string>Ojo de Agua</string>
+	<string>Olavarria</string>
+	<string>Olazabal</string>
+	<string>Olazar</string>
+	<string>Olegario Andrade</string>
+	<string>Ombu</string>
+	<string>Ombues</string>
+	<string>Ortega y Gasset</string>
+	<string>Ortiz de Zarate</string>
+	<string>P Groeber</string>
+	<string>Pablo Neruda</string>
+	<string>Pacheco de Melo</string>
+	<string>Padre Cardiel</string>
+	<string>Padre Dutto</string>
+	<string>Padre Luis Varetto</string>
+	<string>Palma</string>
+	<string>Pampa</string>
+	<string>Paraguay</string>
+	<string>Pascuala Mugaburu</string>
+	<string>Paseo Jesus de Galindez</string>
+	<string>Pasteur</string>
+	<string>Patagones</string>
+	<string>Paula Albarracin</string>
+	<string>Paunero</string>
+	<string>Pedro Ferre</string>
+	<string>Pehuajo</string>
+	<string>Pelayo</string>
+	<string>Perez Bulnes</string>
+	<string>Peru</string>
+	<string>Pescadores</string>
+	<string>Pesquero Halcon</string>
+	<string>Pesquero Palma Madre</string>
+	<string>Pesquero Pumara</string>
+	<string>Piñacal</string>
+	<string>Piedrabuena</string>
+	<string>Pigue</string>
+	<string>Piran</string>
+	<string>Plus Ultra</string>
+	<string>Portugal</string>
+	<string>Posadas</string>
+	<string>Primera Junta</string>
+	<string>Pringles</string>
+	<string>Puan</string>
+	<string>Quintana</string>
+	<string>Quiroga</string>
+	<string>R Arlt</string>
+	<string>Racedo</string>
+	<string>Ramirez</string>
+	<string>Ratery</string>
+	<string>Rawson</string>
+	<string>Razzano</string>
+	<string>Reforma Universitaria</string>
+	<string>Remedios de Escalada</string>
+	<string>Remolcado Guarani</string>
+	<string>Rep Arabe Siria</string>
+	<string>Rep del Libano</string>
+	<string>Republica de Nicaragua</string>
+	<string>Ricardo Gutierrez</string>
+	<string>Ricardo Rojas</string>
+	<string>Ringuelet</string>
+	<string>Rio Negro</string>
+	<string>Rivadavia</string>
+	<string>Rizzutto</string>
+	<string>Roberto Payro</string>
+	<string>Rodolfo Walsh</string>
+	<string>Rodriguez Peña</string>
+	<string>Roffo</string>
+	<string>Romero</string>
+	<string>Rondeau</string>
+	<string>Roque Saenz Peña</string>
+	<string>Rosales</string>
+	<string>S Cabral</string>
+	<string>Saavedra</string>
+	<string>Salta</string>
+	<string>San Antonio</string>
+	<string>SAN CAYETANO</string>
+	<string>San Francisco de Asis</string>
+	<string>San Jose de Calasanz</string>
+	<string>San Juan</string>
+	<string>San Lorenzo</string>
+	<string>San Luis</string>
+	<string>San Martin</string>
+	<string>San Salvador</string>
+	<string>Sanchez de Bustamante</string>
+	<string>Sanchez Labrador</string>
+	<string>Santa Cecilia</string>
+	<string>Santa Cruz</string>
+	<string>Santa Fe</string>
+	<string>Santa Maria de Oro</string>
+	<string>Santiago del Estero</string>
+	<string>Santiago Lacamtu</string>
+	<string>Sarmiento</string>
+	<string>Serrano</string>
+	<string>Sicilia</string>
+	<string>Silvestre Tohel</string>
+	<string>Soler</string>
+	<string>Strobel</string>
+	<string>Submarino Ara Santa Fe</string>
+	<string>T Stegagnini</string>
+	<string>Talcahuano</string>
+	<string>Tandil</string>
+	<string>Tapia</string>
+	<string>Teodoro Bronzini</string>
+	<string>Termas de Rio Hondo</string>
+	<string>Tetamanti</string>
+	<string>Thames</string>
+	<string>Tierra del Fuego</string>
+	<string>Tomas Edison</string>
+	<string>Tomas Falkner</string>
+	<string>Torres de Vera y Aragon</string>
+	<string>Tres Arroyos</string>
+	<string>Trinidad Tobago</string>
+	<string>Tripulantes del Fournier</string>
+	<string>Triunvirato</string>
+	<string>Tucuman</string>
+	<string>Udine</string>
+	<string>Unamuno</string>
+	<string>Urquiza</string>
+	<string>Uruguay</string>
+	<string>V Sayhueque</string>
+	<string>Valencia</string>
+	<string>Valentini</string>
+	<string>Velez</string>
+	<string>Velez Sarsfield</string>
+	<string>Venezuela</string>
+	<string>Vergara</string>
+	<string>Vernet</string>
+	<string>Vertiz</string>
+	<string>Viña del Mar</string>
+	<string>Viamonte</string>
+	<string>Vicente Lopez</string>
+	<string>Vieytes</string>
+	<string>Vignolo</string>
+	<string>Villar</string>
+	<string>Vucetich</string>
+	<string>Vuelta de Obligado</string>
+	<string>Vulcan</string>
+	<string>William Morris</string>
+	<string>Yapeyu</string>
+	<string>Zacagnini</string>
+	<string>Zanni</string>
+	<string>Zarate</string>
+</array>
+
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   Streets.plist
+   MyBus
+
+   Created by Julieta Gonzalez Poume on 7/20/16.
+   Copyright (c) 2016 Spark Digital. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+
+    </dict>
+</plist>

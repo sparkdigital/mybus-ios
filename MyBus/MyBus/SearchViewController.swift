@@ -224,7 +224,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
                 if error == nil {
                     self.bestMatches = []
                     for street in streets! {
-                        self.bestMatches.append(street.name)
+                        self.bestMatches.append(street)
                     }
                     self.streetSuggestionsDataSource.bestMatches = self.bestMatches
                     self.resultsTableView.reloadData()
