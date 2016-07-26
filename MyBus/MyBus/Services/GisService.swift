@@ -26,18 +26,18 @@ private let addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=ca
 private let coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)"
 
 public class GisService: NSObject, GisServiceDelegate {
-    
+
     func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     {
         let streetsArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Streets", ofType: "plist")!)
-        
+
         if let streets = streetsArray {
             let streetsFiltered = (streets as! [String]).filter{($0.lowercaseString).containsString(address.lowercaseString)}
-            completionHandler(streetsFiltered,nil)
+            completionHandler(streetsFiltered, nil)
         }
         else{
-            let error: NSError = NSError(domain:"street plist",code:2,userInfo:nil)
-            completionHandler(nil,error)
+            let error: NSError = NSError(domain:"street plist", code:2, userInfo:nil)
+            completionHandler(nil, error)
         }
     }
 
