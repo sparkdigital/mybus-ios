@@ -13,8 +13,7 @@
 	<string>Calle 254</string>
 	<string>3 de Febrero</string>
 	<string>9 de Julio</string>
-	<string>A Amaya
-</string>
+	<string>A Amaya</string>
 	<string>A Courel</string>
 	<string>A Galeana</string>
 	<string>A Martinez</string>
@@ -40,21 +39,18 @@
 	<string>Antonio Alice</string>
 	<string>AR Canosa</string>
 	<string>Araña y Goiri</string>
-	<string>Aragon
-</string>
+	<string>Aragon</string>
 	<string>Araoz</string>
 	<string>ARENALES</string>
 	<string>Aristobulo del Valle</string>
-	<string>Armenia
-</string>
+	<string>Armenia</string>
 	<string>Arolas</string>
 	<string>Aromos</string>
 	<string>Arrue</string>
 	<string>Artigas</string>
 	<string>Asturias</string>
 	<string>Av Antartida Argentina</string>
-	<string>Av Bosque Grande
-</string>
+	<string>Av Bosque Grande</string>
 	<string>Av Carlos Gardel</string>
 	<string>Av Centenario</string>
 	<string>Av Cervantes Saavedra</string>
@@ -77,17 +73,12 @@
 	<string>Av Juan B Justo</string>
 	<string>Av Juan H Jara</string>
 	<string>Av Juan Jose Paso</string>
-	<string>Av Libertad
-</string>
-	<string>Av Martinez de Hoz
-</string>
+	<string>Av Libertad</string>
+	<string>Av Martinez de Hoz</string>
 	<string>Av Monseñor Zabala</string>
-	<string>Av Patricio Peralta Ramos
-</string>
-	<string>Av Pedro Luro
-</string>
-	<string>Av Peralta Ramos
-</string>
+	<string>Av Patricio Peralta Ramos</string>
+	<string>Av Pedro Luro</string>
+	<string>Av Peralta Ramos</string>
 	<string>Av Polonia</string>
 	<string>Av Tejedor</string>
 	<string>Avellaneda</string>
@@ -100,8 +91,7 @@
 	<string>B Goñi</string>
 	<string>Bahia Blanca</string>
 	<string>Bahia Thetis</string>
-	<string>Balcarce
-</string>
+	<string>Balcarce</string>
 	<string>Bartolome Mitre</string>
 	<string>Bayley</string>
 	<string>Belgica</string>
@@ -609,17 +599,4 @@
 	<string>Zanni</string>
 	<string>Zarate</string>
 </array>
-
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-   Streets.plist
-   MyBus
-
-   Created by Julieta Gonzalez Poume on 7/20/16.
-   Copyright (c) 2016 Spark Digital. All rights reserved.
--->
-<plist version="1.0">
-    <dict>
-
-    </dict>
 </plist>
