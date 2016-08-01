@@ -6,5 +6,5 @@ whitelist_rules:
   - comma
   - control_statement
 excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - Pods
-  - MyBusTests
+  - MyBus/Pods
+  - MyBus/MyBusTests
