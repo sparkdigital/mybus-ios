@@ -18,8 +18,8 @@ protocol MyBusServiceDelegate {
     func searchRoads(roadType: MyBusRouteResultType, roadSearch: RoadSearch, completionHandler: (RoadResult?, NSError?) -> ())
 }
 
-private let myBusAccessToken = "94a08da1fecbb6e8b46990538c7b50b2"
-private let myBusBaseURL = "http://www.mybus.com.ar/api/v1/"
+private let myBusAccessToken = Configuration.myBusApiKey()
+private let myBusBaseURL = Configuration.myBusApiUrl()
 
 public class MyBusService: NSObject, MyBusServiceDelegate {
 

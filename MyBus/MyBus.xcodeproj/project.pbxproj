@@ -32,6 +32,8 @@
 		A0926D111CFA44EE00246534 /* MapBoxDirectionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */; };
 		A0926D131CFA44FE00246534 /* GisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D121CFA44FE00246534 /* GisService.swift */; };
 		A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D161CFA540F00246534 /* GeoCodingService.swift */; };
+		A0AA4C1D1D4ABEBA00F2A1F6 /* AppConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */; };
+		A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */; };
 		A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */; };
 		A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */; };
 		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
@@ -81,6 +83,8 @@
 		A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBoxDirectionsService.swift; path = Services/MapBoxDirectionsService.swift; sourceTree = "<group>"; };
 		A0926D121CFA44FE00246534 /* GisService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GisService.swift; path = Services/GisService.swift; sourceTree = "<group>"; };
 		A0926D161CFA540F00246534 /* GeoCodingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingService.swift; path = Services/GeoCodingService.swift; sourceTree = "<group>"; };
+		A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppConfiguration.plist; sourceTree = "<group>"; };
+		A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResult.swift; path = Model/BusRouteResult.swift; sourceTree = "<group>"; };
 		A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRoute.swift; path = Model/BusRoute.swift; sourceTree = "<group>"; };
 		A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResult.swift; path = Model/Road/RoadResult.swift; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				08EC58501CBD482400E8410A /* AppDelegate.swift */,
+				A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */,
 				08EC58731CBD486000E8410A /* Controllers */,
 				08EC58751CBD486D00E8410A /* Services */,
 				08EC58741CBD486600E8410A /* Model */,
@@ -203,6 +208,7 @@
 				C542E36B1D48EF0F009FF442 /* Streets.plist */,
 				08EC585A1CBD482400E8410A /* Assets.xcassets */,
 				08EC585F1CBD482400E8410A /* Info.plist */,
+				A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -342,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08EC585E1CBD482400E8410A /* LaunchScreen.storyboard in Resources */,
+				A0AA4C1D1D4ABEBA00F2A1F6 /* AppConfiguration.plist in Resources */,
 				C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */,
 				08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */,
 				08EC58561CBD482400E8410A /* Main.storyboard in Resources */,
@@ -434,6 +441,7 @@
 				112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
+				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
 				A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */,
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,

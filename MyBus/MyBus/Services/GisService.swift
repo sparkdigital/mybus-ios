@@ -29,16 +29,14 @@ public class GisService: NSObject, GisServiceDelegate {
 
     func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     {
-        let streetsArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Streets", ofType: "plist")!)
+        let streets = Configuration.streetsName()
 
-        if let streets = streetsArray {
-            let streetsFiltered = (streets as! [String]).filter{($0.lowercaseString).containsString(address.lowercaseString)}
-            completionHandler(streetsFiltered, nil)
-        }
-        else{
+        guard streets.count > 0 else {
             let error: NSError = NSError(domain:"street plist", code:2, userInfo:nil)
-            completionHandler(nil, error)
+            return completionHandler(nil, error)
         }
+        let streetsFiltered = streets.filter{($0.lowercaseString).containsString(address.lowercaseString)}
+        completionHandler(streetsFiltered, nil)
     }
 
     public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
