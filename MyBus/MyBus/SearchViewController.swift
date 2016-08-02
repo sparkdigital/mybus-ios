@@ -202,16 +202,11 @@ class SearchViewController: UIViewController, UITableViewDelegate
         case 0:
             uiTextField.text = "\(favourites![indexPath.row].streetName) \(favourites![indexPath.row].houseNumber)"
         case 1:
-            if self.roadResultList.count == 0 {
-                uiTextField.text = "\(bestMatches[indexPath.row]) "
-                // Change & update keyboard type
-                uiTextField.keyboardType = UIKeyboardType.NumberPad
-                uiTextField.resignFirstResponder()
-                uiTextField.becomeFirstResponder()
-            } else {
-                let road = roadResultList[indexPath.row]
-                searchViewProtocol?.newBusRoad(road)
-            }
+            uiTextField.text = "\(bestMatches[indexPath.row]) "
+            // Change & update keyboard type
+            uiTextField.keyboardType = UIKeyboardType.NumberPad
+            uiTextField.resignFirstResponder()
+            uiTextField.becomeFirstResponder()
         default: break
         }
     }
