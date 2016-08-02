@@ -30,9 +30,9 @@ public class Connectivity: NSObject
     override init() { }
 
     // MARK: Municipality Endpoints
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
+    func getStreetNames(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     {
-        mgpGisService.getStreetNames(forName: address, completionHandler: completionHandler)
+        mgpGisService.getStreetNamesByFile(forName: address, completionHandler: completionHandler)
     }
 
     public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
