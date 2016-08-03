@@ -12,10 +12,9 @@ import RealmSwift
 
 protocol MapBusRoadDelegate {
     func newBusRoad(mapBusRoad: MapBusRoad)
-    func newResults(busResults: [String])
+    func newResults(busResults: [String], busResultsDetail: [BusRouteResult])
     func newOrigin(coordinate: CLLocationCoordinate2D, address: String)
     func newDestination(coordinate: CLLocationCoordinate2D, address: String)
-    func detailBusRoadResults(mapBusRoads: [MapBusRoad])
 }
 
 class SearchViewController: UIViewController, UITableViewDelegate
@@ -149,42 +148,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
                 🚌.removeAtIndex(🚌.endIndex.predecessor())
                 self.busResults.append(🚌)
             }
-            self.searchViewProtocol?.newResults(self.busResults)
-            self.getBusRoads(busRouteResults!)
-        }
-    }
-
-    func getBusRoads(busRouteResults: [BusRouteResult]) -> Void {
-        for busRouteResult in busRouteResults {
-            let index = busRouteResults.indexOf(busRouteResult)
-            let busRouteType: MyBusRouteResultType = busRouteResult.busRouteType == 0 ? MyBusRouteResultType.Single : MyBusRouteResultType.Combined
-
-
-            switch busRouteType {
-            case .Single:
-                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, firstDirection: (busRouteResult.busRoutes.first?.busLineDirection)!, beginStopFirstLine: (busRouteResult.busRoutes.first?.startBusStopNumber)!, endStopFirstLine: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
-                    singleRoad, error in
-                    let mapBusRoad = MapBusRoad().addBusRoadOnMap(singleRoad!)
-                    print("single \(index)")
-                    self.roadResultList.append(mapBusRoad)
-                    if self.roadResultList.count == self.busResults.count {
-                        self.searchViewProtocol?.detailBusRoadResults(self.roadResultList)
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                }
-            case .Combined:
-                let firstBusRoute = busRouteResult.busRoutes.first
-                let secondBusRoute = busRouteResult.busRoutes.last
-                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idSecondLine: (secondBusRoute?.idBusLine)!, firstDirection: (firstBusRoute?.busLineDirection)!, secondDirection: (secondBusRoute?.busLineDirection)!, beginStopFirstLine: (firstBusRoute?.startBusStopNumber)!, endStopFirstLine: (firstBusRoute?.destinationBusStopNumber)!, beginStopSecondLine: (secondBusRoute?.startBusStopNumber)!, endStopSecondLine: (secondBusRoute?.destinationBusStopNumber)!) {
-                    combinedRoad, error in
-                    print("combined \(index)")
-                    self.roadResultList.append(MapBusRoad().addBusRoadOnMap(combinedRoad!))
-                    if self.roadResultList.count == self.busResults.count {
-                        self.searchViewProtocol?.detailBusRoadResults(self.roadResultList)
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                }
-            }
+            self.searchViewProtocol?.newResults(self.busResults, busResultsDetail: busRouteResults!)
         }
     }
 
