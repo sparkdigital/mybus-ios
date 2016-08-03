@@ -18,8 +18,10 @@
 		08EC58691CBD482400E8410A /* MyBusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58681CBD482400E8410A /* MyBusTests.swift */; };
 		112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112A11031CE1286600D00709 /* MapBusRoad.swift */; };
 		112A11091CE5194A00D00709 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112A11081CE5194A00D00709 /* Strings.swift */; };
+		11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D4BEE41D343B51005E0031 /* MainViewController.swift */; };
 		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
+		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
 		1442CDF06BAB610AD4C299F5 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
@@ -30,10 +32,13 @@
 		A0926D111CFA44EE00246534 /* MapBoxDirectionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */; };
 		A0926D131CFA44FE00246534 /* GisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D121CFA44FE00246534 /* GisService.swift */; };
 		A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D161CFA540F00246534 /* GeoCodingService.swift */; };
+		A0AA4C1D1D4ABEBA00F2A1F6 /* AppConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */; };
+		A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */; };
 		A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */; };
 		A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */; };
 		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
 		A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */; };
+		C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C542E36B1D48EF0F009FF442 /* Streets.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,8 +67,10 @@
 		08EC586A1CBD482400E8410A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		112A11031CE1286600D00709 /* MapBusRoad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBusRoad.swift; path = Model/Road/MapBusRoad.swift; sourceTree = "<group>"; };
 		112A11081CE5194A00D00709 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		11D4BEE41D343B51005E0031 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsDataSource.swift; sourceTree = "<group>"; };
 		35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.debug.xcconfig"; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,11 +83,14 @@
 		A0926D101CFA44EE00246534 /* MapBoxDirectionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBoxDirectionsService.swift; path = Services/MapBoxDirectionsService.swift; sourceTree = "<group>"; };
 		A0926D121CFA44FE00246534 /* GisService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GisService.swift; path = Services/GisService.swift; sourceTree = "<group>"; };
 		A0926D161CFA540F00246534 /* GeoCodingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingService.swift; path = Services/GeoCodingService.swift; sourceTree = "<group>"; };
+		A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppConfiguration.plist; sourceTree = "<group>"; };
+		A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResult.swift; path = Model/BusRouteResult.swift; sourceTree = "<group>"; };
 		A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRoute.swift; path = Model/BusRoute.swift; sourceTree = "<group>"; };
 		A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResult.swift; path = Model/Road/RoadResult.swift; sourceTree = "<group>"; };
 		A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseNetworkService.swift; path = Services/BaseNetworkService.swift; sourceTree = "<group>"; };
 		B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
+		C542E36B1D48EF0F009FF442 /* Streets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Streets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				08EC58501CBD482400E8410A /* AppDelegate.swift */,
+				A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */,
 				08EC58731CBD486000E8410A /* Controllers */,
 				08EC58751CBD486D00E8410A /* Services */,
 				08EC58741CBD486600E8410A /* Model */,
@@ -149,6 +160,8 @@
 			children = (
 				08EC58521CBD482400E8410A /* ViewController.swift */,
 				087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */,
+				11D4BEE41D343B51005E0031 /* MainViewController.swift */,
+				11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -192,8 +205,10 @@
 		08EC58771CBD488900E8410A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C542E36B1D48EF0F009FF442 /* Streets.plist */,
 				08EC585A1CBD482400E8410A /* Assets.xcassets */,
 				08EC585F1CBD482400E8410A /* Info.plist */,
+				A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -333,6 +348,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				08EC585E1CBD482400E8410A /* LaunchScreen.storyboard in Resources */,
+				A0AA4C1D1D4ABEBA00F2A1F6 /* AppConfiguration.plist in Resources */,
+				C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */,
 				08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */,
 				08EC58561CBD482400E8410A /* Main.storyboard in Resources */,
 			);
@@ -413,7 +430,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */,
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
+				11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */,
 				A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */,
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
 				A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */,
@@ -422,6 +441,7 @@
 				112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
+				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
 				A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */,
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
@@ -570,7 +590,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2f37549a-6565-42db-bc91-3cbac40ceef0";
+				PROVISIONING_PROFILE = "341c47bd-5593-42af-b683-99a9245c9edf";
 			};
 			name = Debug;
 		};
@@ -579,13 +599,13 @@
 			baseConfigurationReference = B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Roberto Claudio Martinez (VXBU7JZRFH)";
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2f37549a-6565-42db-bc91-3cbac40ceef0";
+				PROVISIONING_PROFILE = "341c47bd-5593-42af-b683-99a9245c9edf";
 			};
 			name = Release;
 		};
