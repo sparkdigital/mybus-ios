@@ -96,17 +96,18 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
             self.currentViewController = self.mapViewController
         }
-        //check the status of localization        
-        if (self.mapViewController.mapView.userLocation != nil)
-        {
-            self.mapViewController.mapView.showsUserLocation = true
-            self.mapViewController.mapView.setZoomLevel(16, animated: false)
         
-        }else{
-            let alert = UIAlertController.init(title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.", preferredStyle: .Alert)
-            let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-            alert.addAction(action)
-            self.presentViewController(alert, animated: true, completion: nil)
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .NotDetermined, .Restricted, .Denied:
+                let alert = UIAlertController.init(title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.", preferredStyle: .Alert)
+                let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+            case .AuthorizedAlways, .AuthorizedWhenInUse:
+                self.mapViewController.mapView.showsUserLocation = true
+                self.mapViewController.mapView.setZoomLevel(16, animated: false)
+            }
         }
     }
 
