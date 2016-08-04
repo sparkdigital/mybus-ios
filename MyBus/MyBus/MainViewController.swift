@@ -96,7 +96,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
             self.currentViewController = self.mapViewController
         }
-        
+
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
             self.mapViewController.mapView.showsUserLocation = true
@@ -127,9 +127,9 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
         self.mapViewController.addBusRoad(mapBusRoad)
     }
 
-    func newResults(results: [String])
+    func newResults(results: [String], busResultsDetail: [BusRouteResult])
     {
-        self.mapViewController.addBusLinesResults(results)
+        self.mapViewController.addBusLinesResults(results, busResultsDetail: busResultsDetail)
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
@@ -143,11 +143,6 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
     func newDestination(destination: CLLocationCoordinate2D, address: String)
     {
         self.mapViewController.addDestinationPosition(destination, address : address)
-    }
-
-    func detailBusRoadResults(mapBusRoads: [MapBusRoad])
-    {
-        self.mapViewController.addDetailedBusRoadResults(mapBusRoads)
     }
 
 }
