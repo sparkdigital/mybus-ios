@@ -61,28 +61,32 @@ class SearchViewController: UIViewController, UITableViewDelegate
     @IBAction func favoriteOriginTapped(sender: AnyObject) {}
 
     @IBAction func favoriteDestinationTapped(sender: AnyObject) {}
-
+    
     @IBAction func searchButtonTapped(sender: AnyObject) {
         let originTextFieldValue = originTextfield.text!
         let destinationTextFieldValue = destinationTextfield.text!
         self.view.endEditing(true)
-
-        //TODO : Extract some pieces of code to clean and do async parallel
-        Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
-            originGeocoded, error in
-
-            let status = originGeocoded!["status"].stringValue
-            switch status {
+        
+        if originTextFieldValue.isEmpty || destinationTextFieldValue.isEmpty{
+            let message = originTextFieldValue.isEmpty ? "El Origen no esta indicado": "El campo Destino no esta indicado"
+            self.generateAlert("No sabemos que buscar", message: message)
+        }
+        else{
+            //TODO : Extract some pieces of code to clean and do async parallel
+            Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
+                originGeocoded, error in
+                
+                let status = originGeocoded!["status"].stringValue
+                switch status {
                 case "OK":
                     let firstResult = originGeocoded!["results"][0]
                     let isAddress = firstResult["address_components"][0]["types"] == [ "street_number" ]
+                    
                     guard isAddress else {
-                        let alert = UIAlertController.init(title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen ingresada", preferredStyle: .Alert)
-                        let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                        alert.addAction(action)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.generateAlert("No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
                         break
                     }
+                    
                     let originLocation = firstResult["geometry"]["location"]
                     let latitudeOrigin: Double = Double(originLocation["lat"].stringValue)!
                     let longitudeOrigin: Double = Double(originLocation["lng"].stringValue)!
@@ -92,65 +96,123 @@ class SearchViewController: UIViewController, UITableViewDelegate
                     self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin), address: address)
                     Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
                         destinationGeocoded, error in
-
+                        
                         let status = destinationGeocoded!["status"].stringValue
                         switch status {
-                            case "OK":
-                                let isAddress = destinationGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
-                                guard isAddress else {
-                                    let alert = UIAlertController.init(title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada", preferredStyle: .Alert)
-                                    let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                                    alert.addAction(action)
-                                    self.presentViewController(alert, animated: true, completion: nil)
-                                    break
-                                }
-                                let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
-                                let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
-                                let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
-
-                                let streetName = destinationGeocoded!["results"][0]["address_components"][1]["short_name"].stringValue
-                                let streetNumber = destinationGeocoded!["results"][0]["address_components"][0]["short_name"].stringValue
-                                let address: String =  "\(streetName) \(streetNumber)"
-
-                                self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination), address: address)
-
-                                self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
-                            default:
-                                let alert = UIAlertController.init(title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada", preferredStyle: .Alert)
-                                let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                                alert.addAction(action)
-                                self.presentViewController(alert, animated: true, completion: nil)
+                        case "OK":
+                            let isAddress = destinationGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
+                            guard isAddress else {
+                                self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
                                 break
+                            }
+                            let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
+                            let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
+                            let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
+                            
+                            let streetName = destinationGeocoded!["results"][0]["address_components"][1]["short_name"].stringValue
+                            let streetNumber = destinationGeocoded!["results"][0]["address_components"][0]["short_name"].stringValue
+                            let address: String =  "\(streetName) \(streetNumber)"
+                            
+                            self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination), address: address)
+                            
+                            self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
+                        default:
+                            self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                            break
                         }
                     }
                 default:
-                    let alert = UIAlertController.init(title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen ingresada", preferredStyle: .Alert)
-                    let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-                    alert.addAction(action)
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
                     break
-
+                    
+                }
+            }//TODO : Extract some pieces of code to clean and do async parallel
+            Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
+                originGeocoded, error in
+                
+                let status = originGeocoded!["status"].stringValue
+                switch status {
+                case "OK":
+                    let firstResult = originGeocoded!["results"][0]
+                    let isAddress = firstResult["address_components"][0]["types"] == [ "street_number" ]
+                    
+                    guard isAddress else {
+                        self.generateAlert("No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
+                        break
+                    }
+                    
+                    let originLocation = firstResult["geometry"]["location"]
+                    let latitudeOrigin: Double = Double(originLocation["lat"].stringValue)!
+                    let longitudeOrigin: Double = Double(originLocation["lng"].stringValue)!
+                    let streetName = firstResult["address_components"][1]["short_name"].stringValue
+                    let streetNumber = firstResult["address_components"][0]["short_name"].stringValue
+                    let address: String =  "\(streetName) \(streetNumber)"
+                    self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin), address: address)
+                    Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
+                        destinationGeocoded, error in
+                        
+                        let status = destinationGeocoded!["status"].stringValue
+                        switch status {
+                        case "OK":
+                            let isAddress = destinationGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
+                            guard isAddress else {
+                                self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                                break
+                            }
+                            let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
+                            let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
+                            let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
+                            
+                            let streetName = destinationGeocoded!["results"][0]["address_components"][1]["short_name"].stringValue
+                            let streetNumber = destinationGeocoded!["results"][0]["address_components"][0]["short_name"].stringValue
+                            let address: String =  "\(streetName) \(streetNumber)"
+                            
+                            self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination), address: address)
+                            
+                            self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
+                        default:
+                            self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                            break
+                        }
+                    }
+                default:
+                    self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                    break
+                }
             }
         }
     }
-
+    
+    func generateAlert(title: String, message: String){
+        let alert = UIAlertController.init(title: title, message: message, preferredStyle: .Alert)
+        let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+        alert.addAction(action)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     func getBusLines(latitudeOrigin: Double, longitudeOrigin: Double, latDestination: Double, lngDestination: Double) -> Void {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) {
             busRouteResults, error in
-            // Reset previous streets names or bus lines and road from a previous search
-            self.busResults = []
-            self.roadResultList = []
-            for busRouteResult in busRouteResults! {
-                var 🚌 : String = "🚍"
-                for route in busRouteResult.busRoutes {
-                    let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
-                    🚌 = "\(🚌) \(busLineFormatted) ➡"
-                }
-                🚌.removeAtIndex(🚌.endIndex.predecessor())
-                self.busResults.append(🚌)
+            
+            if (busRouteResults?.count == 0){
+                self.generateAlert("No encontramos resultados para la busqueda",message:"No existen rutas de colectivo entre el origen y el destino")
             }
-            self.searchViewProtocol?.newResults(self.busResults)
-            self.getBusRoads(busRouteResults!)
+            else{
+                // Reset previous streets names or bus lines and road from a previous search
+                self.busResults = []
+                self.roadResultList = []
+                for busRouteResult in busRouteResults! {
+                    var 🚌 : String = "🚍"
+                    for route in busRouteResult.busRoutes {
+                        let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
+                        🚌 = "\(🚌) \(busLineFormatted) ➡"
+                    }
+                    🚌.removeAtIndex(🚌.endIndex.predecessor())
+                    self.busResults.append(🚌)
+                }
+                self.searchViewProtocol?.newResults(self.busResults)
+                self.getBusRoads(busRouteResults!)
+            }
         }
     }
 

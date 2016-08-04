@@ -96,8 +96,18 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
             self.currentViewController = self.mapViewController
         }
-        self.mapViewController.mapView.showsUserLocation = true
-        self.mapViewController.mapView.setZoomLevel(16, animated: false)
+        
+        let locationServiceAuth = CLLocationManager.authorizationStatus()
+        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+            self.mapViewController.mapView.showsUserLocation = true
+            self.mapViewController.mapView.setZoomLevel(16, animated: false)
+        }
+        else{
+            let alert = UIAlertController.init(title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.", preferredStyle: .Alert)
+            let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+            alert.addAction(action)
+            return self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
 
     // MARK: - IBAction Methods
