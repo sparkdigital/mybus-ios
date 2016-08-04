@@ -34,6 +34,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     var bestMatches: [String] = []
     var roadResultList: [MapBusRoad] = []
     var busResultsDetail: [BusRouteResult] = []
+
+    var currentRouteDisplayed: BusRouteResult?
+
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
@@ -515,8 +518,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
         // Lisandro added the following line because if table expanded is more than 50% of view height zoom does not work as expected
         self.mapView.layoutIfNeeded()
-        let route = busResultsDetail[indexPath.row]
-        getRoadForSelectedResult(route)
+        let selectedRoute = busResultsDetail[indexPath.row]
+        if let currentRoute = self.currentRouteDisplayed {
+            if currentRoute != selectedRoute {
+                getRoadForSelectedResult(selectedRoute)
+            }
+        }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
     }
 
@@ -534,6 +541,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     {
         if let route = routeSelectedResult
         {
+            self.currentRouteDisplayed = route
             route.getRouteRoad(){
                 road, error in
                 if let routeRoad = road
