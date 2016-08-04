@@ -12,10 +12,9 @@ import RealmSwift
 
 protocol MapBusRoadDelegate {
     func newBusRoad(mapBusRoad: MapBusRoad)
-    func newResults(busResults: [String])
+    func newResults(busResults: [String], busResultsDetail: [BusRouteResult])
     func newOrigin(coordinate: CLLocationCoordinate2D, address: String)
     func newDestination(coordinate: CLLocationCoordinate2D, address: String)
-    func detailBusRoadResults(mapBusRoads: [MapBusRoad])
 }
 
 class SearchViewController: UIViewController, UITableViewDelegate
@@ -61,12 +60,12 @@ class SearchViewController: UIViewController, UITableViewDelegate
     @IBAction func favoriteOriginTapped(sender: AnyObject) {}
 
     @IBAction func favoriteDestinationTapped(sender: AnyObject) {}
-    
+
     @IBAction func searchButtonTapped(sender: AnyObject) {
         let originTextFieldValue = originTextfield.text!
         let destinationTextFieldValue = destinationTextfield.text!
         self.view.endEditing(true)
-        
+
         if originTextFieldValue.isEmpty || destinationTextFieldValue.isEmpty{
             let message = originTextFieldValue.isEmpty ? "El Origen no esta indicado": "El campo Destino no esta indicado"
             self.generateAlert("No sabemos que buscar", message: message)
@@ -75,18 +74,18 @@ class SearchViewController: UIViewController, UITableViewDelegate
             //TODO : Extract some pieces of code to clean and do async parallel
             Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
                 originGeocoded, error in
-                
+
                 let status = originGeocoded!["status"].stringValue
                 switch status {
                 case "OK":
                     let firstResult = originGeocoded!["results"][0]
                     let isAddress = firstResult["address_components"][0]["types"] == [ "street_number" ]
-                    
+
                     guard isAddress else {
                         self.generateAlert("No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
                         break
                     }
-                    
+
                     let originLocation = firstResult["geometry"]["location"]
                     let latitudeOrigin: Double = Double(originLocation["lat"].stringValue)!
                     let longitudeOrigin: Double = Double(originLocation["lng"].stringValue)!
@@ -96,7 +95,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
                     self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin), address: address)
                     Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
                         destinationGeocoded, error in
-                        
+
                         let status = destinationGeocoded!["status"].stringValue
                         switch status {
                         case "OK":
@@ -108,13 +107,13 @@ class SearchViewController: UIViewController, UITableViewDelegate
                             let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
                             let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
                             let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
-                            
+
                             let streetName = destinationGeocoded!["results"][0]["address_components"][1]["short_name"].stringValue
                             let streetNumber = destinationGeocoded!["results"][0]["address_components"][0]["short_name"].stringValue
                             let address: String =  "\(streetName) \(streetNumber)"
-                            
+
                             self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination), address: address)
-                            
+
                             self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
                         default:
                             self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
@@ -124,23 +123,23 @@ class SearchViewController: UIViewController, UITableViewDelegate
                 default:
                     self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
                     break
-                    
+
                 }
             }//TODO : Extract some pieces of code to clean and do async parallel
             Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
                 originGeocoded, error in
-                
+
                 let status = originGeocoded!["status"].stringValue
                 switch status {
                 case "OK":
                     let firstResult = originGeocoded!["results"][0]
                     let isAddress = firstResult["address_components"][0]["types"] == [ "street_number" ]
-                    
+
                     guard isAddress else {
                         self.generateAlert("No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
                         break
                     }
-                    
+
                     let originLocation = firstResult["geometry"]["location"]
                     let latitudeOrigin: Double = Double(originLocation["lat"].stringValue)!
                     let longitudeOrigin: Double = Double(originLocation["lng"].stringValue)!
@@ -150,7 +149,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
                     self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin), address: address)
                     Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
                         destinationGeocoded, error in
-                        
+
                         let status = destinationGeocoded!["status"].stringValue
                         switch status {
                         case "OK":
@@ -162,13 +161,13 @@ class SearchViewController: UIViewController, UITableViewDelegate
                             let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
                             let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
                             let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
-                            
+
                             let streetName = destinationGeocoded!["results"][0]["address_components"][1]["short_name"].stringValue
                             let streetNumber = destinationGeocoded!["results"][0]["address_components"][0]["short_name"].stringValue
                             let address: String =  "\(streetName) \(streetNumber)"
-                            
+
                             self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination), address: address)
-                            
+
                             self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
                         default:
                             self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
@@ -182,20 +181,20 @@ class SearchViewController: UIViewController, UITableViewDelegate
             }
         }
     }
-    
+
     func generateAlert(title: String, message: String){
         let alert = UIAlertController.init(title: title, message: message, preferredStyle: .Alert)
         let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
         alert.addAction(action)
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
+
     func getBusLines(latitudeOrigin: Double, longitudeOrigin: Double, latDestination: Double, lngDestination: Double) -> Void {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) {
             busRouteResults, error in
-            
+
             if (busRouteResults?.count == 0){
-                self.generateAlert("No encontramos resultados para la busqueda",message:"No existen rutas de colectivo entre el origen y el destino")
+                self.generateAlert("No encontramos resultados para la busqueda", message:"No existen rutas de colectivo entre el origen y el destino")
             }
             else{
                 // Reset previous streets names or bus lines and road from a previous search
@@ -210,42 +209,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
                     🚌.removeAtIndex(🚌.endIndex.predecessor())
                     self.busResults.append(🚌)
                 }
-                self.searchViewProtocol?.newResults(self.busResults)
-                self.getBusRoads(busRouteResults!)
-            }
-        }
-    }
-
-    func getBusRoads(busRouteResults: [BusRouteResult]) -> Void {
-        for busRouteResult in busRouteResults {
-            let index = busRouteResults.indexOf(busRouteResult)
-            let busRouteType: MyBusRouteResultType = busRouteResult.busRouteType == 0 ? MyBusRouteResultType.Single : MyBusRouteResultType.Combined
-
-
-            switch busRouteType {
-            case .Single:
-                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, firstDirection: (busRouteResult.busRoutes.first?.busLineDirection)!, beginStopFirstLine: (busRouteResult.busRoutes.first?.startBusStopNumber)!, endStopFirstLine: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
-                    singleRoad, error in
-                    let mapBusRoad = MapBusRoad().addBusRoadOnMap(singleRoad!)
-                    print("single \(index)")
-                    self.roadResultList.append(mapBusRoad)
-                    if self.roadResultList.count == self.busResults.count {
-                        self.searchViewProtocol?.detailBusRoadResults(self.roadResultList)
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                }
-            case .Combined:
-                let firstBusRoute = busRouteResult.busRoutes.first
-                let secondBusRoute = busRouteResult.busRoutes.last
-                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idSecondLine: (secondBusRoute?.idBusLine)!, firstDirection: (firstBusRoute?.busLineDirection)!, secondDirection: (secondBusRoute?.busLineDirection)!, beginStopFirstLine: (firstBusRoute?.startBusStopNumber)!, endStopFirstLine: (firstBusRoute?.destinationBusStopNumber)!, beginStopSecondLine: (secondBusRoute?.startBusStopNumber)!, endStopSecondLine: (secondBusRoute?.destinationBusStopNumber)!) {
-                    combinedRoad, error in
-                    print("combined \(index)")
-                    self.roadResultList.append(MapBusRoad().addBusRoadOnMap(combinedRoad!))
-                    if self.roadResultList.count == self.busResults.count {
-                        self.searchViewProtocol?.detailBusRoadResults(self.roadResultList)
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                }
+                self.searchViewProtocol?.newResults(self.busResults, busResultsDetail: busRouteResults!)
             }
         }
     }

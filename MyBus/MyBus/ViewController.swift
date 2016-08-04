@@ -33,6 +33,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     var bestMatches: [String] = []
     var roadResultList: [MapBusRoad] = []
+    var busResultsDetail: [BusRouteResult] = []
+
+    var currentRouteDisplayed: BusRouteResult?
 
     // MARK: - View Lifecycle Methods
 
@@ -258,9 +261,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         }
     }
 
-    func addBusLinesResults(results: [String])
+    func addBusLinesResults(results: [String], busResultsDetail: [BusRouteResult])
     {
         self.bestMatches = results
+        self.busResultsDetail = busResultsDetail
+        getRoadForSelectedResult(self.busResultsDetail.first)
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
@@ -300,9 +305,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     }
 
-    func addDetailedBusRoadResults(mapBusRoads: [MapBusRoad])
+    func addDetailedBusRoadResults(mapBusRoads: MapBusRoad, resultIndex: Int)
     {
-        self.roadResultList = mapBusRoads
+        self.roadResultList.insert(mapBusRoads, atIndex: resultIndex)
     }
 
     // MARK: - Map bus road annotations utils Methods
@@ -513,8 +518,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
         // Lisandro added the following line because if table expanded is more than 50% of view height zoom does not work as expected
         self.mapView.layoutIfNeeded()
-        let road = roadResultList[indexPath.row]
-        addBusRoad(road)
+        let selectedRoute = busResultsDetail[indexPath.row]
+        if let currentRoute = self.currentRouteDisplayed {
+            if currentRoute != selectedRoute {
+                getRoadForSelectedResult(selectedRoute)
+            }
+        }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
     }
 
@@ -526,5 +535,20 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     {
         self.constraintTableViewHeight.constant = CGFloat(height)
         self.busResultsTableView.layoutIfNeeded()
+    }
+
+    func getRoadForSelectedResult(routeSelectedResult: BusRouteResult?) -> Void
+    {
+        if let route = routeSelectedResult
+        {
+            self.currentRouteDisplayed = route
+            route.getRouteRoad(){
+                road, error in
+                if let routeRoad = road
+                {
+                    self.addBusRoad(routeRoad)
+                }
+            }
+        }
     }
 }
