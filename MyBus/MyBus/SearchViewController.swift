@@ -9,6 +9,7 @@
 import UIKit
 import Mapbox
 import RealmSwift
+import MBProgressHUD
 
 protocol MapBusRoadDelegate {
     func newBusRoad(mapBusRoad: MapBusRoad)
@@ -71,6 +72,10 @@ class SearchViewController: UIViewController, UITableViewDelegate
             self.generateAlert("No sabemos que buscar", message: message)
         }
         else{
+            let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            loadingNotification.mode = MBProgressHUDMode.Indeterminate
+            loadingNotification.labelText = "Loading"
+
             //TODO : Extract some pieces of code to clean and do async parallel
             Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
                 originGeocoded, error in
@@ -125,60 +130,8 @@ class SearchViewController: UIViewController, UITableViewDelegate
                     break
 
                 }
-            }//TODO : Extract some pieces of code to clean and do async parallel
-            Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
-                originGeocoded, error in
-
-                let status = originGeocoded!["status"].stringValue
-                switch status {
-                case "OK":
-                    let firstResult = originGeocoded!["results"][0]
-                    let isAddress = firstResult["address_components"][0]["types"] == [ "street_number" ]
-
-                    guard isAddress else {
-                        self.generateAlert("No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
-                        break
-                    }
-
-                    let originLocation = firstResult["geometry"]["location"]
-                    let latitudeOrigin: Double = Double(originLocation["lat"].stringValue)!
-                    let longitudeOrigin: Double = Double(originLocation["lng"].stringValue)!
-                    let streetName = firstResult["address_components"][1]["short_name"].stringValue
-                    let streetNumber = firstResult["address_components"][0]["short_name"].stringValue
-                    let address: String =  "\(streetName) \(streetNumber)"
-                    self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin), address: address)
-                    Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
-                        destinationGeocoded, error in
-
-                        let status = destinationGeocoded!["status"].stringValue
-                        switch status {
-                        case "OK":
-                            let isAddress = destinationGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
-                            guard isAddress else {
-                                self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
-                                break
-                            }
-                            let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
-                            let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
-                            let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
-
-                            let streetName = destinationGeocoded!["results"][0]["address_components"][1]["short_name"].stringValue
-                            let streetNumber = destinationGeocoded!["results"][0]["address_components"][0]["short_name"].stringValue
-                            let address: String =  "\(streetName) \(streetNumber)"
-
-                            self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination), address: address)
-
-                            self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
-                        default:
-                            self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
-                            break
-                        }
-                    }
-                default:
-                    self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
-                    break
-                }
             }
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
         }
     }
 
