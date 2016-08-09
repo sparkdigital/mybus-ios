@@ -12,6 +12,7 @@ import RealmSwift
 import MapKit
 import MapboxDirections
 import Polyline
+import MBProgressHUD
 
 class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 {
@@ -88,6 +89,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         }
         */
 
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Cargando"
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude))
         {
             placemarks, error in
@@ -109,6 +113,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
                 self.mapView.selectAnnotation(mapPoint, animated: true)
             }
         }
+        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
     }
 
     // MARK: - Private Methods
@@ -521,7 +526,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         let selectedRoute = busResultsDetail[indexPath.row]
         if let currentRoute = self.currentRouteDisplayed {
             if currentRoute != selectedRoute {
+                let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                loadingNotification.mode = MBProgressHUDMode.Indeterminate
+                loadingNotification.labelText = "Cargando"
                 getRoadForSelectedResult(selectedRoute)
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             }
         }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
