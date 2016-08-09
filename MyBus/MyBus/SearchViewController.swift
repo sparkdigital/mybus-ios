@@ -74,7 +74,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
         else{
             let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.Indeterminate
-            loadingNotification.labelText = "Loading"
+            loadingNotification.labelText = "Cargando"
 
             //TODO : Extract some pieces of code to clean and do async parallel
             Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
