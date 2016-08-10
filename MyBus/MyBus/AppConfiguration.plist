@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ThirdServices</key>
+	<dict>
+		<key>MapboxAPIKey</key>
+		<string>pk.eyJ1Ijoibm9zb3VsODgiLCJhIjoiY2lteGt2dHhsMDNrNXZxbHU0M29mcHZnZiJ9.MMbmK9GfcdhpDw2siu0wuA</string>
+		<key>MGPAPIKey</key>
+		<string>rwef3253465htrt546dcasadg4343</string>
+		<key>MyBus</key>
+		<dict>
+			<key>ApiURL</key>
+			<string>http://www.mybus.com.ar/api/v1/</string>
+			<key>ApiKey</key>
+			<string>94a08da1fecbb6e8b46990538c7b50b2</string>
+		</dict>
+		<key>GoogleGeocoding</key>
+		<dict>
+			<key>ApiURL</key>
+			<string>https://maps.googleapis.com/maps/api/geocode</string>
+			<key>ApiKey</key>
+			<string>AIzaSyCXgPZbEkpO_KsQqr5_q7bShcOhRlvodyc</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

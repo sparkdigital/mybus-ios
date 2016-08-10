@@ -12,8 +12,9 @@ import RealmSwift
 import MapKit
 import MapboxDirections
 import Polyline
+import MBProgressHUD
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MGLMapViewDelegate, MapBusRoadDelegate, UITableViewDelegate
+class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 {
 
     @IBOutlet weak var busResultsTableView: UITableView!
@@ -33,6 +34,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     var bestMatches: [String] = []
     var roadResultList: [MapBusRoad] = []
+    var busResultsDetail: [BusRouteResult] = []
+
+    var currentRouteDisplayed: BusRouteResult?
 
     // MARK: - View Lifecycle Methods
 
@@ -85,6 +89,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
         */
 
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Cargando"
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude))
         {
             placemarks, error in
@@ -106,28 +113,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
                 self.mapView.selectAnnotation(mapPoint, animated: true)
             }
         }
-    }
-
-    // MARK: - IBAction Methods
-
-    @IBAction func searchButtonTapped(sender: AnyObject)
-    {
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let searchController: SearchViewController = storyboard.instantiateViewControllerWithIdentifier("SearchViewController") as! SearchViewController
-
-        let sourceView = self.view
-
-        searchController.modalPresentationStyle = .Popover
-        searchController.searchViewProtocol = self
-
-        // configure the Popover presentation controller
-        let popoverController: UIPopoverPresentationController = searchController.popoverPresentationController!
-        popoverController.permittedArrowDirections = .Any
-        popoverController.sourceView = sourceView
-        popoverController.delegate = self
-
-        self.presentViewController(searchController, animated: true, completion: nil)
-
+        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
     }
 
     // MARK: - Private Methods
@@ -232,9 +218,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
 
-    // MARK: - MapBusRoadDelegate Methods
+    // MARK: - Mapview bus roads manipulation Methods
 
-    func newBusRoad(mapBusRoad: MapBusRoad)
+    func addBusRoad(mapBusRoad: MapBusRoad)
     {
         let bounds = getOriginAndDestinationInMapsBounds()
 
@@ -280,15 +266,17 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
     }
 
-    func newResults(results: [String])
+    func addBusLinesResults(results: [String], busResultsDetail: [BusRouteResult])
     {
         self.bestMatches = results
+        self.busResultsDetail = busResultsDetail
+        getRoadForSelectedResult(self.busResultsDetail.first)
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
     }
 
-    func newOrigin(origin: CLLocationCoordinate2D, address: String)
+    func addOriginPosition(origin: CLLocationCoordinate2D, address: String)
     {
         if let annotations = self.mapView.annotations {
             self.mapView.removeAnnotations(annotations)
@@ -305,7 +293,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         self.mapView.setCenterCoordinate(origin, animated: true)
     }
 
-    func newDestination(destination: CLLocationCoordinate2D, address: String)
+    func addDestinationPosition(destination: CLLocationCoordinate2D, address: String)
     {
         self.destination = destination
         // Declare the marker point and set its coordinates
@@ -322,9 +310,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     }
 
-    func detailBusRoadResults(mapBusRoads: [MapBusRoad])
+    func addDetailedBusRoadResults(mapBusRoads: MapBusRoad, resultIndex: Int)
     {
-        self.roadResultList = mapBusRoads
+        self.roadResultList.insert(mapBusRoads, atIndex: resultIndex)
     }
 
     // MARK: - Map bus road annotations utils Methods
@@ -445,13 +433,6 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         return true
     }
 
-    // MARK: - Button Handlers
-
-    @IBAction func refreshButtonTap(sender: AnyObject) {
-        mapView.showsUserLocation = true
-        mapView.setZoomLevel(16, animated: false)
-    }
-
     // MARK: - Pack Download
 
     func startOfflinePackDownload()
@@ -539,9 +520,19 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let road = roadResultList[indexPath.row]
-        newBusRoad(road)
         setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
+        // Lisandro added the following line because if table expanded is more than 50% of view height zoom does not work as expected
+        self.mapView.layoutIfNeeded()
+        let selectedRoute = busResultsDetail[indexPath.row]
+        if let currentRoute = self.currentRouteDisplayed {
+            if currentRoute != selectedRoute {
+                let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                loadingNotification.mode = MBProgressHUDMode.Indeterminate
+                loadingNotification.labelText = "Cargando"
+                getRoadForSelectedResult(selectedRoute)
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            }
+        }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
     }
 
@@ -553,5 +544,20 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     {
         self.constraintTableViewHeight.constant = CGFloat(height)
         self.busResultsTableView.layoutIfNeeded()
+    }
+
+    func getRoadForSelectedResult(routeSelectedResult: BusRouteResult?) -> Void
+    {
+        if let route = routeSelectedResult
+        {
+            self.currentRouteDisplayed = route
+            route.getRouteRoad(){
+                road, error in
+                if let routeRoad = road
+                {
+                    self.addBusRoad(routeRoad)
+                }
+            }
+        }
     }
 }

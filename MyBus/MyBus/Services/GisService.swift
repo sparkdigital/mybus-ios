@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 
 protocol GisServiceDelegate {
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
+    func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
 }
 
@@ -26,27 +26,17 @@ private let addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=ca
 private let coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)"
 
 public class GisService: NSObject, GisServiceDelegate {
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
-    {
-        let escapedStreet = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
-        let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
 
-        BaseNetworkService().performRequest(streetNameURLString)
-        {
-            response, error in
-            if let json = response {
-                var streetsNames: [Street] = [Street]()
-                if let streets = json.array {
-                    for street in streets {
-                        streetsNames.append(Street(json: street))
-                    }
-                }
-                completionHandler(streetsNames, nil)
-            } else {
-                print("\nError: \(error!.localizedDescription)")
-                completionHandler(nil, error)
-            }
+    func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
+    {
+        let streets = Configuration.streetsName()
+
+        guard streets.count > 0 else {
+            let error: NSError = NSError(domain:"street plist", code:2, userInfo:nil)
+            return completionHandler(nil, error)
         }
+        let streetsFiltered = streets.filter{($0.lowercaseString).containsString(address.lowercaseString)}
+        completionHandler(streetsFiltered, nil)
     }
 
     public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
@@ -54,6 +44,6 @@ public class GisService: NSObject, GisServiceDelegate {
         print("You tapped at: \(latitude), \(longitude)")
         let addressFromCoordinateURLString = "\(coordinateToAddressEndpointURL)&latitud=\(latitude)&longitud=\(longitude)"
 
-        BaseNetworkService().performRequest(addressFromCoordinateURLString, completionHandler: completionHandler)
+        BaseNetworkService.performRequest(addressFromCoordinateURLString, completionHandler: completionHandler)
     }
 }
