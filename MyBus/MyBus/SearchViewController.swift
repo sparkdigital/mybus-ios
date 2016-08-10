@@ -9,7 +9,6 @@
 import UIKit
 import Mapbox
 import RealmSwift
-import MBProgressHUD
 
 protocol MapBusRoadDelegate {
     func newBusRoad(mapBusRoad: MapBusRoad)
@@ -30,8 +29,8 @@ class SearchViewController: UIViewController, UITableViewDelegate
     var bestMatches: [String] = []
     var favourites: List<Location>?
     var roadResultList: [MapBusRoad] = []
-
     var streetSuggestionsDataSource: SearchSuggestionsDataSource!
+    let progressNotification = ProgressHUD()
 
     // MARK: - View Lifecycle Methods
 
@@ -72,10 +71,8 @@ class SearchViewController: UIViewController, UITableViewDelegate
             self.generateAlert("No sabemos que buscar", message: message)
         }
         else{
-            let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            loadingNotification.mode = MBProgressHUDMode.Indeterminate
-            loadingNotification.labelText = "Cargando"
-
+            
+            progressNotification.showLoadingNotification(self.view)
             //TODO : Extract some pieces of code to clean and do async parallel
             Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
                 originGeocoded, error in
@@ -131,7 +128,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
 
                 }
             }
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            progressNotification.stopLoadingNotification(self.view)
         }
     }
 
