@@ -44,6 +44,6 @@ public class GisService: NSObject, GisServiceDelegate {
         print("You tapped at: \(latitude), \(longitude)")
         let addressFromCoordinateURLString = "\(coordinateToAddressEndpointURL)&latitud=\(latitude)&longitud=\(longitude)"
 
-        BaseNetworkService().performRequest(addressFromCoordinateURLString, completionHandler: completionHandler)
+        BaseNetworkService.performRequest(addressFromCoordinateURLString, completionHandler: completionHandler)
     }
 }
