@@ -12,14 +12,35 @@ import SwiftyJSON
 
 enum GeoCodingRouter:URLRequestConvertible{
     
+    static let GEO_CODING_URL:String = Configuration.googleGeocodingURL()
+    static let GEO_CODING_API_KEY:String = Configuration.googleGeocodingAPIKey()
+    
+    case CoordinateFromAddressComponents(address:String, components:String, key:String)
     
     var URLRequest: NSMutableURLRequest {
         
-        return NSMutableURLRequest()
+        let (path, parameters, encoding, method): (String, [String: AnyObject], ParameterEncoding, Alamofire.Method) = {
+                        
+            switch self {
+                case .CoordinateFromAddressComponents(let address, let components, let key):
+                    let params:[String:AnyObject] = ["address":address, "components":components, "key":key]
+                    return ("/json",params,.URL,.GET)
+            }
+        }()
+        
+        
+        let URLRequestString = GeoCodingRouter.GEO_CODING_URL.stringByAppendingURLPath(path).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
+        let URL = NSURL(string: URLRequestString)
+        let URLRequest = NSMutableURLRequest(URL: URL!)
+        
+        URLRequest.HTTPMethod = method.rawValue
+        
+        return encoding.encode(URLRequest, parameters: parameters).0
         
     }
 }
 
+//TODO: add "case" options and implement them in URLRequest refactoring the GisService endpoints
 enum GISRouter:URLRequestConvertible{
     
     
@@ -126,8 +147,8 @@ enum MyBusRouter:URLRequestConvertible{
                 params["tk"] = accessToken
                 
                 return ("CombinedRoadApi.php",params,.URL,.GET)
-                
-            default:
+            
+            case .RechargeCardPoints:
                 return ("RechargeCardPointApi.php",[:],.URL,.GET)
             }
             
@@ -148,7 +169,7 @@ enum MyBusRouter:URLRequestConvertible{
 class BaseNetworkService{
     
     
-    func performRequest(urlString: String, completionHandler: (JSON?, NSError?) -> Void) {
+    class func performRequest(urlString: String, completionHandler: (JSON?, NSError?) -> Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         request.HTTPMethod = "GET"
 
@@ -165,7 +186,7 @@ class BaseNetworkService{
         }
     }
     
-    func performRequest(request:NSURLRequest, completionHandler:(JSON?, NSError?)->Void){
+    class func performRequest(request:NSURLRequest, completionHandler:(JSON?, NSError?)->Void){
         
         Alamofire.request(request).responseJSON { response in
             switch response.result
