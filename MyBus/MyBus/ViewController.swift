@@ -12,7 +12,6 @@ import RealmSwift
 import MapKit
 import MapboxDirections
 import Polyline
-import MBProgressHUD
 
 class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 {
@@ -28,6 +27,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     let busResultTableHeightToHide: CGFloat = 0
     let markerOriginLabelText = "Origen"
     let markerDestinationLabelText = "Destino"
+    let progressNotification = ProgressHUD()
 
     var origin: CLLocationCoordinate2D?
     var destination: CLLocationCoordinate2D?
@@ -89,9 +89,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         }
         */
 
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Cargando"
+        progressNotification.showLoadingNotification(self.view)
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude))
         {
             placemarks, error in
@@ -113,7 +111,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
                 self.mapView.selectAnnotation(mapPoint, animated: true)
             }
         }
-        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        progressNotification.stopLoadingNotification(self.view)
     }
 
     // MARK: - Private Methods
@@ -526,11 +524,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         let selectedRoute = busResultsDetail[indexPath.row]
         if let currentRoute = self.currentRouteDisplayed {
             if currentRoute != selectedRoute {
-                let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-                loadingNotification.mode = MBProgressHUDMode.Indeterminate
-                loadingNotification.labelText = "Cargando"
+                progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
-                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                progressNotification.stopLoadingNotification(self.view)
             }
         }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
