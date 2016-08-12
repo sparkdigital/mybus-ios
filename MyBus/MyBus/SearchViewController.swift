@@ -68,7 +68,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
 
         if originTextFieldValue.isEmpty || destinationTextFieldValue.isEmpty{
             let message = originTextFieldValue.isEmpty ? "El Origen no esta indicado": "El campo Destino no esta indicado"
-            self.generateAlert("No sabemos que buscar", message: message)
+            GenerateMessageAlert.generateAlert(self,title: "No sabemos que buscar", message: message)
         }
         else{
             
@@ -84,7 +84,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
                     let isAddress = firstResult["address_components"][0]["types"] == [ "street_number" ]
 
                     guard isAddress else {
-                        self.generateAlert("No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
+                        GenerateMessageAlert.generateAlert(self,title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
                         break
                     }
 
@@ -103,7 +103,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
                         case "OK":
                             let isAddress = destinationGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
                             guard isAddress else {
-                                self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                                GenerateMessageAlert.generateAlert(self, title:"No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
                                 break
                             }
                             let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
@@ -118,12 +118,12 @@ class SearchViewController: UIViewController, UITableViewDelegate
 
                             self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
                         default:
-                            self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                            GenerateMessageAlert.generateAlert(self,title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
                             break
                         }
                     }
                 default:
-                    self.generateAlert("No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                    GenerateMessageAlert.generateAlert(self,title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
                     break
 
                 }
@@ -132,19 +132,12 @@ class SearchViewController: UIViewController, UITableViewDelegate
         }
     }
 
-    func generateAlert(title: String, message: String){
-        let alert = UIAlertController.init(title: title, message: message, preferredStyle: .Alert)
-        let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-        alert.addAction(action)
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-
     func getBusLines(latitudeOrigin: Double, longitudeOrigin: Double, latDestination: Double, lngDestination: Double) -> Void {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) {
             busRouteResults, error in
 
             if (busRouteResults?.count == 0){
-                self.generateAlert("No encontramos resultados para la busqueda", message:"No existen rutas de colectivo entre el origen y el destino")
+                GenerateMessageAlert.generateAlert(self,title: "No encontramos resultados para la busqueda", message:"No existen rutas de colectivo entre el origen y el destino")
             }
             else{
                 // Reset previous streets names or bus lines and road from a previous search

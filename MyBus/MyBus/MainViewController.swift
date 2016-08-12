@@ -21,7 +21,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
 
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
-
+    
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
@@ -103,10 +103,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
             self.mapViewController.mapView.setZoomLevel(16, animated: false)
         }
         else{
-            let alert = UIAlertController.init(title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.", preferredStyle: .Alert)
-            let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-            alert.addAction(action)
-            return self.presentViewController(alert, animated: true, completion: nil)
+            GenerateMessageAlert.generateAlert(self, title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.")
         }
     }
 
