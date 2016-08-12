@@ -55,7 +55,7 @@ enum GISRouter:URLRequestConvertible{
     case CoordinateToAddress(latitude:Double, longitude:Double)
     
     /* addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=callealtura_coordenada&token=\(municipalityAccessToken)" */
-    case AddressToCoordinate(address:String)
+    case AddressToCoordinate(streetCode:String, streetNumber:String)
     
     
     var URLRequest: NSMutableURLRequest {
@@ -82,12 +82,13 @@ enum GISRouter:URLRequestConvertible{
                     
                     return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
                 
-                case .AddressToCoordinate(let address):
+                case .AddressToCoordinate(let streetCode, let streetNumber):
                     var params = [String:AnyObject]()
                     params["method"] = GISRouter.MUNICIPALITY_WS_METHOD
-                    params["endpoint"] = "callealtura_coordenada" //callealtura o calleaaltura (?)
+                    params["endpoint"] = "callealtura_coordenada"
                     params["token"] = GISRouter.MUNICIPALITY_ACCESS_TOKEN
-                    //address??
+                    params["codigocalle"] = streetCode
+                    params["altura"] = streetNumber
                     
                     return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
             }
