@@ -34,6 +34,34 @@ class RoutePoint: NSObject {
         }
     }
 
+    static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
+        let geoPoint = RoutePoint()
+        let firstResultJson = geoPointJson["results"][0]
+        let isAddress = firstResultJson["address_components"][0]["types"] == [ "street_number" ]
+        let jsonStatus = firstResultJson["status"].stringValue
+
+        guard isAddress else {
+            return nil
+        }
+
+        switch jsonStatus {
+        case "OK":
+            let originLocation = firstResultJson["geometry"]["location"]
+            let streetName = firstResultJson["address_components"][1]["short_name"].stringValue
+            let streetNumber = firstResultJson["address_components"][0]["short_name"].stringValue
+
+            geoPoint.latitude = originLocation["lat"].stringValue
+            geoPoint.longitude = originLocation["lng"].stringValue
+            geoPoint.address = "\(streetName) \(streetNumber)"
+
+            return geoPoint
+        default:
+            return nil
+        }
+
+
+    }
+
     func getLatLng() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
     }

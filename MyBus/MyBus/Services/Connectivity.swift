@@ -41,7 +41,7 @@ public class Connectivity: NSObject
     }
 
     // MARK - Google Geocoding Endpoint
-    public func getCoordinateFromAddress(streetName: String, completionHandler: (JSON?, NSError?) -> ())
+    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         googleGeocodingService.getCoordinateFromAddress(streetName, completionHandler : completionHandler)
     }
