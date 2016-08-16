@@ -190,5 +190,4 @@ class BusRouteResult: NSObject {
             }
         }
     }
-
 }
