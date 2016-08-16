@@ -22,6 +22,15 @@
 			<key>ApiKey</key>
 			<string>AIzaSyCXgPZbEkpO_KsQqr5_q7bShcOhRlvodyc</string>
 		</dict>
+		<key>GisMGPMunicipality</key>
+		<dict>
+			<key>ApiWSPath</key>
+			<string>/ws.php</string>
+			<key>ApiURL</key>
+			<string>http://gis.mardelplata.gob.ar/opendata</string>
+			<key>ApiKey</key>
+			<string>rwef3253465htrt546dcasadg4343</string>
+		</dict>
 	</dict>
 </dict>
 </plist>
