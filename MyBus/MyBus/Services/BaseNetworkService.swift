@@ -40,13 +40,67 @@ enum GeoCodingRouter:URLRequestConvertible{
     }
 }
 
-//TODO: add "case" options and implement them in URLRequest refactoring the GisService endpoints
+
 enum GISRouter:URLRequestConvertible{
+    
+    static let MUNICIPALITY_BASE_URL:String = Configuration.gisMunicipalityApiURL()
+    static let MUNICIPALITY_ACCESS_TOKEN:String = Configuration.gisMunicipalityApiAccessToken()
+    static let MUNICIPALITY_WS_PATH:String = Configuration.gisMunicipalityApiWebServicePath()
+    static let MUNICIPALITY_WS_METHOD:String = "rest"
+    
+    /* streetNamesEndpointURL = "\(municipalityBaseURL)&endpoint=callejero_mgp&token=\(municipalityAccessToken)&nombre_calle=" */
+    case StreetNames(street:String)
+    
+    /* coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)&latitud=\(latitude)&longitud=\(longitude)"*/
+    case CoordinateToAddress(latitude:Double, longitude:Double)
+    
+    /* addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=callealtura_coordenada&token=\(municipalityAccessToken)" */
+    case AddressToCoordinate(streetCode:String, streetNumber:String)
     
     
     var URLRequest: NSMutableURLRequest {
         
-        return NSMutableURLRequest()
+        let (path, parameters, encoding, method): (String, [String: AnyObject], ParameterEncoding, Alamofire.Method) = {
+            
+            switch self {
+                case .StreetNames(let street):
+                    var params = [String:AnyObject]()
+                    params["method"] = GISRouter.MUNICIPALITY_WS_METHOD
+                    params["endpoint"] = "callejero_mgp"
+                    params["token"] = GISRouter.MUNICIPALITY_ACCESS_TOKEN
+                    params["nombre_calle"] = street
+                
+                    return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
+                
+                case .CoordinateToAddress(let latitude, let longitude):
+                    var params = [String:AnyObject]()
+                    params["method"] = GISRouter.MUNICIPALITY_WS_METHOD
+                    params["endpoint"] = "coordenada_calleaaltura"
+                    params["token"] = GISRouter.MUNICIPALITY_ACCESS_TOKEN
+                    params["latitud"] = latitude
+                    params["longitud"] = longitude
+                    
+                    return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
+                
+                case .AddressToCoordinate(let streetCode, let streetNumber):
+                    var params = [String:AnyObject]()
+                    params["method"] = GISRouter.MUNICIPALITY_WS_METHOD
+                    params["endpoint"] = "callealtura_coordenada"
+                    params["token"] = GISRouter.MUNICIPALITY_ACCESS_TOKEN
+                    params["codigocalle"] = streetCode
+                    params["altura"] = streetNumber
+                    
+                    return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
+            }
+            
+        }()
+        
+        let URL = NSURL(string: GISRouter.MUNICIPALITY_BASE_URL)
+        let URLRequest = NSMutableURLRequest(URL: URL!.URLByAppendingPathComponent(path))
+        
+        URLRequest.HTTPMethod = method.rawValue
+        
+        return encoding.encode(URLRequest, parameters: parameters).0
         
     }
 }
@@ -100,8 +154,7 @@ enum MyBusRouter:URLRequestConvertible{
     /*
      //No methods yet
      private let rechargeCardPointsEndpointURL = "\(myBusBaseURL)RechargeCardPointApi.php?"
-     
-     */
+    */
     case RechargeCardPoints
     
     var URLRequest: NSMutableURLRequest {

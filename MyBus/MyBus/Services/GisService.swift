@@ -14,17 +14,6 @@ protocol GisServiceDelegate {
     func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
 }
 
-
-private let municipalityBaseURL = "http://gis.mardelplata.gob.ar/opendata/ws.php?method=rest"
-
-private let municipalityAccessToken = "rwef3253465htrt546dcasadg4343"
-
-private let streetNamesEndpointURL = "\(municipalityBaseURL)&endpoint=callejero_mgp&token=\(municipalityAccessToken)&nombre_calle="
-
-private let addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=callealtura_coordenada&token=\(municipalityAccessToken)"
-
-private let coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)"
-
 public class GisService: NSObject, GisServiceDelegate {
 
     func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
@@ -42,8 +31,19 @@ public class GisService: NSObject, GisServiceDelegate {
     public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
-        let addressFromCoordinateURLString = "\(coordinateToAddressEndpointURL)&latitud=\(latitude)&longitud=\(longitude)"
-
-        BaseNetworkService.performRequest(addressFromCoordinateURLString, completionHandler: completionHandler)
+        /*
+         Sample of the response returned by the api for a given coordinate
+         
+         [GIS SERVICE] Address Found! -> 
+         {
+            "calle" : "CATAMARCA",
+            "codcalle" : "00457",
+            "altura" : "1300"
+         }
+         
+         */
+        
+        let request = GISRouter.CoordinateToAddress(latitude: latitude, longitude: longitude).URLRequest
+        BaseNetworkService.performRequest(request, completionHandler: completionHandler)
     }
 }
