@@ -264,10 +264,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         }
     }
 
-    func addBusLinesResults(results: [String], busResultsDetail: [BusRouteResult])
+    func addBusLinesResults(searchResults: BusSearchResult)
     {
-        self.bestMatches = results
-        self.busResultsDetail = busResultsDetail
+        self.addOriginPosition(searchResults.origin.getLatLng(), address: searchResults.origin.address)
+        self.addDestinationPosition(searchResults.destination.getLatLng(), address: searchResults.destination.address)
+        self.bestMatches = searchResults.stringifyBusRoutes()
+        self.busResultsDetail = searchResults.busRouteOptions
         getRoadForSelectedResult(self.busResultsDetail.first)
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
