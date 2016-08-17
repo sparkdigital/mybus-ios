@@ -21,7 +21,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
 
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
-    
+
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
@@ -124,9 +124,9 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
         self.mapViewController.addBusRoad(mapBusRoad)
     }
 
-    func newResults(results: [String], busResultsDetail: [BusRouteResult])
+    func newResults(busSearchResult: BusSearchResult)
     {
-        self.mapViewController.addBusLinesResults(results, busResultsDetail: busResultsDetail)
+        self.mapViewController.addBusLinesResults(busSearchResult)
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
