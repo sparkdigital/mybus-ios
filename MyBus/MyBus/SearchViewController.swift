@@ -12,7 +12,7 @@ import RealmSwift
 
 protocol MapBusRoadDelegate {
     func newBusRoad(mapBusRoad: MapBusRoad)
-    func newResults(busResults: [String], busResultsDetail: [BusRouteResult])
+    func newResults(busSearchResult: BusSearchResult)
     func newOrigin(coordinate: CLLocationCoordinate2D, address: String)
     func newDestination(coordinate: CLLocationCoordinate2D, address: String)
 }
@@ -72,9 +72,23 @@ class SearchViewController: UIViewController, UITableViewDelegate
         }
         else{
             progressNotification.showLoadingNotification(self.view)
-//            SearchManager.sharedInstance.search(originTextFieldValue, destination: destinationTextFieldValue, callback: )
+            SearchManager.sharedInstance.search(originTextFieldValue, destination: destinationTextFieldValue, completionHandler: { (busSearchResult, error) in
+                self.progressNotification.stopLoadingNotification(self.view)
+                if let results = busSearchResult {
+                    self.searchViewProtocol?.newResults(results)
+                }
+                if let error = error {
+                    switch error.domain {
+                    case "OriginGeocoding":
+                        GenerateMessageAlert.generateAlert(self, title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
+                    case "DestinationGeocoding":
+                        GenerateMessageAlert.generateAlert(self, title:"No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                    default:
+                        GenerateMessageAlert.generateAlert(self, title:"Bad news", message: "No pudimos resolver la búsqueda")
+                    }
+                }
+            })
 
-            progressNotification.stopLoadingNotification(self.view)
         }
     }
 
