@@ -10,14 +10,18 @@ extension BusSearchResult {
     func stringifyBusRoutes() -> [String] {
         var busResults: [String] = []
         for busRouteResult in self.busRouteOptions {
-            var 🚌 : String = "🚍"
-            for route in busRouteResult.busRoutes {
-                let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
-                🚌 = "\(🚌) \(busLineFormatted) ➡"
-            }
-            🚌.removeAtIndex(🚌.endIndex.predecessor())
-            busResults.append(🚌)
+            busResults.append(getStringBusResultRow(busRouteResult))
         }
         return busResults
+    }
+
+    func getStringBusResultRow(busRouteResult: BusRouteResult) -> String {
+        var 🚌 : String = "🚍"
+        for route in busRouteResult.busRoutes {
+            let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
+            🚌 = "\(🚌) \(busLineFormatted) ➡"
+        }
+        🚌.removeAtIndex(🚌.endIndex.predecessor())
+        return 🚌
     }
 }
