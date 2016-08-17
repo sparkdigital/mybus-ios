@@ -38,7 +38,7 @@ class RoutePoint: NSObject {
         let geoPoint = RoutePoint()
         let firstResultJson = geoPointJson["results"][0]
         let isAddress = firstResultJson["address_components"][0]["types"] == [ "street_number" ]
-        let jsonStatus = firstResultJson["status"].stringValue
+        let jsonStatus = geoPointJson["status"].stringValue
 
         guard isAddress else {
             return nil

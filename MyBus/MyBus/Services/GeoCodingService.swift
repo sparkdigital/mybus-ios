@@ -14,8 +14,7 @@ protocol GeoCodingServiceDelegate {
 }
 
 public class GeoCodingService: NSObject, GeoCodingServiceDelegate {
-    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ())
-    {
+    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ()) {
         print("Address to resolve geocoding: \(streetName)")
 
         let address = "\(streetName), mar del plata"
@@ -23,11 +22,12 @@ public class GeoCodingService: NSObject, GeoCodingServiceDelegate {
 
         let request: NSURLRequest = GeoCodingRouter.CoordinateFromAddressComponents(address: address, components: components, key: GeoCodingRouter.GEO_CODING_API_KEY).URLRequest
 
-        BaseNetworkService.performRequest(request) { json, error in
-            guard (error != nil) else {
-                return completionHandler(nil, error)
+        BaseNetworkService.performRequest(request) { response, error in
+            if let json = response {
+                completionHandler(RoutePoint.parseFromGeoGoogle(json), error)
+            } else {
+                completionHandler(nil, error)
             }
-            completionHandler(RoutePoint.parseFromGeoGoogle(json!), error)
         }
 
     }
