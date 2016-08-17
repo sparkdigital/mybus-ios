@@ -20,10 +20,4 @@ class BusSearchResult
         self.destination = destination
         self.busRouteOptions = busRoutes!
     }
-
-//    func resolveWalkingPath(origin: RoutePoint, destination: RoutePoint) -> [MBRoute] {
-//        var walkingPaths: [MBRoute] = []
-//        //TODO resolve walking directions
-//        return walkingPaths
-//    }
 }

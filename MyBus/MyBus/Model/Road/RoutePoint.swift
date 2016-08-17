@@ -35,6 +35,7 @@ class RoutePoint: NSObject {
     }
 
     static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
+        let successCode: String = "OK"
         let geoPoint = RoutePoint()
         let firstResultJson = geoPointJson["results"][0]
         let isAddress = firstResultJson["address_components"][0]["types"] == [ "street_number" ]
@@ -45,7 +46,7 @@ class RoutePoint: NSObject {
         }
 
         switch jsonStatus {
-        case "OK":
+        case successCode:
             let originLocation = firstResultJson["geometry"]["location"]
             let streetName = firstResultJson["address_components"][1]["short_name"].stringValue
             let streetNumber = firstResultJson["address_components"][0]["short_name"].stringValue
