@@ -33,7 +33,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     var destination: CLLocationCoordinate2D?
 
     var bestMatches: [String] = []
-    var roadResultList: [MapBusRoad] = []
     var busResultsDetail: [BusRouteResult] = []
 
     var currentRouteDisplayed: BusRouteResult?
@@ -218,8 +217,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     // MARK: - Mapview bus roads manipulation Methods
 
-    func addBusRoad(mapBusRoad: MapBusRoad)
+    func addBusRoad(roadResult: RoadResult)
     {
+        let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
         let bounds = getOriginAndDestinationInMapsBounds()
 
         removeExistingAnnotationsOfBusRoad()
@@ -308,11 +308,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
         self.mapView.addAnnotation(destinationMarker)
 
-    }
-
-    func addDetailedBusRoadResults(mapBusRoads: MapBusRoad, resultIndex: Int)
-    {
-        self.roadResultList.insert(mapBusRoads, atIndex: resultIndex)
     }
 
     // MARK: - Map bus road annotations utils Methods
@@ -549,7 +544,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         if let route = routeSelectedResult
         {
             self.currentRouteDisplayed = route
-            route.getRouteRoad(){
+            SearchManager.sharedInstance.getRoad(route){
                 road, error in
                 if let routeRoad = road
                 {

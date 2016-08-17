@@ -13,11 +13,25 @@ class BusSearchResult
     var origin: RoutePoint
     var destination: RoutePoint
     var busRouteOptions: [BusRouteResult]
+    var road: [String: RoadResult] = [String: RoadResult]()
 
     init(origin: RoutePoint, destination: RoutePoint, busRoutes: [BusRouteResult]?)
     {
         self.origin = origin
         self.destination = destination
         self.busRouteOptions = busRoutes!
+    }
+
+    func roads(busRouteResult: BusRouteResult) -> RoadResult? {
+        let busRouteKey = self.getStringBusResultRow(busRouteResult)
+        if let roadResult = road[busRouteKey] {
+            return roadResult
+        } else {
+            return nil
+        }
+    }
+
+    func addRoad(key: String, roadResult: RoadResult) -> Void {
+        road.updateValue(roadResult, forKey: key)
     }
 }

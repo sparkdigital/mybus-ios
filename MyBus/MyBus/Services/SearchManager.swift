@@ -62,4 +62,41 @@ public class SearchManager: NSObject {
         }
     }
 
+    func getRoad(busRouteResult: BusRouteResult, completionHandler: (RoadResult?, NSError?)->()) -> Void {
+        if let roadResult = self.currentSearch?.roads(busRouteResult) {
+            completionHandler(roadResult, nil)
+        } else {
+            let busRouteType: MyBusRouteResultType = busRouteResult.busRouteType == 0 ? MyBusRouteResultType.Single : MyBusRouteResultType.Combined
+            switch busRouteType {
+            case .Single:
+                Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, firstDirection: (busRouteResult.busRoutes.first?.busLineDirection)!, beginStopFirstLine: (busRouteResult.busRoutes.first?.startBusStopNumber)!, endStopFirstLine: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
+                    singleRoad, error in
+
+                    if let road = singleRoad
+                    {
+                        let busRouteKey = self.currentSearch?.getStringBusResultRow(busRouteResult)
+                        self.currentSearch?.addRoad(busRouteKey!, roadResult: road)
+                        completionHandler(road, error)
+                    } else {
+                        completionHandler(nil, error)
+                    }
+                }
+            case .Combined:
+                let firstBusRoute = busRouteResult.busRoutes.first
+                let secondBusRoute = busRouteResult.busRoutes.last
+                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idSecondLine: (secondBusRoute?.idBusLine)!, firstDirection: (firstBusRoute?.busLineDirection)!, secondDirection: (secondBusRoute?.busLineDirection)!, beginStopFirstLine: (firstBusRoute?.startBusStopNumber)!, endStopFirstLine: (firstBusRoute?.destinationBusStopNumber)!, beginStopSecondLine: (secondBusRoute?.startBusStopNumber)!, endStopSecondLine: (secondBusRoute?.destinationBusStopNumber)!) {
+                    combinedRoad, error in
+                    if let road = combinedRoad
+                    {
+                        let busRouteKey = self.currentSearch?.getStringBusResultRow(busRouteResult)
+                        self.currentSearch?.addRoad(busRouteKey!, roadResult: road)
+                        completionHandler(road, error)
+                    } else {
+                        completionHandler(nil, error)
+                    }
+                }
+            }
+        }
+    }
+
 }
