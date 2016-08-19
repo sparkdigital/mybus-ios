@@ -21,8 +21,7 @@ public class SearchManager: NSObject {
 
     override init() { }
 
-    func getBusLines(origin: CLLocationCoordinate2D, destination: CLLocationCoordinate2D, completionHandler: ([BusRouteResult]?, NSError?) -> ()) -> Void
-    {
+    func getBusLines(origin: CLLocationCoordinate2D, destination: CLLocationCoordinate2D, completionHandler: ([BusRouteResult]?, NSError?) -> ()) -> Void {
         Connectivity.sharedInstance.getBusLinesFromOriginDestination(origin.latitude, longitudeOrigin: origin.longitude, latitudeDestination: destination.latitude, longitudeDestination: destination.longitude) {
             busRouteResults, error in
 
@@ -50,8 +49,7 @@ public class SearchManager: NSObject {
                 self.getBusLines((originPoint?.getLatLng())!, destination: (destinationPoint?.getLatLng())!, completionHandler: {
                     (busRouteResult, error) in
 
-                    if let result = busRouteResult
-                    {
+                    if let result = busRouteResult {
                         self.currentSearch = BusSearchResult(origin: originPoint!, destination: destinationPoint!, busRoutes: result)
                         completionHandler(self.currentSearch, nil)
                     } else {
@@ -70,13 +68,15 @@ public class SearchManager: NSObject {
             switch busRouteType {
             case .Single:
                 Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, firstDirection: (busRouteResult.busRoutes.first?.busLineDirection)!, beginStopFirstLine: (busRouteResult.busRoutes.first?.startBusStopNumber)!, endStopFirstLine: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
-                    singleRoad, error in
+                    singleRoadResult, error in
 
-                    if let road = singleRoad
-                    {
+                    if let roadResult = singleRoadResult {
                         let busRouteKey = self.currentSearch?.getStringBusResultRow(busRouteResult)
-                        self.currentSearch?.addRoad(busRouteKey!, roadResult: road)
-                        completionHandler(road, error)
+
+                        self.getWalkingRoutes(roadResult, completion: {
+                            self.currentSearch?.addRoad(busRouteKey!, roadResult: roadResult)
+                            completionHandler(roadResult, error)
+                        })
                     } else {
                         completionHandler(nil, error)
                     }
@@ -85,17 +85,43 @@ public class SearchManager: NSObject {
                 let firstBusRoute = busRouteResult.busRoutes.first
                 let secondBusRoute = busRouteResult.busRoutes.last
                 Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idSecondLine: (secondBusRoute?.idBusLine)!, firstDirection: (firstBusRoute?.busLineDirection)!, secondDirection: (secondBusRoute?.busLineDirection)!, beginStopFirstLine: (firstBusRoute?.startBusStopNumber)!, endStopFirstLine: (firstBusRoute?.destinationBusStopNumber)!, beginStopSecondLine: (secondBusRoute?.startBusStopNumber)!, endStopSecondLine: (secondBusRoute?.destinationBusStopNumber)!) {
-                    combinedRoad, error in
-                    if let road = combinedRoad
-                    {
+                    combinedRoadResult, error in
+                    if let roadResult = combinedRoadResult {
                         let busRouteKey = self.currentSearch?.getStringBusResultRow(busRouteResult)
-                        self.currentSearch?.addRoad(busRouteKey!, roadResult: road)
-                        completionHandler(road, error)
+
+                        self.getWalkingRoutes(roadResult, completion: {
+                            self.currentSearch?.addRoad(busRouteKey!, roadResult: roadResult)
+                            completionHandler(roadResult, error)
+                        })
                     } else {
                         completionHandler(nil, error)
                     }
                 }
             }
+        }
+    }
+
+    func getWalkingRoutes(roadResult: RoadResult, completion: ()->()) -> Void {
+        let startLocation = self.currentSearch?.origin.getLatLng()
+        let endLocation = self.currentSearch?.destination.getLatLng()
+
+        if let start = startLocation, let firstBusStop = roadResult.firstBusStop {
+            roadResult.addWalkingDirection(start, to: firstBusStop, completion: {
+                if let midStartBusStop = roadResult.midStartStop, let midEndBusStop = roadResult.midEndStop {
+                    roadResult.addWalkingDirection(midStartBusStop, to: midEndBusStop, completion: {
+                        if let end = endLocation, let endBusStop = roadResult.endBusStop {
+                            roadResult.addWalkingDirection(end, to: endBusStop, completion: {
+                                completion()
+                            })
+                        }
+                    })
+                }
+                if let end = endLocation, let endBusStop = roadResult.endBusStop {
+                    roadResult.addWalkingDirection(end, to: endBusStop, completion: {
+                        completion()
+                    })
+                }
+            })
         }
     }
 
