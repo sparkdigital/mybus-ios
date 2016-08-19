@@ -220,41 +220,21 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     func addBusRoad(roadResult: RoadResult)
     {
         let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
+        let walkingRoutes = roadResult.walkingRoutes
+
         let bounds = getOriginAndDestinationInMapsBounds()
 
         removeExistingAnnotationsOfBusRoad()
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
 
-        for (index, marker) in mapBusRoad.roadStopsMarkerList.enumerate()
+        for walkingRoute in walkingRoutes {
+            let walkingPolyline = self.createWalkingPathPolyline(walkingRoute)
+            self.mapView.addAnnotation(walkingPolyline)
+        }
+
+        for marker in mapBusRoad.roadStopsMarkerList
         {
-            /**
-             Resolve walking directions from user origin to first bus stop
-             */
-
-            switch index
-            {
-            case 0:
-                // Walking path from user origin to first bus stop
-                resolveAndAddWalkingPath(self.origin!, destinationCoordinate: marker.coordinate)
-            case 1:
-                // We check if it's a combinated road so we need three walking paths
-                let isCombinatedRoad = mapBusRoad.roadStopsMarkerList.count > 2
-                if isCombinatedRoad {
-                    // Walking path from first bus descent stop to second bus stop
-                    let nextBustStop = mapBusRoad.roadStopsMarkerList[2].coordinate
-                    resolveAndAddWalkingPath(marker.coordinate, destinationCoordinate: nextBustStop)
-                } else {
-                    // Walking path from descent bus stop to destination
-                    resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
-                }
-            case 3:
-                // Walking path from descent bus stop to destination
-                resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
-            default:
-                break
-            }
-
             self.mapView.addAnnotation(marker)
         }
 
@@ -357,21 +337,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         return markerResultsBounds
     }
 
-    func resolveAndAddWalkingPath(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void
-    {
-        Connectivity.sharedInstance.getWalkingDirections(sourceCoordinate, destinationCoordinate: destinationCoordinate)
-        {
-            response, error in
-            print(error)
-            if let route = response?.routes.first
-            {
-                let polyline = self.createWalkingPathPolyline(route)
-                self.mapView.addAnnotation(polyline)
-            }
-
-        }
-    }
-
     func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline
     {
         var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
@@ -379,7 +344,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
         return walkingPathPolyline
     }
-
 
     func removeExistingAnnotationsOfBusRoad() -> Void {
         for currentMapAnnotation in self.mapView.annotations!
