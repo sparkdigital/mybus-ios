@@ -60,6 +60,14 @@ public class SearchManager: NSObject {
         }
     }
 
+    /**
+     Look for RoadResult for a BusRouteResult
+     We check in currentSearch if we Road was resolved before, if not we resolve and return RoadResult
+
+     First method will ask API for RoadResult either Single or Combined then add walking directions
+
+     :returns: Completion callback with an optional RoadResult and NSError?
+     */
     func getRoad(busRouteResult: BusRouteResult, completionHandler: (RoadResult?, NSError?)->()) -> Void {
         if let roadResult = self.currentSearch?.roads(busRouteResult) {
             completionHandler(roadResult, nil)
@@ -101,6 +109,15 @@ public class SearchManager: NSObject {
         }
     }
 
+    /**
+     Resolve walking directions involved in a RoadResult
+
+     First we check and resolve walking directions between start location to first bus start stop
+     When we have a combined result we resolve walking route between first bus end stop and second bus start stop
+     Then we resolve the last part of Road, between last bus end stop to endLocation
+
+     :returns: Completion callback emtpy
+     */
     func getWalkingRoutes(roadResult: RoadResult, completion: ()->()) -> Void {
         let startLocation = self.currentSearch?.origin.getLatLng()
         let endLocation = self.currentSearch?.destination.getLatLng()
