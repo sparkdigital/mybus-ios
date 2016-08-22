@@ -103,7 +103,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
             self.mapViewController.mapView.setZoomLevel(16, animated: false)
         }
         else{
-            GenerateMessageAlert.generateAlert(self, title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.")
+            GenerateMessageAlert.generateAlertToSetting(self)
         }
     }
 

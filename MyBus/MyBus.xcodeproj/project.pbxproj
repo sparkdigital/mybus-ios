@@ -40,6 +40,7 @@
 		A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */; };
 		C5421B271D5B609C007C8987 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5421B261D5B609C007C8987 /* ProgressHUD.swift */; };
 		C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C542E36B1D48EF0F009FF442 /* Streets.plist */; };
+		C54307071D674829009DD8CA /* StepsActivateLocate.xib in Resources */ = {isa = PBXBuildFile; fileRef = C54307061D674829009DD8CA /* StepsActivateLocate.xib */; };
 		C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
 		C5421B261D5B609C007C8987 /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		C542E36B1D48EF0F009FF442 /* Streets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Streets.plist; sourceTree = "<group>"; };
+		C54307061D674829009DD8CA /* StepsActivateLocate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepsActivateLocate.xib; sourceTree = "<group>"; };
 		C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMessageAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -202,6 +204,7 @@
 				9982576F1CC5520E00909F1B /* Cells */,
 				08EC58541CBD482400E8410A /* Main.storyboard */,
 				08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */,
+				C54307061D674829009DD8CA /* StepsActivateLocate.xib */,
 				112A11081CE5194A00D00709 /* Strings.swift */,
 			);
 			name = UI;
@@ -361,6 +364,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C54307071D674829009DD8CA /* StepsActivateLocate.xib in Resources */,
 				08EC585E1CBD482400E8410A /* LaunchScreen.storyboard in Resources */,
 				A0AA4C1D1D4ABEBA00F2A1F6 /* AppConfiguration.plist in Resources */,
 				C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */,
