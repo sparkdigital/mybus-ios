@@ -77,6 +77,11 @@ class RoadResult: NSObject {
         return self.roadResultType == 0 ? .Single : .Combined
     }
 
+    /**
+     Resolve and add user walking directions as part of RoadResult
+
+     :returns: Completion callback empty
+     */
     func addWalkingDirection(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, completion: ()->()) -> Void {
         Connectivity.sharedInstance.getWalkingDirections(from, destinationCoordinate: to) {
             response, error in

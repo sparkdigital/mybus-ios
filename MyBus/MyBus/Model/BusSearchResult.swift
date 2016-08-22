@@ -22,6 +22,14 @@ class BusSearchResult
         self.busRouteOptions = busRoutes!
     }
 
+
+    /**
+    Look for RoadResult for a BusRouteResult
+     First of all we get key for BusRouteResult then if RoadResult was saved we return it
+     In case RoadResult has not been saved before we return nil
+
+     :returns: RoadResult for a BusRouteResult or nil
+    */
     func roads(busRouteResult: BusRouteResult) -> RoadResult? {
         let busRouteKey = self.getStringBusResultRow(busRouteResult)
         if let roadResult = road[busRouteKey] {
@@ -31,6 +39,9 @@ class BusSearchResult
         }
     }
 
+    /**
+     Add RoadResult for a BusRouteResult key
+     */
     func addRoad(key: String, roadResult: RoadResult) -> Void {
         road.updateValue(roadResult, forKey: key)
     }
