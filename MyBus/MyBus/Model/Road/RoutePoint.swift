@@ -63,7 +63,7 @@ class RoutePoint: NSObject {
 
     }
 
-    func getLatLng() -> CLLocationCoordinate2D {
+    func getLatLong() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
     }
 }

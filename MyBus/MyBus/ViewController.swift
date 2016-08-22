@@ -267,8 +267,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     func addBusLinesResults(searchResults: BusSearchResult)
     {
         progressNotification.showLoadingNotification(self.view)
-        self.addOriginPosition(searchResults.origin.getLatLng(), address: searchResults.origin.address)
-        self.addDestinationPosition(searchResults.destination.getLatLng(), address: searchResults.destination.address)
+        self.addOriginPosition(searchResults.origin.getLatLong(), address: searchResults.origin.address)
+        self.addDestinationPosition(searchResults.destination.getLatLong(), address: searchResults.destination.address)
         self.bestMatches = searchResults.stringifyBusRoutes()
         self.busResultsDetail = searchResults.busRouteOptions
         getRoadForSelectedResult(self.busResultsDetail.first)
