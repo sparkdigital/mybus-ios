@@ -46,7 +46,7 @@ public class SearchManager: NSObject {
                 guard (destinationPoint != nil) else {
                     return completionHandler(nil, NSError(domain:"DestinationGeocoding", code:2, userInfo:nil))
                 }
-                self.getBusLines((originPoint?.getLatLng())!, destination: (destinationPoint?.getLatLng())!, completionHandler: {
+                self.getBusLines((originPoint?.getLatLong())!, destination: (destinationPoint?.getLatLong())!, completionHandler: {
                     (busRouteResult, error) in
 
                     if let result = busRouteResult {
@@ -119,8 +119,8 @@ public class SearchManager: NSObject {
      :returns: Completion callback emtpy
      */
     func getWalkingRoutes(roadResult: RoadResult, completion: ()->()) -> Void {
-        let startLocation = self.currentSearch?.origin.getLatLng()
-        let endLocation = self.currentSearch?.destination.getLatLng()
+        let startLocation = self.currentSearch?.origin.getLatLong()
+        let endLocation = self.currentSearch?.destination.getLatLong()
 
         if let start = startLocation, let firstBusStop = roadResult.firstBusStop {
             roadResult.addWalkingDirection(start, to: firstBusStop, completion: {
