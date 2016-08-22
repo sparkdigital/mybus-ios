@@ -121,7 +121,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
 
     func newBusRoad(mapBusRoad: MapBusRoad)
     {
-        self.mapViewController.addBusRoad(mapBusRoad)
+        //Now is no longer needed may be in the future with a new flow yes
+        //self.mapViewController.addBusRoad(mapBusRoad)
     }
 
     func newResults(busSearchResult: BusSearchResult)
