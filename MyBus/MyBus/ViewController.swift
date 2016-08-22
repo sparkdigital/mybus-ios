@@ -33,7 +33,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     var destination: CLLocationCoordinate2D?
 
     var bestMatches: [String] = []
-    var roadResultList: [MapBusRoad] = []
     var busResultsDetail: [BusRouteResult] = []
 
     var currentRouteDisplayed: BusRouteResult?
@@ -65,14 +64,32 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         mapView.addGestureRecognizer(doubleTap)
 
         // Delay single tap recognition until it is clearly not a double
-        let singleTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
+        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleLongTap(_:)))
+        singleLongTap.requireGestureRecognizerToFail(doubleTap)
+        mapView.addGestureRecognizer(singleLongTap)
+
+        // Short single tap recognition
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
         singleTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleTap)
     }
 
     // MARK: - Tapping Methods
 
-    func handleSingleTap(tap: UITapGestureRecognizer)
+    func handleSingleTap(tap: UITapGestureRecognizer) {
+        let tableViewCurrentHeight = self.constraintTableViewHeight.constant
+        let tableDisplaysJustARow = tableViewCurrentHeight == CGFloat(busResultCellHeight) || tableViewCurrentHeight == 0
+        guard tableDisplaysJustARow else {
+            // Collapse table and display selected row
+            self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
+            self.busResultsTableView.layoutIfNeeded()
+            let indexPathToScroll = busResultsTableView.indexPathForSelectedRow
+            busResultsTableView.selectRowAtIndexPath(indexPathToScroll, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
+            return
+        }
+    }
+
+    func handleSingleLongTap(tap: UITapGestureRecognizer)
     {
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
         let tappedLocation: CLLocationCoordinate2D = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
@@ -218,43 +235,24 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     // MARK: - Mapview bus roads manipulation Methods
 
-    func addBusRoad(mapBusRoad: MapBusRoad)
+    func addBusRoad(roadResult: RoadResult)
     {
+        let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
+        let walkingRoutes = roadResult.walkingRoutes
+
         let bounds = getOriginAndDestinationInMapsBounds()
 
         removeExistingAnnotationsOfBusRoad()
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
 
-        for (index, marker) in mapBusRoad.roadStopsMarkerList.enumerate()
+        for walkingRoute in walkingRoutes {
+            let walkingPolyline = self.createWalkingPathPolyline(walkingRoute)
+            self.mapView.addAnnotation(walkingPolyline)
+        }
+
+        for marker in mapBusRoad.roadStopsMarkerList
         {
-            /**
-             Resolve walking directions from user origin to first bus stop
-             */
-
-            switch index
-            {
-            case 0:
-                // Walking path from user origin to first bus stop
-                resolveAndAddWalkingPath(self.origin!, destinationCoordinate: marker.coordinate)
-            case 1:
-                // We check if it's a combinated road so we need three walking paths
-                let isCombinatedRoad = mapBusRoad.roadStopsMarkerList.count > 2
-                if isCombinatedRoad {
-                    // Walking path from first bus descent stop to second bus stop
-                    let nextBustStop = mapBusRoad.roadStopsMarkerList[2].coordinate
-                    resolveAndAddWalkingPath(marker.coordinate, destinationCoordinate: nextBustStop)
-                } else {
-                    // Walking path from descent bus stop to destination
-                    resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
-                }
-            case 3:
-                // Walking path from descent bus stop to destination
-                resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
-            default:
-                break
-            }
-
             self.mapView.addAnnotation(marker)
         }
 
@@ -262,18 +260,22 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         {
             self.mapView.addAnnotation(polyline)
         }
+        // First we render polylines on Map then we remove loading notification
+        self.progressNotification.stopLoadingNotification(self.view)
     }
 
     func addBusLinesResults(searchResults: BusSearchResult)
     {
-        self.addOriginPosition(searchResults.origin.getLatLng(), address: searchResults.origin.address)
-        self.addDestinationPosition(searchResults.destination.getLatLng(), address: searchResults.destination.address)
+        progressNotification.showLoadingNotification(self.view)
+        self.addOriginPosition(searchResults.origin.getLatLong(), address: searchResults.origin.address)
+        self.addDestinationPosition(searchResults.destination.getLatLong(), address: searchResults.destination.address)
         self.bestMatches = searchResults.stringifyBusRoutes()
         self.busResultsDetail = searchResults.busRouteOptions
         getRoadForSelectedResult(self.busResultsDetail.first)
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
+        progressNotification.stopLoadingNotification(self.view)
     }
 
     func addOriginPosition(origin: CLLocationCoordinate2D, address: String)
@@ -308,11 +310,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
         self.mapView.addAnnotation(destinationMarker)
 
-    }
-
-    func addDetailedBusRoadResults(mapBusRoads: MapBusRoad, resultIndex: Int)
-    {
-        self.roadResultList.insert(mapBusRoads, atIndex: resultIndex)
     }
 
     // MARK: - Map bus road annotations utils Methods
@@ -362,21 +359,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         return markerResultsBounds
     }
 
-    func resolveAndAddWalkingPath(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void
-    {
-        Connectivity.sharedInstance.getWalkingDirections(sourceCoordinate, destinationCoordinate: destinationCoordinate)
-        {
-            response, error in
-            print(error)
-            if let route = response?.routes.first
-            {
-                let polyline = self.createWalkingPathPolyline(route)
-                self.mapView.addAnnotation(polyline)
-            }
-
-        }
-    }
-
     func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline
     {
         var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
@@ -384,7 +366,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
         return walkingPathPolyline
     }
-
 
     func removeExistingAnnotationsOfBusRoad() -> Void {
         for currentMapAnnotation in self.mapView.annotations!
@@ -528,7 +509,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
             if currentRoute != selectedRoute {
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
-                progressNotification.stopLoadingNotification(self.view)
             }
         }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
@@ -549,11 +529,14 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         if let route = routeSelectedResult
         {
             self.currentRouteDisplayed = route
-            route.getRouteRoad(){
+            SearchManager.sharedInstance.getRoad(route){
                 road, error in
                 if let routeRoad = road
                 {
                     self.addBusRoad(routeRoad)
+
+                } else {
+                    GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos resolver el detalle de la opción seleccionada")
                 }
             }
         }
