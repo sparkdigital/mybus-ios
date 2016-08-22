@@ -64,14 +64,32 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         mapView.addGestureRecognizer(doubleTap)
 
         // Delay single tap recognition until it is clearly not a double
-        let singleTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
+        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleLongTap(_:)))
+        singleLongTap.requireGestureRecognizerToFail(doubleTap)
+        mapView.addGestureRecognizer(singleLongTap)
+
+        // Short single tap recognition
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
         singleTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleTap)
     }
 
     // MARK: - Tapping Methods
 
-    func handleSingleTap(tap: UITapGestureRecognizer)
+    func handleSingleTap(tap: UITapGestureRecognizer) {
+        let tableViewCurrentHeight = self.constraintTableViewHeight.constant
+        let tableDisplaysJustARow = tableViewCurrentHeight == CGFloat(busResultCellHeight) || tableViewCurrentHeight == 0
+        guard tableDisplaysJustARow else {
+            // Collapse table and display selected row
+            self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
+            self.busResultsTableView.layoutIfNeeded()
+            let indexPathToScroll = busResultsTableView.indexPathForSelectedRow
+            busResultsTableView.selectRowAtIndexPath(indexPathToScroll, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
+            return
+        }
+    }
+
+    func handleSingleLongTap(tap: UITapGestureRecognizer)
     {
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
         let tappedLocation: CLLocationCoordinate2D = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
@@ -242,10 +260,13 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         {
             self.mapView.addAnnotation(polyline)
         }
+        // First we render polylines on Map then we remove loading notification
+        self.progressNotification.stopLoadingNotification(self.view)
     }
 
     func addBusLinesResults(searchResults: BusSearchResult)
     {
+        progressNotification.showLoadingNotification(self.view)
         self.addOriginPosition(searchResults.origin.getLatLng(), address: searchResults.origin.address)
         self.addDestinationPosition(searchResults.destination.getLatLng(), address: searchResults.destination.address)
         self.bestMatches = searchResults.stringifyBusRoutes()
@@ -254,6 +275,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
+        progressNotification.stopLoadingNotification(self.view)
     }
 
     func addOriginPosition(origin: CLLocationCoordinate2D, address: String)
@@ -487,7 +509,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
             if currentRoute != selectedRoute {
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
-                progressNotification.stopLoadingNotification(self.view)
             }
         }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
@@ -513,6 +534,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
                 if let routeRoad = road
                 {
                     self.addBusRoad(routeRoad)
+
+                } else {
+                    GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos resolver el detalle de la opción seleccionada")
                 }
             }
         }
