@@ -18,10 +18,13 @@
 		08EC58691CBD482400E8410A /* MyBusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58681CBD482400E8410A /* MyBusTests.swift */; };
 		112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112A11031CE1286600D00709 /* MapBusRoad.swift */; };
 		112A11091CE5194A00D00709 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112A11081CE5194A00D00709 /* Strings.swift */; };
+		1131807E1D63749400425847 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1131807D1D63749400425847 /* SearchManager.swift */; };
 		11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D4BEE41D343B51005E0031 /* MainViewController.swift */; };
 		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
 		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
+		11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */; };
+		11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2CFEC1D63785900862324 /* BusSearchResult.swift */; };
 		1442CDF06BAB610AD4C299F5 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
@@ -70,10 +73,13 @@
 		08EC586A1CBD482400E8410A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		112A11031CE1286600D00709 /* MapBusRoad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBusRoad.swift; path = Model/Road/MapBusRoad.swift; sourceTree = "<group>"; };
 		112A11081CE5194A00D00709 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		1131807D1D63749400425847 /* SearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchManager.swift; path = Services/SearchManager.swift; sourceTree = "<group>"; };
 		11D4BEE41D343B51005E0031 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsDataSource.swift; sourceTree = "<group>"; };
+		11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSearchResultStringFormatter.swift; sourceTree = "<group>"; };
+		11F2CFEC1D63785900862324 /* BusSearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResult.swift; path = Model/BusSearchResult.swift; sourceTree = "<group>"; };
 		35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.debug.xcconfig"; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +150,7 @@
 				08EC58501CBD482400E8410A /* AppDelegate.swift */,
 				A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */,
 				08EC58731CBD486000E8410A /* Controllers */,
+				11F2CFEE1D6388BE00862324 /* Managers */,
 				08EC58751CBD486D00E8410A /* Services */,
 				08EC58741CBD486600E8410A /* Model */,
 				08EC58771CBD488900E8410A /* Resources */,
@@ -180,6 +187,7 @@
 				08EC58781CBD48B100E8410A /* Persistence */,
 				9982576D1CC532ED00909F1B /* Street.swift */,
 				A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */,
+				11F2CFEC1D63785900862324 /* BusSearchResult.swift */,
 				A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */,
 			);
 			name = Model;
@@ -231,6 +239,14 @@
 			name = Persistence;
 			sourceTree = "<group>";
 		};
+		11F2CFEE1D6388BE00862324 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1131807D1D63749400425847 /* SearchManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
 		945D2FB0FB2DD24C7FC75784 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,6 +281,7 @@
 			children = (
 				C5421B261D5B609C007C8987 /* ProgressHUD.swift */,
 				C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */,
+				11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -285,13 +302,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MyBus" */;
 			buildPhases = (
-				3D3E346DDCD0B05967752984 /* 📦 Check Pods Manifest.lock */,
+				3D3E346DDCD0B05967752984 /* [CP] Check Pods Manifest.lock */,
 				08EC58491CBD482400E8410A /* Sources */,
 				08EC584A1CBD482400E8410A /* Frameworks */,
 				08EC584B1CBD482400E8410A /* Resources */,
 				086A78FF1CBD7EE200370E76 /* ShellScript */,
-				7EFB42BE23BAC68CCC9EDFBA /* 📦 Embed Pods Frameworks */,
-				39223C2EAAEA5D8F816AE536 /* 📦 Copy Pods Resources */,
+				7EFB42BE23BAC68CCC9EDFBA /* [CP] Embed Pods Frameworks */,
+				39223C2EAAEA5D8F816AE536 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -396,14 +413,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 8bb8e613a86950d5300af3fc3b466729e6d371eb c71d889e64a5a21d41f9901ea56b8779f95b2047b6bef9ee189009e73e7cad8e";
 		};
-		39223C2EAAEA5D8F816AE536 /* 📦 Copy Pods Resources */ = {
+		39223C2EAAEA5D8F816AE536 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,14 +428,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBus/Pods-MyBus-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3D3E346DDCD0B05967752984 /* 📦 Check Pods Manifest.lock */ = {
+		3D3E346DDCD0B05967752984 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,14 +443,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		7EFB42BE23BAC68CCC9EDFBA /* 📦 Embed Pods Frameworks */ = {
+		7EFB42BE23BAC68CCC9EDFBA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,14 +472,17 @@
 				A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */,
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
 				A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */,
+				11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
 				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
 				112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
+				1131807E1D63749400425847 /* SearchManager.swift in Sources */,
 				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
 				A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */,
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
+				11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,

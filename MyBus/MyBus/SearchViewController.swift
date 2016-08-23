@@ -12,7 +12,7 @@ import RealmSwift
 
 protocol MapBusRoadDelegate {
     func newBusRoad(mapBusRoad: MapBusRoad)
-    func newResults(busResults: [String], busResultsDetail: [BusRouteResult])
+    func newResults(busSearchResult: BusSearchResult)
     func newOrigin(coordinate: CLLocationCoordinate2D, address: String)
     func newDestination(coordinate: CLLocationCoordinate2D, address: String)
 }
@@ -68,92 +68,27 @@ class SearchViewController: UIViewController, UITableViewDelegate
 
         if originTextFieldValue.isEmpty || destinationTextFieldValue.isEmpty{
             let message = originTextFieldValue.isEmpty ? "El Origen no esta indicado": "El campo Destino no esta indicado"
-            GenerateMessageAlert.generateAlert(self,title: "No sabemos que buscar", message: message)
+            GenerateMessageAlert.generateAlert(self, title: "No sabemos que buscar", message: message)
         }
         else{
-            
             progressNotification.showLoadingNotification(self.view)
-            //TODO : Extract some pieces of code to clean and do async parallel
-            Connectivity.sharedInstance.getCoordinateFromAddress(originTextFieldValue) {
-                originGeocoded, error in
-
-                let status = originGeocoded!["status"].stringValue
-                switch status {
-                case "OK":
-                    let firstResult = originGeocoded!["results"][0]
-                    let isAddress = firstResult["address_components"][0]["types"] == [ "street_number" ]
-
-                    guard isAddress else {
-                        GenerateMessageAlert.generateAlert(self,title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
-                        break
-                    }
-
-                    let originLocation = firstResult["geometry"]["location"]
-                    let latitudeOrigin: Double = Double(originLocation["lat"].stringValue)!
-                    let longitudeOrigin: Double = Double(originLocation["lng"].stringValue)!
-                    let streetName = firstResult["address_components"][1]["short_name"].stringValue
-                    let streetNumber = firstResult["address_components"][0]["short_name"].stringValue
-                    let address: String =  "\(streetName) \(streetNumber)"
-                    self.searchViewProtocol?.newOrigin(CLLocationCoordinate2D(latitude: latitudeOrigin, longitude: longitudeOrigin), address: address)
-                    Connectivity.sharedInstance.getCoordinateFromAddress(destinationTextFieldValue) {
-                        destinationGeocoded, error in
-
-                        let status = destinationGeocoded!["status"].stringValue
-                        switch status {
-                        case "OK":
-                            let isAddress = destinationGeocoded!["results"][0]["address_components"][0]["types"] == [ "street_number" ]
-                            guard isAddress else {
-                                GenerateMessageAlert.generateAlert(self, title:"No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
-                                break
-                            }
-                            let destinationLocation = destinationGeocoded!["results"][0]["geometry"]["location"]
-                            let latitudeDestination: Double = Double(destinationLocation["lat"].stringValue)!
-                            let longitudeDestination: Double = Double(destinationLocation["lng"].stringValue)!
-
-                            let streetName = destinationGeocoded!["results"][0]["address_components"][1]["short_name"].stringValue
-                            let streetNumber = destinationGeocoded!["results"][0]["address_components"][0]["short_name"].stringValue
-                            let address: String =  "\(streetName) \(streetNumber)"
-
-                            self.searchViewProtocol?.newDestination(CLLocationCoordinate2D(latitude: latitudeDestination, longitude: longitudeDestination), address: address)
-
-                            self.getBusLines(latitudeOrigin, longitudeOrigin: longitudeOrigin, latDestination: latitudeDestination, lngDestination: longitudeDestination)
-                        default:
-                            GenerateMessageAlert.generateAlert(self,title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
-                            break
-                        }
-                    }
-                default:
-                    GenerateMessageAlert.generateAlert(self,title: "No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
-                    break
-
+            SearchManager.sharedInstance.search(originTextFieldValue, destination: destinationTextFieldValue, completionHandler: { (busSearchResult, error) in
+                self.progressNotification.stopLoadingNotification(self.view)
+                if let results = busSearchResult {
+                    self.searchViewProtocol?.newResults(results)
                 }
-            }
-            progressNotification.stopLoadingNotification(self.view)
-        }
-    }
-
-    func getBusLines(latitudeOrigin: Double, longitudeOrigin: Double, latDestination: Double, lngDestination: Double) -> Void {
-        Connectivity.sharedInstance.getBusLinesFromOriginDestination(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latDestination, longitudeDestination: lngDestination) {
-            busRouteResults, error in
-
-            if (busRouteResults?.count == 0){
-                GenerateMessageAlert.generateAlert(self,title: "No encontramos resultados para la busqueda", message:"No existen rutas de colectivo entre el origen y el destino")
-            }
-            else{
-                // Reset previous streets names or bus lines and road from a previous search
-                self.busResults = []
-                self.roadResultList = []
-                for busRouteResult in busRouteResults! {
-                    var 🚌 : String = "🚍"
-                    for route in busRouteResult.busRoutes {
-                        let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
-                        🚌 = "\(🚌) \(busLineFormatted) ➡"
+                if let error = error {
+                    switch error.domain {
+                    case "OriginGeocoding":
+                        GenerateMessageAlert.generateAlert(self, title: "No sabemos donde es el origen", message: "No pudimos resolver la dirección de origen")
+                    case "DestinationGeocoding":
+                        GenerateMessageAlert.generateAlert(self, title:"No sabemos donde es el destino", message: "No pudimos resolver la dirección de destino ingresada")
+                    default:
+                        GenerateMessageAlert.generateAlert(self, title:"Bad news", message: "No pudimos resolver la búsqueda")
                     }
-                    🚌.removeAtIndex(🚌.endIndex.predecessor())
-                    self.busResults.append(🚌)
                 }
-                self.searchViewProtocol?.newResults(self.busResults, busResultsDetail: busRouteResults!)
-            }
+            })
+
         }
     }
 
