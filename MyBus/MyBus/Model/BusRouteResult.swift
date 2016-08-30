@@ -13,7 +13,6 @@ class BusRouteResult: NSObject {
     var busRouteType: Int
     var busRoutes: [BusRoute] = [BusRoute]()
     var combinationDistance: Double = 0.0 //Only used when type is 1
-    var routeRoad: MapBusRoad?
 
     init(type: Int)
     {
@@ -154,41 +153,4 @@ class BusRouteResult: NSObject {
         busRoute.destinationBusStopDistanceToDestination = destinationBusStop["\(path)DestinatioBusStopDistanceToDestination"].doubleValue
         return busRoute
     }
-
-    func getRouteRoad(completionHandler: (MapBusRoad?, NSError?)->()) -> Void {
-        if (self.routeRoad != nil) {
-            completionHandler(self.routeRoad, nil)
-        } else {
-            let busRouteType: MyBusRouteResultType = self.busRouteType == 0 ? MyBusRouteResultType.Single : MyBusRouteResultType.Combined
-            switch busRouteType {
-            case .Single:
-                Connectivity.sharedInstance.getSingleResultRoadApi((self.busRoutes.first?.idBusLine)!, firstDirection: (self.busRoutes.first?.busLineDirection)!, beginStopFirstLine: (self.busRoutes.first?.startBusStopNumber)!, endStopFirstLine: (self.busRoutes.first?.destinationBusStopNumber)!) {
-                    singleRoad, error in
-
-                    if let road = singleRoad
-                    {
-                        self.routeRoad = MapBusRoad().addBusRoadOnMap(road)
-                        completionHandler(self.routeRoad, error)
-                    } else {
-                        completionHandler(nil, error)
-                    }
-                }
-            case .Combined:
-                let firstBusRoute = self.busRoutes.first
-                let secondBusRoute = self.busRoutes.last
-                Connectivity.sharedInstance.getCombinedResultRoadApi((firstBusRoute?.idBusLine)!, idSecondLine: (secondBusRoute?.idBusLine)!, firstDirection: (firstBusRoute?.busLineDirection)!, secondDirection: (secondBusRoute?.busLineDirection)!, beginStopFirstLine: (firstBusRoute?.startBusStopNumber)!, endStopFirstLine: (firstBusRoute?.destinationBusStopNumber)!, beginStopSecondLine: (secondBusRoute?.startBusStopNumber)!, endStopSecondLine: (secondBusRoute?.destinationBusStopNumber)!) {
-                    combinedRoad, error in
-                    if let road = combinedRoad
-                    {
-                        self.routeRoad = MapBusRoad().addBusRoadOnMap(road)
-                        completionHandler(self.routeRoad, error)
-                    } else {
-                        completionHandler(nil, error)
-                    }
-
-                }
-            }
-        }
-    }
-
 }

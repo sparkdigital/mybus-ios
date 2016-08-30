@@ -27,10 +27,10 @@ class Route: NSObject {
     }
 
     func getFirstLatLng() -> CLLocationCoordinate2D {
-        return (pointList.first?.getLatLng())!
+        return (pointList.first?.getLatLong())!
     }
 
     func getLastLatLng() -> CLLocationCoordinate2D {
-        return (pointList.last?.getLatLng())!
+        return (pointList.last?.getLatLong())!
     }
 }
