@@ -21,7 +21,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
 
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
-    
+
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
@@ -103,7 +103,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
             self.mapViewController.mapView.setZoomLevel(16, animated: false)
         }
         else{
-            GenerateMessageAlert.generateAlert(self, title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.")
+            GenerateMessageAlert.generateAlertToSetting(self)
         }
     }
 
@@ -121,12 +121,13 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
 
     func newBusRoad(mapBusRoad: MapBusRoad)
     {
-        self.mapViewController.addBusRoad(mapBusRoad)
+        //Now is no longer needed may be in the future with a new flow yes
+        //self.mapViewController.addBusRoad(mapBusRoad)
     }
 
-    func newResults(results: [String], busResultsDetail: [BusRouteResult])
+    func newResults(busSearchResult: BusSearchResult)
     {
-        self.mapViewController.addBusLinesResults(results, busResultsDetail: busResultsDetail)
+        self.mapViewController.addBusLinesResults(busSearchResult)
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController

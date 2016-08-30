@@ -18,14 +18,14 @@ PODS:
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.3)
-  - Crashlytics
-  - Fabric
-  - Mapbox-iOS-SDK
+  - Alamofire (~> 3.3.1)
+  - Crashlytics (~> 3.7.0)
+  - Fabric (~> 1.6.7)
+  - Mapbox-iOS-SDK (~> 3.2.0)
   - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, tag `v0.5.0`)
   - MBProgressHUD (~> 0.9.2)
   - NBNRequestKit (from `https://github.com/1ec5/RequestKit.git`, branch `mapbox-podspec`)
-  - RealmSwift
+  - RealmSwift (~> 0.98.7)
   - SwiftyJSON (~> 2.3.2)
 
 EXTERNAL SOURCES:
@@ -57,6 +57,6 @@ SPEC CHECKSUMS:
   RealmSwift: 3056e6d7ad30ed50dd866185a615fccea73db5f5
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: c6ef4eb1c52221afbcd6665398820c341a8ddcaa
+PODFILE CHECKSUM: 6a07baddcaab6129e02a29981a52b11dc0247791
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1

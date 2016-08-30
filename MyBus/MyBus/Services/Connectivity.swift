@@ -41,7 +41,7 @@ public class Connectivity: NSObject
     }
 
     // MARK - Google Geocoding Endpoint
-    public func getCoordinateFromAddress(streetName: String, completionHandler: (JSON?, NSError?) -> ())
+    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         googleGeocodingService.getCoordinateFromAddress(streetName, completionHandler : completionHandler)
     }
@@ -60,8 +60,8 @@ public class Connectivity: NSObject
 
     func getCombinedResultRoadApi(idFirstLine: Int, idSecondLine: Int, firstDirection: Int, secondDirection: Int, beginStopFirstLine: Int, endStopFirstLine: Int, beginStopSecondLine: Int, endStopSecondLine: Int, completionHandler: (RoadResult?, NSError?) -> ())
     {
-        let singleRoadSearch =  RoadSearch(combinedRoad: idFirstLine, firstDirection: firstDirection, beginStopFirstLine: beginStopFirstLine, endStopFirstLine: endStopFirstLine, idSecondLine: idSecondLine, secondDirection: secondDirection, beginStopSecondLine: beginStopSecondLine, endStopSecondLine: endStopSecondLine)
-        myBusService.searchRoads(.Combined, roadSearch: singleRoadSearch, completionHandler: completionHandler)
+        let combinedRoadSearch =  RoadSearch(combinedRoad: idFirstLine, firstDirection: firstDirection, beginStopFirstLine: beginStopFirstLine, endStopFirstLine: endStopFirstLine, idSecondLine: idSecondLine, secondDirection: secondDirection, beginStopSecondLine: beginStopSecondLine, endStopSecondLine: endStopSecondLine)
+        myBusService.searchRoads(.Combined, roadSearch: combinedRoadSearch, completionHandler: completionHandler)
     }
 
     // MARK - Directions Endpoints
