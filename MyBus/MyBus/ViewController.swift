@@ -131,24 +131,26 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         This method makes the search when the button is pressed on the annotation
     */
     func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+        mapView.showsUserLocation = true
         // Hide the callout view.
         mapView.deselectAnnotation(annotation, animated: false)
         progressNotification.showLoadingNotification(self.view)
         //Make the search
         let locationServiceAuth = CLLocationManager.authorizationStatus()
-        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
-           
-            let originAddress = self.mapView.userLocation?.coordinate
-            self.mapView.addAnnotation(annotation)
-            SearchManager.sharedInstance.search(originAddress!, destination:self.destination!, completionHandler: {
-                (busRouteResult, error) in
-                if let results = busRouteResult {
-                    self.addBusLinesResults(results)
-                }
-            })
-        }
-        else{
-            GenerateMessageAlert.generateAlert(self, title: "Localización desactivada", message: "Para usar esta funcionalidad es necesario que actives la localización")
+        //If origin location is diferent nil
+        if let originAddress = self.mapView.userLocation?.coordinate{
+            if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+                self.mapView.addAnnotation(annotation)
+                SearchManager.sharedInstance.search(originAddress, destination:self.destination!, completionHandler: {
+                    (busRouteResult, error) in
+                    if let results = busRouteResult {
+                        self.addBusLinesResults(results)
+                    }
+                })
+            }
+            else{
+                GenerateMessageAlert.generateAlert(self, title: "Localización desactivada", message: "Para usar esta funcionalidad es necesario que actives la localización")
+            }
         }
         progressNotification.stopLoadingNotification(self.view)
     }
