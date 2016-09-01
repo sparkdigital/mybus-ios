@@ -48,7 +48,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     func initMapboxView() {
         mapView.maximumZoomLevel = maxZoomLevel
         mapView.minimumZoomLevel = minZoomLevel
-        mapView.setUserTrackingMode(.None, animated: false)
+        mapView.userTrackingMode = .None
         mapView.delegate = self
 
         // Setup offline pack notification handlers.
@@ -85,7 +85,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 annotation.subtitle = "\(placemark.thoroughfare! as String) \(placemark.subThoroughfare! as String)"
                 //add annotation in the map
                 self.mapView.addAnnotation(annotation)
-                self.mapView.selectAnnotation(annotation, animated: true)
+                self.mapView.selectAnnotation(annotation, animated: false)
             }
             self.progressNotification.stopLoadingNotification(self.view)
         }
@@ -99,9 +99,14 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         This method sets the button of the annotation
     */
     func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
-        let button = UIButton(type: .DetailDisclosure)
-        button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
-        return button
+        let annotationTitle = annotation.title!! as String
+        // Only display button when marker is with Destino title
+        if annotationTitle == markerDestinationLabelText {
+            let button = UIButton(type: .DetailDisclosure)
+            button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
+            return button
+        }
+        return nil
     }
 
     /**
@@ -145,10 +150,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
-        mapView.centerCoordinate = (userLocation!.location?.coordinate)!
     }
 
     func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
@@ -211,6 +212,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
+
 
     // MARK: - Mapview bus roads manipulation Methods
 
@@ -458,6 +460,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             if currentRoute != selectedRoute {
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
+            } else {
+                let bounds = getOriginAndDestinationInMapsBounds()
+                self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
             }
         }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
