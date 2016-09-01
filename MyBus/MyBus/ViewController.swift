@@ -76,6 +76,16 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     // MARK: - Tapping Methods
 
+    @IBAction func locateUserButtonTap(sender: AnyObject) {
+        let locationServiceAuth = CLLocationManager.authorizationStatus()
+        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+            self.mapView.showsUserLocation = true
+            self.mapView.setZoomLevel(16, animated: false)
+        }
+        else{
+            GenerateMessageAlert.generateAlertToSetting(self)
+        }
+    }
     func handleSingleTap(tap: UITapGestureRecognizer) {
         let tableViewCurrentHeight = self.constraintTableViewHeight.constant
         let tableDisplaysJustARow = tableViewCurrentHeight == CGFloat(busResultCellHeight) || tableViewCurrentHeight == 0
