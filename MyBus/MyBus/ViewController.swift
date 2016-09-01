@@ -37,6 +37,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     var currentRouteDisplayed: BusRouteResult?
 
+    var searchViewProtocol: MapBusRoadDelegate?
     // MARK: - View Lifecycle Methods
 
     override func viewDidLoad()
@@ -46,6 +47,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         initMapboxView()
     }
 
+    //Method that receives a storyboard string identifier and returns a view controller object
+    func buildComponentVC(identifier: String)->UIViewController{
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateViewControllerWithIdentifier(identifier)
+    }
     func initMapboxView()
     {
         mapView.maximumZoomLevel = maxZoomLevel
@@ -92,45 +98,62 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     func handleSingleLongTap(tap: UITapGestureRecognizer)
     {
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
-        let tappedLocation: CLLocationCoordinate2D = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
-
-        // Remove first marker tapped from the map, add marker with coordinates
-        // Prevent having more than two points selected in map
-
-        /*
-         The idea is change this behavior, if user tap a location the idea is asking him in callout what they want to do with this point (use as origin, destination, waypoint)
-
-        if (mapView.annotations?.count != nil && mapView.annotations?.count > 1 )
-        {
-            mapView.removeAnnotation(mapView.annotations![0])
-        }
-        */
-
+        self.destination = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
         progressNotification.showLoadingNotification(self.view)
-        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude))
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: self.destination!.latitude, longitude: self.destination!.longitude))
         {
             placemarks, error in
             if let placemark = placemarks?.first
             {
-                print()
-                let address = "\(placemark.thoroughfare! as String) \(placemark.subThoroughfare! as String)"
-
-                // Declare the marker point and set its coordinates
-                let mapPoint = MGLPointAnnotation()
-                mapPoint.coordinate = CLLocationCoordinate2D(latitude: tappedLocation.latitude, longitude: tappedLocation.longitude)
-                mapPoint.title = "Marcador"
-                mapPoint.subtitle = address
-
-                // Add marker to the map
-                self.mapView.addAnnotation(mapPoint)
-
-                // Pop-up the callout view
-                self.mapView.selectAnnotation(mapPoint, animated: true)
+                //sets attributes of annotation 
+                let annotation = MGLPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: self.destination!.latitude, longitude: self.destination!.longitude)
+                annotation.title = "Destino"
+                annotation.subtitle = "\(placemark.thoroughfare! as String) \(placemark.subThoroughfare! as String)"
+                //add annotation in the map
+                self.mapView.addAnnotation(annotation)
+                self.mapView.selectAnnotation(annotation, animated: true)
             }
         }
         progressNotification.stopLoadingNotification(self.view)
     }
 
+    
+    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
+    }
+    
+    /**
+        This method sets the button of the annotation
+    */
+    func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+        let button = UIButton(type: .DetailDisclosure)
+        button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
+        return button
+    }
+    
+    /**
+        This method makes the search when the button is pressed on the annotation
+    */
+    func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+        // Hide the callout view.
+        mapView.deselectAnnotation(annotation, animated: false)
+        //Make the search
+        let locationServiceAuth = CLLocationManager.authorizationStatus()
+        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+            let originAddress = self.mapView.userLocation?.coordinate
+            self.mapView.addAnnotation(annotation)
+            SearchManager.sharedInstance.search(originAddress!, destination:self.destination!, completionHandler: {
+                (busRouteResult, error) in
+                if let results = busRouteResult {
+                    self.addBusLinesResults(results)
+                }
+            })
+        }
+        else{
+            GenerateMessageAlert.generateAlert(self, title: "Localización desactivada", message: "Para usar esta funcionalidad es necesario que actives la localización")
+        }
+    }
     // MARK: - Private Methods
 
     func dismissSearchController(controller: UIViewController)
@@ -149,13 +172,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     deinit
     {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    // MARK: - MGLMapViewDelegate Methods
-
-    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool
-    {
-        return true
     }
 
     func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?)

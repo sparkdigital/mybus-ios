@@ -33,6 +33,13 @@ public class SearchManager: NSObject {
         }
     }
 
+    /**
+     This method gets the busses using two Address.
+     
+     @param origin address of origin point.
+     
+     @destination address of origin destination.
+     */
     func search(origin: String, destination: String, completionHandler: (BusSearchResult?, NSError?) -> ()) -> Void {
         Connectivity.sharedInstance.getCoordinateFromAddress(origin) {
             originPoint, error in
@@ -58,6 +65,27 @@ public class SearchManager: NSObject {
                 })
             }
         }
+    }
+    
+    /**
+     This method gets the busses using two coordinates.
+     
+     @param origin coordinate of origin point.
+     
+     @destination coordinate of origin destination.
+     */
+    func search(origin: CLLocationCoordinate2D, destination: CLLocationCoordinate2D, completionHandler: (BusSearchResult?, NSError?) -> ()) -> Void {
+        self.getBusLines(origin, destination: destination, completionHandler: {
+            (busRouteResult, error) in
+            if let result = busRouteResult {
+                let originRoutePoint = RoutePoint.parse(String(origin.latitude), longitude: String(origin.longitude))
+                let destinationRoutePoint = RoutePoint.parse(String(destination.latitude), longitude: String(destination.longitude))
+                self.currentSearch = BusSearchResult(origin: originRoutePoint, destination: destinationRoutePoint, busRoutes: result)
+                completionHandler(self.currentSearch, nil)
+            } else {
+                completionHandler(nil, error)
+            }
+        })
     }
 
     /**
