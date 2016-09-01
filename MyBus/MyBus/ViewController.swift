@@ -133,9 +133,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
         // Hide the callout view.
         mapView.deselectAnnotation(annotation, animated: false)
+        progressNotification.showLoadingNotification(self.view)
         //Make the search
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+           
             let originAddress = self.mapView.userLocation?.coordinate
             self.mapView.addAnnotation(annotation)
             SearchManager.sharedInstance.search(originAddress!, destination:self.destination!, completionHandler: {
@@ -148,6 +150,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         else{
             GenerateMessageAlert.generateAlert(self, title: "Localización desactivada", message: "Para usar esta funcionalidad es necesario que actives la localización")
         }
+        progressNotification.stopLoadingNotification(self.view)
     }
     // MARK: - Private Methods
 
