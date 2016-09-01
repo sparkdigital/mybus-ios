@@ -47,11 +47,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         initMapboxView()
     }
 
-    //Method that receives a storyboard string identifier and returns a view controller object
-    func buildComponentVC(identifier: String)->UIViewController{
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        return storyboard.instantiateViewControllerWithIdentifier(identifier)
-    }
     func initMapboxView()
     {
         mapView.maximumZoomLevel = maxZoomLevel
