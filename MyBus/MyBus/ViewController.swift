@@ -13,8 +13,7 @@ import MapKit
 import MapboxDirections
 import Polyline
 
-class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
-{
+class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate {
 
     @IBOutlet weak var busResultsTableView: UITableView!
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
@@ -40,18 +39,16 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     var searchViewProtocol: MapBusRoadDelegate?
     // MARK: - View Lifecycle Methods
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setBusResultsTableViewHeight(busResultTableHeightToHide)
         initMapboxView()
     }
 
-    func initMapboxView()
-    {
+    func initMapboxView() {
         mapView.maximumZoomLevel = maxZoomLevel
         mapView.minimumZoomLevel = minZoomLevel
-        mapView.userTrackingMode = .Follow
+        mapView.setUserTrackingMode(.None, animated: false)
         mapView.delegate = self
 
         // Setup offline pack notification handlers.
@@ -69,55 +66,35 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleLongTap)
 
-        // Short single tap recognition
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleSingleTap(_:)))
-        singleTap.requireGestureRecognizerToFail(doubleTap)
-        mapView.addGestureRecognizer(singleTap)
     }
 
     // MARK: - Tapping Methods
 
-    func handleSingleTap(tap: UITapGestureRecognizer) {
-        let tableViewCurrentHeight = self.constraintTableViewHeight.constant
-        let tableDisplaysJustARow = tableViewCurrentHeight == CGFloat(busResultCellHeight) || tableViewCurrentHeight == 0
-        guard tableDisplaysJustARow else {
-            // Collapse table and display selected row
-            self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
-            self.busResultsTableView.layoutIfNeeded()
-            let indexPathToScroll = busResultsTableView.indexPathForSelectedRow
-            busResultsTableView.selectRowAtIndexPath(indexPathToScroll, animated: true, scrollPosition: UITableViewScrollPosition.Middle)
-            return
-        }
-    }
-
-    func handleSingleLongTap(tap: UITapGestureRecognizer)
-    {
+    func handleSingleLongTap(tap: UITapGestureRecognizer) {
+        mapView.showsUserLocation = true
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
         self.destination = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
         progressNotification.showLoadingNotification(self.view)
-        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: self.destination!.latitude, longitude: self.destination!.longitude))
-        {
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: self.destination!.latitude, longitude: self.destination!.longitude)) {
             placemarks, error in
-            if let placemark = placemarks?.first
-            {
-                //sets attributes of annotation 
+            if let placemark = placemarks?.first {
+                //sets attributes of annotation
                 let annotation = MGLPointAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: self.destination!.latitude, longitude: self.destination!.longitude)
-                annotation.title = "Destino"
+                annotation.title = self.markerDestinationLabelText
                 annotation.subtitle = "\(placemark.thoroughfare! as String) \(placemark.subThoroughfare! as String)"
                 //add annotation in the map
                 self.mapView.addAnnotation(annotation)
                 self.mapView.selectAnnotation(annotation, animated: true)
             }
+            self.progressNotification.stopLoadingNotification(self.view)
         }
-        progressNotification.stopLoadingNotification(self.view)
     }
 
-    
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
     }
-    
+
     /**
         This method sets the button of the annotation
     */
@@ -126,69 +103,61 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
         return button
     }
-    
+
     /**
         This method makes the search when the button is pressed on the annotation
     */
     func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
-        mapView.showsUserLocation = true
         // Hide the callout view.
         mapView.deselectAnnotation(annotation, animated: false)
         progressNotification.showLoadingNotification(self.view)
         //Make the search
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         //If origin location is diferent nil
-        if let originAddress = self.mapView.userLocation?.coordinate{
-            if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+        if let originAddress = self.mapView.userLocation?.coordinate {
+            if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
                 self.mapView.addAnnotation(annotation)
                 SearchManager.sharedInstance.search(originAddress, destination:self.destination!, completionHandler: {
                     (busRouteResult, error) in
+                    self.progressNotification.stopLoadingNotification(self.view)
                     if let results = busRouteResult {
                         self.addBusLinesResults(results)
                     }
                 })
-            }
-            else{
+            } else {
+                self.progressNotification.stopLoadingNotification(self.view)
                 GenerateMessageAlert.generateAlert(self, title: "Localización desactivada", message: "Para usar esta funcionalidad es necesario que actives la localización")
             }
         }
-        progressNotification.stopLoadingNotification(self.view)
     }
     // MARK: - Private Methods
 
-    func dismissSearchController(controller: UIViewController)
-    {
+    func dismissSearchController(controller: UIViewController) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: - Memory Management Methods
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    deinit
-    {
+    deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?)
-    {
+    func mapView(mapView: MGLMapView, didUpdateUserLocation userLocation: MGLUserLocation?) {
         mapView.centerCoordinate = (userLocation!.location?.coordinate)!
     }
 
-    func mapViewDidFinishLoadingMap(mapView: MGLMapView)
-    {
-        if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0
-        {
+    func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
+        if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
             startOfflinePackDownload()
         }
     }
 
-    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage?
-    {
+    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
 
         let annotationTitle = annotation.title!! as String
         let imageName = "marker"+annotation.title!! as String
@@ -228,15 +197,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         if isWalkingPathPolyline {
             // Mapbox cyan
             return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
-        }
-        else
-        {
+        } else {
             return UIColor.grayColor()
         }
-    }
-
-    func mapViewRegionIsChanging(mapView: MGLMapView) {
-        mapView.showsUserLocation = false
     }
 
     func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
@@ -251,8 +214,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     // MARK: - Mapview bus roads manipulation Methods
 
-    func addBusRoad(roadResult: RoadResult)
-    {
+    func addBusRoad(roadResult: RoadResult) {
+        progressNotification.showLoadingNotification(self.view)
         let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
         let walkingRoutes = roadResult.walkingRoutes
 
@@ -267,35 +230,33 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
             self.mapView.addAnnotation(walkingPolyline)
         }
 
-        for marker in mapBusRoad.roadStopsMarkerList
-        {
+        for marker in mapBusRoad.roadStopsMarkerList {
             self.mapView.addAnnotation(marker)
         }
 
-        for polyline in mapBusRoad.busRoutePolylineList
-        {
+        for polyline in mapBusRoad.busRoutePolylineList {
             self.mapView.addAnnotation(polyline)
         }
         // First we render polylines on Map then we remove loading notification
         self.progressNotification.stopLoadingNotification(self.view)
     }
 
-    func addBusLinesResults(searchResults: BusSearchResult)
-    {
+    func addBusLinesResults(searchResults: BusSearchResult) {
         progressNotification.showLoadingNotification(self.view)
         self.addOriginPosition(searchResults.origin.getLatLong(), address: searchResults.origin.address)
         self.addDestinationPosition(searchResults.destination.getLatLong(), address: searchResults.destination.address)
         self.bestMatches = searchResults.stringifyBusRoutes()
         self.busResultsDetail = searchResults.busRouteOptions
+        progressNotification.stopLoadingNotification(self.view)
+
         getRoadForSelectedResult(self.busResultsDetail.first)
+
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
-        progressNotification.stopLoadingNotification(self.view)
     }
 
-    func addOriginPosition(origin: CLLocationCoordinate2D, address: String)
-    {
+    func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {
         if let annotations = self.mapView.annotations {
             self.mapView.removeAnnotations(annotations)
         }
@@ -311,8 +272,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         self.mapView.setCenterCoordinate(origin, animated: true)
     }
 
-    func addDestinationPosition(destination: CLLocationCoordinate2D, address: String)
-    {
+    func addDestinationPosition(destination: CLLocationCoordinate2D, address: String) {
         self.destination = destination
         // Declare the marker point and set its coordinates
         let destinationMarker = MGLPointAnnotation()
@@ -338,15 +298,13 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
      Then we have to know if south or north is more at east to define for each one a longitude padding
      Finally we create new coordinate with padding included and build bounds with each corners
      */
-    func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds
-    {
+    func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds {
         var south, north: CLLocationCoordinate2D
         let latitudinalMeters: CLLocationDistance = 800
         let longitudinalMeters: CLLocationDistance = -800
         let southLongitudinal, northLongitudinal: CLLocationDistance
 
-        if self.destination?.latitude < self.origin?.latitude
-        {
+        if self.destination?.latitude < self.origin?.latitude {
             south = self.destination!
             north = self.origin!
         } else {
@@ -354,8 +312,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
             north = self.destination!
         }
 
-        if south.longitude < north.longitude
-        {
+        if south.longitude < north.longitude {
             southLongitudinal = -800
             northLongitudinal = 800
         } else {
@@ -375,8 +332,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         return markerResultsBounds
     }
 
-    func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline
-    {
+    func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline {
         var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
         let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
         walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
@@ -384,10 +340,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
     }
 
     func removeExistingAnnotationsOfBusRoad() -> Void {
-        for currentMapAnnotation in self.mapView.annotations!
-        {
-            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
-            {
+        for currentMapAnnotation in self.mapView.annotations! {
+            if isAnnotationPartOfMyBusResult(currentMapAnnotation) {
                 self.mapView.removeAnnotation(currentMapAnnotation)
             }
         }
@@ -399,8 +353,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         if annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
             annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
             annotationTitle == MyBusTitle.StopDestinationTitle.rawValue ||
-            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue
-        {
+            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue {
             return true
         } else {
             return false
@@ -409,39 +362,32 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     // MARK: - UIPopoverPresentationControllerDelegate Methods
 
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
-    {
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return .None
     }
 
-    func prepareForPopoverPresentation(popoverPresentationController: UIPopoverPresentationController)
-    {
+    func prepareForPopoverPresentation(popoverPresentationController: UIPopoverPresentationController) {
         print("prepare for presentation")
     }
 
-    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController)
-    {
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
         print("did dismiss")
     }
 
-    func popoverPresentationControllerShouldDismissPopover(popoverPresentationController: UIPopoverPresentationController) -> Bool
-    {
+    func popoverPresentationControllerShouldDismissPopover(popoverPresentationController: UIPopoverPresentationController) -> Bool {
         print("should dismiss")
         return true
     }
 
     // MARK: - Pack Download
 
-    func startOfflinePackDownload()
-    {
+    func startOfflinePackDownload() {
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: minZoomLevel, toZoomLevel: maxZoomLevel)
         let userInfo = ["name": "OfflineMap"]
         let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
 
-        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context)
-        { (pack, error) in
-            guard error == nil else
-            {
+        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context) { (pack, error) in
+            guard error == nil else {
                 print("Error: \(error?.localizedFailureReason)")
                 return
             }
@@ -452,71 +398,58 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
 
     // MARK: - MGLOfflinePack Notification Handlers
 
-    func offlinePackProgressDidChange(notification: NSNotification)
-    {
+    func offlinePackProgressDidChange(notification: NSNotification) {
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String]
-        {
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String] {
             let progress = pack.progress
             let completedResources = progress.countOfResourcesCompleted
             let expectedResources = progress.countOfResourcesExpected
             let progressPercentage = Float(completedResources) / Float(expectedResources)
 
-            if completedResources == expectedResources
-            {
+            if completedResources == expectedResources {
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
                 print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
-            }
-            else
-            {
+            } else {
                 print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
             }
         }
     }
 
-    func offlinePackDidReceiveError(notification: NSNotification)
-    {
+    func offlinePackDidReceiveError(notification: NSNotification) {
         if let pack = notification.object as? MGLOfflinePack,
             userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError
-        {
+            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
             print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
         }
     }
 
-    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification)
-    {
+    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification) {
         if let pack = notification.object as? MGLOfflinePack,
             userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue
-        {
+            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue {
             print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
         }
     }
 
     // MARK: - UITableViewDataSource Methods
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("BusIdentifier", forIndexPath: indexPath) as UITableViewCell
         cell.textLabel?.text = self.bestMatches[indexPath.row]
         return cell
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bestMatches.count
     }
 
     // MARK: - UITableViewDelegate Methods
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
         // Lisandro added the following line because if table expanded is more than 50% of view height zoom does not work as expected
         self.mapView.layoutIfNeeded()
@@ -534,23 +467,20 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate
         setBusResultsTableViewHeight(CGFloat(busResultCellHeight * self.bestMatches.count))
     }
 
-    func setBusResultsTableViewHeight(height: CGFloat)
-    {
+    func setBusResultsTableViewHeight(height: CGFloat) {
         self.constraintTableViewHeight.constant = CGFloat(height)
         self.busResultsTableView.layoutIfNeeded()
     }
 
-    func getRoadForSelectedResult(routeSelectedResult: BusRouteResult?) -> Void
-    {
-        if let route = routeSelectedResult
-        {
+    func getRoadForSelectedResult(routeSelectedResult: BusRouteResult?) -> Void {
+        progressNotification.showLoadingNotification(self.view)
+        if let route = routeSelectedResult {
             self.currentRouteDisplayed = route
-            SearchManager.sharedInstance.getRoad(route){
+            SearchManager.sharedInstance.getRoad(route) {
                 road, error in
-                if let routeRoad = road
-                {
+                self.progressNotification.stopLoadingNotification(self.view)
+                if let routeRoad = road {
                     self.addBusRoad(routeRoad)
-
                 } else {
                     GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos resolver el detalle de la opción seleccionada")
                 }
