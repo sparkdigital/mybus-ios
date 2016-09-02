@@ -10,6 +10,8 @@ import Foundation
 
 class Configuration {
     private static let streetsArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Streets", ofType: "plist")!)!
+    private static let busessArray = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("BusesRates", ofType: "plist")!)!
+    
     private static let thirdServicesConfiguration = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("AppConfiguration", ofType: "plist")!)!
 
     // MARK: Gis Service Configuration
@@ -28,7 +30,11 @@ class Configuration {
     class func streetsName() -> [String] {
         return Configuration.streetsArray as! [String]
     }
-
+    
+    class func bussesRates() -> [String:String] {
+        return Configuration.busessArray as! [String:String]
+    }
+    
     // MARK: MyBus Service Configuration
     class func myBusApiKey() -> String {
         return Configuration.thirdServicesConfiguration["ThirdServices"]!["MyBus"]!!["ApiKey"] as! String

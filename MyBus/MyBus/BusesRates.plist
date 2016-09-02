@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Boleto urbano(Todas las lineas)</key>
+	<string>$4,80</string>
+	<key>511 - Av Luro y Ramón Carrillo · Los Acantilados Golf Club</key>
+	<string>$5,15</string>
+	<key>511 - Av Luro y Ramón Carrillo · Playa la Serena</key>
+	<string>$4,80</string>
+	<key>511 - Av. Luro y Ramón Carrillo · Av. Edison</key>
+	<string>$4,80</string>
+	<key>511 - Av. Luro y Ramón Carrillo · avenida Mario Bravo</key>
+	<string>$4,80</string>
+	<key>511 - Av. Luro y Ramón Carrillo · San Eduardo del Mar</key>
+	<string>$6,87</string>
+	<key>511 - Av. Luro y Ramón Carrillo · Hotel 5 de Colonia Chapadmalal </key>
+	<string>$6,27</string>
+	<key>511 - Playa La Serena · San Eduardo del Mar </key>
+	<string>$4,80</string>
+	<key>511 - Av. Luro y Ramón Carrillo · Playa La Serena </key>
+	<string>$4,80</string>
+	<key>525 -  Área urbana · Valle Hermoso</key>
+	<string>$4,80</string>
+	<key>525 - Barrio Parque Hermoso · Área urbana</key>
+	<string>$4,80</string>
+	<key>542/543 - Av. Juan B. Justo · Aquasol</key>
+	<string>$6,27</string>
+	<key>542/543 - Av. Juan B. Justo · Estación Camet</key>
+	<string>$5,15</string>
+	<key>542/543 - Paraje Aquasol · Aeropuerto Brigadier de la Colina</key>
+	<string>$4,80</string>
+	<key>542/543 - Av.venida Juan B. Justo y Av. Carlos Gardel · Aeropuerto Brigadier de la Colina</key>
+	<string>$4,80</string>
+	<key>711 - Estación Terminal · Colinas Verdes </key>
+	<string>$7,62</string>
+	<key>711 - Estación Terminal · Jardín de Infantes 7 de Sierra de los Padres </key>
+	<string>$7,62</string>
+	<key>711 - Estación Terminal · Barrio San Carlos </key>
+	<string>$7,62</string>
+	<key>711 - Estación Terminal · Km 11,9 del Camino del consorcio vecinal a partir del Km 10 de la ruta 226 </key>
+	<string>$6,87</string>
+	<key>771 - Estación Terminal · Country Club Sierra </key>
+	<string>$6,87</string>
+	<key>771 - Estación Terminal · Km 6 del Camino del Consorcio Vecinal a partir del Km 10 de la Ruta 226</key>
+	<string>$6,27</string>
+	<key>771 - Estación Terminal · Km 13 Ruta Nacional 226</key>
+	<string>$6,27</string>
+	<key>715/720 - Estación Terminal · Estación Chapadmalal</key>
+	<string>$6,72</string>
+	<key>715/720 - Estación Terminal · Batán</key>
+	<string>$6,10</string>
+</dict>
+</plist>
