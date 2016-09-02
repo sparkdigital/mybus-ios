@@ -119,8 +119,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         //Make the search
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         //If origin location is diferent nil
-        if let originAddress = self.mapView.userLocation?.coordinate {
-            if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
+        if (locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
+            if let originAddress = self.mapView.userLocation?.coordinate {
                 self.mapView.addAnnotation(annotation)
                 SearchManager.sharedInstance.search(originAddress, destination:self.destination!, completionHandler: {
                     (busRouteResult, error) in
@@ -130,9 +130,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                     }
                 })
             } else {
+                self.mapView.showsUserLocation = true
                 self.progressNotification.stopLoadingNotification(self.view)
-                GenerateMessageAlert.generateAlert(self, title: "Localización desactivada", message: "Para usar esta funcionalidad es necesario que actives la localización")
             }
+        } else {
+            self.progressNotification.stopLoadingNotification(self.view)
+            GenerateMessageAlert.generateAlertToSetting(self)
         }
     }
     // MARK: - Private Methods
@@ -199,12 +202,30 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             // Mapbox cyan
             return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
         } else {
+            if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = NSDictionary(contentsOfFile: path) as? [String: String] {
+                if annotation.subtitle?.characters.count == 0 {
+                    if let key = currentRouteDisplayed?.busRoutes.first?.idBusLine {
+                        if let color = dict[String(key)] {
+                            return UIColor(hexString: color)
+                        } else {
+                            return UIColor.grayColor()
+                        }
+                    }
+                } else if let subtitle = annotation.subtitle {
+                    if let color = dict[String(subtitle)] {
+                        return UIColor(hexString: color)
+                    } else {
+                        return UIColor.grayColor()
+                    }
+                }
+            }
             return UIColor.grayColor()
         }
     }
 
     func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
         print("error locating user: \(error.localizedDescription)")
+        GenerateMessageAlert.generateAlertToSetting(self)
     }
 
     func getMarkerImage(imageResourceIdentifier: String, annotationTitle: String) -> MGLAnnotationImage {
@@ -212,7 +233,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
-
 
     // MARK: - Mapview bus roads manipulation Methods
 
@@ -237,6 +257,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         }
 
         for polyline in mapBusRoad.busRoutePolylineList {
+            print(polyline.subtitle)
             self.mapView.addAnnotation(polyline)
         }
         // First we render polylines on Map then we remove loading notification
