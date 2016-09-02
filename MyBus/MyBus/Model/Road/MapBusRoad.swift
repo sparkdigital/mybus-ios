@@ -24,14 +24,14 @@ class MapBusRoad: NSObject {
     func addBusRoutePolyline(roadResult: RoadResult) -> Void {
         // First bus route polyline
         let firstBusRoute: Route = (roadResult.routeList.first)!
-        let firstBusLine = busPolylineBuilder(firstBusRoute)
+        let firstBusLine = busPolylineBuilder(firstBusRoute, busLineNumber: roadResult.idBusLine1)
         busRoutePolylineList.append(firstBusLine)
 
         // If road is combinated, we add second bus route polyline
         if roadResult.busRouteResultType() == .Combined
         {
             let secondBusRoute = roadResult.routeList[1]
-            let secondBusLine = busPolylineBuilder(secondBusRoute)
+            let secondBusLine = busPolylineBuilder(secondBusRoute, busLineNumber: roadResult.idBusLine2)
             busRoutePolylineList.append(secondBusLine)
         }
     }
@@ -84,7 +84,7 @@ class MapBusRoad: NSObject {
         return mapBoxAnnotation
     }
 
-    func busPolylineBuilder(busRoute: Route) -> MGLPolyline {
+    func busPolylineBuilder(busRoute: Route, busLineNumber: String) -> MGLPolyline {
         var busRouteCoordinates: [CLLocationCoordinate2D] = []
         for point in busRoute.pointList {
             // Make a CLLocationCoordinate2D with the lat, lng
@@ -94,6 +94,7 @@ class MapBusRoad: NSObject {
         }
         let busPolyline = MGLPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
         busPolyline.title = MyBusTitle.BusLineRouteTitle.rawValue
+        busPolyline.subtitle = busLineNumber
         return busPolyline
     }
 }
