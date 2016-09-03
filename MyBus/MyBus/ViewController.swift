@@ -65,7 +65,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleLongTap)
-
     }
 
     // MARK: - Tapping Methods
@@ -82,9 +81,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 let annotation = MGLPointAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: self.destination!.latitude, longitude: self.destination!.longitude)
                 annotation.title = self.markerDestinationLabelText
-                annotation.subtitle = "\(placemark.thoroughfare! as String) \(placemark.subThoroughfare! as String)"
+                if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
+                    annotation.subtitle = "\(street as String) \(houseNumber as String)"
+                }
                 //add annotation in the map
                 self.mapView.addAnnotation(annotation)
+                self.mapView.setCenterCoordinate(annotation.coordinate, zoomLevel: 14, animated: false)
                 self.mapView.selectAnnotation(annotation, animated: false)
             }
             self.progressNotification.stopLoadingNotification(self.view)
@@ -257,7 +259,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         }
 
         for polyline in mapBusRoad.busRoutePolylineList {
-            print(polyline.subtitle)
             self.mapView.addAnnotation(polyline)
         }
         // First we render polylines on Map then we remove loading notification
@@ -271,12 +272,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         self.bestMatches = searchResults.stringifyBusRoutes()
         self.busResultsDetail = searchResults.busRouteOptions
         progressNotification.stopLoadingNotification(self.view)
-
         getRoadForSelectedResult(self.busResultsDetail.first)
-
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
+        //Scroll to first result preventing keep previous row selected by user
+        self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: .Middle)
     }
 
     func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {

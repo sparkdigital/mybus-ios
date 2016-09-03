@@ -93,8 +93,9 @@ class RoadResult: NSObject {
                 } else {
                     completion()
                 }
+            } else {
+                completion()
             }
-            completion()
         }
     }
 }
