@@ -86,10 +86,14 @@ class RoadResult: NSObject {
         Connectivity.sharedInstance.getWalkingDirections(from, destinationCoordinate: to) {
             response, error in
             print(error)
-            if let walkRoute = response?.routes.first
-            //TODO Discard routes with distance < 100mts
-            {
-                self.walkingRoutes.append(walkRoute)
+            if let walkRoute = response?.routes.first {
+                if walkRoute.distance > CLLocationDistance(100) {
+                    self.walkingRoutes.append(walkRoute)
+                    completion()
+                } else {
+                    completion()
+                }
+            } else {
                 completion()
             }
         }
