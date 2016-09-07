@@ -104,6 +104,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
             self.mapViewController.mapView.showsUserLocation = true
+            self.mapViewController.mapView.centerCoordinate = (self.mapViewController.mapView.userLocation!.location?.coordinate)!
             self.mapViewController.mapView.setZoomLevel(16, animated: false)
         } else {
             GenerateMessageAlert.generateAlertToSetting(self)
