@@ -42,6 +42,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
         self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.searchBar.layer.borderWidth = 8
+        self.searchBar.delegate = self
     }
 
     //Method that receives a storyboard string identifier and returns a view controller object
@@ -111,13 +112,16 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         }
     }
 
-    // MARK: - IBAction Methods
-
-    @IBAction func searchButtonTapped(sender: AnyObject) {
-        self.searchViewController.searchViewProtocol = self
-        self.searchViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.cycleViewController(self.currentViewController!, toViewController: self.searchViewController)
-        self.currentViewController = self.searchViewController
+    func searchBarTapped(sender: AnyObject) {
+        if self.currentViewController == searchViewController {
+            self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+            self.currentViewController = self.mapViewController
+        } else {
+            self.searchViewController.searchViewProtocol = self
+            self.searchViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.cycleViewController(self.currentViewController!, toViewController: self.searchViewController)
+            self.currentViewController = self.searchViewController
+        }
     }
 
     // MARK: - MapBusRoadDelegate Methods
@@ -142,4 +146,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.mapViewController.addDestinationPosition(destination, address : address)
     }
 
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        searchBarTapped(false)
+        return false
+    }
 }
