@@ -34,6 +34,15 @@ class RoutePoint: NSObject {
         }
     }
 
+    static func parse(latitude: String, longitude: String) -> RoutePoint
+    {
+        let point = RoutePoint()
+        point.latitude = latitude
+        point.longitude = longitude
+        point.address = ""
+        return point
+    }
+
     static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
         let successCode: String = "OK"
         let geoPoint = RoutePoint()
