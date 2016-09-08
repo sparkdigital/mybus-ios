@@ -81,7 +81,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
-                completionHandler(CompleteBusRoute(), nil)
+                completionHandler(CompleteBusRoute().parseOneWayBusRoute(json, busLineName: ""), nil)
             } else {
                 completionHandler(nil, error)
             }

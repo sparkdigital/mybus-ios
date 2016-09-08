@@ -73,6 +73,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
             self.mapView.showsUserLocation = true
+            self.mapView.centerCoordinate = (self.mapView.userLocation!.location?.coordinate)!
             self.mapView.setZoomLevel(16, animated: false)
         }
         else{
