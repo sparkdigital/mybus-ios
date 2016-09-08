@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Buses Rates View Controller-->
+        <scene sceneID="PVk-NI-Rdf">
+            <objects>
+                <viewController storyboardIdentifier="BusesRatesViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="DKY-K4-l6c" customClass="BusesRatesViewController" customModule="MyBus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="58s-EZ-aZ3"/>
+                        <viewControllerLayoutGuide type="bottom" id="t8c-co-EUA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" horizontalHuggingPriority="257" id="xaE-wb-sQh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ANi-Ql-H6c">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Tarifas" id="KYT-lB-gXK"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="556" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="47" sectionHeaderHeight="22" sectionFooterHeight="29" translatesAutoresizingMaskIntoConstraints="NO" id="oVJ-1v-oRt">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BusesRatesTableViewCell" rowHeight="66" id="mAe-Nb-yTY" customClass="BusesRatesTableViewCell" customModule="MyBus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="mAe-Nb-yTY" id="fi2-UX-Gg7">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="65"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_pricetag_fill" translatesAutoresizingMaskIntoConstraints="NO" id="krT-XW-cNI">
+                                                    <rect key="frame" x="0.0" y="18" width="30" height="30"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BusLine" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tc9-aI-oBf">
+                                                    <rect key="frame" x="41" y="25" width="45" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BusPrice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sOu-m8-kgf">
+                                                    <rect key="frame" x="533" y="25" width="51" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <rect key="contentStretch" x="0.25" y="0.0" width="1" height="1"/>
+                                            <constraints>
+                                                <constraint firstItem="Tc9-aI-oBf" firstAttribute="leading" secondItem="krT-XW-cNI" secondAttribute="trailing" constant="11" id="V4C-L6-z7L"/>
+                                                <constraint firstItem="krT-XW-cNI" firstAttribute="centerY" secondItem="fi2-UX-Gg7" secondAttribute="centerY" id="Xgk-KL-uXP"/>
+                                                <constraint firstItem="Tc9-aI-oBf" firstAttribute="centerY" secondItem="fi2-UX-Gg7" secondAttribute="centerY" id="jfF-jq-Ww2"/>
+                                                <constraint firstItem="krT-XW-cNI" firstAttribute="leading" secondItem="fi2-UX-Gg7" secondAttribute="leading" id="lCW-QE-vKF"/>
+                                                <constraint firstItem="sOu-m8-kgf" firstAttribute="centerY" secondItem="fi2-UX-Gg7" secondAttribute="centerY" id="m2s-Ec-JgP"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="sOu-m8-kgf" secondAttribute="trailing" constant="15" id="tg0-Zm-XbS"/>
+                                            </constraints>
+                                            <edgeInsets key="layoutMargins" top="1" left="1" bottom="1" right="1"/>
+                                        </tableViewCellContentView>
+                                        <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                        <connections>
+                                            <outlet property="BusLine" destination="Tc9-aI-oBf" id="6LP-Yx-Mr1"/>
+                                            <outlet property="BusPrice" destination="sOu-m8-kgf" id="Oox-PR-7Fc"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="DKY-K4-l6c" id="NjL-w8-iIG"/>
+                                    <outlet property="delegate" destination="DKY-K4-l6c" id="IIq-7X-zSG"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="ANi-Ql-H6c" secondAttribute="trailing" constant="-20" id="IX5-uI-reS"/>
+                            <constraint firstItem="ANi-Ql-H6c" firstAttribute="leading" secondItem="xaE-wb-sQh" secondAttribute="leadingMargin" constant="-20" id="JyP-xd-Ndq"/>
+                            <constraint firstItem="ANi-Ql-H6c" firstAttribute="leading" secondItem="oVJ-1v-oRt" secondAttribute="leading" id="Y97-wN-zbA"/>
+                            <constraint firstItem="ANi-Ql-H6c" firstAttribute="leading" secondItem="xaE-wb-sQh" secondAttribute="leading" id="Zx3-lf-ubv"/>
+                            <constraint firstItem="ANi-Ql-H6c" firstAttribute="top" secondItem="xaE-wb-sQh" secondAttribute="top" id="csX-6v-BWB"/>
+                            <constraint firstItem="oVJ-1v-oRt" firstAttribute="bottom" secondItem="t8c-co-EUA" secondAttribute="top" id="i4i-yA-bGo"/>
+                            <constraint firstItem="ANi-Ql-H6c" firstAttribute="bottom" secondItem="oVJ-1v-oRt" secondAttribute="top" id="n9e-t0-yPN"/>
+                            <constraint firstItem="oVJ-1v-oRt" firstAttribute="leading" secondItem="ANi-Ql-H6c" secondAttribute="trailing" constant="-600" id="qkG-A3-oJI"/>
+                            <constraint firstAttribute="trailing" secondItem="ANi-Ql-H6c" secondAttribute="trailing" id="uME-c8-X9l"/>
+                            <constraint firstItem="ANi-Ql-H6c" firstAttribute="trailing" secondItem="oVJ-1v-oRt" secondAttribute="trailing" id="wqa-9b-YZ8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ratesTableView" destination="oVJ-1v-oRt" id="Xjr-8C-nRk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ceg-rK-nMx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="440" y="360"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="tabbar_pricetag_fill" width="30" height="30"/>
+    </resources>
+</document>
