@@ -216,21 +216,27 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             // Mapbox cyan
             return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
         } else {
-            if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = NSDictionary(contentsOfFile: path) as? [String: String] {
-                if annotation.subtitle?.characters.count == 0 {
-                    if let key = currentRouteDisplayed?.busRoutes.first?.idBusLine {
-                        if let color = dict[String(key)] {
-                            return UIColor(hexString: color)
-                        } else {
-                            return UIColor.grayColor()
-                        }
-                    }
-                } else if let subtitle = annotation.subtitle {
-                    if let color = dict[String(subtitle)] {
-                        return UIColor(hexString: color)
-                    } else {
-                        return UIColor.grayColor()
-                    }
+            var idBusIndex: Int = 1
+            if annotation.subtitle?.characters.count == 0, let key = currentRouteDisplayed?.busRoutes.first?.idBusLine {
+                idBusIndex = key
+            } else if let subtitle = annotation.subtitle {
+                idBusIndex = Int(subtitle)!
+            }
+
+            //Hacking the index
+            if idBusIndex < 10 {
+                idBusIndex = idBusIndex - 1
+            } else if idBusIndex < 41 {
+                idBusIndex = idBusIndex - 2
+            } else {
+                idBusIndex = idBusIndex - 3
+            }
+
+            if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = (NSArray(contentsOfFile: path))!.objectAtIndex(idBusIndex) as? [String: String] {
+                if let color = dict["color"] {
+                    return UIColor(hexString: color)
+                } else {
+                    return UIColor.grayColor()
                 }
             }
             return UIColor.grayColor()
