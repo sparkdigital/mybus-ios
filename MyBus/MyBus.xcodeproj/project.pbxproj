@@ -44,10 +44,14 @@
 		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
 		A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */; };
 		C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50CC65C1D7A17130039C316 /* BusesRates.plist */; };
+		C50EFDB11D7F0C630088F7FB /* Rates.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C50EFDB01D7F0C630088F7FB /* Rates.Storyboard */; };
 		C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */ = {isa = PBXBuildFile; fileRef = C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */; };
 		C5421B271D5B609C007C8987 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5421B261D5B609C007C8987 /* ProgressHUD.swift */; };
 		C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C542E36B1D48EF0F009FF442 /* Streets.plist */; };
 		C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */; };
+		C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */; };
+		C57886F91D7DC2050056A5E1 /* BusesRatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */; };
+		C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,10 +109,14 @@
 		A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseNetworkService.swift; path = Services/BaseNetworkService.swift; sourceTree = "<group>"; };
 		B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
 		C50CC65C1D7A17130039C316 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
+		C50EFDB01D7F0C630088F7FB /* Rates.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rates.Storyboard; sourceTree = "<group>"; };
 		C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepActivateLocate.xib; sourceTree = "<group>"; };
 		C5421B261D5B609C007C8987 /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		C542E36B1D48EF0F009FF442 /* Streets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Streets.plist; sourceTree = "<group>"; };
 		C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMessageAlert.swift; sourceTree = "<group>"; };
+		C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesTableViewCell.swift; sourceTree = "<group>"; };
+		C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesViewController.swift; sourceTree = "<group>"; };
+		C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +190,8 @@
 				087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */,
 				11D4BEE41D343B51005E0031 /* MainViewController.swift */,
 				11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */,
+				C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */,
+				C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -220,6 +230,7 @@
 				08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */,
 				112A11081CE5194A00D00709 /* Strings.swift */,
 				C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */,
+				C50EFDB01D7F0C630088F7FB /* Rates.Storyboard */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -268,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */,
+				C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -400,6 +412,7 @@
 				08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */,
 				08EC58561CBD482400E8410A /* Main.storyboard in Resources */,
 				C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */,
+				C50EFDB11D7F0C630088F7FB /* Rates.Storyboard in Resources */,
 				C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,12 +548,14 @@
 				11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
 				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
+				C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */,
 				112A11041CE1286600D00709 /* MapBusRoad.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
 				1131807E1D63749400425847 /* SearchManager.swift in Sources */,
 				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
 				A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */,
+				C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */,
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
 				11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
@@ -549,6 +564,7 @@
 				C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */,
 				08EC58531CBD482400E8410A /* ViewController.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
+				C57886F91D7DC2050056A5E1 /* BusesRatesViewController.swift in Sources */,
 				11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */,
 				08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */,
 				11DAE9021CC534D400A35D6A /* User.swift in Sources */,

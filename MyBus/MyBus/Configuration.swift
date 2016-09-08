@@ -31,8 +31,17 @@ class Configuration {
         return Configuration.streetsArray as! [String]
     }
     
-    class func bussesRates() -> [String:String] {
-        return Configuration.busessArray as! [String:String]
+    class func bussesRates() -> [(String, String)]{
+        var rates = [(String, String)]()
+        for item in Configuration.busessArray{
+            rates.append((item.key as! String,item.value as! String))
+        }
+        var sortedArray = rates.sort { (element1, element2) -> Bool in
+            return element1.0 < element2.0
+        }
+        let aux = sortedArray.popLast()
+        sortedArray.insert(aux!, atIndex: 0)
+        return sortedArray
     }
     
     // MARK: MyBus Service Configuration
