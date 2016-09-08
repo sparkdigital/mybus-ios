@@ -35,9 +35,9 @@ public class SearchManager: NSObject {
 
     /**
      This method gets the busses using two Address.
-     
+
      @param origin address of origin point.
-     
+
      @destination address of origin destination.
      */
     func search(origin: String, destination: String, completionHandler: (BusSearchResult?, NSError?) -> ()) -> Void {
@@ -66,12 +66,12 @@ public class SearchManager: NSObject {
             }
         }
     }
-    
+
     /**
      This method gets the busses using two coordinates.
-     
+
      @param origin coordinate of origin point.
-     
+
      @destination coordinate of origin destination.
      */
     func search(origin: CLLocationCoordinate2D, destination: CLLocationCoordinate2D, completionHandler: (BusSearchResult?, NSError?) -> ()) -> Void {
