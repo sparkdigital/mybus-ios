@@ -47,9 +47,11 @@ class Configuration {
     
     class func bussesInformation() -> [(String, String)]{
         var information = [(String, String)]()
-        for item in Configuration.bussesInformation(){
-           
-        }
+        //for item in Configuration.bussesInformation(){
+          // information.append(("test","test"))
+        //}
+        information.append(("test","test"))
+        information.append(("test2","test2"))
         return information
     }
     
