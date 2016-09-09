@@ -42,27 +42,27 @@ class CompleteBusRoute {
                 //Check if start of going route is the same of last for return route -> use a different icon
                 if startGoing.latitude == lastReturn.latitude && startGoing.longitude == lastReturn.longitude {
                     //Start and end points are the same place
-                    startGoingMarker.title = "Inicio y fin \(busLineName)"
+                    startGoingMarker.title = "\(MyBusTitle.SameStartEndCompleteBusRoute.rawValue) \(busLineName)"
                 } else {
                     //Start of going route is different end of return route
-                    startGoingMarker.title = "Inicio \(busLineName)"
+                    startGoingMarker.title = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
 
                     let startReturnMarker = MGLPointAnnotation()
-                    startReturnMarker.coordinate = lastReturn.getLatLong()
-                    startReturnMarker.subtitle = lastReturn.address
-                    startReturnMarker.title = "Inicio \(busLineName)"
+                    startReturnMarker.coordinate = returnPointList.first!.getLatLong()
+                    startReturnMarker.subtitle = returnPointList.first!.address
+                    startReturnMarker.title = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
 
                     let endReturnMarker = MGLPointAnnotation()
-                    endReturnMarker.coordinate = returnPointList.first!.getLatLong()
-                    endReturnMarker.subtitle = returnPointList.first!.address
-                    endReturnMarker.title = "Fin \(busLineName)"
+                    endReturnMarker.coordinate = lastReturn.getLatLong()
+                    endReturnMarker.subtitle = lastReturn.address
+                    endReturnMarker.title = "\(MyBusTitle.EndCompleteBusRoute.rawValue) \(busLineName)"
 
                     markers.append(startReturnMarker)
                     markers.append(endReturnMarker)
                 }
             } else {
                 //We don't have return route yet
-                startGoingMarker.title = "Inicio \(busLineName)"
+                startGoingMarker.title = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
             }
             markers.append(startGoingMarker)
 
