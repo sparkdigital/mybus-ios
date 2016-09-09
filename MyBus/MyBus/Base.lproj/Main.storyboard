@@ -447,6 +447,88 @@
             </objects>
             <point key="canvasLocation" x="1069" y="104"/>
         </scene>
+        <!--Buses Information View Controller-->
+        <scene sceneID="udR-cW-js6">
+            <objects>
+                <viewController storyboardIdentifier="BusesInformationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5MC-W7-3TE" customClass="BusesInformationViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Jq1-0p-ikP"/>
+                        <viewControllerLayoutGuide type="bottom" id="5ZU-L0-QEI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" horizontalHuggingPriority="257" id="Bxc-ZA-aCY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KzX-iX-pkV">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Recorridos" id="6Xm-Y6-ihJ"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="556" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="47" sectionHeaderHeight="22" sectionFooterHeight="29" translatesAutoresizingMaskIntoConstraints="NO" id="hQc-88-fax">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BusesInformationTableViewCell" rowHeight="66" id="1lp-XD-jGh" customClass="BusesInformationTableViewCell">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="1lp-XD-jGh" id="x0S-Ed-Vej">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="65"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BusLine" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Yx-zN-Fs1">
+                                                    <rect key="frame" x="89" y="25" width="45" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NXz-na-q8X">
+                                                    <rect key="frame" x="7" y="1" width="14" height="56"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tabbar_route_fill" translatesAutoresizingMaskIntoConstraints="NO" id="EQG-a8-O1O">
+                                                    <rect key="frame" x="41" y="18" width="30" height="30"/>
+                                                </imageView>
+                                            </subviews>
+                                            <rect key="contentStretch" x="0.25" y="0.0" width="1" height="1"/>
+                                            <edgeInsets key="layoutMargins" top="1" left="1" bottom="1" right="1"/>
+                                        </tableViewCellContentView>
+                                        <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                        <connections>
+                                            <outlet property="BusColor" destination="NXz-na-q8X" id="WUv-5j-Yzi"/>
+                                            <outlet property="BusLine" destination="7Yx-zN-Fs1" id="Xql-eL-cBV"/>
+                                            <outlet property="busColor" destination="NXz-na-q8X" id="A2M-YH-PPh"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="5MC-W7-3TE" id="zI3-IH-fVF"/>
+                                    <outlet property="delegate" destination="5MC-W7-3TE" id="fBj-hv-o4Y"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hQc-88-fax" firstAttribute="bottom" secondItem="5ZU-L0-QEI" secondAttribute="top" id="3Pr-Ns-udC"/>
+                            <constraint firstItem="KzX-iX-pkV" firstAttribute="leading" secondItem="Bxc-ZA-aCY" secondAttribute="leadingMargin" constant="-20" id="7ot-Q1-5dw"/>
+                            <constraint firstItem="KzX-iX-pkV" firstAttribute="bottom" secondItem="hQc-88-fax" secondAttribute="top" id="Ek5-hk-MPm"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="KzX-iX-pkV" secondAttribute="trailing" constant="-20" id="HXr-OH-QIV"/>
+                            <constraint firstItem="KzX-iX-pkV" firstAttribute="trailing" secondItem="hQc-88-fax" secondAttribute="trailing" id="L2E-cv-JPr"/>
+                            <constraint firstItem="KzX-iX-pkV" firstAttribute="leading" secondItem="Bxc-ZA-aCY" secondAttribute="leading" id="OJp-mT-lNb"/>
+                            <constraint firstItem="KzX-iX-pkV" firstAttribute="top" secondItem="Bxc-ZA-aCY" secondAttribute="top" id="QKM-gr-99b"/>
+                            <constraint firstAttribute="trailing" secondItem="KzX-iX-pkV" secondAttribute="trailing" id="jER-EE-WHE"/>
+                            <constraint firstItem="KzX-iX-pkV" firstAttribute="leading" secondItem="hQc-88-fax" secondAttribute="leading" id="maJ-1s-iaz"/>
+                            <constraint firstItem="hQc-88-fax" firstAttribute="leading" secondItem="KzX-iX-pkV" secondAttribute="trailing" constant="-600" id="rX7-xU-IvX"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="informationTableView" destination="hQc-88-fax" id="2R3-Ml-496"/>
+                        <outlet property="ratesTableView" destination="hQc-88-fax" id="h9C-uW-Qsm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T6E-nn-Khv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1069" y="104"/>
+        </scene>
     </scenes>
     <resources>
         <image name="location-icon" width="135" height="135"/>

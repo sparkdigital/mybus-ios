@@ -24,6 +24,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
     var busesRatesViewController : BusesRatesViewController!
+    var busesInformationViewController : BusesInformationViewController!
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
@@ -32,6 +33,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     let kSearchViewIdentifier: String = "SearchViewController"
     let kMapViewIdentifier: String = "MapViewController"
     let kRatesViewIdentifier: String = "BusesRatesViewController"
+    let kInformationViewIdentifier: String = "BusesInformationViewController"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.mapViewController = self.buildComponentVC(kMapViewIdentifier) as! ViewController
         self.searchViewController = self.buildComponentVC(kSearchViewIdentifier) as! SearchViewController
         self.busesRatesViewController = self.buildComponentVC(kRatesViewIdentifier) as! BusesRatesViewController
+        //self.busesInformationViewController = self.buildComponentVC(kInformationViewIdentifier) as! BusesInformationViewController
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
@@ -169,7 +172,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
            
         }
         if (item.tag == 3){
-          
+            self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
+            self.currentViewController = busesInformationViewController
         }
         if (item.tag == 4){
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
