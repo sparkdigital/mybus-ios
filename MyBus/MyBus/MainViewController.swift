@@ -41,7 +41,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.mapViewController = self.buildComponentVC(kMapViewIdentifier) as! ViewController
         self.searchViewController = self.buildComponentVC(kSearchViewIdentifier) as! SearchViewController
         self.busesRatesViewController = self.buildComponentVC(kRatesViewIdentifier) as! BusesRatesViewController
-        //self.busesInformationViewController = self.buildComponentVC(kInformationViewIdentifier) as! BusesInformationViewController
+        self.busesInformationViewController = self.buildComponentVC(kInformationViewIdentifier) as! BusesInformationViewController
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
