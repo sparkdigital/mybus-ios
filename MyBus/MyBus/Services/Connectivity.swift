@@ -64,6 +64,11 @@ public class Connectivity: NSObject
         myBusService.searchRoads(.Combined, roadSearch: combinedRoadSearch, completionHandler: completionHandler)
     }
 
+    func getCompleteRoads(idLine: Int, direction: Int, completionHanlder: (CompleteBusRoute?, NSError?)->())
+    {
+        myBusService.getCompleteRoads(idLine, direction: direction, completionHandler: completionHanlder)
+    }
+
     // MARK - Directions Endpoints
     func getWalkingDirections(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: (MBDirectionsResponse?, NSError?) -> ())
     {
