@@ -11,6 +11,7 @@ import Foundation
 class Configuration {
     private static let streetsArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Streets", ofType: "plist")!)!
     private static let busessArray = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("BusesRates", ofType: "plist")!)!
+    private static let infoBussesArray = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("BusesRates", ofType: "plist")!)!
     
     private static let thirdServicesConfiguration = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("AppConfiguration", ofType: "plist")!)!
 
@@ -42,6 +43,14 @@ class Configuration {
         let aux = sortedArray.popLast()
         sortedArray.insert(aux!, atIndex: 0)
         return sortedArray
+    }
+    
+    class func bussesInformation() -> [(String, String)]{
+        var information = [(String, String)]()
+        for item in Configuration.bussesInformation(){
+           
+        }
+        return information
     }
     
     // MARK: MyBus Service Configuration
