@@ -65,18 +65,30 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleLongTap)
+
+        //USED FOR TESTING PURPOSES
+//        SearchManager.sharedInstance.getCompleteRoute(1, busLineName: "542") { (completeRoute, error) in
+//            if let route = completeRoute {
+//                for marker in route.getMarkersAnnotation() {
+//                    self.mapView.addAnnotation(marker)
+//                }
+//
+//                for polyline in route.getPolyLines() {
+//                    self.mapView.addAnnotation(polyline)
+//                }
+//            }
+//        }
     }
 
     // MARK: - Tapping Methods
 
     @IBAction func locateUserButtonTap(sender: AnyObject) {
         let locationServiceAuth = CLLocationManager.authorizationStatus()
-        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
             self.mapView.showsUserLocation = true
             self.mapView.centerCoordinate = (self.mapView.userLocation!.location?.coordinate)!
             self.mapView.setZoomLevel(16, animated: false)
-        }
-        else{
+        } else {
             GenerateMessageAlert.generateAlertToSetting(self)
         }
     }
@@ -181,7 +193,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let imageName = "marker"+annotation.title!! as String
 
         var annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier(annotationTitle)
-
         if annotationImage == nil {
             switch annotationTitle {
             case markerOriginLabelText:
@@ -191,6 +202,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             case MyBusTitle.StopOriginTitle.rawValue:
                 annotationImage =  self.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
             case MyBusTitle.StopDestinationTitle.rawValue:
+                annotationImage =  self.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
+            case ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
+                annotationImage =  self.getMarkerImage("map_from_to_route", annotationTitle: annotationTitle)
+            case ~/MyBusTitle.StartCompleteBusRoute.rawValue:
+                annotationImage =  self.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
+            case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
                 annotationImage =  self.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
             default:
                 break
@@ -216,29 +233,32 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             // Mapbox cyan
             return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
         } else {
-            var idBusIndex: Int = 1
+            var idBusIndex: Int?
             if annotation.subtitle?.characters.count == 0, let key = currentRouteDisplayed?.busRoutes.first?.idBusLine {
                 idBusIndex = key
             } else if let subtitle = annotation.subtitle {
                 idBusIndex = Int(subtitle)!
             }
 
-            //Hacking the index
-            if idBusIndex < 10 {
-                idBusIndex = idBusIndex - 1
-            } else if idBusIndex < 41 {
-                idBusIndex = idBusIndex - 2
-            } else {
-                idBusIndex = idBusIndex - 3
-            }
-
-            if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = (NSArray(contentsOfFile: path))!.objectAtIndex(idBusIndex) as? [String: String] {
-                if let color = dict["color"] {
-                    return UIColor(hexString: color)
+            if var idBusIndex = idBusIndex {
+                //Hacking the index
+                if idBusIndex < 10 {
+                    idBusIndex = idBusIndex - 1
+                } else if idBusIndex < 41 {
+                    idBusIndex = idBusIndex - 2
                 } else {
-                    return UIColor.grayColor()
+                    idBusIndex = idBusIndex - 3
+                }
+
+                if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = (NSArray(contentsOfFile: path))!.objectAtIndex(idBusIndex) as? [String: String] {
+                    if let color = dict["color"] {
+                        return UIColor(hexString: color)
+                    } else {
+                        return UIColor.grayColor()
+                    }
                 }
             }
+
             return UIColor.grayColor()
         }
     }
@@ -532,4 +552,15 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             }
         }
     }
+
+}
+
+prefix operator ~/ {}
+
+prefix func ~/ (pattern: String) -> NSRegularExpression {
+    return try! NSRegularExpression(pattern: pattern, options: .CaseInsensitive)
+}
+
+func ~= (pattern: NSRegularExpression, str: String) -> Bool {
+    return pattern.numberOfMatchesInString(str, options: [], range: NSRange(location: 0, length: str.characters.count)) > 0
 }
