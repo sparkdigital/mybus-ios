@@ -102,22 +102,6 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
     // MARK: - Button Handlers
 
-    @IBAction func refreshButtonTap(sender: AnyObject) {
-        if self.currentViewController == searchViewController {
-            self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-            self.currentViewController = self.mapViewController
-        }
-
-        let locationServiceAuth = CLLocationManager.authorizationStatus()
-        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
-            self.mapViewController.mapView.showsUserLocation = true
-            self.mapViewController.mapView.centerCoordinate = (self.mapViewController.mapView.userLocation!.location?.coordinate)!
-            self.mapViewController.mapView.setZoomLevel(16, animated: false)
-        } else {
-            GenerateMessageAlert.generateAlertToSetting(self)
-        }
-    }
-
     func searchBarTapped(sender: AnyObject) {
         if self.currentViewController == searchViewController {
             self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)

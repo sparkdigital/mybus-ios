@@ -65,17 +65,24 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleLongTap)
+
+        //USED FOR TESTING PURPOSES - HAS TO BE REMOVED
+//        SearchManager.sharedInstance.getCompleteRoute(1, busLineName: "542") { (completeRoute, error) in
+//            if let route = completeRoute {
+//                self.displayCompleteBusRoute(route)
+//            }
+//        }
     }
 
     // MARK: - Tapping Methods
 
     @IBAction func locateUserButtonTap(sender: AnyObject) {
         let locationServiceAuth = CLLocationManager.authorizationStatus()
-        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
+        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
             self.mapView.showsUserLocation = true
+            self.mapView.centerCoordinate = (self.mapView.userLocation!.location?.coordinate)!
             self.mapView.setZoomLevel(16, animated: false)
-        }
-        else{
+        } else {
             GenerateMessageAlert.generateAlertToSetting(self)
         }
     }
@@ -180,7 +187,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let imageName = "marker"+annotation.title!! as String
 
         var annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier(annotationTitle)
-
         if annotationImage == nil {
             switch annotationTitle {
             case markerOriginLabelText:
@@ -190,6 +196,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             case MyBusTitle.StopOriginTitle.rawValue:
                 annotationImage =  self.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
             case MyBusTitle.StopDestinationTitle.rawValue:
+                annotationImage =  self.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
+            case ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
+                annotationImage =  self.getMarkerImage("map_from_to_route", annotationTitle: annotationTitle)
+            case ~/MyBusTitle.StartCompleteBusRoute.rawValue:
+                annotationImage =  self.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
+            case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
                 annotationImage =  self.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
             default:
                 break
@@ -215,21 +227,40 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             // Mapbox cyan
             return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
         } else {
-            if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = NSDictionary(contentsOfFile: path) as? [String: String] {
-                if annotation.subtitle?.characters.count == 0 {
-                    if let key = currentRouteDisplayed?.busRoutes.first?.idBusLine {
-                        if let color = dict[String(key)] {
-                            return UIColor(hexString: color)
-                        } else {
-                            return UIColor.grayColor()
-                        }
-                    }
-                } else if let subtitle = annotation.subtitle {
-                    if let color = dict[String(subtitle)] {
+            var idBusIndex: Int?
+            if annotation.subtitle?.characters.count == 0, let key = currentRouteDisplayed?.busRoutes.first?.idBusLine {
+                idBusIndex = key
+            } else if let subtitle = annotation.subtitle {
+                idBusIndex = Int(subtitle)!
+            }
+
+            if var idBusIndex = idBusIndex {
+                //Hacking the index
+                if idBusIndex < 10 {
+                    idBusIndex = idBusIndex - 1
+                } else if idBusIndex < 41 {
+                    idBusIndex = idBusIndex - 2
+                } else {
+                    idBusIndex = idBusIndex - 3
+                }
+
+                if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = (NSArray(contentsOfFile: path))!.objectAtIndex(idBusIndex) as? [String: String] {
+                    if let color = dict["color"] {
                         return UIColor(hexString: color)
                     } else {
                         return UIColor.grayColor()
                     }
+                }
+            }
+
+            if let title =  annotation.title {
+                switch title {
+                case "Going":
+                    return UIColor(hexString: "0288D1")
+                case "Return":
+                    return UIColor(hexString: "EE236F")
+                default:
+                    break
                 }
             }
             return UIColor.grayColor()
@@ -249,12 +280,28 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
 
     // MARK: - Mapview bus roads manipulation Methods
 
+    func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
+        progressNotification.showLoadingNotification(self.view)
+        removeExistingAnnotationsOfBusRoad()
+        let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
+
+        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        for marker in route.getMarkersAnnotation() {
+            self.mapView.addAnnotation(marker)
+        }
+
+        for polyline in route.getPolyLines() {
+            self.mapView.addAnnotation(polyline)
+        }
+        self.progressNotification.stopLoadingNotification(self.view)
+    }
+
     func addBusRoad(roadResult: RoadResult) {
         progressNotification.showLoadingNotification(self.view)
         let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
         let walkingRoutes = roadResult.walkingRoutes
 
-        let bounds = getOriginAndDestinationInMapsBounds()
+        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
 
         removeExistingAnnotationsOfBusRoad()
 
@@ -315,7 +362,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         destinationMarker.title = markerDestinationLabelText
         destinationMarker.subtitle = address
 
-        let bounds = getOriginAndDestinationInMapsBounds()
+        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
 
@@ -333,18 +380,18 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
      Then we have to know if south or north is more at east to define for each one a longitude padding
      Finally we create new coordinate with padding included and build bounds with each corners
      */
-    func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds {
+    func getOriginAndDestinationInMapsBounds(firstPoint: CLLocationCoordinate2D, secondPoint: CLLocationCoordinate2D) -> MGLCoordinateBounds {
         var south, north: CLLocationCoordinate2D
         let latitudinalMeters: CLLocationDistance = 800
         let longitudinalMeters: CLLocationDistance = -800
         let southLongitudinal, northLongitudinal: CLLocationDistance
 
-        if self.destination?.latitude < self.origin?.latitude {
-            south = self.destination!
-            north = self.origin!
+        if firstPoint.latitude < secondPoint.latitude {
+            south = firstPoint
+            north = secondPoint
         } else {
-            south = self.origin!
-            north = self.destination!
+            south = secondPoint
+            north = firstPoint
         }
 
         if south.longitude < north.longitude {
@@ -375,9 +422,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     }
 
     func removeExistingAnnotationsOfBusRoad() -> Void {
-        for currentMapAnnotation in self.mapView.annotations! {
-            if isAnnotationPartOfMyBusResult(currentMapAnnotation) {
-                self.mapView.removeAnnotation(currentMapAnnotation)
+        if let annotations = self.mapView.annotations {
+            for currentMapAnnotation in annotations {
+                if self.isAnnotationPartOfMyBusResult(currentMapAnnotation) {
+                    self.mapView.removeAnnotation(currentMapAnnotation)
+                }
             }
         }
     }
@@ -494,7 +543,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
             } else {
-                let bounds = getOriginAndDestinationInMapsBounds()
+                let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
                 self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
             }
         }
@@ -525,4 +574,15 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             }
         }
     }
+
+}
+
+prefix operator ~/ {}
+
+prefix func ~/ (pattern: String) -> NSRegularExpression {
+    return try! NSRegularExpression(pattern: pattern, options: .CaseInsensitive)
+}
+
+func ~= (pattern: NSRegularExpression, str: String) -> Bool {
+    return pattern.numberOfMatchesInString(str, options: [], range: NSRange(location: 0, length: str.characters.count)) > 0
 }
