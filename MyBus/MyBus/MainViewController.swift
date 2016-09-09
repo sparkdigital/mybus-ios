@@ -11,7 +11,7 @@ import UIKit
 import MapKit
 
 
-class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate {
+class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate,UITabBarDelegate {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -19,9 +19,11 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
     @IBOutlet weak var searchToolbar: UIToolbar!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tabBar: UITabBar!
 
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
+    var busesRatesViewController : BusesRatesViewController!
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
@@ -29,12 +31,14 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     //Storyboard view controller identifiers
     let kSearchViewIdentifier: String = "SearchViewController"
     let kMapViewIdentifier: String = "MapViewController"
-
+    let kRatesViewIdentifier: String = "BusesRatesViewController"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.mapViewController = self.buildComponentVC(kMapViewIdentifier) as! ViewController
         self.searchViewController = self.buildComponentVC(kSearchViewIdentifier) as! SearchViewController
+        self.busesRatesViewController = self.buildComponentVC(kRatesViewIdentifier) as! BusesRatesViewController
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
@@ -43,6 +47,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.searchBar.layer.borderWidth = 8
         self.searchBar.delegate = self
+        
+        self.tabBar.delegate = self
     }
 
     //Method that receives a storyboard string identifier and returns a view controller object
@@ -149,5 +155,25 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
         searchBarTapped(false)
         return false
+    }
+    
+    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+        if (item.tag == 0){
+            self.cycleViewController(self.currentViewController!, toViewController: searchViewController)
+            self.currentViewController = searchViewController
+        }
+        if (item.tag == 1){
+            
+        }
+        if (item.tag == 2){
+           
+        }
+        if (item.tag == 3){
+          
+        }
+        if (item.tag == 4){
+            self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
+            self.currentViewController = busesRatesViewController
+        }
     }
 }
