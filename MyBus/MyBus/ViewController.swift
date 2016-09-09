@@ -66,16 +66,10 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleLongTap)
 
-        //USED FOR TESTING PURPOSES
+        //USED FOR TESTING PURPOSES - HAS TO BE REMOVED
 //        SearchManager.sharedInstance.getCompleteRoute(1, busLineName: "542") { (completeRoute, error) in
 //            if let route = completeRoute {
-//                for marker in route.getMarkersAnnotation() {
-//                    self.mapView.addAnnotation(marker)
-//                }
-//
-//                for polyline in route.getPolyLines() {
-//                    self.mapView.addAnnotation(polyline)
-//                }
+//                self.displayCompleteBusRoute(route)
 //            }
 //        }
     }
@@ -259,6 +253,16 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 }
             }
 
+            if let title =  annotation.title {
+                switch title {
+                case "Going":
+                    return UIColor(hexString: "0288D1")
+                case "Return":
+                    return UIColor(hexString: "EE236F")
+                default:
+                    break
+                }
+            }
             return UIColor.grayColor()
         }
     }
@@ -276,12 +280,28 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
 
     // MARK: - Mapview bus roads manipulation Methods
 
+    func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
+        progressNotification.showLoadingNotification(self.view)
+        removeExistingAnnotationsOfBusRoad()
+        let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
+
+        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        for marker in route.getMarkersAnnotation() {
+            self.mapView.addAnnotation(marker)
+        }
+
+        for polyline in route.getPolyLines() {
+            self.mapView.addAnnotation(polyline)
+        }
+        self.progressNotification.stopLoadingNotification(self.view)
+    }
+
     func addBusRoad(roadResult: RoadResult) {
         progressNotification.showLoadingNotification(self.view)
         let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
         let walkingRoutes = roadResult.walkingRoutes
 
-        let bounds = getOriginAndDestinationInMapsBounds()
+        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
 
         removeExistingAnnotationsOfBusRoad()
 
@@ -342,7 +362,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         destinationMarker.title = markerDestinationLabelText
         destinationMarker.subtitle = address
 
-        let bounds = getOriginAndDestinationInMapsBounds()
+        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
 
@@ -360,18 +380,18 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
      Then we have to know if south or north is more at east to define for each one a longitude padding
      Finally we create new coordinate with padding included and build bounds with each corners
      */
-    func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds {
+    func getOriginAndDestinationInMapsBounds(firstPoint: CLLocationCoordinate2D, secondPoint: CLLocationCoordinate2D) -> MGLCoordinateBounds {
         var south, north: CLLocationCoordinate2D
         let latitudinalMeters: CLLocationDistance = 800
         let longitudinalMeters: CLLocationDistance = -800
         let southLongitudinal, northLongitudinal: CLLocationDistance
 
-        if self.destination?.latitude < self.origin?.latitude {
-            south = self.destination!
-            north = self.origin!
+        if firstPoint.latitude < secondPoint.latitude {
+            south = firstPoint
+            north = secondPoint
         } else {
-            south = self.origin!
-            north = self.destination!
+            south = secondPoint
+            north = firstPoint
         }
 
         if south.longitude < north.longitude {
@@ -402,9 +422,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     }
 
     func removeExistingAnnotationsOfBusRoad() -> Void {
-        for currentMapAnnotation in self.mapView.annotations! {
-            if isAnnotationPartOfMyBusResult(currentMapAnnotation) {
-                self.mapView.removeAnnotation(currentMapAnnotation)
+        if let annotations = self.mapView.annotations {
+            for currentMapAnnotation in annotations {
+                if self.isAnnotationPartOfMyBusResult(currentMapAnnotation) {
+                    self.mapView.removeAnnotation(currentMapAnnotation)
+                }
             }
         }
     }
@@ -521,7 +543,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
             } else {
-                let bounds = getOriginAndDestinationInMapsBounds()
+                let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
                 self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
             }
         }
