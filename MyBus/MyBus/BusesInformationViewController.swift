@@ -10,20 +10,28 @@ import RealmSwift
 
 class BusesInformationViewController: UIViewController, UITableViewDelegate
 {
-    
+
     var busesInformationDataSource: BusesInformationDataSource!
- 
+
     @IBOutlet weak var informationTableView: UITableView!
-    
+    var searchViewProtocol: MapBusRoadDelegate?
+
     override func viewDidLoad()
     {
         self.busesInformationDataSource = BusesInformationDataSource()
         self.informationTableView.delegate = self
         self.informationTableView.dataSource = busesInformationDataSource
     }
-    
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        let bus = self.busesInformationDataSource.busInformation[indexPath.row]
+        let busId = bus.0
+        let busName = bus.1
+        SearchManager.sharedInstance.getCompleteRoute(Int(busId)!, busLineName: busName) { (completeRoute, error) in
+            if let route = completeRoute {
+                self.searchViewProtocol?.newCompleteBusRoute(route)
+            }
+        }
     }
-    
+
 }

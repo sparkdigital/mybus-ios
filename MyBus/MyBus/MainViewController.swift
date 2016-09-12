@@ -11,7 +11,7 @@ import UIKit
 import MapKit
 
 
-class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate,UITabBarDelegate {
+class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate, UITabBarDelegate {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -23,8 +23,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
-    var busesRatesViewController : BusesRatesViewController!
-    var busesInformationViewController : BusesInformationViewController!
+    var busesRatesViewController: BusesRatesViewController!
+    var busesInformationViewController: BusesInformationViewController!
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
@@ -34,7 +34,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     let kMapViewIdentifier: String = "MapViewController"
     let kRatesViewIdentifier: String = "BusesRatesViewController"
     let kInformationViewIdentifier: String = "BusesInformationViewController"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,7 +50,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.searchBar.layer.borderWidth = 8
         self.searchBar.delegate = self
-        
+
         self.tabBar.delegate = self
     }
 
@@ -143,21 +143,28 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         searchBarTapped(false)
         return false
     }
-    
+
+    func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
+        self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
+        self.currentViewController = mapViewController
+        self.mapViewController.displayCompleteBusRoute(route)
+    }
+
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if (item.tag == 0){
             self.cycleViewController(self.currentViewController!, toViewController: searchViewController)
             self.currentViewController = searchViewController
         }
         if (item.tag == 1){
-            
+
         }
         if (item.tag == 2){
-           
+
         }
         if (item.tag == 3){
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
+            self.busesInformationViewController.searchViewProtocol = self
         }
         if (item.tag == 4){
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
