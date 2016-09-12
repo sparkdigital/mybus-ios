@@ -26,7 +26,7 @@ class RoutePoint: NSObject {
             point.latitude = routePointJson["Lat"].stringValue
             point.longitude = routePointJson["Lng"].stringValue
             point.address = routePointJson["Address"].stringValue
-            point.isWaypoint = routePointJson["StopId"].boolValue
+            point.isWaypoint = routePointJson["isWaypoint"].boolValue
 
             return point
         } else {
