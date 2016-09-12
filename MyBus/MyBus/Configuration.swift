@@ -12,6 +12,7 @@ class Configuration {
     private static let streetsArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Streets", ofType: "plist")!)!
     private static let busessArray = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("BusesRates", ofType: "plist")!)!
     private static let infoBussesArray = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("BusesRates", ofType: "plist")!)!
+    private static let colorBussesArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist")!)!
     
     private static let thirdServicesConfiguration = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("AppConfiguration", ofType: "plist")!)!
 
@@ -45,14 +46,15 @@ class Configuration {
         return sortedArray
     }
     
-    class func bussesInformation() -> [(String, String)]{
-        var information = [(String, String)]()
-        //for item in Configuration.bussesInformation(){
-          // information.append(("test","test"))
-        //}
-        information.append(("test","test"))
-        information.append(("test2","test2"))
-        return information
+    class func bussesInformation() -> [(String,String,String)]{
+        var information = [(String,String,String)]()
+        for item in colorBussesArray{
+            information.append(item["id"] as! String, item["name"] as! String ,item["color"] as! String)
+        }
+        let sortedArray = information.sort { (element1, element2) -> Bool in
+            return element1.1 < element2.1
+        }
+        return sortedArray
     }
     
     // MARK: MyBus Service Configuration

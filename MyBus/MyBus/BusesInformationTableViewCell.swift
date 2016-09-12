@@ -11,12 +11,15 @@ import UIKit
 
 class BusesInformationTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var BusLine: UITextView!
+    @IBOutlet weak var busLine: UILabel!
    
-    @IBOutlet weak var BusColor: UIImageView!
-  
-    func loadItem(BusLine: String, Color: UIColor) {
-        self.BusLine.text = BusLine
-        self.BusColor.backgroundColor = UIColor.blueColor()
+    @IBOutlet weak var busColor: UIImageView!
+   
+    var id: String = ""
+    
+    func loadItem(Id: String,busLine: String, color: UIColor) {
+        self.id = Id
+        self.busLine.text = busLine
+        self.busColor.backgroundColor = color
     }
 }

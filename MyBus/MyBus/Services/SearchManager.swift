@@ -170,4 +170,25 @@ public class SearchManager: NSObject {
         }
     }
 
+    func getCompleteRoute(idBusLine: Int, busLineName: String, completion: (CompleteBusRoute?, NSError?)->()) -> Void {
+        //Get route in going way of bus line
+        Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0) { (justGoingBusRoute, error) in
+            if let completeRoute = justGoingBusRoute {
+                //Get route in return way
+                Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 1, completionHanlder: { (returnBusRoute, error) in
+                    completeRoute.busLineName = busLineName
+                    if let fullCompleteRoute = returnBusRoute {
+                        //Another hack
+                        completeRoute.returnPointList = fullCompleteRoute.goingPointList
+                        return completion(completeRoute, error)
+                    } else {
+                        return completion(completeRoute, error)
+                    }
+                })
+            } else {
+                return completion(nil, error)
+            }
+        }
+    }
+
 }

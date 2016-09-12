@@ -481,50 +481,37 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="556" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="47" sectionHeaderHeight="22" sectionFooterHeight="29" translatesAutoresizingMaskIntoConstraints="NO" id="fNC-en-W9t">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="556" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="29" translatesAutoresizingMaskIntoConstraints="NO" id="fNC-en-W9t">
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BusesInformationTableViewCell" rowHeight="66" id="yYl-Vd-Lty" customClass="BusesInformationTableViewCell" customModule="MyBus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="66"/>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BusesInformationTableViewCell" rowHeight="45" id="yYl-Vd-Lty" customClass="BusesInformationTableViewCell" customModule="MyBus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="yYl-Vd-Lty" id="aVG-x0-Ub3">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="65"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Ux-f5-FnY">
-                                                    <rect key="frame" x="6" y="4" width="21" height="50"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="21" id="28n-hc-7D9"/>
-                                                    </constraints>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ux-f5-FnY">
+                                                    <rect key="frame" x="9" y="2" width="8" height="38"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_route_fill" translatesAutoresizingMaskIntoConstraints="NO" id="DaQ-DL-kvw">
-                                                    <rect key="frame" x="35" y="14" width="31" height="30"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bus_small" translatesAutoresizingMaskIntoConstraints="NO" id="DaQ-DL-kvw">
+                                                    <rect key="frame" x="30" y="15" width="18" height="18"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BusLine" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdE-Z7-cSV">
-                                                    <rect key="frame" x="88" y="25" width="45" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6w6-Wq-6S1">
+                                                    <rect key="frame" x="73" y="15" width="49" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <rect key="contentStretch" x="0.25" y="0.0" width="1" height="1"/>
-                                            <constraints>
-                                                <constraint firstItem="5Ux-f5-FnY" firstAttribute="top" secondItem="aVG-x0-Ub3" secondAttribute="topMargin" constant="3" id="IiR-dT-Gxk"/>
-                                                <constraint firstItem="gdE-Z7-cSV" firstAttribute="leading" secondItem="DaQ-DL-kvw" secondAttribute="trailing" constant="22" id="P4b-i9-BH4"/>
-                                                <constraint firstItem="gdE-Z7-cSV" firstAttribute="leading" secondItem="aVG-x0-Ub3" secondAttribute="leading" constant="88" id="Qpp-2X-x1K"/>
-                                                <constraint firstItem="5Ux-f5-FnY" firstAttribute="centerY" secondItem="DaQ-DL-kvw" secondAttribute="centerY" id="UNW-Fc-1TL"/>
-                                                <constraint firstItem="gdE-Z7-cSV" firstAttribute="centerY" secondItem="aVG-x0-Ub3" secondAttribute="centerY" id="VeS-rn-Ed0"/>
-                                                <constraint firstItem="5Ux-f5-FnY" firstAttribute="leading" secondItem="aVG-x0-Ub3" secondAttribute="leadingMargin" constant="5" id="Xnw-Ze-6yN"/>
-                                                <constraint firstItem="DaQ-DL-kvw" firstAttribute="leading" secondItem="5Ux-f5-FnY" secondAttribute="trailing" constant="8" symbolic="YES" id="kPw-w4-zIq"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="5Ux-f5-FnY" secondAttribute="bottom" constant="10" id="oej-VU-DbS"/>
-                                            </constraints>
                                             <edgeInsets key="layoutMargins" top="1" left="1" bottom="1" right="1"/>
                                         </tableViewCellContentView>
                                         <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                         <connections>
                                             <outlet property="BusColor" destination="5Ux-f5-FnY" id="BAR-v5-BB9"/>
-                                            <outlet property="BusLine" destination="gdE-Z7-cSV" id="Hfl-mL-W94"/>
+                                            <outlet property="busColor" destination="5Ux-f5-FnY" id="fN8-Cx-XvH"/>
+                                            <outlet property="busLine" destination="6w6-Wq-6S1" id="bjS-zI-nVn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -536,14 +523,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eEL-wx-g8t" firstAttribute="bottom" secondItem="fNC-en-W9t" secondAttribute="top" id="3rI-m2-oMD"/>
-                            <constraint firstItem="eEL-wx-g8t" firstAttribute="trailing" secondItem="fNC-en-W9t" secondAttribute="trailing" id="FWQ-zO-XT8"/>
                             <constraint firstItem="eEL-wx-g8t" firstAttribute="leading" secondItem="9oY-cD-KZl" secondAttribute="leadingMargin" constant="-20" id="HBg-Ro-2eI"/>
                             <constraint firstItem="eEL-wx-g8t" firstAttribute="leading" secondItem="9oY-cD-KZl" secondAttribute="leading" id="Y86-1M-Ze6"/>
                             <constraint firstItem="eEL-wx-g8t" firstAttribute="top" secondItem="9oY-cD-KZl" secondAttribute="top" id="aq5-qo-j3j"/>
-                            <constraint firstItem="fNC-en-W9t" firstAttribute="leading" secondItem="eEL-wx-g8t" secondAttribute="trailing" constant="-600" id="gd6-gr-6qU"/>
-                            <constraint firstItem="fNC-en-W9t" firstAttribute="bottom" secondItem="Anq-Ny-Y2s" secondAttribute="top" id="lC9-ib-v79"/>
-                            <constraint firstItem="eEL-wx-g8t" firstAttribute="leading" secondItem="fNC-en-W9t" secondAttribute="leading" id="mnW-oo-PQV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eEL-wx-g8t" secondAttribute="trailing" constant="-20" id="tb4-rl-B69"/>
                             <constraint firstAttribute="trailing" secondItem="eEL-wx-g8t" secondAttribute="trailing" id="xTN-iu-o3f"/>
                         </constraints>
@@ -554,10 +536,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e6a-lV-fvW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-183" y="66"/>
+            <point key="canvasLocation" x="-827" y="66"/>
         </scene>
     </scenes>
     <resources>
+        <image name="bus_small" width="26" height="26"/>
         <image name="location-icon" width="135" height="135"/>
         <image name="logoMyBus" width="915" height="890"/>
         <image name="swap" width="64" height="64"/>
