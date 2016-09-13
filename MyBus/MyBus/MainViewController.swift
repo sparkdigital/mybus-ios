@@ -11,16 +11,19 @@ import UIKit
 import MapKit
 
 
-class MainViewController: UIViewController, MapBusRoadDelegate {
+class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate,UITabBarDelegate {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var locateUserButton: UIBarButtonItem!
 
     @IBOutlet weak var searchToolbar: UIToolbar!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tabBar: UITabBar!
 
     var mapViewController: ViewController!
     var searchViewController: SearchViewController!
+    var busesRatesViewController : BusesRatesViewController!
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
@@ -28,20 +31,28 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
     //Storyboard view controller identifiers
     let kSearchViewIdentifier: String = "SearchViewController"
     let kMapViewIdentifier: String = "MapViewController"
-
+    let kRatesViewIdentifier: String = "BusesRatesViewController"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.mapViewController = self.buildComponentVC(kMapViewIdentifier) as! ViewController
         self.searchViewController = self.buildComponentVC(kSearchViewIdentifier) as! SearchViewController
+        self.busesRatesViewController = self.buildComponentVC(kRatesViewIdentifier) as! BusesRatesViewController
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
         self.addSubview(self.currentViewController!.view, toView: self.containerView)
+
+        self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
+        self.searchBar.layer.borderWidth = 8
+        self.searchBar.delegate = self
+        
+        self.tabBar.delegate = self
     }
 
     //Method that receives a storyboard string identifier and returns a view controller object
-    func buildComponentVC(identifier: String)->UIViewController{
+    func buildComponentVC(identifier: String)->UIViewController {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         return storyboard.instantiateViewControllerWithIdentifier(identifier)
     }
@@ -59,7 +70,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
     }
 
     //This method receives the old view controller to be replaced with the new controller
-    func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController){
+    func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController) {
 
         //If it's triggered by the same button, dismiss action
         if oldVC == newVC {
@@ -78,7 +89,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
         UIView.animateWithDuration(0.5, animations: {
             newVC.view.alpha = 1.0
             oldVC.view.alpha = 0.0
-            }, completion:{
+            }, completion: {
                 finished in
 
                 oldVC.view.removeFromSuperview()
@@ -91,55 +102,62 @@ class MainViewController: UIViewController, MapBusRoadDelegate {
 
     // MARK: - Button Handlers
 
-    @IBAction func refreshButtonTap(sender: AnyObject) {
+    func searchBarTapped(sender: AnyObject) {
         if self.currentViewController == searchViewController {
             self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
             self.currentViewController = self.mapViewController
+        } else {
+            self.searchViewController.searchViewProtocol = self
+            self.searchViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            self.cycleViewController(self.currentViewController!, toViewController: self.searchViewController)
+            self.currentViewController = self.searchViewController
         }
-
-        let locationServiceAuth = CLLocationManager.authorizationStatus()
-        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse){
-            self.mapViewController.mapView.showsUserLocation = true
-            self.mapViewController.mapView.setZoomLevel(16, animated: false)
-        }
-        else{
-            GenerateMessageAlert.generateAlert(self, title: "No te encontramos en el mapa", message: "Si queres que te ubiquemos en el mapa activa tu localizacion.")
-        }
-    }
-
-    // MARK: - IBAction Methods
-
-    @IBAction func searchButtonTapped(sender: AnyObject)
-    {
-        self.searchViewController.searchViewProtocol = self
-        self.searchViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.cycleViewController(self.currentViewController!, toViewController: self.searchViewController)
-        self.currentViewController = self.searchViewController
     }
 
     // MARK: - MapBusRoadDelegate Methods
 
-    func newBusRoad(mapBusRoad: MapBusRoad)
-    {
-        self.mapViewController.addBusRoad(mapBusRoad)
+    func newBusRoad(mapBusRoad: MapBusRoad) {
+        //Now is no longer needed may be in the future with a new flow yes
+        //self.mapViewController.addBusRoad(mapBusRoad)
     }
 
-    func newResults(busSearchResult: BusSearchResult)
-    {
+    func newResults(busSearchResult: BusSearchResult) {
         self.mapViewController.addBusLinesResults(busSearchResult)
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
     }
 
-    func newOrigin(origin: CLLocationCoordinate2D, address: String)
-    {
+    func newOrigin(origin: CLLocationCoordinate2D, address: String) {
         self.mapViewController.addOriginPosition(origin, address: address)
     }
 
-    func newDestination(destination: CLLocationCoordinate2D, address: String)
-    {
+    func newDestination(destination: CLLocationCoordinate2D, address: String) {
         self.mapViewController.addDestinationPosition(destination, address : address)
     }
 
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        searchBarTapped(false)
+        return false
+    }
+    
+    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+        if (item.tag == 0){
+            self.cycleViewController(self.currentViewController!, toViewController: searchViewController)
+            self.currentViewController = searchViewController
+        }
+        if (item.tag == 1){
+            
+        }
+        if (item.tag == 2){
+           
+        }
+        if (item.tag == 3){
+          
+        }
+        if (item.tag == 4){
+            self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
+            self.currentViewController = busesRatesViewController
+        }
+    }
 }
