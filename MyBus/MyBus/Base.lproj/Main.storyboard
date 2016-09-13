@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Awr-ld-JaK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Awr-ld-JaK">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -272,7 +272,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="WxU-N3-lcX" firstAttribute="centerX" secondItem="Zwe-iT-eyH" secondAttribute="centerX" id="S4N-lz-o4U"/>
                             <constraint firstItem="u5m-Qh-4bC" firstAttribute="width" secondItem="Zwe-iT-eyH" secondAttribute="width" id="SXA-fR-0rW"/>
@@ -370,8 +370,16 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SDk-WP-RcG">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <color key="barTintColor" red="0.0" green="0.49567468190000002" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </textAttributes>
                                 <items>
-                                    <navigationItem title="Tarifas" id="mxw-ow-B64"/>
+                                    <navigationItem title="Tarifas" id="mxw-ow-B64">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="JM2-oX-895">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="556" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="47" sectionHeaderHeight="22" sectionFooterHeight="29" translatesAutoresizingMaskIntoConstraints="NO" id="EXn-Hf-E8b">
@@ -445,10 +453,95 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4AB-eQ-Dp8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1069" y="104"/>
+            <point key="canvasLocation" x="-183" y="66"/>
+        </scene>
+        <!--Buses Information View Controller-->
+        <scene sceneID="3kG-LJ-wD3">
+            <objects>
+                <viewController storyboardIdentifier="BusesInformationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wvv-O2-oah" customClass="BusesInformationViewController" customModule="MyBus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LbB-Hg-g1V"/>
+                        <viewControllerLayoutGuide type="bottom" id="Anq-Ny-Y2s"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" horizontalHuggingPriority="257" id="9oY-cD-KZl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eEL-wx-g8t">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <color key="barTintColor" red="0.0" green="0.49567468190000002" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Recorridos" id="u65-ja-9DK">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="8rP-Zr-Fn8">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="556" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="29" translatesAutoresizingMaskIntoConstraints="NO" id="fNC-en-W9t">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BusesInformationTableViewCell" rowHeight="45" id="yYl-Vd-Lty" customClass="BusesInformationTableViewCell" customModule="MyBus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="yYl-Vd-Lty" id="aVG-x0-Ub3">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ux-f5-FnY">
+                                                    <rect key="frame" x="9" y="2" width="8" height="38"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bus_small" translatesAutoresizingMaskIntoConstraints="NO" id="DaQ-DL-kvw">
+                                                    <rect key="frame" x="30" y="15" width="18" height="18"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6w6-Wq-6S1">
+                                                    <rect key="frame" x="73" y="15" width="116" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <rect key="contentStretch" x="0.25" y="0.0" width="1" height="1"/>
+                                            <edgeInsets key="layoutMargins" top="1" left="1" bottom="1" right="1"/>
+                                        </tableViewCellContentView>
+                                        <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                        <connections>
+                                            <outlet property="BusColor" destination="5Ux-f5-FnY" id="BAR-v5-BB9"/>
+                                            <outlet property="busColor" destination="5Ux-f5-FnY" id="fN8-Cx-XvH"/>
+                                            <outlet property="busLine" destination="6w6-Wq-6S1" id="bjS-zI-nVn"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Wvv-O2-oah" id="Rys-8Q-Oym"/>
+                                    <outlet property="delegate" destination="Wvv-O2-oah" id="jyX-Lc-UbK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fNC-en-W9t" firstAttribute="width" secondItem="eEL-wx-g8t" secondAttribute="width" id="8ym-lc-m3l"/>
+                            <constraint firstItem="eEL-wx-g8t" firstAttribute="leading" secondItem="9oY-cD-KZl" secondAttribute="leadingMargin" constant="-20" id="HBg-Ro-2eI"/>
+                            <constraint firstItem="eEL-wx-g8t" firstAttribute="leading" secondItem="9oY-cD-KZl" secondAttribute="leading" id="Y86-1M-Ze6"/>
+                            <constraint firstItem="eEL-wx-g8t" firstAttribute="top" secondItem="9oY-cD-KZl" secondAttribute="top" id="aq5-qo-j3j"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eEL-wx-g8t" secondAttribute="trailing" constant="-20" id="tb4-rl-B69"/>
+                            <constraint firstAttribute="trailing" secondItem="eEL-wx-g8t" secondAttribute="trailing" id="xTN-iu-o3f"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="informationTableView" destination="fNC-en-W9t" id="QBC-S4-anX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e6a-lV-fvW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-827" y="66"/>
         </scene>
     </scenes>
     <resources>
+        <image name="bus_small" width="26" height="26"/>
         <image name="location-icon" width="135" height="135"/>
         <image name="logoMyBus" width="915" height="890"/>
         <image name="swap" width="64" height="64"/>
