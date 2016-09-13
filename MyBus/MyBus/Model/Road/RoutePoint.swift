@@ -26,12 +26,21 @@ class RoutePoint: NSObject {
             point.latitude = routePointJson["Lat"].stringValue
             point.longitude = routePointJson["Lng"].stringValue
             point.address = routePointJson["Address"].stringValue
-            point.isWaypoint = routePointJson["StopId"].boolValue
+            point.isWaypoint = routePointJson["isWaypoint"].boolValue
 
             return point
         } else {
             return point
         }
+    }
+
+    static func parse(latitude: String, longitude: String) -> RoutePoint
+    {
+        let point = RoutePoint()
+        point.latitude = latitude
+        point.longitude = longitude
+        point.address = ""
+        return point
     }
 
     static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
@@ -63,7 +72,7 @@ class RoutePoint: NSObject {
 
     }
 
-    func getLatLng() -> CLLocationCoordinate2D {
+    func getLatLong() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
     }
 }
