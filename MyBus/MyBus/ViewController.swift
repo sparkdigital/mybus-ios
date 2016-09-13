@@ -65,13 +65,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleLongTap)
-
-        //USED FOR TESTING PURPOSES - HAS TO BE REMOVED
-//        SearchManager.sharedInstance.getCompleteRoute(1, busLineName: "542") { (completeRoute, error) in
-//            if let route = completeRoute {
-//                self.displayCompleteBusRoute(route)
-//            }
-//        }
     }
 
     // MARK: - Tapping Methods
@@ -283,6 +276,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
         progressNotification.showLoadingNotification(self.view)
         removeExistingAnnotationsOfBusRoad()
+        removeExistingAnnotationsOfCompleteRoute()
         let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
 
         self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
@@ -431,6 +425,16 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         }
     }
 
+    func removeExistingAnnotationsOfCompleteRoute() -> Void {
+        if let annotations = self.mapView.annotations {
+            for currentMapAnnotation in annotations {
+                if self.isAnnotationPartOfCompleteRoute(currentMapAnnotation) {
+                    self.mapView.removeAnnotation(currentMapAnnotation)
+                }
+            }
+        }
+    }
+
     func isAnnotationPartOfMyBusResult(annotation: MGLAnnotation) -> Bool {
         let annotationTitle = annotation.title!! as String
 
@@ -438,6 +442,20 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
             annotationTitle == MyBusTitle.StopDestinationTitle.rawValue ||
             annotationTitle == MyBusTitle.WalkingPathTitle.rawValue {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    func isAnnotationPartOfCompleteRoute(annotation: MGLAnnotation) -> Bool {
+        let annotationTitle = annotation.title!! as String
+
+        if ~/MyBusTitle.StartCompleteBusRoute.rawValue ~= annotationTitle  ||
+            ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue ~= annotationTitle ||
+            ~/MyBusTitle.EndCompleteBusRoute.rawValue ~= annotationTitle ||
+            annotationTitle == "Going" ||
+            annotationTitle == "Return" {
             return true
         } else {
             return false
