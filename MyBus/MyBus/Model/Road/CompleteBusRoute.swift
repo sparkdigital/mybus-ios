@@ -31,48 +31,51 @@ class CompleteBusRoute {
 
     func getMarkersAnnotation() -> [MGLPointAnnotation] {
         var markers: [MGLPointAnnotation] = []
+        let sameStartEndTitle = "\(MyBusTitle.SameStartEndCompleteBusRoute.rawValue) \(busLineName)"
+        let startTitle = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
+        let endTitle = "\(MyBusTitle.EndCompleteBusRoute.rawValue) \(busLineName)"
 
-        if let startGoing = goingPointList.first {
-            let startGoingMarker = MGLPointAnnotation()
-            startGoingMarker.coordinate = startGoing.getLatLong()
-            startGoingMarker.subtitle = startGoing.address
+        if let startGoingPoint = goingPointList.first, let endGoingPoint = goingPointList.last {
+            if let startReturnPoint = returnPointList.first, let endReturnPoint = returnPointList.last {
+                //Here we have both routes loaded
 
-            if let lastReturn = returnPointList.last {
+                // Is the start point of going route equals end of return? Use a different icon
+                let isEqualStartGoingEndReturn = self.isEqualStartGoingEndReturn()
+                // Is the start point of return route equals end of going? Use a different icon
+                let isEqualStartReturnEndGoing = self.isEqualStartReturnEndGoing()
 
-                //Check if start of going route is the same of last for return route -> use a different icon
-                if startGoing.latitude == lastReturn.latitude && startGoing.longitude == lastReturn.longitude {
-                    //Start and end points are the same place
-                    startGoingMarker.title = "\(MyBusTitle.SameStartEndCompleteBusRoute.rawValue) \(busLineName)"
+                if isEqualStartGoingEndReturn {
+                    let startGoingEndReturnMarker = self.markerCreator(startGoingPoint, title: sameStartEndTitle)
+                    markers.append(startGoingEndReturnMarker)
                 } else {
-                    //Start of going route is different end of return route
-                    startGoingMarker.title = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
+                    let startGoingMarker = self.markerCreator(startGoingPoint, title: startTitle)
+                    markers.append(startGoingMarker)
 
-                    let startReturnMarker = MGLPointAnnotation()
-                    startReturnMarker.coordinate = returnPointList.first!.getLatLong()
-                    startReturnMarker.subtitle = returnPointList.first!.address
-                    startReturnMarker.title = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
-
-                    let endReturnMarker = MGLPointAnnotation()
-                    endReturnMarker.coordinate = lastReturn.getLatLong()
-                    endReturnMarker.subtitle = lastReturn.address
-                    endReturnMarker.title = "\(MyBusTitle.EndCompleteBusRoute.rawValue) \(busLineName)"
-
-                    markers.append(startReturnMarker)
+                    //Add END of RETURN route
+                    let endReturnMarker = self.markerCreator(endReturnPoint, title: endTitle)
                     markers.append(endReturnMarker)
                 }
+
+                if isEqualStartReturnEndGoing {
+                    let startReturnEndGoingMarker = self.markerCreator(startReturnPoint, title: sameStartEndTitle)
+                    markers.append(startReturnEndGoingMarker)
+                } else {
+                    let startReturnMarker = self.markerCreator(startReturnPoint, title: startTitle)
+                    markers.append(startReturnMarker)
+
+                    //Add END of GOING route
+                    let endGoingMarker = self.markerCreator(endGoingPoint, title: endTitle)
+                    markers.append(endGoingMarker)
+                }
+
             } else {
-                //We don't have return route yet
-                startGoingMarker.title = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
+                //Here we just have going route
+                let startGoingMarker = self.markerCreator(startGoingPoint, title: startTitle)
+                let endGoingMarker = self.markerCreator(endGoingPoint, title: endTitle)
+                markers.append(startGoingMarker)
+                markers.append(endGoingMarker)
             }
-            markers.append(startGoingMarker)
-
-            let endGoingMarker = MGLPointAnnotation()
-            endGoingMarker.coordinate = goingPointList.last!.getLatLong()
-            endGoingMarker.subtitle = goingPointList.last!.address
-            endGoingMarker.title = "Fin \(busLineName)"
-            markers.append(endGoingMarker)
         }
-
         return markers
     }
 
@@ -105,5 +108,34 @@ class CompleteBusRoute {
         }
 
         return roadLists
+    }
+
+    func markerCreator(point: RoutePoint, title: String?) -> MGLPointAnnotation {
+        let markerCreated = MGLPointAnnotation()
+        markerCreated.coordinate = point.getLatLong()
+        if let titleText = title {
+            markerCreated.title = titleText
+        }
+        markerCreated.subtitle = point.address
+
+        return markerCreated
+    }
+
+    func isEqualStartGoingEndReturn() -> Bool {
+        if let startGoingPoint = goingPointList.first, let endReturnPoint = returnPointList.last {
+            if startGoingPoint.latitude == endReturnPoint.latitude && startGoingPoint.longitude == endReturnPoint.longitude {
+                return true
+            }
+        }
+        return false
+    }
+
+    func isEqualStartReturnEndGoing() -> Bool {
+        if let startReturnPoint = returnPointList.first, let endGoingPoint = goingPointList.last {
+            if startReturnPoint.latitude == endGoingPoint.latitude && startReturnPoint.longitude == endGoingPoint.longitude {
+                return true
+            }
+        }
+        return false
     }
 }

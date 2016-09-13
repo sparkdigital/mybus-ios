@@ -15,6 +15,7 @@ protocol MapBusRoadDelegate {
     func newResults(busSearchResult: BusSearchResult)
     func newOrigin(coordinate: CLLocationCoordinate2D, address: String)
     func newDestination(coordinate: CLLocationCoordinate2D, address: String)
+    func newCompleteBusRoute(route: CompleteBusRoute)
 }
 
 class SearchViewController: UIViewController, UITableViewDelegate
