@@ -69,6 +69,11 @@ public class Connectivity: NSObject
         myBusService.getCompleteRoads(idLine, direction: direction, completionHandler: completionHanlder)
     }
 
+    func getRechargeCardPoints(latitude: Double, longitude: Double, completionHandler: ([RechargePoint]?, NSError?) -> ())
+    {
+        myBusService.getRechargeCardPoints(latitude, longitude: longitude, completionHandler: completionHandler)
+    }
+
     // MARK - Directions Endpoints
     func getWalkingDirections(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: (MBDirectionsResponse?, NSError?) -> ())
     {
