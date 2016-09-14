@@ -100,7 +100,11 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                         points.append(rechargePoint)
                     }
                 }
-                completionHandler(points, error)
+                if points.count == 0 {
+                    completionHandler(nil, error)
+                } else {
+                    completionHandler(points, error)
+                }
             } else {
                 completionHandler(nil, error)
             }

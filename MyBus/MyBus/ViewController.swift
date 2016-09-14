@@ -196,6 +196,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 annotationImage =  self.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
             case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
                 annotationImage =  self.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
+            case ~/"carga":
+                annotationImage =  self.getMarkerImage("map_charge", annotationTitle: annotationTitle)
             default:
                 break
             }
@@ -273,13 +275,29 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
 
     // MARK: - Mapview bus roads manipulation Methods
 
+    func fitToAnnotationsInMap() -> Void {
+        if let annotations = self.mapView.annotations {
+            self.mapView.showAnnotations(annotations, edgePadding: UIEdgeInsetsMake(CGFloat(30), CGFloat(30), CGFloat(30), CGFloat(30)), animated: true)
+        }
+    }
+
+    func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
+        for point in rechargePoints {
+            let annotation = MGLPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: point.location.latitude, longitude: point.location.longitude)
+            annotation.title = point.name
+            annotation.subtitle = point.address
+
+            self.mapView.addAnnotation(annotation)
+        }
+        fitToAnnotationsInMap()
+    }
+
     func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
         progressNotification.showLoadingNotification(self.view)
         removeExistingAnnotationsOfBusRoad()
         removeExistingAnnotationsOfCompleteRoute()
-        let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
 
-        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
         for marker in route.getMarkersAnnotation() {
             self.mapView.addAnnotation(marker)
         }
@@ -288,6 +306,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             self.mapView.addAnnotation(polyline)
         }
         self.progressNotification.stopLoadingNotification(self.view)
+        fitToAnnotationsInMap()
     }
 
     func addBusRoad(roadResult: RoadResult) {
@@ -295,11 +314,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
         let walkingRoutes = roadResult.walkingRoutes
 
-        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
-
         removeExistingAnnotationsOfBusRoad()
-
-        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
 
         for walkingRoute in walkingRoutes {
             let walkingPolyline = self.createWalkingPathPolyline(walkingRoute)
@@ -315,6 +330,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         }
         // First we render polylines on Map then we remove loading notification
         self.progressNotification.stopLoadingNotification(self.view)
+        fitToAnnotationsInMap()
     }
 
     func addBusLinesResults(searchResults: BusSearchResult) {
@@ -355,13 +371,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         destinationMarker.coordinate = destination
         destinationMarker.title = markerDestinationLabelText
         destinationMarker.subtitle = address
-
-        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
-
-        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
-
         self.mapView.addAnnotation(destinationMarker)
-
+        fitToAnnotationsInMap()
     }
 
     // MARK: - Map bus road annotations utils Methods
@@ -561,8 +572,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
             } else {
-                let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
-                self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+                self.fitToAnnotationsInMap()
             }
         }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)

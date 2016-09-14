@@ -159,7 +159,24 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
         }
         if (item.tag == 2){
+            if let userLocation = self.mapViewController.mapView.userLocation {
+                Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
+                    points, error in
 
+                    if let chargePoints = points {
+                        self.mapViewController.addRechargePoints(chargePoints)
+                    } else {
+                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
+                    }
+
+                }
+                if self.currentViewController != mapViewController {
+                    self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
+                    self.currentViewController = mapViewController
+                }
+            } else {
+                GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
+            }
         }
         if (item.tag == 3){
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
