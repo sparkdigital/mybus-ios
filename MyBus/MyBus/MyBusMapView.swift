@@ -10,9 +10,35 @@ import Foundation
 import UIKit
 import Mapbox
 import MapKit
+import MapboxDirections
+
+//Annotations
+
+
+class MyBusAnnotationFactory {
+    
+    class func createOriginPointMarker(){
+    }
+    
+    class func createDestinationPointMarker(){
+    }
+    
+}
+
+
+
 
 @IBDesignable
 class MyBusMapView:MGLMapView{
+   
+    
+    // This needs to be refactored
+    var origin:CLLocationCoordinate2D!
+    var destination:CLLocationCoordinate2D!
+    let markerOriginLabelText = "Origen"
+    let markerDestinationLabelText = "Destino"
+
+    
     
     //Attributes
     @IBInspectable var maxZoomLevel: Double = 18.0 {
@@ -41,6 +67,58 @@ class MyBusMapView:MGLMapView{
     @IBInspectable var defaultBusPolylineColor:UIColor = UIColor.grayColor()
     
     
+    //Closures
+    
+    //Closure to determine if annotation is part of road
+    var annotationPartOfMyBusResultClosure:(MGLAnnotation)->Bool = { annotation in
+        
+        guard let annotationTitle:String = annotation.title!! as String else {
+            NSLog("No title found in annotation when filtering")
+            return false
+        }
+        
+        switch annotationTitle{
+            case MyBusTitle.BusLineRouteTitle.rawValue:
+                return true
+            case MyBusTitle.StopOriginTitle.rawValue:
+                return true
+            case  MyBusTitle.StopDestinationTitle.rawValue:
+                return true
+            case MyBusTitle.WalkingPathTitle.rawValue:
+                return true
+            default:
+                return false
+        }
+    }
+    
+    //Closure to determine if annotation is part of route
+    var annotationPartOfCompleteRouteClosure:(MGLAnnotation)->Bool = { annotation in
+        
+        guard let annotationTitle:String = annotation.title!! as String else {
+            NSLog("No title found in annotation when filtering")
+            return false
+        }
+        
+        switch annotationTitle{
+        case MyBusTitle.StartCompleteBusRoute.rawValue:
+            return true
+        case MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
+            return true
+        case MyBusTitle.EndCompleteBusRoute.rawValue:
+            return true
+        case "Going":
+            return true
+        case "Return":
+            return true
+        default:
+            return false
+        }
+    }
+    
+    
+    
+    
+    
     func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
         // Give our polyline a unique color by checking for its `title` property
         let isWalkingPathPolyline = annotation.title == "Caminando" && annotation is MGLPolyline
@@ -53,6 +131,7 @@ class MyBusMapView:MGLMapView{
             return UIColor.grayColor()
         }
     }
+    
     
     
     
@@ -94,6 +173,13 @@ class MyBusMapView:MGLMapView{
      - addPolylineAnnotationForRoute(mbroute)
      
      
+     - centerMapWithGPSLocation
+     - addPoint
+     - addRoad
+     - addRoute
+     
+     
+     
      */
     
     
@@ -102,63 +188,79 @@ class MyBusMapView:MGLMapView{
         image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
+
     
     // MARK: - Mapview bus roads manipulation Methods
     
-    func addBusRoad(mapBusRoad: MapBusRoad)
-    {
-        let bounds = getOriginAndDestinationInMapsBounds()
+    func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
+        //progressNotification.showLoadingNotification(self.view)
         
-        removeExistingAnnotationsOfBusRoad()
+        /*removeExistingAnnotationsOfBusRoad()
+        removeExistingAnnotationsOfCompleteRoute()
+        */
+        clearExistingBusRoadAnnotations()
+        clearExistingBusRouteAnnotations()
         
-        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
         
-        for (index, marker) in mapBusRoad.roadStopsMarkerList.enumerate()
-        {
-            /**
-             Resolve walking directions from user origin to first bus stop
-             */
-            
-            switch index
-            {
-            case 0:
-                // Walking path from user origin to first bus stop
-                resolveAndAddWalkingPath(self.origin!, destinationCoordinate: marker.coordinate)
-            case 1:
-                // We check if it's a combinated road so we need three walking paths
-                let isCombinatedRoad = mapBusRoad.roadStopsMarkerList.count > 2
-                if isCombinatedRoad {
-                    // Walking path from first bus descent stop to second bus stop
-                    let nextBustStop = mapBusRoad.roadStopsMarkerList[2].coordinate
-                    resolveAndAddWalkingPath(marker.coordinate, destinationCoordinate: nextBustStop)
-                } else {
-                    // Walking path from descent bus stop to destination
-                    resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
-                }
-            case 3:
-                // Walking path from descent bus stop to destination
-                resolveAndAddWalkingPath(self.destination!, destinationCoordinate: marker.coordinate)
-            default:
-                break
-            }
-            
-            self.mapView.addAnnotation(marker)
+        self.setVisibleCoordinateBounds(bounds, animated: true)
+        //self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        for marker in route.getMarkersAnnotation() {
+            //self.mapView.addAnnotation(marker)
+            self.addAnnotation(marker)
         }
         
-        for polyline in mapBusRoad.busRoutePolylineList
-        {
-            self.mapView.addAnnotation(polyline)
+        for polyline in route.getPolyLines() {
+            //self.mapView.addAnnotation(polyline)
+            self.addAnnotation(polyline)
         }
+        //self.progressNotification.stopLoadingNotification(self.view)
     }
+
+    
+    
+    func addBusRoad(roadResult: RoadResult) {
+        //progressNotification.showLoadingNotification(self.view)
+        let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
+        let walkingRoutes = roadResult.walkingRoutes
+        
+        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
+        
+        //removeExistingAnnotationsOfBusRoad()
+        clearExistingBusRoadAnnotations()
+        
+        self.setVisibleCoordinateBounds(bounds, animated: true)
+        
+        for walkingRoute in walkingRoutes {
+            let walkingPolyline = self.createWalkingPathPolyline(walkingRoute)
+            //self.mapView.addAnnotation(walkingPolyline)
+            self.addAnnotation(walkingPolyline)
+        }
+        
+        for marker in mapBusRoad.roadStopsMarkerList {
+            //self.mapView.addAnnotation(marker)
+            self.addAnnotation(marker)
+        }
+        
+        for polyline in mapBusRoad.busRoutePolylineList {
+            //self.mapView.addAnnotation(polyline)
+            self.addAnnotation(polyline)
+        }
+        // First we render polylines on Map then we remove loading notification
+        //self.progressNotification.stopLoadingNotification(self.view)
+    }
+
 
     
     
     
     
-    func addOriginPosition(origin: CLLocationCoordinate2D, address: String)
-    {
-        if let annotations = self.mapView.annotations {
+    func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {
+        /*if let annotations = self.mapView.annotations {
             self.mapView.removeAnnotations(annotations)
+        }*/
+        if let annotations = self.annotations {
+            self.removeAnnotations(annotations)
         }
         
         self.origin = origin
@@ -168,12 +270,13 @@ class MyBusMapView:MGLMapView{
         originMarker.title = markerOriginLabelText
         originMarker.subtitle = address
         
-        self.mapView.addAnnotation(originMarker)
-        self.mapView.setCenterCoordinate(origin, animated: true)
+        //self.mapView.addAnnotation(originMarker)
+        //self.mapView.setCenterCoordinate(origin, animated: true)
+        self.addAnnotation(originMarker)
+        self.setCenterCoordinate(origin, animated: true)
     }
     
-    func addDestinationPosition(destination: CLLocationCoordinate2D, address: String)
-    {
+    func addDestinationPosition(destination: CLLocationCoordinate2D, address: String) {
         self.destination = destination
         // Declare the marker point and set its coordinates
         let destinationMarker = MGLPointAnnotation()
@@ -181,14 +284,16 @@ class MyBusMapView:MGLMapView{
         destinationMarker.title = markerDestinationLabelText
         destinationMarker.subtitle = address
         
-        let bounds = getOriginAndDestinationInMapsBounds()
+        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
         
-        self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        //self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+        self.setVisibleCoordinateBounds(bounds, animated:true)
         
-        self.mapView.addAnnotation(destinationMarker)
+        //self.mapView.addAnnotation(destinationMarker)
+        self.addAnnotation(destinationMarker)
         
     }
-    
+
     
     
     // MARK: - Map bus road annotations utils Methods
@@ -201,24 +306,21 @@ class MyBusMapView:MGLMapView{
      Then we have to know if south or north is more at east to define for each one a longitude padding
      Finally we create new coordinate with padding included and build bounds with each corners
      */
-    func getOriginAndDestinationInMapsBounds() -> MGLCoordinateBounds
-    {
+    func getOriginAndDestinationInMapsBounds(firstPoint: CLLocationCoordinate2D, secondPoint: CLLocationCoordinate2D) -> MGLCoordinateBounds {
         var south, north: CLLocationCoordinate2D
         let latitudinalMeters: CLLocationDistance = 800
         let longitudinalMeters: CLLocationDistance = -800
         let southLongitudinal, northLongitudinal: CLLocationDistance
         
-        if self.destination?.latitude < self.origin?.latitude
-        {
-            south = self.destination!
-            north = self.origin!
+        if firstPoint.latitude < secondPoint.latitude {
+            south = firstPoint
+            north = secondPoint
         } else {
-            south = self.origin!
-            north = self.destination!
+            south = secondPoint
+            north = firstPoint
         }
         
-        if south.longitude < north.longitude
-        {
+        if south.longitude < north.longitude {
             southLongitudinal = -800
             northLongitudinal = 800
         } else {
@@ -238,53 +340,94 @@ class MyBusMapView:MGLMapView{
         return markerResultsBounds
     }
     
-    func resolveAndAddWalkingPath(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) -> Void
-    {
-        Connectivity.sharedInstance.getWalkingDirections(sourceCoordinate, destinationCoordinate: destinationCoordinate)
-        {
-            response, error in
-            print(error)
-            if let route = response?.routes.first
-            {
-                let polyline = self.createWalkingPathPolyline(route)
-                self.mapView.addAnnotation(polyline)
-            }
-            
-        }
-    }
     
-    func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline
-    {
+    
+    func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline {
         var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
         let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
         walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
         return walkingPathPolyline
     }
     
+    func clearExistingBusRoadAnnotations(){
+        self.clearAnnotations(annotationPartOfMyBusResultClosure)
+    }
     
-    func removeExistingAnnotationsOfBusRoad() -> Void {
-        for currentMapAnnotation in self.mapView.annotations!
-        {
-            if isAnnotationPartOfMyBusResult(currentMapAnnotation)
-            {
-                self.mapView.removeAnnotation(currentMapAnnotation)
-            }
+    func clearExistingBusRouteAnnotations(){
+        self.clearAnnotations(annotationPartOfCompleteRouteClosure)
+    }
+    
+    private func clearAnnotations(criteriaClosure:((MGLAnnotation)->Bool)){
+        guard let annotations = self.annotations else {
+            NSLog("No Road annotations were found")
+            return
+        }
+        
+        //Determine the annotations to be removed
+        let annotationsToRemove = annotations.filter(criteriaClosure)
+        
+        for current in annotationsToRemove{
+            self.removeAnnotation(current)
         }
     }
     
+    
+    /*
+    func removeExistingAnnotationsOfBusRoad() -> Void {
+        //if let annotations = self.mapView.annotations {
+        if let annotations = self.annotations {
+            for currentMapAnnotation in annotations {
+                if self.isAnnotationPartOfMyBusResult(currentMapAnnotation) {
+                    //self.mapView.removeAnnotation(currentMapAnnotation)
+                    self.removeAnnotation(currentMapAnnotation)
+                }
+            }
+        }
+    }*/
+    
+    /*
+    func removeExistingAnnotationsOfCompleteRoute() -> Void {
+        //if let annotations = self.mapView.annotations {
+        if let annotations = self.annotations {
+            for currentMapAnnotation in annotations {
+                if self.isAnnotationPartOfCompleteRoute(currentMapAnnotation) {
+                    //self.mapView.removeAnnotation(currentMapAnnotation)
+                    self.removeAnnotation(currentMapAnnotation)
+                }
+            }
+        }
+    }*/
+
+    
+    /*
     func isAnnotationPartOfMyBusResult(annotation: MGLAnnotation) -> Bool {
         let annotationTitle = annotation.title!! as String
         
         if annotationTitle == MyBusTitle.BusLineRouteTitle.rawValue ||
             annotationTitle == MyBusTitle.StopOriginTitle.rawValue ||
             annotationTitle == MyBusTitle.StopDestinationTitle.rawValue ||
-            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue
-        {
+            annotationTitle == MyBusTitle.WalkingPathTitle.rawValue {
             return true
         } else {
             return false
         }
-    }
+    }*/
+    
+    
+    /*
+    func isAnnotationPartOfCompleteRoute(annotation: MGLAnnotation) -> Bool {
+        let annotationTitle = annotation.title!! as String
+        
+        if ~/MyBusTitle.StartCompleteBusRoute.rawValue ~= annotationTitle  ||
+            ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue ~= annotationTitle ||
+            ~/MyBusTitle.EndCompleteBusRoute.rawValue ~= annotationTitle ||
+            annotationTitle == "Going" ||
+            annotationTitle == "Return" {
+            return true
+        } else {
+            return false
+        }
+    }*/
     
     
 }
