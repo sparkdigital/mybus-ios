@@ -168,6 +168,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         if (item.tag == 3){
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
+            self.busesInformationViewController.searchViewProtocol = self
             self.setNavigation("Recorridos")
         }
         if (item.tag == 4){
