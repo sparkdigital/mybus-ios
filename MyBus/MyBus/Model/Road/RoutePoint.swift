@@ -9,13 +9,14 @@
 import Foundation
 import SwiftyJSON
 import Mapbox
+import RealmSwift
 
-class RoutePoint: NSObject {
-    var stopId: String = " "
-    var latitude: String = " "
-    var longitude: String = " "
-    var address: String = " "
-    var isWaypoint: Bool = false
+class RoutePoint: Object {
+    dynamic var stopId: String = " "
+    dynamic var latitude: String = " "
+    dynamic var longitude: String = " "
+    dynamic var address: String = " "
+    dynamic var isWaypoint: Bool = false
 
     static func parse(routePointJson: JSON) -> RoutePoint
     {
