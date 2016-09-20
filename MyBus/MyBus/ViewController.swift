@@ -263,19 +263,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     }
 
     // MARK: - Mapview bus roads manipulation Methods
-
-    
-
     func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
-        for point in rechargePoints {
-            let annotation = MGLPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: point.location.latitude, longitude: point.location.longitude)
-            annotation.title = point.name
-            annotation.subtitle = point.address
-
-            self.mapView.addAnnotation(annotation)
-        }
-        self.mapView.fitToAnnotationsInMap()
+        self.mapView.addRechargePoints(rechargePoints)
     }
 
     func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
