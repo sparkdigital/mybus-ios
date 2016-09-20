@@ -17,9 +17,9 @@ class BusesInformationTableViewCell: UITableViewCell {
    
     var id: String = ""
     
-    func loadItem(Id: String,busLine: String, color: UIColor) {
-        self.id = Id
-        self.busLine.text = busLine
+    func loadItem(busLineId: String,busLineName: String, color: UIColor) {
+        self.id = busLineId
+        self.busLine.text = busLineName
         self.busColor.backgroundColor = color
     }
 }

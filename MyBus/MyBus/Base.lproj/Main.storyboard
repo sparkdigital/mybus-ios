@@ -201,7 +201,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PYi-zB-pA7">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                             </containerView>
-                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WxU-N3-lcX">
+                            <tabBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WxU-N3-lcX">
                                 <rect key="frame" x="0.0" y="487" width="600" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
