@@ -14,4 +14,8 @@ class CompleteBusItineray: Object {
     dynamic var savedDate: NSDate = NSDate()
     let goingIntinerayPoint = List<RoutePoint>()
     let returnIntinerayPoint = List<RoutePoint>()
+
+    override static func primaryKey() -> String? {
+        return "busLineName"
+    }
 }

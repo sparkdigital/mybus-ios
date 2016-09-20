@@ -172,49 +172,65 @@ public class SearchManager: NSObject {
     }
 
     func getCompleteRoute(idBusLine: Int, busLineName: String, completion: (CompleteBusRoute?, NSError?)->()) -> Void {
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+            if let completeRoute = justGoingBusRoute {
+                //Get route in return way
+                Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 1, completionHanlder: { (returnBusRoute, error) in
+                    completeRoute.busLineName = busLineName
+                    if let fullCompleteRoute = returnBusRoute {
+                        //Another hack
+                        completeRoute.returnPointList = fullCompleteRoute.goingPointList
+
+                        //Save in device storage using Realm
+                        let itineray = CompleteBusItineray()
+                        itineray.busLineName = completeRoute.busLineName
+                        itineray.goingIntinerayPoint.appendContentsOf(completeRoute.goingPointList)
+                        itineray.returnIntinerayPoint.appendContentsOf(completeRoute.returnPointList)
+                        itineray.savedDate = NSDate()
+
+                        let realm = try! Realm()
+                        // Add to the Realm inside a transaction
+                        try! realm.write {
+                            realm.add(itineray, update: true)
+                        }
+                        return completion(completeRoute, error)
+                    } else {
+                        return completion(completeRoute, error)
+                    }
+                })
+            } else {
+                return completion(nil, error)
+            }
+        }
+
+
         // Get the default Realm
         let realm = try! Realm()
         let results = realm.objects(CompleteBusItineray.self).filter("busLineName = '\(busLineName)'")
-        // Query using a predicate string
+
+
         if results.count > 0 {
-            let intinerary = results.first!
-            let route = CompleteBusRoute()
-            route.busLineName = intinerary.busLineName
-            route.goingPointList = Array(intinerary.goingIntinerayPoint)
-            route.returnPointList = Array(intinerary.returnIntinerayPoint)
-            completion(route, nil)
+            let busItinerary = results.first!
+
+            let secondsInADay: NSTimeInterval = 3600 * 30
+            let secondsSavedSinceNow = abs(busItinerary.savedDate.timeIntervalSinceNow)
+
+
+            if secondsSavedSinceNow > secondsInADay  {
+                //Sync itineraries each one month
+                Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0, completionHanlder: connectivtyResultsCompletionHandler)
+            } else {
+                let route = CompleteBusRoute()
+                route.busLineName = busItinerary.busLineName
+                route.goingPointList = Array(busItinerary.goingIntinerayPoint)
+                route.returnPointList = Array(busItinerary.returnIntinerayPoint)
+
+                completion(route, nil)
+            }
+
         } else {
             //Get route in going way of bus line
-            Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0) { (justGoingBusRoute, error) in
-                if let completeRoute = justGoingBusRoute {
-                    //Get route in return way
-                    Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 1, completionHanlder: { (returnBusRoute, error) in
-                        completeRoute.busLineName = busLineName
-                        if let fullCompleteRoute = returnBusRoute {
-                            //Another hack
-                            completeRoute.returnPointList = fullCompleteRoute.goingPointList
-
-                            //Save in device storage using Realm
-                            let itineray = CompleteBusItineray()
-                            itineray.busLineName = completeRoute.busLineName
-                            itineray.goingIntinerayPoint.appendContentsOf(completeRoute.goingPointList)
-                            itineray.returnIntinerayPoint.appendContentsOf(completeRoute.returnPointList)
-
-
-                            let realm = try! Realm()
-                            // Add to the Realm inside a transaction
-                            try! realm.write {
-                                realm.add(itineray)
-                            }
-                            return completion(completeRoute, error)
-                        } else {
-                            return completion(completeRoute, error)
-                        }
-                    })
-                } else {
-                    return completion(nil, error)
-                }
-            }
+            Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0, completionHanlder: connectivtyResultsCompletionHandler)
         }
 
     }
