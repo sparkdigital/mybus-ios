@@ -241,6 +241,13 @@ class MyBusMapView:MGLMapView{
     func addRoute(){}
     func centerMapWithGPSLocation(){}
     
+    func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
+        for point in rechargePoints {
+            let annotation = MyBusMarker(position: CLLocationCoordinate2D(latitude: point.location.latitude, longitude: point.location.longitude), title: point.name, subtitle: point.address, imageIdentifier: nil)
+            self.addAnnotation(annotation)
+        }
+        self.fitToAnnotationsInMap()
+    }
     
     func getMarkerImage(imageResourceIdentifier: String, annotationTitle: String) -> MGLAnnotationImage {
         var image = UIImage(named: imageResourceIdentifier)!
