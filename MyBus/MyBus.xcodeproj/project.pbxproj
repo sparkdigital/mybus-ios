@@ -46,6 +46,7 @@
 		A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */; };
 		C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50CC65C1D7A17130039C316 /* BusesRates.plist */; };
 		C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */ = {isa = PBXBuildFile; fileRef = C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */; };
+		C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5348A301D9070C1004EADEC /* TitleMainView.xib */; };
 		C5421B271D5B609C007C8987 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5421B261D5B609C007C8987 /* ProgressHUD.swift */; };
 		C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C542E36B1D48EF0F009FF442 /* Streets.plist */; };
 		C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */; };
@@ -118,6 +119,7 @@
 		B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
 		C50CC65C1D7A17130039C316 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
 		C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepActivateLocate.xib; sourceTree = "<group>"; };
+		C5348A301D9070C1004EADEC /* TitleMainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleMainView.xib; sourceTree = "<group>"; };
 		C5421B261D5B609C007C8987 /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		C542E36B1D48EF0F009FF442 /* Streets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Streets.plist; sourceTree = "<group>"; };
 		C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMessageAlert.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				112A11081CE5194A00D00709 /* Strings.swift */,
 				C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */,
 				C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */,
+				C5348A301D9070C1004EADEC /* TitleMainView.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */,
 				08EC58561CBD482400E8410A /* Main.storyboard in Resources */,
 				C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */,
+				C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */,
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
 				C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */,
 			);
