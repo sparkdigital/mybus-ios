@@ -255,9 +255,9 @@ class MyBusMapView:MGLMapView{
         clearExistingBusRoadAnnotations()
         clearExistingBusRouteAnnotations()
         
-        let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
+        //let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
         
-        self.setVisibleCoordinateBounds(bounds, animated: true)
+        //self.setVisibleCoordinateBounds(bounds, animated: true)
         
         for marker in route.getMarkersAnnotation() {
             self.addAnnotation(marker)
@@ -267,18 +267,17 @@ class MyBusMapView:MGLMapView{
             self.addAnnotation(polyline)
         }
     }
-
-    
+        
     
     func addBusRoad(roadResult: RoadResult) {
         let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
         let walkingRoutes = roadResult.walkingRoutes
         
-        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
+        //let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
         
         clearExistingBusRoadAnnotations()
         
-        self.setVisibleCoordinateBounds(bounds, animated: true)
+        //self.setVisibleCoordinateBounds(bounds, animated: true)
         
         for walkingRoute in walkingRoutes {
             let walkingPolyline = self.createWalkingPathPolyline(walkingRoute)
@@ -293,8 +292,7 @@ class MyBusMapView:MGLMapView{
             self.addAnnotation(polyline)
         }
     }
-    
-    
+        
     func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {
         if let annotations = self.annotations {
             self.removeAnnotations(annotations)
@@ -302,11 +300,7 @@ class MyBusMapView:MGLMapView{
         
         self.origin = origin
         // Declare the marker point and set its coordinates
-        
-        
-       
         let originMarker = MyBusMarkerFactory.createOriginPointMarker(origin, address: address)
-        
         
         self.addAnnotation(originMarker)
         self.setCenterCoordinate(origin, animated: true)
@@ -318,10 +312,11 @@ class MyBusMapView:MGLMapView{
         // Declare the marker point and set its coordinates
         let destinationMarker = MyBusMarkerFactory.createDestinationPointMarker(destination, address: address)
         
-        let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
-        self.setVisibleCoordinateBounds(bounds, animated:true)
+        //let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
+        //self.setVisibleCoordinateBounds(bounds, animated:true)
         self.addAnnotation(destinationMarker)
-        
+        self.fitToAnnotationsInMap()
+       
     }
 
     
@@ -370,7 +365,11 @@ class MyBusMapView:MGLMapView{
         return markerResultsBounds
     }
     
-    
+    func fitToAnnotationsInMap() -> Void {
+        if let annotations = self.annotations {
+            self.showAnnotations(annotations, edgePadding: UIEdgeInsetsMake(CGFloat(30), CGFloat(30), CGFloat(30), CGFloat(30)), animated: true)
+        }
+    }
     
     func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline {
         var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry

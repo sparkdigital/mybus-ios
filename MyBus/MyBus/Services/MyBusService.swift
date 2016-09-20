@@ -87,4 +87,27 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
             }
         }
     }
+
+    func getRechargeCardPoints(latitude: Double, longitude: Double, completionHandler: ([RechargePoint]?, NSError?)-> ()) -> Void {
+        var request: NSURLRequest
+        request = MyBusRouter.RechargeCardPoints(latitude: latitude, longitude: longitude, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).URLRequest
+
+        BaseNetworkService.performRequest(request) { response, error in
+            if let json = response {
+                var points: [RechargePoint] = []
+                for case let point in json["Results"].arrayValue {
+                    if let rechargePoint = RechargePoint(json: point) {
+                        points.append(rechargePoint)
+                    }
+                }
+                if points.count == 0 {
+                    completionHandler(nil, error)
+                } else {
+                    completionHandler(points, error)
+                }
+            } else {
+                completionHandler(nil, error)
+            }
+        }
+    }
 }

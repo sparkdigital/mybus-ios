@@ -190,6 +190,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
             case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
                 annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
+                annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
+            case ~/"carga":
+                annotationImage =  self.mapView.getMarkerImage("map_charge", annotationTitle: annotationTitle)
             default:
                 break
             }
@@ -262,19 +265,33 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     // MARK: - Mapview bus roads manipulation Methods
 
     
+
+    func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
+        for point in rechargePoints {
+            let annotation = MGLPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: point.location.latitude, longitude: point.location.longitude)
+            annotation.title = point.name
+            annotation.subtitle = point.address
+
+            self.mapView.addAnnotation(annotation)
+        }
+        self.mapView.fitToAnnotationsInMap()
+    }
+
     func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
         progressNotification.showLoadingNotification(self.view)
         self.mapView.displayCompleteBusRoute(route)
         self.progressNotification.stopLoadingNotification(self.view)
+        self.mapView.fitToAnnotationsInMap()
     }
 
     func addBusRoad(roadResult: RoadResult) {
         progressNotification.showLoadingNotification(self.view)
-        
         self.mapView.addBusRoad(roadResult)
         
         // First we render polylines on Map then we remove loading notification
         self.progressNotification.stopLoadingNotification(self.view)
+        self.mapView.fitToAnnotationsInMap()
     }
 
     func addBusLinesResults(searchResults: BusSearchResult) {
@@ -294,15 +311,13 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: .Middle)
     }
 
-    
     func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {
         self.mapView.addOriginPosition(origin, address: address)
     }
 
-    
     func addDestinationPosition(destination: CLLocationCoordinate2D, address: String) {
         self.mapView.addDestinationPosition(destination, address: address)
-   }
+    }
 
     // MARK: - UIPopoverPresentationControllerDelegate Methods
 
@@ -405,6 +420,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             } else {
                 let bounds = self.mapView.getOriginAndDestinationInMapsBounds(mapView.destination, secondPoint: mapView.origin)
                 self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
+                self.mapView.fitToAnnotationsInMap()
             }
         }
         self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
