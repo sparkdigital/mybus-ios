@@ -191,6 +191,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     func backTapped(){
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
+        self.mapViewController.removeExistingAnnotationsOfCompleteRoute()
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
