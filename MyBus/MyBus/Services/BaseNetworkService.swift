@@ -155,7 +155,7 @@ enum MyBusRouter: URLRequestConvertible{
      //No methods yet
      private let rechargeCardPointsEndpointURL = "\(myBusBaseURL)RechargeCardPointApi.php?"
     */
-    case RechargeCardPoints
+    case RechargeCardPoints(latitude: Double, longitude: Double, accessToken: String)
 
     /*
      //Complete Roads
@@ -211,8 +211,15 @@ enum MyBusRouter: URLRequestConvertible{
 
                 return ("CombinedRoadApi.php", params, .URL, .GET)
 
-            case .RechargeCardPoints:
-                return ("RechargeCardPointApi.php", [:], .URL, .GET)
+            case .RechargeCardPoints(let latitude, let longitude, let accessToken):
+
+                var params: [String:AnyObject] = [:]
+                params["lat"] = latitude
+                params["lng"] = longitude
+                params["tk"] = accessToken
+                params["ra"] = 1 // the radius of search // Temporarily disabled.
+
+                return ("RechargeCardPointApi.php", params, .URL, .GET)
 
             case .CompleteRoads(let idLine, let direction, let accessToken):
                 var params: [String:AnyObject] = [:]
