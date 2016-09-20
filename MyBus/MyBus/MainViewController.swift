@@ -50,7 +50,10 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.searchBar.layer.borderWidth = 8
         self.searchBar.delegate = self
-
+        
+        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+        self.navigationItem.titleView = titleView
+            
         self.tabBar.delegate = self
     }
 
@@ -154,6 +157,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         if (item.tag == 0){
             self.cycleViewController(self.currentViewController!, toViewController: searchViewController)
             self.currentViewController = searchViewController
+            self.setNavigation("Buscar")
         }
         if (item.tag == 1){
 
@@ -164,11 +168,31 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         if (item.tag == 3){
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
-            self.busesInformationViewController.searchViewProtocol = self
+            self.setNavigation("Recorridos")
         }
         if (item.tag == 4){
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
             self.currentViewController = busesRatesViewController
+            self.setNavigation("Tarifas")
         }
+    }
+    
+    func setNavigation(Title: String){
+        self.searchBar.hidden = true
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = Title
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
+        backButton.image = UIImage(named:"arrow_back")
+        backButton.tintColor = UIColor.whiteColor()
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
+    func backTapped(){
+        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+        self.currentViewController = self.mapViewController
+        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+        self.navigationItem.titleView = titleView
+        self.navigationItem.leftBarButtonItem = nil
+        self.searchBar.hidden = false
     }
 }
