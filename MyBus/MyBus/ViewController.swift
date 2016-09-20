@@ -308,6 +308,10 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         self.mapView.addDestinationPosition(destination, address: address)
     }
 
+    func clearRouteAnnotations(){
+        self.mapView.clearExistingBusRouteAnnotations()
+    }
+    
     // MARK: - UIPopoverPresentationControllerDelegate Methods
 
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
