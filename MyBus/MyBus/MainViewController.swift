@@ -122,10 +122,10 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
     // MARK: - MapBusRoadDelegate Methods
 
-    func newBusRoad(mapBusRoad: MapBusRoad) {
+    //func newBusRoad(mapBusRoad: MapBusRoad) {
         //Now is no longer needed may be in the future with a new flow yes
         //self.mapViewController.addBusRoad(mapBusRoad)
-    }
+    //}
 
     func newResults(busSearchResult: BusSearchResult) {
         self.mapViewController.addBusLinesResults(busSearchResult)
