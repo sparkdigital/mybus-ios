@@ -40,6 +40,47 @@ class MyBusMarker: MGLPointAnnotation {
 // MARK: Markers factory methods
 class MyBusMarkerFactory {
     
+    class func buildBusRoadStopMarkers(roadResult:RoadResult)->[MGLAnnotation]{
+        
+        var roadStopsMarkerList:[MGLAnnotation] = []
+        
+        let busRouteType: MyBusRouteResultType = roadResult.busRouteResultType()
+        
+        if let firstRoute = roadResult.routeList.first, let lastRoute = roadResult.routeList.last {
+            switch busRouteType {
+            case .Single:
+                
+                let stopOriginMapPoint = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: MyBusTitle.StopOriginTitle.rawValue)
+                roadStopsMarkerList.append(stopOriginMapPoint)
+                
+                let stopDestinationMapPoint = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: MyBusTitle.StopDestinationTitle.rawValue)
+                roadStopsMarkerList.append(stopDestinationMapPoint)
+            
+            case .Combined:
+                //First bus
+                // StopOriginRouteOne
+                let mapStopOriginRouteOne = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: MyBusTitle.StopOriginTitle.rawValue)
+                roadStopsMarkerList.append(mapStopOriginRouteOne)
+                
+                // StopDestinationRouteOne
+                let mapStopDestinationRouteOne = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: MyBusTitle.StopDestinationTitle.rawValue)
+                roadStopsMarkerList.append(mapStopDestinationRouteOne)
+                
+                // Second bus
+                // StopOriginRouteTwo
+                let mapStopOriginRouteTwo = MyBusMarkerFactory.createBusStopOriginMarker(lastRoute.getFirstLatLng(), address: MyBusTitle.StopOriginTitle.rawValue)
+               
+                roadStopsMarkerList.append(mapStopOriginRouteTwo)
+                
+                // StopDestinationRouteTwo
+                let mapStopDestinationRouteTwo = MyBusMarkerFactory.createBusStopDestinationMarker(lastRoute.getLastLatLng(), address: MyBusTitle.StopDestinationTitle.rawValue)
+
+                roadStopsMarkerList.append(mapStopDestinationRouteTwo)
+            }
+        }
+        
+        return roadStopsMarkerList
+    }
     
     class func createOriginPointMarker(coord:CLLocationCoordinate2D, address:String)->MGLAnnotation{
         let marker = MyBusMarker(position: coord, title: "Origen", subtitle: address, imageIdentifier: "markerOrigen")
@@ -56,16 +97,19 @@ class MyBusMarkerFactory {
          case MyBusTitle.StopOriginTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
          */
-        let marker = MyBusMarker(position: coord, title: "Destino", subtitle: address, imageIdentifier: "stopOrigen")
+        let marker = MyBusMarker(position: coord, title: address, subtitle: "", imageIdentifier: "stopOrigen")
         return marker
     }
     
     
-    class func createBusStopDestinationMarker(){
+    class func createBusStopDestinationMarker(coord:CLLocationCoordinate2D, address:String)->MGLAnnotation{
         /*
          case MyBusTitle.StopDestinationTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
          */
+        let marker = MyBusMarker(position: coord, title: address, subtitle: "", imageIdentifier: "stopDestino")
+        return marker
+
     }
     
     class func createSameStartEndCompleteBusRouteMarker(){
@@ -93,11 +137,50 @@ class MyBusMarkerFactory {
 
 // MARK: Polyline factory methods
 class MyBusPolylineFactory {
-    class func createWalkingPathPolyline(){}
-    class func createBusRoutePolyline(){}
+    
+    class func createWalkingPathPolyline(route:MBRoute, title:String) -> MGLPolyline{
+        var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
+        let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
+        walkingPathPolyline.title = title
+        return walkingPathPolyline
+    }
+    
+    // busNumber:String  -> the polyline subtitle should be the bus number
+    class func createBusRoutePolyline(busRoute:Route, title:String, subtitle:String? = "")->MGLPolyline{
+        
+        var busRouteCoordinates:[CLLocationCoordinate2D] = busRoute.pointList.map { (point:RoutePoint) -> CLLocationCoordinate2D in
+            
+            // Make a CLLocationCoordinate2D with the lat, lng
+            return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+        }
+        let busPolyline = MGLPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
+        busPolyline.title = title
+        busPolyline.subtitle = subtitle
+        
+        return busPolyline
+    }
+    
+    class func buildBusRoutePolylineList(roadResult:RoadResult)->[MGLPolyline]{
+        
+        var busRoutePolylineList:[MGLPolyline] = []
+        
+        // First bus route polyline
+        let firstBusRoute: Route = (roadResult.routeList.first)!
+        
+        let firstBusLine = MyBusPolylineFactory.createBusRoutePolyline(firstBusRoute, title: MyBusTitle.BusLineRouteTitle.rawValue, subtitle: roadResult.idBusLine1)
+        busRoutePolylineList.append(firstBusLine)
+        
+        // If road is combinated, we add second bus route polyline
+        if roadResult.busRouteResultType() == .Combined
+        {
+            let secondBusRoute = roadResult.routeList[1]
+            let secondBusLine = MyBusPolylineFactory.createBusRoutePolyline(secondBusRoute, title: MyBusTitle.BusLineRouteTitle.rawValue, subtitle: roadResult.idBusLine2)
+            busRoutePolylineList.append(secondBusLine)
+        }
+        
+        return busRoutePolylineList
+    }
 }
-
-
 
 
 @IBDesignable
@@ -222,8 +305,6 @@ class MyBusMapView:MGLMapView{
      -addPoint(title, subtitle, CLLocationCoordinate2D) -> MGLPointAnnotation
      -selectPoint(annotation)
      -getMarkerImage( title? o enumType?) -> UIImage
-     
-     
      - addPolylineAnnotationForRoute(mbroute)
      
     */
@@ -276,8 +357,7 @@ class MyBusMapView:MGLMapView{
     }
         
     
-    func addBusRoad(roadResult: RoadResult) {
-        let mapBusRoad = MapBusRoad().addBusRoadOnMap(roadResult)
+    func addBusRoad(roadResult: RoadResult) {        
         let walkingRoutes = roadResult.walkingRoutes
         
         //let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
@@ -287,15 +367,17 @@ class MyBusMapView:MGLMapView{
         //self.setVisibleCoordinateBounds(bounds, animated: true)
         
         for walkingRoute in walkingRoutes {
-            let walkingPolyline = self.createWalkingPathPolyline(walkingRoute)
+            let walkingPolyline = MyBusPolylineFactory.createWalkingPathPolyline(walkingRoute, title:MyBusTitle.WalkingPathTitle.rawValue)
             self.addAnnotation(walkingPolyline)
         }
         
-        for marker in mapBusRoad.roadStopsMarkerList {
+        let roadStopsMarkerList = MyBusMarkerFactory.buildBusRoadStopMarkers(roadResult)
+        for marker in roadStopsMarkerList {
             self.addAnnotation(marker)
         }
         
-        for polyline in mapBusRoad.busRoutePolylineList {
+        let busRoutePolylineList = MyBusPolylineFactory.buildBusRoutePolylineList(roadResult)
+        for polyline in busRoutePolylineList {
             self.addAnnotation(polyline)
         }
     }
@@ -376,13 +458,6 @@ class MyBusMapView:MGLMapView{
         if let annotations = self.annotations {
             self.showAnnotations(annotations, edgePadding: UIEdgeInsetsMake(CGFloat(30), CGFloat(30), CGFloat(30), CGFloat(30)), animated: true)
         }
-    }
-    
-    func createWalkingPathPolyline(route: MBRoute) -> MGLPolyline {
-        var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
-        let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
-        walkingPathPolyline.title = MyBusTitle.WalkingPathTitle.rawValue
-        return walkingPathPolyline
     }
     
     func clearExistingBusRoadAnnotations(){
