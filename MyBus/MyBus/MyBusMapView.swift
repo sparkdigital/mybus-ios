@@ -382,10 +382,8 @@ class MyBusMapView:MGLMapView{
         }
     }
         
-    func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {
-        if let annotations = self.annotations {
-            self.removeAnnotations(annotations)
-        }
+    func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {        
+        self.clearAllAnnotations()
         
         self.origin = origin
         // Declare the marker point and set its coordinates
@@ -460,6 +458,10 @@ class MyBusMapView:MGLMapView{
         }
     }
     
+    func clearAllAnnotations(){
+        self.clearAnnotations() //don't use a criteria
+    }
+    
     func clearExistingBusRoadAnnotations(){
         self.clearAnnotations(annotationPartOfMyBusResultClosure)
     }
@@ -468,18 +470,22 @@ class MyBusMapView:MGLMapView{
         self.clearAnnotations(annotationPartOfCompleteRouteClosure)
     }
     
-    private func clearAnnotations(criteriaClosure:((MGLAnnotation)->Bool)){
+    private func clearAnnotations(criteriaClosure:((MGLAnnotation)->Bool)? = nil){
         guard let annotations = self.annotations else {
             NSLog("No Road annotations were found")
             return
         }
         
         //Determine the annotations to be removed
-        let annotationsToRemove = annotations.filter(criteriaClosure)
-        
-        for current in annotationsToRemove{
-            self.removeAnnotation(current)
+        if let criteria = criteriaClosure {
+            let annotationsToRemove = annotations.filter(criteria)
+            for current in annotationsToRemove{
+                self.removeAnnotation(current)
+            }
+        }else{
+            self.removeAnnotations(annotations)
         }
+        
     }
    
 }
