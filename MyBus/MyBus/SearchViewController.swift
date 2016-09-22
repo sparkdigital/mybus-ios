@@ -28,6 +28,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
     @IBOutlet weak var searchTableView: UITableView!
     
     var searchViewProtocol: MapBusRoadDelegate?
+    var mainViewDelegate: MainViewDelegate?
     var busResults: [String] = []
     var bestMatches: [String] = []
     var favourites: List<Location>?
