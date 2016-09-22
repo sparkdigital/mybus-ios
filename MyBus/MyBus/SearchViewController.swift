@@ -11,7 +11,7 @@ import Mapbox
 import RealmSwift
 
 protocol MapBusRoadDelegate {
-    func newBusRoad(mapBusRoad: MapBusRoad)
+    //func newBusRoad(mapBusRoad: MapBusRoad)
     func newResults(busSearchResult: BusSearchResult)
     func newOrigin(coordinate: CLLocationCoordinate2D, address: String)
     func newDestination(coordinate: CLLocationCoordinate2D, address: String)
@@ -28,7 +28,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
     var busResults: [String] = []
     var bestMatches: [String] = []
     var favourites: List<Location>?
-    var roadResultList: [MapBusRoad] = []
+    //var roadResultList: [MapBusRoad] = []
     var streetSuggestionsDataSource: SearchDataSource!
     let progressNotification = ProgressHUD()
 
