@@ -64,6 +64,10 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     // MARK: - Tapping Methods
 
     @IBAction func locateUserButtonTap(sender: AnyObject) {
+        self.showUserLocation()
+    }
+    
+    func showUserLocation() {
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
             self.mapView.showsUserLocation = true

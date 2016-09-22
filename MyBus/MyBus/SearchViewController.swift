@@ -18,6 +18,9 @@ protocol MapBusRoadDelegate {
     func newCompleteBusRoute(route: CompleteBusRoute)
 }
 
+protocol MainViewDelegate: class{
+    func loadPositionMainView()
+}
 
 class SearchViewController: UIViewController, UITableViewDelegate
 {
@@ -40,9 +43,15 @@ class SearchViewController: UIViewController, UITableViewDelegate
         self.streetSuggestionsDataSource = SearchDataSource()
         self.searchTableView.delegate = self
         self.searchTableView.dataSource = streetSuggestionsDataSource
-  
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tappedCurrentLocation))
         let view = UINib(nibName:"HeaderTableView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+        view.addGestureRecognizer(tap)
         self.searchTableView.tableHeaderView = view;
+    }
+    
+    func tappedCurrentLocation(){
+        self.mainViewDelegate?.loadPositionMainView()
     }
 
     override func viewDidAppear(animated: Bool) {
