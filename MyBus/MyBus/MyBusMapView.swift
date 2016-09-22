@@ -13,6 +13,10 @@ import MapKit
 import MapboxDirections
 
 //Annotations
+class MyBusMarkerAddressPoint:MyBusMarker {}
+class MyBusMarkerBusStopPoint:MyBusMarker{}
+class MyBusMarkerRechargePoint:MyBusMarker{}
+
 class MyBusMarker: MGLPointAnnotation {
     var markerImageIdentifier:String?
     var markerImage:MGLAnnotationImage? {
@@ -83,12 +87,12 @@ class MyBusMarkerFactory {
     }
     
     class func createOriginPointMarker(coord:CLLocationCoordinate2D, address:String)->MGLAnnotation{
-        let marker = MyBusMarker(position: coord, title: "Origen", subtitle: address, imageIdentifier: "markerOrigen")
+        let marker = MyBusMarkerAddressPoint(position: coord, title: "Origen", subtitle: address, imageIdentifier: "markerOrigen")
         return marker
     }
     
     class func createDestinationPointMarker(coord:CLLocationCoordinate2D, address:String)->MGLAnnotation{
-        let marker = MyBusMarker(position: coord, title: "Destino", subtitle: address, imageIdentifier: "markerDestino")
+        let marker = MyBusMarkerAddressPoint(position: coord, title: "Destino", subtitle: address, imageIdentifier: "markerDestino")
         return marker
     }
     
@@ -97,7 +101,7 @@ class MyBusMarkerFactory {
          case MyBusTitle.StopOriginTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
          */
-        let marker = MyBusMarker(position: coord, title: address, subtitle: "", imageIdentifier: "stopOrigen")
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: address, subtitle: "", imageIdentifier: "stopOrigen")
         return marker
     }
     
@@ -107,7 +111,7 @@ class MyBusMarkerFactory {
          case MyBusTitle.StopDestinationTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
          */
-        let marker = MyBusMarker(position: coord, title: address, subtitle: "", imageIdentifier: "stopDestino")
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: address, subtitle: "", imageIdentifier: "stopDestino")
         return marker
 
     }
@@ -133,6 +137,11 @@ class MyBusMarkerFactory {
          */
     }
     
+    class func createRechargePointMarker(point:RechargePoint)-> MyBusMarkerRechargePoint{
+        let position = CLLocationCoordinate2DMake(point.location.latitude, point.location.longitude)
+        let marker = MyBusMarkerRechargePoint(position: position, title: point.name, subtitle: point.address, imageIdentifier: "map_charge")
+        return marker
+    }
 }
 
 // MARK: Polyline factory methods
@@ -266,6 +275,10 @@ class MyBusMapView:MGLMapView{
         }
     }
     
+    var annotationIsRechargePointClosure:(MGLAnnotation)->Bool = { annotation in
+        return (annotation is MyBusMarkerRechargePoint)
+    }
+    
     
     func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
         // Give our polyline a unique color by checking for its `title` property
@@ -323,11 +336,13 @@ class MyBusMapView:MGLMapView{
     func centerMapWithGPSLocation(){}
     
     func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
-        for point in rechargePoints {
-            let annotation = MyBusMarker(position: CLLocationCoordinate2D(latitude: point.location.latitude, longitude: point.location.longitude), title: point.name, subtitle: point.address, imageIdentifier: nil)
-            self.addAnnotation(annotation)
+        
+        let rechargePointAnnotations = rechargePoints.map { (point:RechargePoint) -> MyBusMarkerRechargePoint in
+            return MyBusMarkerFactory.createRechargePointMarker(point)
         }
+        self.addAnnotations(rechargePointAnnotations)
         self.fitToAnnotationsInMap()
+    
     }
     
     func getMarkerImage(imageResourceIdentifier: String, annotationTitle: String) -> MGLAnnotationImage {
@@ -468,6 +483,10 @@ class MyBusMapView:MGLMapView{
     
     func clearExistingBusRouteAnnotations(){
         self.clearAnnotations(annotationPartOfCompleteRouteClosure)
+    }
+    
+    func clearRechargePointAnnotations(){
+        self.clearAnnotations(annotationIsRechargePointClosure)
     }
     
     private func clearAnnotations(criteriaClosure:((MGLAnnotation)->Bool)? = nil){

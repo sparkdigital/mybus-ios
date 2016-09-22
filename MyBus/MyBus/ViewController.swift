@@ -266,6 +266,10 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
         self.mapView.addRechargePoints(rechargePoints)
     }
+    
+    func clearRechargePoints(){
+        self.mapView.clearRechargePointAnnotations()       
+    }
 
     func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
         progressNotification.showLoadingNotification(self.view)
