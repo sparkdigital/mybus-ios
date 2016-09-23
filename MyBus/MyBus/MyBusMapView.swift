@@ -101,7 +101,7 @@ class MyBusMarkerFactory {
          case MyBusTitle.StopOriginTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
          */
-        let marker = MyBusMarkerBusStopPoint(position: coord, title: address, subtitle: "", imageIdentifier: "stopOrigen")
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopOriginTitle.rawValue, subtitle: address, imageIdentifier: "stopOrigen")
         return marker
     }
     
@@ -111,7 +111,7 @@ class MyBusMarkerFactory {
          case MyBusTitle.StopDestinationTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
          */
-        let marker = MyBusMarkerBusStopPoint(position: coord, title: address, subtitle: "", imageIdentifier: "stopDestino")
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopDestinationTitle.rawValue, subtitle: address, imageIdentifier: "stopDestino")
         return marker
 
     }
