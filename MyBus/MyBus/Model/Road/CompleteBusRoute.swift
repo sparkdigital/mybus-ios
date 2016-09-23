@@ -20,11 +20,9 @@ class CompleteBusRoute {
         completeBusRoute.busLineName = busLineName
 
         if let results = json["Results"].array {
-            var points: [RoutePoint] = []
-            for point in results {
-                points.append(RoutePoint.parse(point))
-            }
-            completeBusRoute.goingPointList = points
+            completeBusRoute.goingPointList = results.map({ (point: JSON) -> RoutePoint in
+                RoutePoint.parse(point)
+            })
         }
         return completeBusRoute
     }
@@ -86,10 +84,9 @@ class CompleteBusRoute {
         //Going route
         var busRouteCoordinates: [CLLocationCoordinate2D] = []
         if goingPointList.count > 0 {
-            for point in goingPointList {
-                let coordinate = CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
-                busRouteCoordinates.append(coordinate)
-            }
+            busRouteCoordinates = goingPointList.map({ (point: RoutePoint) -> CLLocationCoordinate2D in
+                return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+            })
             let busPolylineGoing = MGLPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
             busPolylineGoing.title = "Going"
             roadLists.append(busPolylineGoing)
@@ -98,10 +95,9 @@ class CompleteBusRoute {
         //Return route
         if returnPointList.count > 0 {
             busRouteCoordinates = []
-            for point in returnPointList {
-                let coordinate = CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
-                busRouteCoordinates.append(coordinate)
-            }
+            busRouteCoordinates = returnPointList.map({ (point: RoutePoint) -> CLLocationCoordinate2D in
+                return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+            })
             let busPolylineReturn = MGLPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
             busPolylineReturn.title = "Return"
             roadLists.append(busPolylineReturn)
