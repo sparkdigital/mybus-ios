@@ -260,11 +260,11 @@ class MyBusMapView:MGLMapView{
         }
         
         switch annotationTitle{
-        case MyBusTitle.StartCompleteBusRoute.rawValue:
+        case ~/MyBusTitle.StartCompleteBusRoute.rawValue:
             return true
-        case MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
+        case ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
             return true
-        case MyBusTitle.EndCompleteBusRoute.rawValue:
+        case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
             return true
         case "Going":
             return true
