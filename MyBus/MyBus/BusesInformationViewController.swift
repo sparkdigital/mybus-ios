@@ -22,6 +22,7 @@ class BusesInformationViewController: UIViewController, UITableViewDelegate
         self.busesInformationDataSource = BusesInformationDataSource()
         self.informationTableView.delegate = self
         self.informationTableView.dataSource = busesInformationDataSource
+        self.informationTableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 100.0, 0.0)
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
