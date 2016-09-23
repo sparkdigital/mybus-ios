@@ -415,8 +415,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
             } else {
-                let bounds = self.mapView.getOriginAndDestinationInMapsBounds(mapView.destination, secondPoint: mapView.origin)
-                self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
                 self.mapView.fitToAnnotationsInMap()
             }
         }
