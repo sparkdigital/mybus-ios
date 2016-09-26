@@ -11,7 +11,7 @@ import UIKit
 import MapKit
 
 
-class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate, UITabBarDelegate {
+class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate, UITabBarDelegate, MainViewDelegate {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -40,6 +40,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
         self.mapViewController = self.buildComponentVC(kMapViewIdentifier) as! ViewController
         self.searchViewController = self.buildComponentVC(kSearchViewIdentifier) as! SearchViewController
+        self.searchViewController.mainViewDelegate = self
         self.busesRatesViewController = self.buildComponentVC(kRatesViewIdentifier) as! BusesRatesViewController
         self.busesInformationViewController = self.buildComponentVC(kInformationViewIdentifier) as! BusesInformationViewController
         self.currentViewController = mapViewController
@@ -120,6 +121,14 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         }
     }
 
+    // MARK: - MainViewDelegate Methods
+    
+    func loadPositionMainView() {
+        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+        self.currentViewController = self.mapViewController
+        self.mapViewController.showUserLocation()
+    }
+    
     // MARK: - MapBusRoadDelegate Methods
 
     //func newBusRoad(mapBusRoad: MapBusRoad) {
