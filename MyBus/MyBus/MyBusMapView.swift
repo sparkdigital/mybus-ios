@@ -101,7 +101,7 @@ class MyBusMarkerFactory {
          case MyBusTitle.StopOriginTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
          */
-        let marker = MyBusMarkerBusStopPoint(position: coord, title: address, subtitle: "", imageIdentifier: "stopOrigen")
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopOriginTitle.rawValue, subtitle: address, imageIdentifier: "stopOrigen")
         return marker
     }
     
@@ -111,7 +111,7 @@ class MyBusMarkerFactory {
          case MyBusTitle.StopDestinationTitle.rawValue:
          annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
          */
-        let marker = MyBusMarkerBusStopPoint(position: coord, title: address, subtitle: "", imageIdentifier: "stopDestino")
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopDestinationTitle.rawValue, subtitle: address, imageIdentifier: "stopDestino")
         return marker
 
     }
@@ -260,11 +260,11 @@ class MyBusMapView:MGLMapView{
         }
         
         switch annotationTitle{
-        case MyBusTitle.StartCompleteBusRoute.rawValue:
+        case ~/MyBusTitle.StartCompleteBusRoute.rawValue:
             return true
-        case MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
+        case ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
             return true
-        case MyBusTitle.EndCompleteBusRoute.rawValue:
+        case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
             return true
         case "Going":
             return true
@@ -358,10 +358,6 @@ class MyBusMapView:MGLMapView{
         clearExistingBusRoadAnnotations()
         clearExistingBusRouteAnnotations()
         
-        //let bounds = getOriginAndDestinationInMapsBounds((route.goingPointList.first?.getLatLong())!, secondPoint: (route.returnPointList.first?.getLatLong())!)
-        
-        //self.setVisibleCoordinateBounds(bounds, animated: true)
-        
         for marker in route.getMarkersAnnotation() {
             self.addAnnotation(marker)
         }
@@ -375,11 +371,7 @@ class MyBusMapView:MGLMapView{
     func addBusRoad(roadResult: RoadResult) {        
         let walkingRoutes = roadResult.walkingRoutes
         
-        //let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
-        
         clearExistingBusRoadAnnotations()
-        
-        //self.setVisibleCoordinateBounds(bounds, animated: true)
         
         for walkingRoute in walkingRoutes {
             let walkingPolyline = MyBusPolylineFactory.createWalkingPathPolyline(walkingRoute, title:MyBusTitle.WalkingPathTitle.rawValue)
@@ -414,57 +406,9 @@ class MyBusMapView:MGLMapView{
         // Declare the marker point and set its coordinates
         let destinationMarker = MyBusMarkerFactory.createDestinationPointMarker(destination, address: address)
         
-        //let bounds = getOriginAndDestinationInMapsBounds(self.destination!, secondPoint: self.origin!)
-        //self.setVisibleCoordinateBounds(bounds, animated:true)
         self.addAnnotation(destinationMarker)
         self.fitToAnnotationsInMap()
        
-    }
-
-    
-    
-    // MARK: - Map bus road annotations utils Methods
-    /**
-     What are we doing in this method?
-     
-     Having origin and destination coordinate, we have to define an area (aka bounds) where user can see all markers in map
-     
-     First of all we define which position is more at south & north, and we create a padding of 800 mts for each one.
-     Then we have to know if south or north is more at east to define for each one a longitude padding
-     Finally we create new coordinate with padding included and build bounds with each corners
-     */
-    func getOriginAndDestinationInMapsBounds(firstPoint: CLLocationCoordinate2D, secondPoint: CLLocationCoordinate2D) -> MGLCoordinateBounds {
-        var south, north: CLLocationCoordinate2D
-        let latitudinalMeters: CLLocationDistance = 800
-        let longitudinalMeters: CLLocationDistance = -800
-        let southLongitudinal, northLongitudinal: CLLocationDistance
-        
-        if firstPoint.latitude < secondPoint.latitude {
-            south = firstPoint
-            north = secondPoint
-        } else {
-            south = secondPoint
-            north = firstPoint
-        }
-        
-        if south.longitude < north.longitude {
-            southLongitudinal = -800
-            northLongitudinal = 800
-        } else {
-            southLongitudinal = 800
-            northLongitudinal = -800
-        }
-        
-        // We move future Northcorner of bounds further north and more to west
-        let northeastCornerPadding = MKCoordinateRegionMakeWithDistance(north, latitudinalMeters, northLongitudinal)
-        // We move future Southcorner of bounds further south and more to east
-        let southwestCornerPadding = MKCoordinateRegionMakeWithDistance(south, longitudinalMeters, southLongitudinal)
-        
-        let northeastCorner = CLLocationCoordinate2D(latitude: north.latitude + northeastCornerPadding.span.latitudeDelta, longitude: north.longitude + northeastCornerPadding.span.longitudeDelta)
-        let southwestCorner = CLLocationCoordinate2D(latitude: south.latitude + southwestCornerPadding.span.latitudeDelta, longitude: south.longitude + southwestCornerPadding.span.longitudeDelta)
-        
-        let markerResultsBounds = MGLCoordinateBounds(sw: southwestCorner, ne: northeastCorner)
-        return markerResultsBounds
     }
     
     func fitToAnnotationsInMap() -> Void {
