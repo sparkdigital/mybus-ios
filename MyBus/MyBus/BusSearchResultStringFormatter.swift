@@ -13,11 +13,9 @@ extension BusSearchResult {
      :returns: Array of bus result string
     */
     func stringifyBusRoutes() -> [String] {
-        var busResults: [String] = []
-        for busRouteResult in self.busRouteOptions {
-            busResults.append(getStringBusResultRow(busRouteResult))
+        return self.busRouteOptions.map { (busRouteResult: BusRouteResult) -> String in
+            getStringBusResultRow(busRouteResult)
         }
-        return busResults
     }
 
     /**
