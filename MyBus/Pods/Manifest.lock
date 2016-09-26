@@ -10,11 +10,11 @@ PODS:
   - MBProgressHUD (0.9.2)
   - NBNRequestKit (0.3.0)
   - Polyline (3.0.0)
-  - Realm (0.98.7):
-    - Realm/Headers (= 0.98.7)
-  - Realm/Headers (0.98.7)
-  - RealmSwift (0.98.7):
-    - Realm (= 0.98.7)
+  - Realm (1.1.0):
+    - Realm/Headers (= 1.1.0)
+  - Realm/Headers (1.1.0)
+  - RealmSwift (1.1.0):
+    - Realm (= 1.1.0)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -25,7 +25,7 @@ DEPENDENCIES:
   - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, tag `v0.5.0`)
   - MBProgressHUD (~> 0.9.2)
   - NBNRequestKit (from `https://github.com/1ec5/RequestKit.git`, branch `mapbox-podspec`)
-  - RealmSwift (~> 0.98.7)
+  - RealmSwift (~> 1.1.0)
   - SwiftyJSON (~> 2.3.2)
 
 EXTERNAL SOURCES:
@@ -53,10 +53,10 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   NBNRequestKit: 300c68172965d586ac6e0cefbe5a4fe415b71dbf
   Polyline: 18026fd6675f754a15e70b4fd7ca01d0d156b6d7
-  Realm: 46df2178359b6b57812e6cf957956febaba513a5
-  RealmSwift: 3056e6d7ad30ed50dd866185a615fccea73db5f5
+  Realm: ceecf1a4540c4ce9efe196fe73fa9855bce05bd8
+  RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 0f1fd90bcf19eba97c2129dffe0904f021af5572
+PODFILE CHECKSUM: 2ffa94e2f712e46770cb4192bfff4701006bcd7b
 
 COCOAPODS: 1.0.1

@@ -164,9 +164,9 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if (item.tag == 0){
-            self.cycleViewController(self.currentViewController!, toViewController: searchViewController)
-            self.currentViewController = searchViewController
-            self.setNavigation("Buscar")
+            self.mapViewController.clearRechargePoints()
+            self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
+            self.currentViewController = mapViewController            
         }
         if (item.tag == 1){
 

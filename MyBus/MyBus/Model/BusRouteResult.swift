@@ -22,26 +22,21 @@ class BusRouteResult: NSObject {
     // MARK: Parse search results
     static func parseResults(results: JSON, type: Int) -> [BusRouteResult]
     {
-        var listBusRouteResult: [BusRouteResult] = [BusRouteResult]()
+        let listBusRouteResult: [BusRouteResult] = [BusRouteResult]()
 
         if let routes = results.array
         {
             switch type
             {
             case 0:
-                for route in routes
-                {
-                    let busRoute: BusRouteResult = parseSingleRoute(route)
-                    listBusRouteResult.append(busRoute)
-                }
-                return listBusRouteResult
+                return routes.map({ (route: JSON) -> BusRouteResult in
+                    return parseSingleRoute(route)
+                })
+                
             case 1:
-                for route in routes
-                {
-                    let busRoute: BusRouteResult = parseCombinedRoute(route)
-                    listBusRouteResult.append(busRoute)
-                }
-                return listBusRouteResult
+                return routes.map({ (route: JSON) -> BusRouteResult in
+                    return parseCombinedRoute(route)
+                })
             default:
                 return listBusRouteResult
             }
