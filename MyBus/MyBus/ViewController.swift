@@ -170,9 +170,14 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
 
     func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
 
+        if let myBusMarker = annotation as? MyBusMarker {
+            return myBusMarker.markerImage
+        }
+        
         let annotationTitle = annotation.title!! as String
         let imageName = "marker"+annotation.title!! as String
-
+        
+        
         var annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier(annotationTitle)
         if annotationImage == nil {
             switch annotationTitle {
@@ -415,8 +420,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(selectedRoute)
             } else {
-                let bounds = self.mapView.getOriginAndDestinationInMapsBounds(mapView.destination, secondPoint: mapView.origin)
-                self.mapView.setVisibleCoordinateBounds(bounds, animated: true)
                 self.mapView.fitToAnnotationsInMap()
             }
         }
