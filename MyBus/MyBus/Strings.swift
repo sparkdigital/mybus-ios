@@ -16,4 +16,6 @@ enum MyBusTitle: String {
     case StartCompleteBusRoute = "Inicio"
     case EndCompleteBusRoute = "Fin"
     case SameStartEndCompleteBusRoute = "Inicio y fin"
+    case DestinationTitle = "Destino"
+    case OriginTitle = "Origen"
 }
