@@ -12,8 +12,8 @@ import RealmSwift
 class CompleteBusItineray: Object {
     dynamic var busLineName: String = ""
     dynamic var savedDate: NSDate = NSDate()
-    let goingIntinerayPoint = List<RoutePoint>()
-    let returnIntinerayPoint = List<RoutePoint>()
+    let goingItineraryPoint = List<RoutePoint>()
+    let returnItineraryPoint = List<RoutePoint>()
 
     override static func primaryKey() -> String? {
         return "busLineName"
