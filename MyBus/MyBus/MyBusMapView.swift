@@ -368,6 +368,16 @@ class MyBusMapView: MGLMapView{
         return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
 
+    func selectDestinationMarker() -> Void {
+        if let annotations = self.annotations {
+            for annotation in annotations {
+                if annotation.title! == MyBusTitle.DestinationTitle.rawValue {
+                    self.setCenterCoordinate(annotation.coordinate, zoomLevel: 14, animated: false)
+                    self.selectAnnotation(annotation, animated: false)
+                }
+            }
+        }
+    }
 
     // MARK: - Mapview bus roads manipulation Methods
 
