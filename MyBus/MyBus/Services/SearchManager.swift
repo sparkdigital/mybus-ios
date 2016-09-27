@@ -75,13 +75,11 @@ public class SearchManager: NSObject {
 
      @destination coordinate of origin destination.
      */
-    func search(origin: CLLocationCoordinate2D, destination: CLLocationCoordinate2D, completionHandler: (BusSearchResult?, NSError?) -> ()) -> Void {
-        self.getBusLines(origin, destination: destination, completionHandler: {
+    func search(origin: RoutePoint, destination: RoutePoint, completionHandler: (BusSearchResult?, NSError?) -> ()) -> Void {
+        self.getBusLines(origin.getLatLong(), destination: destination.getLatLong(), completionHandler: {
             (busRouteResult, error) in
             if let result = busRouteResult {
-                let originRoutePoint = RoutePoint.parse(String(origin.latitude), longitude: String(origin.longitude))
-                let destinationRoutePoint = RoutePoint.parse(String(destination.latitude), longitude: String(destination.longitude))
-                self.currentSearch = BusSearchResult(origin: originRoutePoint, destination: destinationRoutePoint, busRoutes: result)
+                self.currentSearch = BusSearchResult(origin: origin, destination: destination, busRoutes: result)
                 completionHandler(self.currentSearch, nil)
             } else {
                 completionHandler(nil, error)
