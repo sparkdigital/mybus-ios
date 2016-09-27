@@ -184,8 +184,8 @@ public class SearchManager: NSObject {
                         //Save in device storage using Realm
                         let itineray = CompleteBusItineray()
                         itineray.busLineName = completeRoute.busLineName
-                        itineray.goingIntinerayPoint.appendContentsOf(completeRoute.goingPointList)
-                        itineray.returnIntinerayPoint.appendContentsOf(completeRoute.returnPointList)
+                        itineray.goingItineraryPoint.appendContentsOf(completeRoute.goingPointList)
+                        itineray.returnItineraryPoint.appendContentsOf(completeRoute.returnPointList)
                         itineray.savedDate = NSDate()
 
                         let realm = try! Realm()
@@ -222,8 +222,8 @@ public class SearchManager: NSObject {
             } else {
                 let route = CompleteBusRoute()
                 route.busLineName = busItinerary.busLineName
-                route.goingPointList = Array(busItinerary.goingIntinerayPoint)
-                route.returnPointList = Array(busItinerary.returnIntinerayPoint)
+                route.goingPointList = Array(busItinerary.goingItineraryPoint)
+                route.returnPointList = Array(busItinerary.returnItineraryPoint)
 
                 completion(route, nil)
             }
