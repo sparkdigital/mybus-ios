@@ -8,10 +8,11 @@
 
 import Foundation
 import SwiftyJSON
+import MapKit
 
 protocol GisServiceDelegate {
     func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
-    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
+    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
 }
 
 public class GisService: NSObject, GisServiceDelegate {
@@ -28,22 +29,22 @@ public class GisService: NSObject, GisServiceDelegate {
         completionHandler(streetsFiltered, nil)
     }
 
-    public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
+    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
-        /*
-         Sample of the response returned by the api for a given coordinate
-         
-         [GIS SERVICE] Address Found! -> 
-         {
-            "calle" : "CATAMARCA",
-            "codcalle" : "00457",
-            "altura" : "1300"
-         }
-         
-         */
-        
-        let request = GISRouter.CoordinateToAddress(latitude: latitude, longitude: longitude).URLRequest
-        BaseNetworkService.performRequest(request, completionHandler: completionHandler)
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) {
+            placemarks, error in
+            if let placemark = placemarks?.first {
+                let point = RoutePoint()
+                point.latitude = String(latitude)
+                point.longitude = String(longitude)
+                if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
+                    let address = "\(street as String) \(houseNumber as String)"
+                    point.address = address
+                }
+                completionHandler(point, nil)
+            }
+            completionHandler(nil, error)
+        }
     }
 }
