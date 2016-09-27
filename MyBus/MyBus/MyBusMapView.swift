@@ -54,30 +54,30 @@ class MyBusMarkerFactory {
             switch busRouteType {
             case .Single:
 
-                let stopOriginMapPoint = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: MyBusTitle.StopOriginTitle.rawValue)
+                let stopOriginMapPoint = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: (firstRoute.pointList.first?.address)!)
                 roadStopsMarkerList.append(stopOriginMapPoint)
 
-                let stopDestinationMapPoint = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: MyBusTitle.StopDestinationTitle.rawValue)
+                let stopDestinationMapPoint = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: (firstRoute.pointList.last?.address)!)
                 roadStopsMarkerList.append(stopDestinationMapPoint)
 
             case .Combined:
                 //First bus
                 // StopOriginRouteOne
-                let mapStopOriginRouteOne = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: MyBusTitle.StopOriginTitle.rawValue)
+                let mapStopOriginRouteOne = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: (firstRoute.pointList.first?.address)!)
                 roadStopsMarkerList.append(mapStopOriginRouteOne)
 
                 // StopDestinationRouteOne
-                let mapStopDestinationRouteOne = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: MyBusTitle.StopDestinationTitle.rawValue)
+                let mapStopDestinationRouteOne = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: (firstRoute.pointList.last?.address)!)
                 roadStopsMarkerList.append(mapStopDestinationRouteOne)
 
                 // Second bus
                 // StopOriginRouteTwo
-                let mapStopOriginRouteTwo = MyBusMarkerFactory.createBusStopOriginMarker(lastRoute.getFirstLatLng(), address: MyBusTitle.StopOriginTitle.rawValue)
+                let mapStopOriginRouteTwo = MyBusMarkerFactory.createBusStopOriginMarker(lastRoute.getFirstLatLng(), address: (lastRoute.pointList.first?.address)!)
 
                 roadStopsMarkerList.append(mapStopOriginRouteTwo)
 
                 // StopDestinationRouteTwo
-                let mapStopDestinationRouteTwo = MyBusMarkerFactory.createBusStopDestinationMarker(lastRoute.getLastLatLng(), address: MyBusTitle.StopDestinationTitle.rawValue)
+                let mapStopDestinationRouteTwo = MyBusMarkerFactory.createBusStopDestinationMarker(lastRoute.getLastLatLng(), address: (lastRoute.pointList.last?.address)!)
 
                 roadStopsMarkerList.append(mapStopDestinationRouteTwo)
             }
@@ -87,12 +87,12 @@ class MyBusMarkerFactory {
     }
 
     class func createOriginPointMarker(coord: CLLocationCoordinate2D, address: String)->MGLAnnotation{
-        let marker = MyBusMarkerAddressPoint(position: coord, title: "Origen", subtitle: address, imageIdentifier: "markerOrigen")
+        let marker = MyBusMarkerAddressPoint(position: coord, title: MyBusTitle.OriginTitle.rawValue, subtitle: address, imageIdentifier: "markerOrigen")
         return marker
     }
 
     class func createDestinationPointMarker(coord: CLLocationCoordinate2D, address: String)->MGLAnnotation{
-        let marker = MyBusMarkerAddressPoint(position: coord, title: "Destino", subtitle: address, imageIdentifier: "markerDestino")
+        let marker = MyBusMarkerAddressPoint(position: coord, title: MyBusTitle.DestinationTitle.rawValue, subtitle: address, imageIdentifier: "markerDestino")
         return marker
     }
 
@@ -193,7 +193,7 @@ class MyBusPolylineFactory {
 
 
 @IBDesignable
-class MyBusMapView:MGLMapView{
+class MyBusMapView: MGLMapView{
 
 
     // This needs to be refactored
@@ -339,7 +339,7 @@ class MyBusMapView:MGLMapView{
 
     */
 
-    func initialize(delegate:MGLMapViewDelegate){
+    func initialize(delegate: MGLMapViewDelegate){
         self.maximumZoomLevel = maxZoomLevel
         self.minimumZoomLevel = minZoomLevel
         self.userTrackingMode = .None
