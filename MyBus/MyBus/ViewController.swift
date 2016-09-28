@@ -93,13 +93,38 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         }
     }
 
+    // MARK: - Private Methods
+
+    func dismissSearchController(controller: UIViewController) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    // MARK: - Memory Management Methods
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    // MARK: - Mapbox delegate methods
+
+    func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
+        if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
+            startOfflinePackDownload()
+        }
+    }
+
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
     }
 
     /**
-        This method sets the button of the annotation
-    */
+     This method sets the button of the annotation
+     */
     func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
         let annotationTitle = annotation.title!! as String
         // Only display button when marker is with Destino title
@@ -112,8 +137,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
     }
 
     /**
-        This method makes the search when the button is pressed on the annotation
-    */
+     This method makes the search when the button is pressed on the annotation
+     */
     func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
         // Hide the callout view.
         mapView.deselectAnnotation(annotation, animated: false)
@@ -143,28 +168,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         } else {
             self.progressNotification.stopLoadingNotification(self.view)
             GenerateMessageAlert.generateAlertToSetting(self)
-        }
-    }
-    // MARK: - Private Methods
-
-    func dismissSearchController(controller: UIViewController) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    // MARK: - Memory Management Methods
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
-        if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
-            startOfflinePackDownload()
         }
     }
 
