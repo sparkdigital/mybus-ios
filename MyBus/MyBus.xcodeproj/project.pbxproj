@@ -54,6 +54,7 @@
 		C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */; };
 		C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */; };
 		C55C0D981D9B0893001B194C /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C55C0D971D9B0893001B194C /* SearchView.xib */; };
+		C5644A741D9C543A00A9A918 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5644A731D9C543A00A9A918 /* SearchView.swift */; };
 		C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */; };
 		C57886F91D7DC2050056A5E1 /* BusesRatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */; };
 		C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */; };
@@ -130,6 +131,7 @@
 		C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMessageAlert.swift; sourceTree = "<group>"; };
 		C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		C55C0D971D9B0893001B194C /* SearchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
+		C5644A731D9C543A00A9A918 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesTableViewCell.swift; sourceTree = "<group>"; };
 		C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesViewController.swift; sourceTree = "<group>"; };
 		C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesDataSource.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */,
 				11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */,
 				114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */,
+				C5644A731D9C543A00A9A918 /* SearchView.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -604,6 +607,7 @@
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */,
 				08EC58531CBD482400E8410A /* ViewController.swift in Sources */,
+				C5644A741D9C543A00A9A918 /* SearchView.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
 				C5B96F0C1D834C8F0073B990 /* BusesInformationViewController.swift in Sources */,
 				A0CF2BAF1D88A9F80044499F /* RechargePoint.swift in Sources */,
