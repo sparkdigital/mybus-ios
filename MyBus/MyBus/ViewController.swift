@@ -328,25 +328,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         self.mapView.clearExistingBusRouteAnnotations()
     }
 
-    // MARK: - UIPopoverPresentationControllerDelegate Methods
-
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .None
-    }
-
-    func prepareForPopoverPresentation(popoverPresentationController: UIPopoverPresentationController) {
-        print("prepare for presentation")
-    }
-
-    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
-        print("did dismiss")
-    }
-
-    func popoverPresentationControllerShouldDismissPopover(popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        print("should dismiss")
-        return true
-    }
-
     // MARK: - Pack Download
 
     func startOfflinePackDownload() {
