@@ -13,7 +13,7 @@ import MapKit
 import MapboxDirections
 import Polyline
 
-class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate {
+class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDelegate {
 
     @IBOutlet weak var busResultsTableView: UITableView!
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
@@ -44,9 +44,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         mapView.initialize(self)
 
         // Setup offline pack notification handlers.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
 
         // Double tapping zooms the map, so ensure that can still happen
         let doubleTap = UITapGestureRecognizer(target: self, action: nil)
@@ -54,7 +54,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
         mapView.addGestureRecognizer(doubleTap)
 
         // Delay single tap recognition until it is clearly not a double
-        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleSingleLongTap(_:)))
+        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MyBusMapController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         mapView.addGestureRecognizer(singleLongTap)
     }
@@ -91,12 +91,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, UITableViewDelegate 
             }
             self.progressNotification.stopLoadingNotification(self.view)
         }
-    }
-
-    // MARK: - Private Methods
-
-    func dismissSearchController(controller: UIViewController) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: - Memory Management Methods

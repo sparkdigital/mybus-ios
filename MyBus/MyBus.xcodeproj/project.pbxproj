@@ -10,7 +10,7 @@
 		087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087E76EF1CBEA5D800FB6050 /* Connectivity.swift */; };
 		087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */; };
 		08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58501CBD482400E8410A /* AppDelegate.swift */; };
-		08EC58531CBD482400E8410A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58521CBD482400E8410A /* ViewController.swift */; };
+		08EC58531CBD482400E8410A /* MyBusMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58521CBD482400E8410A /* MyBusMapController.swift */; };
 		08EC58561CBD482400E8410A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08EC58541CBD482400E8410A /* Main.storyboard */; };
 		08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08EC58571CBD482400E8410A /* MyBus.xcdatamodeld */; };
 		08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08EC585A1CBD482400E8410A /* Assets.xcassets */; };
@@ -81,7 +81,7 @@
 		087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		08EC584D1CBD482400E8410A /* MyBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EC58501CBD482400E8410A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		08EC58521CBD482400E8410A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		08EC58521CBD482400E8410A /* MyBusMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBusMapController.swift; sourceTree = "<group>"; };
 		08EC58551CBD482400E8410A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		08EC58581CBD482400E8410A /* MyBus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyBus.xcdatamodel; sourceTree = "<group>"; };
 		08EC585A1CBD482400E8410A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,6 +189,7 @@
 				C581F8011D9D562800DF6663 /* NavRouter.swift */,
 				A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */,
 				08EC58731CBD486000E8410A /* Controllers */,
+				110795781D9C518800D63CE4 /* DataSources */,
 				11F2CFEE1D6388BE00862324 /* Managers */,
 				08EC58751CBD486D00E8410A /* Services */,
 				08EC58741CBD486600E8410A /* Model */,
@@ -211,15 +212,11 @@
 		08EC58731CBD486000E8410A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				08EC58521CBD482400E8410A /* ViewController.swift */,
+				08EC58521CBD482400E8410A /* MyBusMapController.swift */,
 				087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */,
 				11D4BEE41D343B51005E0031 /* MainViewController.swift */,
-				11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */,
 				C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */,
-				C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */,
 				C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */,
-				C5B96F0D1D834CE20073B990 /* BusesInformationDataSource.swift */,
-				C5FD67451D89CCC400460131 /* SearchDataSource.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -288,6 +285,17 @@
 				11DAE9011CC534D400A35D6A /* User.swift */,
 			);
 			name = Persistence;
+			sourceTree = "<group>";
+		};
+		110795781D9C518800D63CE4 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */,
+				C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */,
+				C5B96F0D1D834CE20073B990 /* BusesInformationDataSource.swift */,
+				C5FD67451D89CCC400460131 /* SearchDataSource.swift */,
+			);
+			name = DataSources;
 			sourceTree = "<group>";
 		};
 		11F2CFEE1D6388BE00862324 /* Managers */ = {
@@ -623,7 +631,7 @@
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */,
-				08EC58531CBD482400E8410A /* ViewController.swift in Sources */,
+				08EC58531CBD482400E8410A /* MyBusMapController.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
 				C5B96F0C1D834C8F0073B990 /* BusesInformationViewController.swift in Sources */,
 				A0CF2BAF1D88A9F80044499F /* RechargePoint.swift in Sources */,
