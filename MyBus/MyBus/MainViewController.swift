@@ -25,24 +25,21 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     var searchViewController: SearchViewController!
     var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
+    var navRouter: NavRouter!
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
-    //Storyboard view controller identifiers
-    let kSearchViewIdentifier: String = "SearchViewController"
-    let kMapViewIdentifier: String = "MapViewController"
-    let kRatesViewIdentifier: String = "BusesRatesViewController"
-    let kInformationViewIdentifier: String = "BusesInformationViewController"
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.mapViewController = self.buildComponentVC(kMapViewIdentifier) as! ViewController
-        self.searchViewController = self.buildComponentVC(kSearchViewIdentifier) as! SearchViewController
+        
+        self.navRouter = NavRouter()
+        self.mapViewController =  self.navRouter.mapViewController() as! ViewController
+        self.searchViewController = self.navRouter.searchController() as! SearchViewController
         self.searchViewController.mainViewDelegate = self
-        self.busesRatesViewController = self.buildComponentVC(kRatesViewIdentifier) as! BusesRatesViewController
-        self.busesInformationViewController = self.buildComponentVC(kInformationViewIdentifier) as! BusesInformationViewController
+        self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
+        self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
+        
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
@@ -56,12 +53,6 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.navigationItem.titleView = titleView
             
         self.tabBar.delegate = self
-    }
-
-    //Method that receives a storyboard string identifier and returns a view controller object
-    func buildComponentVC(identifier: String)->UIViewController {
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        return storyboard.instantiateViewControllerWithIdentifier(identifier)
     }
 
     //Method that receives a subview and adds it to the parentView with autolayout constraints
