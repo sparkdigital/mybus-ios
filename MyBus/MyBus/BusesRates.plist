@@ -6,7 +6,7 @@
 	<string>$6,86</string>
 	<key>511 - Golf Club</key>
 	<string>$7,36</string>
-	<key>511 - Chapadmalal</key>
+	<key>511 - Col. Chapadmalal</key>
 	<string>$8,96</string>
 	<key>511 - San Eduardo</key>
 	<string>$10,88</string>
@@ -14,9 +14,13 @@
 	<string>$7,36</string>
 	<key>542 - Aquasol</key>
 	<string>$8,96</string>
-	<key>717 - Km 10 Ruta 226</key>
+	<key>715/720 - Batán</key>
+	<string>$8,72</string>
+	<key>715/720 - Chapadmalal</key>
+	<string>$9,60</string>
+	<key>717 - Ruta 226, km. 10</key>
 	<string>$6,12</string>
-	<key>717 - Km 13 Ruta 226</key>
+	<key>717 - Ruta 226, km. 13</key>
 	<string>$8,96</string>
 	<key>717 - Country Club</key>
 	<string>$9,81</string>
@@ -26,9 +30,5 @@
 	<string>$10,88</string>
 	<key>717 - Sierra de los Padres</key>
 	<string>$9,36</string>
-	<key>715/720 - Batán</key>
-	<string>$8,72</string>
-	<key>715/720 - Estación Chapadmalal</key>
-	<string>$9,60</string>
 </dict>
 </plist>
