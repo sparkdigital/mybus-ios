@@ -166,39 +166,10 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
 
     func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
-
         if let myBusMarker = annotation as? MyBusMarker {
             return myBusMarker.markerImage
         }
-
-        let annotationTitle = annotation.title!! as String
-        let imageName = "marker"+annotation.title!! as String
-
-
-        var annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier(annotationTitle)
-        if annotationImage == nil {
-            switch annotationTitle {
-            case MyBusTitle.OriginTitle.rawValue:
-                annotationImage =  self.mapView.getMarkerImage(imageName, annotationTitle: annotationTitle)
-            case MyBusTitle.DestinationTitle.rawValue:
-                annotationImage =  self.mapView.getMarkerImage(imageName, annotationTitle: annotationTitle)
-            case MyBusTitle.StopOriginTitle.rawValue:
-                annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
-            case MyBusTitle.StopDestinationTitle.rawValue:
-                annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
-            case ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
-                annotationImage =  self.mapView.getMarkerImage("map_from_to_route", annotationTitle: annotationTitle)
-            case ~/MyBusTitle.StartCompleteBusRoute.rawValue:
-                annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
-            case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
-                annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
-            case ~/"carga":
-                annotationImage =  self.mapView.getMarkerImage("map_charge", annotationTitle: annotationTitle)
-            default:
-                break
-            }
-        }
-        return annotationImage
+        return nil
     }
 
     func mapView(mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
