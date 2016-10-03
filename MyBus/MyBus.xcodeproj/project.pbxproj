@@ -24,6 +24,8 @@
 		11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D4BEE41D343B51005E0031 /* MainViewController.swift */; };
 		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
+		11DF624E1DA2CE0900E21320 /* SuggestedPlaces.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */; };
+		11DF62501DA2D11600E21320 /* SuggestedPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */; };
 		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
 		11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */; };
 		11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2CFEC1D63785900862324 /* BusSearchResult.swift */; };
@@ -101,6 +103,8 @@
 		11D4BEE41D343B51005E0031 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SuggestedPlaces.plist; sourceTree = "<group>"; };
+		11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuggestedPlace.swift; path = Model/SuggestedPlace.swift; sourceTree = "<group>"; };
 		11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsDataSource.swift; sourceTree = "<group>"; };
 		11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSearchResultStringFormatter.swift; sourceTree = "<group>"; };
 		11F2CFEC1D63785900862324 /* BusSearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResult.swift; path = Model/BusSearchResult.swift; sourceTree = "<group>"; };
@@ -239,6 +243,7 @@
 				11F2CFEC1D63785900862324 /* BusSearchResult.swift */,
 				A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */,
 				A0CF2BAE1D88A9F80044499F /* RechargePoint.swift */,
+				11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -281,6 +286,7 @@
 				A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */,
 				114E67091D79DD5200D8F746 /* BusColors.plist */,
 				C50CC65C1D7A17130039C316 /* BusesRates.plist */,
+				11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -460,6 +466,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08EC585E1CBD482400E8410A /* LaunchScreen.storyboard in Resources */,
+				11DF624E1DA2CE0900E21320 /* SuggestedPlaces.plist in Resources */,
 				114E670A1D79DD5500D8F746 /* BusColors.plist in Resources */,
 				A0AA4C1D1D4ABEBA00F2A1F6 /* AppConfiguration.plist in Resources */,
 				C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */,
@@ -639,6 +646,7 @@
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
 				C5B96F0E1D834CE20073B990 /* BusesInformationDataSource.swift in Sources */,
 				11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */,
+				11DF62501DA2D11600E21320 /* SuggestedPlace.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
