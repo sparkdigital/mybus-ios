@@ -16,6 +16,9 @@ import MapboxDirections
 class MyBusMarkerAddressPoint: MyBusMarker {}
 class MyBusMarkerBusStopPoint: MyBusMarker{}
 class MyBusMarkerRechargePoint: MyBusMarker{}
+class MyBusMarkerStartCompleteRoutePoint: MyBusMarker{}
+class MyBusMarkerEndCompleteRoutePoint: MyBusMarker{}
+class MyBusMarkerSameStartEndCompleteRoutePoint: MyBusMarker{}
 
 class MyBusMarker: MGLPointAnnotation {
     var markerImageIdentifier: String?
@@ -97,44 +100,34 @@ class MyBusMarkerFactory {
     }
 
     class func createBusStopOriginMarker(coord: CLLocationCoordinate2D, address: String)->MGLAnnotation{
-        /*
-         case MyBusTitle.StopOriginTitle.rawValue:
-         annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
-         */
         let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopOriginTitle.rawValue, subtitle: address, imageIdentifier: "stopOrigen")
         return marker
     }
 
 
     class func createBusStopDestinationMarker(coord: CLLocationCoordinate2D, address: String)->MGLAnnotation{
-        /*
-         case MyBusTitle.StopDestinationTitle.rawValue:
-         annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
-         */
         let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopDestinationTitle.rawValue, subtitle: address, imageIdentifier: "stopDestino")
         return marker
-
     }
 
-    class func createSameStartEndCompleteBusRouteMarker(){
-        /*
-         case ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
-         annotationImage =  self.mapView.getMarkerImage("map_from_to_route", annotationTitle: annotationTitle)
-         */
+    class func createSameStartEndCompleteBusRouteMarker(coord: CLLocationCoordinate2D, address: String, busLineName: String)->MGLAnnotation{
+        let sameStartEndTitle = "\(MyBusTitle.SameStartEndCompleteBusRoute.rawValue) \(busLineName)"
+
+        let marker = MyBusMarkerSameStartEndCompleteRoutePoint(position: coord, title: sameStartEndTitle, subtitle: address, imageIdentifier: "map_from_to_route")
+        return marker
     }
 
-    class func createStartCompleteBusRouteMarker(){
-        /*
-         case ~/MyBusTitle.StartCompleteBusRoute.rawValue:
-         annotationImage =  self.mapView.getMarkerImage("stopOrigen", annotationTitle: annotationTitle)
-         */
+    class func createStartCompleteBusRouteMarker(coord: CLLocationCoordinate2D, address: String, busLineName: String)->MGLAnnotation{
+        let startTitle = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
+
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: startTitle, subtitle: address, imageIdentifier: "stopOrigen")
+        return marker
     }
 
-    class func createEndCompleteBusRouteMarker(){
-        /*
-         case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
-         annotationImage =  self.mapView.getMarkerImage("stopDestino", annotationTitle: annotationTitle)
-         */
+    class func createEndCompleteBusRouteMarker(coord: CLLocationCoordinate2D, address: String, busLineName: String)->MGLAnnotation{
+        let endTitle = "\(MyBusTitle.EndCompleteBusRoute.rawValue) \(busLineName)"
+        let marker = MyBusMarkerBusStopPoint(position: coord, title: endTitle, subtitle: address, imageIdentifier: "stopDestino")
+        return marker
     }
 
     class func createRechargePointMarker(point: RechargePoint)-> MyBusMarkerRechargePoint{
