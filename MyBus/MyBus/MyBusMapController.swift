@@ -293,7 +293,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
 
         guard searchResults.busRouteOptions.count > 0 else {
             progressNotification.stopLoadingNotification(self.view)
-            //TODO notify user we do not have results
+            GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
             return
         }
         self.mapView.addOriginPosition(searchResults.origin.getLatLong(), address: searchResults.origin.address)
