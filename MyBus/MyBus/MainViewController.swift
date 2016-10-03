@@ -21,28 +21,26 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabBar: UITabBar!
 
-    var mapViewController: ViewController!
+    var mapViewController: MyBusMapController!
     var searchViewController: SearchViewController!
     var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
+    var navRouter: NavRouter!
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
-    //Storyboard view controller identifiers
-    let kSearchViewIdentifier: String = "SearchViewController"
-    let kMapViewIdentifier: String = "MapViewController"
-    let kRatesViewIdentifier: String = "BusesRatesViewController"
-    let kInformationViewIdentifier: String = "BusesInformationViewController"
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navRouter = NavRouter()
+        self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
+        self.searchViewController = self.navRouter.searchController() as! SearchViewController
 
-        self.mapViewController = self.buildComponentVC(kMapViewIdentifier) as! ViewController
-        self.searchViewController = self.buildComponentVC(kSearchViewIdentifier) as! SearchViewController
         self.searchViewController.mainViewDelegate = self
-        self.busesRatesViewController = self.buildComponentVC(kRatesViewIdentifier) as! BusesRatesViewController
-        self.busesInformationViewController = self.buildComponentVC(kInformationViewIdentifier) as! BusesInformationViewController
+        self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
+        self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
+        
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
@@ -51,17 +49,11 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.searchBar.layer.borderWidth = 8
         self.searchBar.delegate = self
-        
+
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
-            
-        self.tabBar.delegate = self
-    }
 
-    //Method that receives a storyboard string identifier and returns a view controller object
-    func buildComponentVC(identifier: String)->UIViewController {
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        return storyboard.instantiateViewControllerWithIdentifier(identifier)
+        self.tabBar.delegate = self
     }
 
     //Method that receives a subview and adds it to the parentView with autolayout constraints
@@ -122,13 +114,13 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     }
 
     // MARK: - MainViewDelegate Methods
-    
+
     func loadPositionMainView() {
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
         self.mapViewController.showUserLocation()
     }
-    
+
     // MARK: - MapBusRoadDelegate Methods
 
     //func newBusRoad(mapBusRoad: MapBusRoad) {
@@ -166,7 +158,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         if (item.tag == 0){
             self.mapViewController.clearRechargePoints()
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
-            self.currentViewController = mapViewController            
+            self.currentViewController = mapViewController
         }
         if (item.tag == 1){
 
@@ -203,7 +195,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
             self.setNavigation("Tarifas")
         }
     }
-    
+
     func setNavigation(Title: String){
         self.searchBar.hidden = true
         self.navigationItem.titleView = nil
@@ -213,7 +205,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         backButton.tintColor = UIColor.whiteColor()
         self.navigationItem.leftBarButtonItem = backButton
     }
-    
+
     func backTapped(){
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
