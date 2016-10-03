@@ -1,0 +1,1541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   SuggestedPlaces.plist
+   MyBus
+
+   Created by Lisandro Falconi on 10/3/16.
+   Copyright (c) 2016 Spark Digital. All rights reserved.
+-->
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+    <array>
+        <dict>
+            <key>name</key>
+            <string>UTN Mar del Plata</string>
+            <key>description</key>
+            <string>UTN Mar del Plata</string>
+            <key>address</key>
+            <string>Buque pesquero Dorrego 281</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.049191</real>
+            <key>lng</key>
+            <real>-57.54232</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Casino Central</string>
+            <key>description</key>
+            <string>Casino Central</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 2100</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.00433</real>
+            <key>lng</key>
+            <real>-57.542431</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>La fuente</string>
+            <key>description</key>
+            <string>La fuente</string>
+            <key>address</key>
+            <string>San Martin 2700</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.998764</real>
+            <key>lng</key>
+            <real>-57.548084</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza Mitre</string>
+            <key>description</key>
+            <string>Plaza Mitre</string>
+            <key>address</key>
+            <string>Av Colon 2800</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.003265</real>
+            <key>lng</key>
+            <real>-57.552891</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza San Martin</string>
+            <key>description</key>
+            <string>Plaza San Martin</string>
+            <key>address</key>
+            <string>Bartolome Mitre 1599</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.997478</real>
+            <key>lng</key>
+            <real>-57.548035</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza Colon</string>
+            <key>description</key>
+            <string>Plaza Colon</string>
+            <key>address</key>
+            <string>Buenos Aires 2100</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.005184</real>
+            <key>lng</key>
+            <real>-57.544319</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Aguas Dansantes</string>
+            <key>description</key>
+            <string>Aguas Dansantes</string>
+            <key>address</key>
+            <string>Buenos Aires 1950</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.004013</real>
+            <key>lng</key>
+            <real>-57.543392</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza de Las Provincias</string>
+            <key>description</key>
+            <string>Plaza de Las Provincias</string>
+            <key>address</key>
+            <string>Buenos Aires 1850</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.003162</real>
+            <key>lng</key>
+            <real>-57.542706</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Parque Primavesi</string>
+            <key>description</key>
+            <string>Parque Primavesi</string>
+            <key>address</key>
+            <string>Urquiza 4000</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.028355</real>
+            <key>lng</key>
+            <real>-57.540581</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza Peralta Ramos</string>
+            <key>description</key>
+            <string>Plaza Peralta Ramos</string>
+            <key>address</key>
+            <string>20 de Septiembre 2200</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.999104</real>
+            <key>lng</key>
+            <real>-57.56089</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza Rocha</string>
+            <key>description</key>
+            <string>Plaza Rocha</string>
+            <key>address</key>
+            <string>14 de Julio 1500</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.992958</real>
+            <key>lng</key>
+            <real>-57.557266</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza Pueyrredon</string>
+            <key>description</key>
+            <string>Plaza Pueyrredon</string>
+            <key>address</key>
+            <string>14 de Julio 850</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.987183</real>
+            <key>lng</key>
+            <real>-57.552631</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza EspaÃ±a</string>
+            <key>description</key>
+            <string>Plaza EspaÃ±a</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 900</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.990849</real>
+            <key>lng</key>
+            <real>-57.545158</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Parque Camet</string>
+            <key>description</key>
+            <string>Parque Camet</string>
+            <key>address</key>
+            <string>Av Fray Luis Beltran 5150</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.943241</real>
+            <key>lng</key>
+            <real>-57.538265</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Plaza del Agua</string>
+            <key>description</key>
+            <string>Plaza del Agua</string>
+            <key>address</key>
+            <string>Martin Miguel de Guemes 3250</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.018661</real>
+            <key>lng</key>
+            <real>-57.543659</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Bosque Peralta Ramos 1</string>
+            <key>description</key>
+            <string>Bosque Peralta Ramos 1</string>
+            <key>address</key>
+            <string>Av de Circunvalacion Mario Bravo 2150</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.069836</real>
+            <key>lng</key>
+            <real>-57.559017</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Bosque Peralta Ramos 2</string>
+            <key>description</key>
+            <string>Bosque Peralta Ramos 2</string>
+            <key>address</key>
+            <string>Vergara 3200</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.090519</real>
+            <key>lng</key>
+            <real>-57.564892</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Playa grande</string>
+            <key>description</key>
+            <string>Playa grande</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 5250</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.025833</real>
+            <key>lng</key>
+            <real>-57.530979</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Punta Mogotes</string>
+            <key>description</key>
+            <string>Punta Mogotes</string>
+            <key>address</key>
+            <string>Av Martinez de Hoz 1850</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.063553</real>
+            <key>lng</key>
+            <real>-57.546688</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Cabo Corrientes</string>
+            <key>description</key>
+            <string>Cabo Corrientes</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 4330</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.017036</real>
+            <key>lng</key>
+            <real>-57.525421</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Playa Varese</string>
+            <key>description</key>
+            <string>Playa Varese</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 650</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.015041</real>
+            <key>lng</key>
+            <real>-57.531818</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>ExpoIndustria</string>
+            <key>description</key>
+            <string>ExpoIndustria</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 6500</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.036388</real>
+            <key>lng</key>
+            <real>-57.538589</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Rambla</string>
+            <key>description</key>
+            <string>Rambla</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 2350</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.005428</real>
+            <key>lng</key>
+            <real>-57.542439</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Peatonal</string>
+            <key>description</key>
+            <string>Peatonal</string>
+            <key>address</key>
+            <string>San Martin 1700</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.999443</real>
+            <key>lng</key>
+            <real>-57.54686</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escollera Norte</string>
+            <key>description</key>
+            <string>Escollera Norte</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 5650</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.029247</real>
+            <key>lng</key>
+            <real>-57.534359</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Chapadmalal</string>
+            <key>description</key>
+            <string>Chapadmalal</string>
+            <key>address</key>
+            <string>Ruta Nacional 11 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.206318</real>
+            <key>lng</key>
+            <real>-57.69574</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Cementerio de la Loma</string>
+            <key>description</key>
+            <string>Cementerio de la Loma</string>
+            <key>address</key>
+            <string>Almafuerte 300</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.029461</real>
+            <key>lng</key>
+            <real>-57.538639</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Cementerio Parque</string>
+            <key>description</key>
+            <string>Cementerio Parque</string>
+            <key>address</key>
+            <string>10 de Febrero 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.058254</real>
+            <key>lng</key>
+            <real>-57.608658</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Hospital Privado de Comunidad</string>
+            <key>description</key>
+            <string>Hospital Privado de Comunidad</string>
+            <key>address</key>
+            <string>Cordoba 4550</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.022057</real>
+            <key>lng</key>
+            <real>-57.565022</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Hospital Materno Infantil</string>
+            <key>description</key>
+            <string>Hospital Materno Infantil</string>
+            <key>address</key>
+            <string>Alvarado 2550</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.010036</real>
+            <key>lng</key>
+            <real>-57.55481</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Puerto</string>
+            <key>description</key>
+            <string>Puerto</string>
+            <key>address</key>
+            <string>12 de Octubre 3000</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.045452</real>
+            <key>lng</key>
+            <real>-57.543034</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Municipalidad de Gral. Pueyrredon</string>
+            <key>description</key>
+            <string>Municipalidad de Gral. Pueyrredon</string>
+            <key>address</key>
+            <string>Hipolito Yrigoyen 1600</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.997227</real>
+            <key>lng</key>
+            <real>-57.549286</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Barrio 2 de Abril</string>
+            <key>description</key>
+            <string>Barrio 2 de Abril</string>
+            <key>address</key>
+            <string>Au Ruta Provincial 2 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.914089</real>
+            <key>lng</key>
+            <real>-57.592934</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Universidad Nacional</string>
+            <key>description</key>
+            <string>Universidad Nacional</string>
+            <key>address</key>
+            <string>Dean Funes 3250</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.004616</real>
+            <key>lng</key>
+            <real>-57.571152</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela de Artes Visuales Malharro</string>
+            <key>description</key>
+            <string>Escuela de Artes Visuales Malharro</string>
+            <key>address</key>
+            <string>Pampa 1600</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.989925</real>
+            <key>lng</key>
+            <real>-57.563339</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Capilla Santa Cecilia</string>
+            <key>description</key>
+            <string>Capilla Santa Cecilia</string>
+            <key>address</key>
+            <string>Cordoba 1338</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.996475</real>
+            <key>lng</key>
+            <real>-57.544498</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>La catedral</string>
+            <key>description</key>
+            <string>La catedral</string>
+            <key>address</key>
+            <string>San Martin 2700</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.998596</real>
+            <key>lng</key>
+            <real>-57.548744</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>El Faro</string>
+            <key>description</key>
+            <string>El Faro</string>
+            <key>address</key>
+            <string>Av Martinez de Hoz 3600</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.091354</real>
+            <key>lng</key>
+            <real>-57.545982</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Torre Tanque</string>
+            <key>description</key>
+            <string>Torre Tanque</string>
+            <key>address</key>
+            <string>Falucho 993</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.013283</real>
+            <key>lng</key>
+            <real>-57.535286</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Hospital Regional</string>
+            <key>description</key>
+            <string>Hospital Regional</string>
+            <key>address</key>
+            <string>Av Juan B Justo 6800</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.994709</real>
+            <key>lng</key>
+            <real>-57.602528</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Batan</string>
+            <key>description</key>
+            <string>Batan</string>
+            <key>address</key>
+            <string>Au Ruta Provincial 2 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.007423</real>
+            <key>lng</key>
+            <real>-57.710674</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Sierra de los Padres</string>
+            <key>description</key>
+            <string>Sierra de los Padres</string>
+            <key>address</key>
+            <string>Au Ruta Nacional 226 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.939968</real>
+            <key>lng</key>
+            <real>-57.773888</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Laguna de los Padres</string>
+            <key>description</key>
+            <string>Laguna de los Padres</string>
+            <key>address</key>
+            <string>Au Ruta Nacional 226 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.926125</real>
+            <key>lng</key>
+            <real>-57.733334</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Colinas Verdes</string>
+            <key>description</key>
+            <string>Colinas Verdes</string>
+            <key>address</key>
+            <string>Au Ruta Nacional 226 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.900764</real>
+            <key>lng</key>
+            <real>-57.812298</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Vieja Terminal</string>
+            <key>description</key>
+            <string>Vieja Terminal</string>
+            <key>address</key>
+            <string>Julian Aguirre 1650</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.01149</real>
+            <key>lng</key>
+            <real>-57.543587</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Autodromo</string>
+            <key>description</key>
+            <string>Autodromo</string>
+            <key>address</key>
+            <string>Tripulantes del Fournier 1210</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.994995</real>
+            <key>lng</key>
+            <real>-57.630783</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Nueva Terminal</string>
+            <key>description</key>
+            <string>Nueva Terminal</string>
+            <key>address</key>
+            <string>San Juan 1450</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.989025</real>
+            <key>lng</key>
+            <real>-57.561367</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Oratorio de la Inmaculada Concepcion</string>
+            <key>description</key>
+            <string>Oratorio de la Inmaculada Concepcion</string>
+            <key>address</key>
+            <string>Jujuy 77</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.982082</real>
+            <key>lng</key>
+            <real>-57.544357</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Capilla Stella Maris</string>
+            <key>description</key>
+            <string>Capilla Stella Maris</string>
+            <key>address</key>
+            <string>Almirante Brown 110</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.011898</real>
+            <key>lng</key>
+            <real>-57.535812</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Gruta de Lourdes</string>
+            <key>description</key>
+            <string>Gruta de Lourdes</string>
+            <key>address</key>
+            <string>Magallanes 4000</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.038692</real>
+            <key>lng</key>
+            <real>-57.553631</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Museo Juan Carlos Castagnino</string>
+            <key>description</key>
+            <string>Museo Juan Carlos Castagnino</string>
+            <key>address</key>
+            <string>Av Colon 1189</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.010689</real>
+            <key>lng</key>
+            <real>-57.535992</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Museo de Ciencas Naturales Lorenzo Scaglia</string>
+            <key>description</key>
+            <string>Museo de Ciencas Naturales Lorenzo Scaglia</string>
+            <key>address</key>
+            <string>Av Libertad 3099</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.990929</real>
+            <key>lng</key>
+            <real>-57.546623</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Colinas de Peralta Ramos</string>
+            <key>description</key>
+            <string>Colinas de Peralta Ramos</string>
+            <key>address</key>
+            <string>Ruta Nacional 11 4</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.09549</real>
+            <key>lng</key>
+            <real>-57.551243</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 201 (EX 107)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 201 (EX 107)</string>
+            <key>address</key>
+            <string>Calabria 2078</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.065895</real>
+            <key>lng</key>
+            <real>-57.553856</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 202 (EX 109)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 202 (EX 109)</string>
+            <key>address</key>
+            <string>Pigue 626</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.960712</real>
+            <key>lng</key>
+            <real>-57.599113</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 203 (EX 103)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 203 (EX 103)</string>
+            <key>address</key>
+            <string>Sanchez de Bustamante 3485</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.083183</real>
+            <key>lng</key>
+            <real>-57.546955</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 204 (EX 104)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 204 (EX 104)</string>
+            <key>address</key>
+            <string>Alejandro Korn 2279</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.048584</real>
+            <key>lng</key>
+            <real>-57.57159</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 205 (EX 106)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 205 (EX 106)</string>
+            <key>address</key>
+            <string>12 de Octubre 10045</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.998024</real>
+            <key>lng</key>
+            <real>-57.605747</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 206 Victoria Ocampo</string>
+            <key>description</key>
+            <string>Escuela Secundaria 206 Victoria Ocampo</string>
+            <key>address</key>
+            <string>Bernardo de Irigoyen 4951</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.036995</real>
+            <key>lng</key>
+            <real>-57.544876</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 207 (Ex 111)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 207 (Ex 111)</string>
+            <key>address</key>
+            <string>Los Granados 4550</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.925743</real>
+            <key>lng</key>
+            <real>-57.545006</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 208 (Ex 113)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 208 (Ex 113)</string>
+            <key>address</key>
+            <string>Rawson 6390</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.988235</real>
+            <key>lng</key>
+            <real>-57.591591</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>EMDER</string>
+            <key>description</key>
+            <string>EMDER</string>
+            <key>address</key>
+            <string>Av Juan B Justo 3680</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.01601</real>
+            <key>lng</key>
+            <real>-57.575336</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 209 (Ex 115)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 209 (Ex 115)</string>
+            <key>address</key>
+            <string>Mexico 3950</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.002762</real>
+            <key>lng</key>
+            <real>-57.591572</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Secundaria 210 (Ex 116)</string>
+            <key>description</key>
+            <string>Escuela Secundaria 210 (Ex 116)</string>
+            <key>address</key>
+            <string>Padre Cardiel 6062</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.964993</real>
+            <key>lng</key>
+            <real>-57.568134</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 2</string>
+            <key>description</key>
+            <string>Escuela Primaria 2</string>
+            <key>address</key>
+            <string>3 de Febrero 9511</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.961117</real>
+            <key>lng</key>
+            <real>-57.613621</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 1</string>
+            <key>description</key>
+            <string>Escuela Primaria 1</string>
+            <key>address</key>
+            <string>Magnasco 2179</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.024143</real>
+            <key>lng</key>
+            <real>-57.602242</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 10</string>
+            <key>description</key>
+            <string>Escuela Primaria 10</string>
+            <key>address</key>
+            <string>Padre Dutto 2530</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.054092</real>
+            <key>lng</key>
+            <real>-57.568424</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 12</string>
+            <key>description</key>
+            <string>Escuela Primaria 12</string>
+            <key>address</key>
+            <string>Bernardo de Irigoyen 4951</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.036995</real>
+            <key>lng</key>
+            <real>-57.544876</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 14</string>
+            <key>description</key>
+            <string>Escuela Primaria 14</string>
+            <key>address</key>
+            <string>Castelli 8050</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.981354</real>
+            <key>lng</key>
+            <real>-57.609501</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 3</string>
+            <key>description</key>
+            <string>Escuela Primaria 3</string>
+            <key>address</key>
+            <string>Sanchez de Bustamante 3485</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.083183</real>
+            <key>lng</key>
+            <real>-57.546955</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 7</string>
+            <key>description</key>
+            <string>Escuela Primaria 7</string>
+            <key>address</key>
+            <string>Calabria 8786</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.021496</real>
+            <key>lng</key>
+            <real>-57.612972</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 8</string>
+            <key>description</key>
+            <string>Escuela Primaria 8</string>
+            <key>address</key>
+            <string>Juramento 953</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.040112</real>
+            <key>lng</key>
+            <real>-57.559589</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 9</string>
+            <key>description</key>
+            <string>Escuela Primaria 9</string>
+            <key>address</key>
+            <string>Pigue 626</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.960724</real>
+            <key>lng</key>
+            <real>-57.599243</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 11</string>
+            <key>description</key>
+            <string>Escuela Primaria 11</string>
+            <key>address</key>
+            <string>Los Granados 4550</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.925743</real>
+            <key>lng</key>
+            <real>-57.545006</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 13</string>
+            <key>description</key>
+            <string>Escuela Primaria 13</string>
+            <key>address</key>
+            <string>Rawson 6390</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.988235</real>
+            <key>lng</key>
+            <real>-57.591591</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 15</string>
+            <key>description</key>
+            <string>Escuela Primaria 15</string>
+            <key>address</key>
+            <string>Mexico 3950</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.002762</real>
+            <key>lng</key>
+            <real>-57.591572</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 16</string>
+            <key>description</key>
+            <string>Escuela Primaria 16</string>
+            <key>address</key>
+            <string>Padre Cardiel 6062</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.964993</real>
+            <key>lng</key>
+            <real>-57.568134</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 4</string>
+            <key>description</key>
+            <string>Escuela Primaria 4</string>
+            <key>address</key>
+            <string>Alejandro Korn 2279</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.048584</real>
+            <key>lng</key>
+            <real>-57.57159</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Escuela Primaria 6</string>
+            <key>description</key>
+            <string>Escuela Primaria 6</string>
+            <key>address</key>
+            <string>12 de Octubre 10045</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.998192</real>
+            <key>lng</key>
+            <real>-57.605701</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>ESMET 1</string>
+            <key>description</key>
+            <string>ESMET 1</string>
+            <key>address</key>
+            <string>Av Juan B Justo 2901</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.020912</real>
+            <key>lng</key>
+            <real>-57.56871</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Estacion de Tren</string>
+            <key>description</key>
+            <string>Estacion de Tren</string>
+            <key>address</key>
+            <string>Av Pedro Luro 4550</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.988644</real>
+            <key>lng</key>
+            <real>-57.565712</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Estadio Jose Maria Minella</string>
+            <key>description</key>
+            <string>Estadio Jose Maria Minella</string>
+            <key>address</key>
+            <string>Av Juan B Justo 3740</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.018089</real>
+            <key>lng</key>
+            <real>-57.582306</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Estadio Polideportivo Islas Malvinas</string>
+            <key>description</key>
+            <string>Estadio Polideportivo Islas Malvinas</string>
+            <key>address</key>
+            <string>Av Juan B Justo 3420</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.017887</real>
+            <key>lng</key>
+            <real>-57.574451</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Natatorio Municipal</string>
+            <key>description</key>
+            <string>Natatorio Municipal</string>
+            <key>address</key>
+            <string>Av Juan B Justo 3710</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.017548</real>
+            <key>lng</key>
+            <real>-57.577499</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Gran Hotel Provincial</string>
+            <key>description</key>
+            <string>Gran Hotel Provincial</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 2502</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.006012</real>
+            <key>lng</key>
+            <real>-57.542133</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Torres de Manantiales</string>
+            <key>description</key>
+            <string>Torres de Manantiales</string>
+            <key>address</key>
+            <string>Alberti 453</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.017544</real>
+            <key>lng</key>
+            <real>-57.5313</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Facultad de ingenieria</string>
+            <key>description</key>
+            <string>Facultad de ingenieria</string>
+            <key>address</key>
+            <string>Av Juan B Justo 4302</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.012035</real>
+            <key>lng</key>
+            <real>-57.581112</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Distrito Descentralizado El Gaucho</string>
+            <key>description</key>
+            <string>Distrito Descentralizado El Gaucho</string>
+            <key>address</key>
+            <string>Av Juan B Justo 5630</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.002789</real>
+            <key>lng</key>
+            <real>-57.592205</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Colegio Nacional Dr Arturo Illia</string>
+            <key>description</key>
+            <string>Colegio Nacional Dr Arturo Illia</string>
+            <key>address</key>
+            <string>Matheu 4051</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.008842</real>
+            <key>lng</key>
+            <real>-57.575169</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Instituto Peralta Ramos</string>
+            <key>description</key>
+            <string>Instituto Peralta Ramos</string>
+            <key>address</key>
+            <string>Maipu 3351</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.988968</real>
+            <key>lng</key>
+            <real>-57.549198</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Ente municipal de turismo</string>
+            <key>description</key>
+            <string>Ente municipal de turismo</string>
+            <key>address</key>
+            <string>Belgrano 2740</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.000523</real>
+            <key>lng</key>
+            <real>-57.549709</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Barrio Felix U Camet</string>
+            <key>description</key>
+            <string>Barrio Felix U Camet</string>
+            <key>address</key>
+            <string>Ruta Nacional 11 218</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.899849</real>
+            <key>lng</key>
+            <real>-57.528633</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Ruta 2: Inicio</string>
+            <key>description</key>
+            <string>Ruta 2: Inicio</string>
+            <key>address</key>
+            <string>Av Constitucion 7700</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.951885</real>
+            <key>lng</key>
+            <real>-57.580761</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Centro de Especialidades MÃ©dicas Ambulatorias (CEMA)</string>
+            <key>description</key>
+            <string>Centro de Especialidades MÃ©dicas Ambulatorias (CEMA)</string>
+            <key>address</key>
+            <string>Av Juan B Justo 4150</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.013729</real>
+            <key>lng</key>
+            <real>-57.5807</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Sanatorio Central Emhsa</string>
+            <key>description</key>
+            <string>Sanatorio Central Emhsa</string>
+            <key>address</key>
+            <string>Av Juan B Justo 1774</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.028431</real>
+            <key>lng</key>
+            <real>-57.558678</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Aeropuerto Mar del Plata</string>
+            <key>description</key>
+            <string>Aeropuerto Mar del Plata</string>
+            <key>address</key>
+            <string>Au Ruta Provincial 2 9</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.933876</real>
+            <key>lng</key>
+            <real>-57.585224</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Casa del Puente</string>
+            <key>description</key>
+            <string>Casa del Puente</string>
+            <key>address</key>
+            <string>Matheu 3950</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.008831</real>
+            <key>lng</key>
+            <real>-57.573605</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Base Naval</string>
+            <key>description</key>
+            <string>Base Naval</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 6500</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.036388</real>
+            <key>lng</key>
+            <real>-57.538589</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Fragata Libertad</string>
+            <key>description</key>
+            <string>Fragata Libertad</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 6500</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.036388</real>
+            <key>lng</key>
+            <real>-57.538589</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Asilo Unzue</string>
+            <key>description</key>
+            <string>Asilo Unzue</string>
+            <key>address</key>
+            <string>Av Patricio Peralta Ramos 50</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.982014</real>
+            <key>lng</key>
+            <real>-57.544357</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Villa Victoria</string>
+            <key>description</key>
+            <string>Villa Victoria</string>
+            <key>address</key>
+            <string>Matheu 1851</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.01992</real>
+            <key>lng</key>
+            <real>-57.552814</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>AquaSol</string>
+            <key>description</key>
+            <string>AquaSol</string>
+            <key>address</key>
+            <string>Au Ruta Provincial 2 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.841141</real>
+            <key>lng</key>
+            <real>-57.617649</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Monumeto El Gaucho</string>
+            <key>description</key>
+            <string>Monumeto El Gaucho</string>
+            <key>address</key>
+            <string>Av Juan B Justo 6200</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.9995</real>
+            <key>lng</key>
+            <real>-57.59753</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Universidad Fasta</string>
+            <key>description</key>
+            <string>Universidad Fasta</string>
+            <key>address</key>
+            <string>Gascon 3145</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.003124</real>
+            <key>lng</key>
+            <real>-57.557545</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Barrio La Herradura</string>
+            <key>description</key>
+            <string>Barrio La Herradura</string>
+            <key>address</key>
+            <string>Av Colon 11000</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.953808</real>
+            <key>lng</key>
+            <real>-57.641186</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Camping el Griego</string>
+            <key>description</key>
+            <string>Camping el Griego</string>
+            <key>address</key>
+            <string>Av Jorge Newbery 8000</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.095158</real>
+            <key>lng</key>
+            <real>-57.602856</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Torreon del Monje</string>
+            <key>description</key>
+            <string>Torreon del Monje</string>
+            <key>address</key>
+            <string>Paseo Jesus de Galindez 1</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.008018</real>
+            <key>lng</key>
+            <real>-57.533455</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Inareps</string>
+            <key>description</key>
+            <string>Inareps</string>
+            <key>address</key>
+            <string>Av Centenario 1350</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-38.007729</real>
+            <key>lng</key>
+            <real>-57.609905</real>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Centro de Salud Numero 1 Dr. Arturo Illia</string>
+            <key>description</key>
+            <string>Centro de Salud Numero 1 Dr. Arturo Illia</string>
+            <key>address</key>
+            <string>Av Colon 3286</string>
+            <key>photoUrl</key>
+            <string />
+            <key>lat</key>
+            <real>-37.999943</real>
+            <key>lng</key>
+            <real>-57.557171</real>
+        </dict>
+    </array>
+</plist>
