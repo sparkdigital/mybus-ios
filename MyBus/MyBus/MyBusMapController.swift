@@ -183,50 +183,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
 
     func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
-        // Give our polyline a unique color by checking for its `title` property
-        let isWalkingPathPolyline = annotation.title == "Caminando" && annotation is MGLPolyline
-        if isWalkingPathPolyline {
-            // Mapbox cyan
-            return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
-        } else {
-            var idBusIndex: Int?
-            if annotation.subtitle?.characters.count == 0, let key = currentRouteDisplayed?.busRoutes.first?.idBusLine {
-                idBusIndex = key
-            } else if let subtitle = annotation.subtitle {
-                idBusIndex = Int(subtitle)!
-            }
-
-            if var idBusIndex = idBusIndex {
-                //Hacking the index
-                if idBusIndex < 10 {
-                    idBusIndex = idBusIndex - 1
-                } else if idBusIndex < 41 {
-                    idBusIndex = idBusIndex - 2
-                } else {
-                    idBusIndex = idBusIndex - 3
-                }
-
-                if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = (NSArray(contentsOfFile: path))!.objectAtIndex(idBusIndex) as? [String: String] {
-                    if let color = dict["color"] {
-                        return UIColor(hexString: color)
-                    } else {
-                        return UIColor.grayColor()
-                    }
-                }
-            }
-
-            if let title =  annotation.title {
-                switch title {
-                case "Going":
-                    return UIColor(hexString: "0288D1")
-                case "Return":
-                    return UIColor(hexString: "EE236F")
-                default:
-                    break
-                }
-            }
-            return UIColor.grayColor()
+        if let annotation = annotation as? MyBusPolyline {
+            return annotation.color ?? mapView.tintColor
         }
+        // Fallback to the default tint color.
+        return mapView.tintColor
     }
 
     func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
