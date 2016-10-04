@@ -106,6 +106,7 @@ public class SearchManager: NSObject {
                     singleRoadResult, error in
 
                     if let roadResult = singleRoadResult {
+                        roadResult.idBusLine1 = String((busRouteResult.busRoutes.first?.idBusLine)!)
                         let busRouteKey = self.currentSearch?.getStringBusResultRow(busRouteResult)
 
                         self.getWalkingRoutes(roadResult, completion: {
