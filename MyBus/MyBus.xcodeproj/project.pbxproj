@@ -26,6 +26,7 @@
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
 		11DF624E1DA2CE0900E21320 /* SuggestedPlaces.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */; };
 		11DF62501DA2D11600E21320 /* SuggestedPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */; };
+		11DF62521DA2EF3800E21320 /* MyBusPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DF62511DA2EF3800E21320 /* MyBusPolyline.swift */; };
 		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
 		11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */; };
 		11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2CFEC1D63785900862324 /* BusSearchResult.swift */; };
@@ -113,6 +114,7 @@
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SuggestedPlaces.plist; sourceTree = "<group>"; };
 		11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuggestedPlace.swift; path = Model/SuggestedPlace.swift; sourceTree = "<group>"; };
+		11DF62511DA2EF3800E21320 /* MyBusPolyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusPolyline.swift; sourceTree = "<group>"; };
 		11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsDataSource.swift; sourceTree = "<group>"; };
 		11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSearchResultStringFormatter.swift; sourceTree = "<group>"; };
 		11F2CFEC1D63785900862324 /* BusSearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResult.swift; path = Model/BusSearchResult.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 			children = (
 				B47299081DA2C73300D8D6D7 /* Search.storyboard */,
 				B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */,
+				11DF62511DA2EF3800E21320 /* MyBusPolyline.swift */,
 				9982576F1CC5520E00909F1B /* Cells */,
 				08EC58541CBD482400E8410A /* Main.storyboard */,
 				08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */,
@@ -648,6 +651,7 @@
 				B47299431DA80B9B00D8D6D7 /* MapSearchViewContainer.swift in Sources */,
 				C5CE59D01D8AF572003A8FE4 /* RecentTableViewCell.swift in Sources */,
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
+				11DF62521DA2EF3800E21320 /* MyBusPolyline.swift in Sources */,
 				C5421B271D5B609C007C8987 /* ProgressHUD.swift in Sources */,
 				A0D8B21F1D80D5150062A339 /* CompleteBusRoute.swift in Sources */,
 				11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */,
