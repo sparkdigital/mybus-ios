@@ -16,9 +16,11 @@ import MapboxDirections
 class MyBusMarkerAddressPoint: MyBusMarker {}
 class MyBusMarkerBusStopPoint: MyBusMarker{}
 class MyBusMarkerRechargePoint: MyBusMarker{}
-class MyBusMarkerStartCompleteRoutePoint: MyBusMarker{}
-class MyBusMarkerEndCompleteRoutePoint: MyBusMarker{}
-class MyBusMarkerSameStartEndCompleteRoutePoint: MyBusMarker{}
+
+class MyBusMarkerCompleteRoutePoint: MyBusMarker{}
+class MyBusMarkerStartCompleteRoutePoint: MyBusMarkerCompleteRoutePoint{}
+class MyBusMarkerEndCompleteRoutePoint: MyBusMarkerCompleteRoutePoint{}
+class MyBusMarkerSameStartEndCompleteRoutePoint: MyBusMarkerCompleteRoutePoint{}
 
 class MyBusMarker: MGLPointAnnotation {
     var markerImageIdentifier: String?
@@ -46,6 +48,56 @@ class MyBusMarker: MGLPointAnnotation {
 
 // MARK: Markers factory methods
 class MyBusMarkerFactory {
+
+
+    class func buildCompleteBusRoadStopMarkers(completeBusRoute: CompleteBusRoute) -> [MGLAnnotation] {
+        var markers: [MGLAnnotation] = []
+        let goingPointList = completeBusRoute.goingPointList
+        let returnPointList = completeBusRoute.returnPointList
+
+        if let startGoingPoint = goingPointList.first, let endGoingPoint = goingPointList.last {
+            if let startReturnPoint = returnPointList.first, let endReturnPoint = returnPointList.last {
+                //Here we have both routes loaded
+
+                // Is the start point of going route equals end of return? Use a different icon
+                let isEqualStartGoingEndReturn = completeBusRoute.isEqualStartGoingEndReturn()
+                // Is the start point of return route equals end of going? Use a different icon
+                let isEqualStartReturnEndGoing = completeBusRoute.isEqualStartReturnEndGoing()
+
+                if isEqualStartGoingEndReturn {
+                    let startGoingEndReturnMarker = MyBusMarkerFactory.createSameStartEndCompleteBusRouteMarker(startGoingPoint.getLatLong(), address: startGoingPoint.address, busLineName: completeBusRoute.busLineName)
+                    markers.append(startGoingEndReturnMarker)
+                } else {
+                    let startGoingMarker = MyBusMarkerFactory.createStartCompleteBusRouteMarker(startGoingPoint.getLatLong(), address: startGoingPoint.address, busLineName: completeBusRoute.busLineName)
+                    markers.append(startGoingMarker)
+
+                    //Add END of RETURN route
+                    let endReturnMarker = MyBusMarkerFactory.createEndCompleteBusRouteMarker(endReturnPoint.getLatLong(), address: endReturnPoint.address, busLineName: completeBusRoute.busLineName)
+                    markers.append(endReturnMarker)
+                }
+
+                if isEqualStartReturnEndGoing {
+                    let startReturnEndGoingMarker = MyBusMarkerFactory.createSameStartEndCompleteBusRouteMarker(startReturnPoint.getLatLong(), address: startReturnPoint.address, busLineName: completeBusRoute.busLineName)
+                    markers.append(startReturnEndGoingMarker)
+                } else {
+                    let startReturnMarker = MyBusMarkerFactory.createStartCompleteBusRouteMarker(startReturnPoint.getLatLong(), address: startReturnPoint.address, busLineName: completeBusRoute.busLineName)
+                    markers.append(startReturnMarker)
+
+                    //Add END of GOING route
+                    let endGoingMarker = MyBusMarkerFactory.createEndCompleteBusRouteMarker(endGoingPoint.getLatLong(), address: endGoingPoint.address, busLineName: completeBusRoute.busLineName)
+                    markers.append(endGoingMarker)
+                }
+
+            } else {
+                //Here we just have going route
+                let startGoingMarker = MyBusMarkerFactory.createStartCompleteBusRouteMarker(startGoingPoint.getLatLong(), address: startGoingPoint.address, busLineName: completeBusRoute.busLineName)
+                let endGoingMarker = MyBusMarkerFactory.createEndCompleteBusRouteMarker(endGoingPoint.getLatLong(), address: endGoingPoint.address, busLineName: completeBusRoute.busLineName)
+                markers.append(startGoingMarker)
+                markers.append(endGoingMarker)
+            }
+        }
+        return markers
+    }
 
     class func buildBusRoadStopMarkers(roadResult: RoadResult)->[MGLAnnotation]{
 
@@ -140,47 +192,73 @@ class MyBusMarkerFactory {
 // MARK: Polyline factory methods
 class MyBusPolylineFactory {
 
-    class func createWalkingPathPolyline(route: MBRoute, title: String) -> MGLPolyline{
+    class func createWalkingPathPolyline(route: MBRoute, title: String) -> MyBusPolyline {
         var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
-        let walkingPathPolyline = MGLPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
-        walkingPathPolyline.title = title
+        let walkingPathPolyline = MyBusWalkingPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
         return walkingPathPolyline
     }
 
     // busNumber:String  -> the polyline subtitle should be the bus number
-    class func createBusRoutePolyline(busRoute: Route, title: String, subtitle: String? = "")->MGLPolyline{
-
+    class func createBusRoutePolyline(busRoute: Route, title: String, busLineId: String) -> MyBusPolyline {
         var busRouteCoordinates: [CLLocationCoordinate2D] = busRoute.pointList.map { (point: RoutePoint) -> CLLocationCoordinate2D in
 
             // Make a CLLocationCoordinate2D with the lat, lng
             return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
         }
-        let busPolyline = MGLPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
-        busPolyline.title = title
-        busPolyline.subtitle = subtitle
-
+        let busPolyline = MyBusRoadResultPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
+        busPolyline.busLineIdentifier = busLineId
         return busPolyline
     }
 
-    class func buildBusRoutePolylineList(roadResult: RoadResult)->[MGLPolyline]{
+    class func buildBusRoutePolylineList(roadResult: RoadResult)-> [MyBusPolyline] {
 
-        var busRoutePolylineList: [MGLPolyline] = []
+        var busRoutePolylineList: [MyBusPolyline] = []
 
         // First bus route polyline
         let firstBusRoute: Route = (roadResult.routeList.first)!
 
-        let firstBusLine = MyBusPolylineFactory.createBusRoutePolyline(firstBusRoute, title: MyBusTitle.BusLineRouteTitle.rawValue, subtitle: roadResult.idBusLine1)
+        let firstBusLine = MyBusPolylineFactory.createBusRoutePolyline(firstBusRoute, title: MyBusTitle.BusLineRouteTitle.rawValue, busLineId: roadResult.idBusLine1)
         busRoutePolylineList.append(firstBusLine)
 
         // If road is combinated, we add second bus route polyline
         if roadResult.busRouteResultType() == .Combined
         {
             let secondBusRoute = roadResult.routeList[1]
-            let secondBusLine = MyBusPolylineFactory.createBusRoutePolyline(secondBusRoute, title: MyBusTitle.BusLineRouteTitle.rawValue, subtitle: roadResult.idBusLine2)
+            let secondBusLine = MyBusPolylineFactory.createBusRoutePolyline(secondBusRoute, title: MyBusTitle.BusLineRouteTitle.rawValue, busLineId: roadResult.idBusLine2)
             busRoutePolylineList.append(secondBusLine)
         }
 
         return busRoutePolylineList
+    }
+
+    class func buildCompleteBusRoutePolylineList(completeBusRoute: CompleteBusRoute) -> [MyBusPolyline] {
+        let goingPointList = completeBusRoute.goingPointList
+        let returnPointList = completeBusRoute.returnPointList
+
+        // List include going, return or both polylines
+        var roadLists: [MyBusPolyline] = []
+
+        //Going route
+        var busRouteCoordinates: [CLLocationCoordinate2D] = []
+        if goingPointList.count > 0 {
+            busRouteCoordinates = goingPointList.map({ (point: RoutePoint) -> CLLocationCoordinate2D in
+                return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+            })
+            let busPolylineGoing = MyBusGoingCompleteBusRoutePolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
+            roadLists.append(busPolylineGoing)
+
+        }
+        //Return route
+        if returnPointList.count > 0 {
+            busRouteCoordinates = []
+            busRouteCoordinates = returnPointList.map({ (point: RoutePoint) -> CLLocationCoordinate2D in
+                return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+            })
+            let busPolylineReturn = MyBusReturnCompleteBusRoutePolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
+            roadLists.append(busPolylineReturn)
+        }
+
+        return roadLists
     }
 }
 
@@ -224,48 +302,12 @@ class MyBusMapView: MGLMapView{
 
     //Closure to determine if annotation is part of road
     var annotationPartOfMyBusResultClosure: (MGLAnnotation)->Bool = { annotation in
-
-        guard let annotationTitle: String = annotation.title!! as String else {
-            NSLog("No title found in annotation when filtering")
-            return false
-        }
-
-        switch annotationTitle{
-            case MyBusTitle.BusLineRouteTitle.rawValue:
-                return true
-            case MyBusTitle.StopOriginTitle.rawValue:
-                return true
-            case  MyBusTitle.StopDestinationTitle.rawValue:
-                return true
-            case MyBusTitle.WalkingPathTitle.rawValue:
-                return true
-            default:
-                return false
-        }
+        return (annotation is MyBusRoadResultPolyline || annotation is MyBusMarkerBusStopPoint || annotation is MyBusWalkingPolyline)
     }
 
     //Closure to determine if annotation is part of route
     var annotationPartOfCompleteRouteClosure: (MGLAnnotation)->Bool = { annotation in
-
-        guard let annotationTitle: String = annotation.title!! as String else {
-            NSLog("No title found in annotation when filtering")
-            return false
-        }
-
-        switch annotationTitle{
-        case ~/MyBusTitle.StartCompleteBusRoute.rawValue:
-            return true
-        case ~/MyBusTitle.SameStartEndCompleteBusRoute.rawValue:
-            return true
-        case ~/MyBusTitle.EndCompleteBusRoute.rawValue:
-            return true
-        case "Going":
-            return true
-        case "Return":
-            return true
-        default:
-            return false
-        }
+        return (annotation is MyBusMarkerCompleteRoutePoint || annotation is MyBusGoingCompleteBusRoutePolyline || annotation is MyBusReturnCompleteBusRoutePolyline)
     }
 
     var annotationIsRechargePointClosure: (MGLAnnotation)->Bool = { annotation in
@@ -274,35 +316,8 @@ class MyBusMapView: MGLMapView{
 
     var annotationIsOriginOrDestination: (MGLAnnotation) -> Bool = {
         annotation in
-
-        guard let annotationTitle: String = annotation.title!! as String else {
-            NSLog("No title found in annotation when filtering")
-            return false
-        }
-
-        switch annotationTitle{
-        case MyBusTitle.DestinationTitle.rawValue:
-            return true
-        case MyBusTitle.OriginTitle.rawValue:
-            return true
-        default:
-            return false
-        }
+        return (annotation is MyBusMarkerAddressPoint)
     }
-
-    func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
-        // Give our polyline a unique color by checking for its `title` property
-        let isWalkingPathPolyline = annotation.title == "Caminando" && annotation is MGLPolyline
-        if isWalkingPathPolyline {
-            // Mapbox cyan
-            return UIColor(red: 59/255, green:178/255, blue:208/255, alpha:1)
-        }
-        else
-        {
-            return UIColor.grayColor()
-        }
-    }
-
 
     //Constructor
     /*
@@ -379,11 +394,13 @@ class MyBusMapView: MGLMapView{
         clearExistingBusRouteAnnotations()
         clearExistingOriginAndDestinationAnnotations()
 
-        for marker in route.getMarkersAnnotation() {
+        let roadStopsMarkerList = MyBusMarkerFactory.buildCompleteBusRoadStopMarkers(route)
+        for marker in roadStopsMarkerList {
             self.addAnnotation(marker)
         }
 
-        for polyline in route.getPolyLines() {
+        let busRoutePolylineList = MyBusPolylineFactory.buildCompleteBusRoutePolylineList(route)
+        for polyline in busRoutePolylineList {
             self.addAnnotation(polyline)
         }
     }
