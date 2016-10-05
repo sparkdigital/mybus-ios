@@ -60,6 +60,8 @@
 		C57886F91D7DC2050056A5E1 /* BusesRatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */; };
 		C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */; };
 		C581F8021D9D562800DF6663 /* NavRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581F8011D9D562800DF6663 /* NavRouter.swift */; };
+		C58F8DAD1DA3FF4E009AA176 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F8DAC1DA3FF4E009AA176 /* SearchView.swift */; };
+		C58F8DAF1DA40046009AA176 /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C58F8DAE1DA40046009AA176 /* SearchView.xib */; };
 		C5B96F0C1D834C8F0073B990 /* BusesInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */; };
 		C5B96F0E1D834CE20073B990 /* BusesInformationDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B96F0D1D834CE20073B990 /* BusesInformationDataSource.swift */; };
 		C5B96F101D834D4A0073B990 /* BusesInformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B96F0F1D834D4A0073B990 /* BusesInformationTableViewCell.swift */; };
@@ -139,6 +141,8 @@
 		C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesViewController.swift; sourceTree = "<group>"; };
 		C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesDataSource.swift; sourceTree = "<group>"; };
 		C581F8011D9D562800DF6663 /* NavRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavRouter.swift; sourceTree = "<group>"; };
+		C58F8DAC1DA3FF4E009AA176 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		C58F8DAE1DA40046009AA176 /* SearchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
 		C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesInformationViewController.swift; sourceTree = "<group>"; };
 		C5B96F0D1D834CE20073B990 /* BusesInformationDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesInformationDataSource.swift; sourceTree = "<group>"; };
 		C5B96F0F1D834D4A0073B990 /* BusesInformationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesInformationTableViewCell.swift; sourceTree = "<group>"; };
@@ -264,6 +268,7 @@
 				C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */,
 				C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */,
 				C5348A301D9070C1004EADEC /* TitleMainView.xib */,
+				C58F8DAE1DA40046009AA176 /* SearchView.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -353,6 +358,7 @@
 				11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */,
 				114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */,
 				110795761D9C4C4A00D63CE4 /* RegExOperator.swift */,
+				C58F8DAC1DA3FF4E009AA176 /* SearchView.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -464,6 +470,7 @@
 				08EC585B1CBD482400E8410A /* Assets.xcassets in Resources */,
 				08EC58561CBD482400E8410A /* Main.storyboard in Resources */,
 				C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */,
+				C58F8DAF1DA40046009AA176 /* SearchView.xib in Resources */,
 				C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */,
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
 				C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */,
@@ -624,6 +631,7 @@
 				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
 				C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */,
 				A06C061D1D908F39000023FC /* CompleteBusItineray.swift in Sources */,
+				C58F8DAD1DA3FF4E009AA176 /* SearchView.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
 				1131807E1D63749400425847 /* SearchManager.swift in Sources */,
