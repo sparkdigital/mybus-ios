@@ -54,17 +54,10 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
             if error == nil {
                 for street in streets! {
                     self.bestMatches.append(street, SearchFilterType.Search)
-                    self.bestMatches.append(street, SearchFilterType.Favorite)
-                    self.bestMatches.append(street, SearchFilterType.Tourist)
                 }
             }
         }
         //TODO: load favorites and Tourist places
-        // let realm = try? Realm()
-        //let favourites = realm!.objects(User).first?.favourites
-        //for fav in favourites! {
-        //  self.bestMatches.append(fav, SearchFilterType.Favorite)
-        //}
         
         return self.bestMatches
     }
