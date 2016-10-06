@@ -10,8 +10,6 @@ import UIKit
 import Mapbox
 import RealmSwift
 import MapKit
-import MapboxDirections
-import Polyline
 
 class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDelegate {
 
@@ -68,9 +66,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func showUserLocation() {
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
-            self.mapView.showsUserLocation = true
-            self.mapView.centerCoordinate = (self.mapView.userLocation!.location?.coordinate)!
-            self.mapView.setZoomLevel(16, animated: false)
+            self.mapView.centerMapWithGPSLocation()
         } else {
             GenerateMessageAlert.generateAlertToSetting(self)
         }
@@ -78,22 +74,24 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
 
     func handleSingleLongTap(tap: UITapGestureRecognizer) {
         if (tap.state == .Ended) {
-            NSLog("Long press Ended");
+            NSLog("Long press Ended")
         } else if (tap.state == .Began) {
-        mapView.showsUserLocation = true
-        // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
-        let tappedLocation = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
+            mapView.showsUserLocation = true
+            // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
+            let tappedLocation = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
 
-        progressNotification.showLoadingNotification(self.view)
+            progressNotification.showLoadingNotification(self.view)
 
-        Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
-            if let destination = routePoint {
-                self.destination = destination
-                self.mapView.addDestinationPosition(destination.getLatLong(), address: destination.address)
-                self.mapView.selectDestinationMarker()
+            Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
+                if let destination = routePoint {
+                    self.destination = destination
+                    self.mapView.addDestinationPosition(destination.getLatLong(), address: destination.address)
+                    self.mapView.selectDestinationMarker()
+                }
+                self.progressNotification.stopLoadingNotification(self.view)
             }
-            self.progressNotification.stopLoadingNotification(self.view)
         }
+
     }
 
     // MARK: - Memory Management Methods

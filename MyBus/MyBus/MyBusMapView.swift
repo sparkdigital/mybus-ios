@@ -7,10 +7,7 @@
 //
 
 import Foundation
-import UIKit
 import Mapbox
-import MapKit
-import MapboxDirections
 
 @IBDesignable
 class MyBusMapView: MGLMapView{
@@ -91,7 +88,6 @@ class MyBusMapView: MGLMapView{
 
      -addPoint(title, subtitle, CLLocationCoordinate2D) -> MGLPointAnnotation
      -selectPoint(annotation)
-     -getMarkerImage( title? o enumType?) -> UIImage
      - addPolylineAnnotationForRoute(mbroute)
 
     */
@@ -107,7 +103,12 @@ class MyBusMapView: MGLMapView{
     func addPoint(){}
     func addRoad(){}
     func addRoute(){}
-    func centerMapWithGPSLocation(){}
+
+    func centerMapWithGPSLocation() -> Void {
+        self.showsUserLocation = true
+        self.centerCoordinate = (self.userLocation!.location?.coordinate)!
+        self.setZoomLevel(16, animated: false)
+    }
 
     func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
 
@@ -117,12 +118,6 @@ class MyBusMapView: MGLMapView{
         self.addAnnotations(rechargePointAnnotations)
         self.fitToAnnotationsInMap()
 
-    }
-
-    func getMarkerImage(imageResourceIdentifier: String, annotationTitle: String) -> MGLAnnotationImage {
-        var image = UIImage(named: imageResourceIdentifier)!
-        image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
-        return MGLAnnotationImage(image: image, reuseIdentifier: annotationTitle)
     }
 
     func selectDestinationMarker() -> Void {
@@ -139,9 +134,7 @@ class MyBusMapView: MGLMapView{
     // MARK: - Mapview bus roads manipulation Methods
 
     func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
-        clearExistingBusRoadAnnotations()
-        clearExistingBusRouteAnnotations()
-        clearExistingOriginAndDestinationAnnotations()
+        clearAnnotations()
 
         let roadStopsMarkerList = MyBusMarkerFactory.buildCompleteBusRoadStopMarkers(route)
         self.addAnnotations(roadStopsMarkerList)
@@ -169,10 +162,9 @@ class MyBusMapView: MGLMapView{
         self.clearAllAnnotations()
 
         self.origin = origin
-        // Declare the marker point and set its coordinates
         let originMarker = MyBusMarkerFactory.createOriginPointMarker(origin, address: address)
-
         self.addAnnotation(originMarker)
+
         self.setCenterCoordinate(origin, animated: true)
     }
 
