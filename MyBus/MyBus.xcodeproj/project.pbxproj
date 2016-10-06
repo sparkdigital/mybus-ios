@@ -56,6 +56,8 @@
 		C542E36C1D48EF0F009FF442 /* Streets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C542E36B1D48EF0F009FF442 /* Streets.plist */; };
 		C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */; };
 		C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */; };
+		C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */; };
+		C5619D631DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5619D621DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift */; };
 		C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */; };
 		C57886F91D7DC2050056A5E1 /* BusesRatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */; };
 		C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */; };
@@ -137,6 +139,8 @@
 		C542E36B1D48EF0F009FF442 /* Streets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Streets.plist; sourceTree = "<group>"; };
 		C5460B581D5CBA2F000504BB /* GenerateMessageAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateMessageAlert.swift; sourceTree = "<group>"; };
 		C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
+		C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionSearchViewController.swift; sourceTree = "<group>"; };
+		C5619D621DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionSearchTableViewCell.swift; sourceTree = "<group>"; };
 		C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesTableViewCell.swift; sourceTree = "<group>"; };
 		C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesViewController.swift; sourceTree = "<group>"; };
 		C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesDataSource.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				11D4BEE41D343B51005E0031 /* MainViewController.swift */,
 				C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */,
 				C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */,
+				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 				C5B96F0F1D834D4A0073B990 /* BusesInformationTableViewCell.swift */,
 				C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */,
 				C5CE59CF1D8AF572003A8FE4 /* RecentTableViewCell.swift */,
+				C5619D621DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -612,6 +618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5619D631DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift in Sources */,
 				C581F8021D9D562800DF6663 /* NavRouter.swift in Sources */,
 				11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */,
 				C5B96F101D834D4A0073B990 /* BusesInformationTableViewCell.swift in Sources */,
@@ -624,6 +631,7 @@
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
 				A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */,
 				C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */,
+				C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */,
 				114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */,
 				11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
