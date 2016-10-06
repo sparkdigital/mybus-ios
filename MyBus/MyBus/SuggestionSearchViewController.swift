@@ -49,7 +49,8 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     }
     
     func applyFilter(searchText: String) -> [(String,SearchFilterType)] {
-         self.bestMatches = []
+        self.bestMatches = []
+        //filter streets
         Connectivity.sharedInstance.getStreetNames(forName: searchText) { (streets, error) in
             if error == nil {
                 for street in streets! {
@@ -57,8 +58,12 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
                 }
             }
         }
-        //TODO: load favorites and Tourist places
-        
+        //filter tourist places
+        let touristPlaces = Configuration.suggestedPlaces().filter{($0.name.lowercaseString).containsString(searchText.lowercaseString)}
+        for place in touristPlaces {
+            self.bestMatches.append((place.name,SearchFilterType.Tourist))
+        }
+        //TODO: load favorites
         return self.bestMatches
     }
     
