@@ -36,8 +36,8 @@ public class GisService: NSObject, GisServiceDelegate {
             placemarks, error in
             if let placemark = placemarks?.first {
                 let point = RoutePoint()
-                point.latitude = String(latitude)
-                point.longitude = String(longitude)
+                point.latitude = latitude
+                point.longitude = longitude
                 if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
                     let address = "\(street as String) \(houseNumber as String)"
                     point.address = address

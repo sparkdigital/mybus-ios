@@ -13,8 +13,8 @@ import RealmSwift
 
 class RoutePoint: Object {
     dynamic var stopId: String = " "
-    dynamic var latitude: String = " "
-    dynamic var longitude: String = " "
+    dynamic var latitude: Double = 0.0
+    dynamic var longitude: Double = 0.0
     dynamic var address: String = " "
     dynamic var isWaypoint: Bool = false
 
@@ -24,8 +24,8 @@ class RoutePoint: Object {
         if let stopId = routePointJson["StopId"].string
         {
             point.stopId = stopId
-            point.latitude = routePointJson["Lat"].stringValue
-            point.longitude = routePointJson["Lng"].stringValue
+            point.latitude = routePointJson["Lat"].doubleValue
+            point.longitude = routePointJson["Lng"].doubleValue
             point.address = routePointJson["Address"].stringValue
             point.isWaypoint = routePointJson["isWaypoint"].boolValue
 
@@ -35,7 +35,7 @@ class RoutePoint: Object {
         }
     }
 
-    static func parse(latitude: String, longitude: String) -> RoutePoint
+    static func parse(latitude: Double, longitude: Double) -> RoutePoint
     {
         let point = RoutePoint()
         point.latitude = latitude
@@ -61,8 +61,8 @@ class RoutePoint: Object {
             let streetName = firstResultJson["address_components"][1]["short_name"].stringValue
             let streetNumber = firstResultJson["address_components"][0]["short_name"].stringValue
 
-            geoPoint.latitude = originLocation["lat"].stringValue
-            geoPoint.longitude = originLocation["lng"].stringValue
+            geoPoint.latitude = originLocation["lat"].doubleValue
+            geoPoint.longitude = originLocation["lng"].doubleValue
             geoPoint.address = "\(streetName) \(streetNumber)"
 
             return geoPoint
@@ -74,6 +74,6 @@ class RoutePoint: Object {
     }
 
     func getLatLong() -> CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
