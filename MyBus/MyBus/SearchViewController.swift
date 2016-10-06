@@ -57,13 +57,13 @@ class SearchViewController: UIViewController, UITableViewDelegate
 
     override func viewDidAppear(animated: Bool) {
         // Create realm pointing to default file
-        let realm = try! Realm()
+        //let realm = try! Realm()
         // Retrive favs locations for user
-        favourites = realm.objects(User).first?.favourites
+        //favourites = realm.objects(User).first?.favourites
 
-        self.streetSuggestionsDataSource.favourites = favourites
+        //self.streetSuggestionsDataSource.favourites = favourites
 
-        self.searchTableView.reloadData()
+        //self.searchTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
