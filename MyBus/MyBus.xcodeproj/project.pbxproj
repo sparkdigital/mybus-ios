@@ -21,6 +21,9 @@
 		1131807E1D63749400425847 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1131807D1D63749400425847 /* SearchManager.swift */; };
 		114E670A1D79DD5500D8F746 /* BusColors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 114E67091D79DD5200D8F746 /* BusColors.plist */; };
 		114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */; };
+		11A552811DA6B48F00CF4C95 /* MyBusMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */; };
+		11A552831DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A552821DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift */; };
+		11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */; };
 		11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D4BEE41D343B51005E0031 /* MainViewController.swift */; };
 		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
@@ -109,6 +112,9 @@
 		1131807D1D63749400425847 /* SearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchManager.swift; path = Services/SearchManager.swift; sourceTree = "<group>"; };
 		114E67091D79DD5200D8F746 /* BusColors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusColors.plist; sourceTree = "<group>"; };
 		114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexToUIColorConverter.swift; sourceTree = "<group>"; };
+		11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMarker.swift; sourceTree = "<group>"; };
+		11A552821DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMarkerFactory.swift; sourceTree = "<group>"; };
+		11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusPolylineFactory.swift; sourceTree = "<group>"; };
 		11D4BEE41D343B51005E0031 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
@@ -286,6 +292,7 @@
 				B47299081DA2C73300D8D6D7 /* Search.storyboard */,
 				B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */,
 				11DF62511DA2EF3800E21320 /* MyBusPolyline.swift */,
+				11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */,
 				9982576F1CC5520E00909F1B /* Cells */,
 				08EC58541CBD482400E8410A /* Main.storyboard */,
 				08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */,
@@ -297,6 +304,8 @@
 				B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */,
 				B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */,
 				B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */,
+				11A552821DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift */,
+				11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -658,14 +667,17 @@
 				A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */,
 				9982576E1CC532ED00909F1B /* Street.swift in Sources */,
 				A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */,
+				11A552811DA6B48F00CF4C95 /* MyBusMarker.swift in Sources */,
 				C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */,
 				C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */,
+				11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */,
 				114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */,
 				11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
 				B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */,
 				B472990D1DA2C74300D8D6D7 /* SearchContainerViewController.swift in Sources */,
 				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
+				11A552831DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift in Sources */,
 				C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */,
 				A06C061D1D908F39000023FC /* CompleteBusItineray.swift in Sources */,
 				C58F8DAD1DA3FF4E009AA176 /* SearchView.swift in Sources */,
