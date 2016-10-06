@@ -77,6 +77,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
 
     func handleSingleLongTap(tap: UITapGestureRecognizer) {
+        if (tap.state == .Ended) {
+            NSLog("Long press Ended");
+        } else if (tap.state == .Began) {
         mapView.showsUserLocation = true
         // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
         let tappedLocation = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
