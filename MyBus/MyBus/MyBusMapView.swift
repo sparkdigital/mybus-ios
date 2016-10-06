@@ -183,8 +183,7 @@ class MyBusMarkerFactory {
     }
 
     class func createRechargePointMarker(point: RechargePoint)-> MyBusMarkerRechargePoint{
-        let position = CLLocationCoordinate2DMake(point.location.latitude, point.location.longitude)
-        let marker = MyBusMarkerRechargePoint(position: position, title: point.name, subtitle: point.address, imageIdentifier: "map_charge")
+        let marker = MyBusMarkerRechargePoint(position: point.getLatLong(), title: point.name, subtitle: point.address, imageIdentifier: "map_charge")
         return marker
     }
 }
@@ -201,9 +200,7 @@ class MyBusPolylineFactory {
     // busNumber:String  -> the polyline subtitle should be the bus number
     class func createBusRoutePolyline(busRoute: Route, title: String, busLineId: String) -> MyBusPolyline {
         var busRouteCoordinates: [CLLocationCoordinate2D] = busRoute.pointList.map { (point: RoutePoint) -> CLLocationCoordinate2D in
-
-            // Make a CLLocationCoordinate2D with the lat, lng
-            return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+            return point.getLatLong()
         }
         let busPolyline = MyBusRoadResultPolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
         busPolyline.busLineIdentifier = busLineId
@@ -242,7 +239,7 @@ class MyBusPolylineFactory {
         var busRouteCoordinates: [CLLocationCoordinate2D] = []
         if goingPointList.count > 0 {
             busRouteCoordinates = goingPointList.map({ (point: RoutePoint) -> CLLocationCoordinate2D in
-                return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+                return point.getLatLong()
             })
             let busPolylineGoing = MyBusGoingCompleteBusRoutePolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
             roadLists.append(busPolylineGoing)
@@ -252,7 +249,7 @@ class MyBusPolylineFactory {
         if returnPointList.count > 0 {
             busRouteCoordinates = []
             busRouteCoordinates = returnPointList.map({ (point: RoutePoint) -> CLLocationCoordinate2D in
-                return CLLocationCoordinate2DMake(Double(point.latitude)!, Double(point.longitude)!)
+                return point.getLatLong()
             })
             let busPolylineReturn = MyBusReturnCompleteBusRoutePolyline(coordinates: &busRouteCoordinates, count: UInt(busRouteCoordinates.count))
             roadLists.append(busPolylineReturn)

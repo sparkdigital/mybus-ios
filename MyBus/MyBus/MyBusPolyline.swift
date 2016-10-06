@@ -9,6 +9,10 @@
 import Foundation
 import Mapbox
 
+class MyBusPolyline: MGLPolyline {
+    var color: UIColor?
+}
+
 class MyBusWalkingPolyline: MyBusPolyline {
     override var color: UIColor? {
         get { return UIColor.grayColor() }
@@ -57,8 +61,4 @@ class MyBusRoadResultPolyline: MyBusPolyline {
         }
         set {}
     }
-}
-
-class MyBusPolyline: MGLPolyline {
-    var color: UIColor?
 }
