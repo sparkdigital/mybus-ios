@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import Mapbox
 
 struct RechargePoint {
     let id: String
@@ -37,5 +38,9 @@ extension RechargePoint {
         self.location = (Double(latitude)!, Double(longitude)!)
         self.openTime = openTime
         self.distance = Double(distance)!
+    }
+
+    func getLatLong() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
     }
 }
