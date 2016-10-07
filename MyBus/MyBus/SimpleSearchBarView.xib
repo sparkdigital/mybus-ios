@@ -4,9 +4,13 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SimpleSearchBarView" customModule="MyBus" customModuleProvider="target">
+            <connections>
+                <outlet property="searchBar" destination="xwU-DN-boT" id="p7d-IN-pVN"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SimpleSearchBarView" customModule="MyBus" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -26,9 +30,6 @@
                 <constraint firstAttribute="bottom" secondItem="xwU-DN-boT" secondAttribute="bottom" id="tcp-91-7UO"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="searchBar" destination="xwU-DN-boT" id="FjW-GY-gsk"/>
-            </connections>
             <point key="canvasLocation" x="457" y="76"/>
         </view>
     </objects>
