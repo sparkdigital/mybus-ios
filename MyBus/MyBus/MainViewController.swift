@@ -10,8 +10,13 @@ import Foundation
 import UIKit
 import MapKit
 
+protocol Searchable {
+    func initWithBasicSearch()
+    func initWithComplexSearch()
+}
 
-class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate, UITabBarDelegate, MainViewDelegate {
+
+class MainViewController: UIViewController{
 
     var searchActive:Bool = false
     
@@ -22,6 +27,9 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     @IBOutlet weak var searchToolbar: UIToolbar!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabBar: UITabBar!
+    @IBOutlet weak var mapSearchViewContainer:MapSearchViewContainer!
+    @IBOutlet weak var mapSearchViewHeightConstraint: NSLayoutConstraint!
+
 
     var mapViewController: MyBusMapController!
     var searchViewController: SearchViewController!
@@ -53,29 +61,25 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
-        self.addSubview(self.currentViewController!.view, toView: self.containerView)
-
-        self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
-        self.searchBar.layer.borderWidth = 8
-        self.searchBar.delegate = self
+        self.view.addAutoPinnedSubview(self.currentViewController!.view, toView: self.containerView)
+        
+        //self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
+        //self.searchBar.layer.borderWidth = 8
+        //self.searchBar.delegate = self
 
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
 
         self.tabBar.delegate = self
-        self.searchBar.delegate = self
+        
+        //SearchViewContainer Logic
+        self.mapSearchViewContainer.loadBasicSearch()
+        
     }
-
-    //Method that receives a subview and adds it to the parentView with autolayout constraints
-    func addSubview(subView: UIView, toView parentView: UIView) {
-        parentView.addSubview(subView)
-
-        var viewBindingsDict = [String: AnyObject]()
-        viewBindingsDict["subView"] = subView
-        parentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[subView]|",
-            options: [], metrics: nil, views: viewBindingsDict))
-        parentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[subView]|",
-            options: [], metrics: nil, views: viewBindingsDict))
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.initWithBasicSearch()
     }
 
     //This method receives the old view controller to be replaced with the new controller
@@ -90,7 +94,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.addChildViewController(newVC)
 
         //Add new view to the container
-        self.addSubview(newVC.view, toView: self.containerView)
+        self.view.addAutoPinnedSubview(newVC.view, toView: self.containerView)
+        
 
         newVC.view.alpha = 0
         newVC.view.layoutIfNeeded()
@@ -137,53 +142,55 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         }
     }
     
-    // MARK: - MainViewDelegate Methods
+    
+    func setNavigation(Title: String){
+        //self.searchBar.hidden = true
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = Title
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
+        backButton.image = UIImage(named:"arrow_back")
+        backButton.tintColor = UIColor.whiteColor()
+        self.navigationItem.leftBarButtonItem = backButton
+    }
 
-    func loadPositionMainView() {
+    func backTapped(){
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
-        self.mapViewController.showUserLocation()
+        self.mapViewController.clearRouteAnnotations()
+        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+        self.navigationItem.titleView = titleView
+        self.navigationItem.leftBarButtonItem = nil
+        //self.searchBar.hidden = false
+        //self.searchBar.endEditing(true)
     }
+}
 
-    // MARK: - MapBusRoadDelegate Methods
-
-    //func newBusRoad(mapBusRoad: MapBusRoad) {
-        //Now is no longer needed may be in the future with a new flow yes
-        //self.mapViewController.addBusRoad(mapBusRoad)
-    //}
-
-    func newResults(busSearchResult: BusSearchResult) {
-        self.mapViewController.addBusLinesResults(busSearchResult)
-        self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-        self.currentViewController = self.mapViewController
+extension MainViewController:Searchable{
+    
+    func initWithBasicSearch() {
+        mapSearchViewContainer.loadBasicSearch()
+        mapSearchViewContainer.presenter.setBarDelegate(self)
+        updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
-
-    func newOrigin(origin: CLLocationCoordinate2D, address: String) {
-        self.mapViewController.addOriginPosition(origin, address: address)
+    
+    func initWithComplexSearch() {
+        mapSearchViewContainer.loadComplexSearch()
+        mapSearchViewContainer.presenter.setTextFieldDelegate(self)
+        updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
-
-    func newDestination(destination: CLLocationCoordinate2D, address: String) {
-        self.mapViewController.addDestinationPosition(destination, address : address)
+    
+    func updateSearchViewLayout(preferredHeight:CGFloat){
+        mapSearchViewHeightConstraint.constant = preferredHeight
+        mapSearchViewContainer.updateConstraints()
+        mapSearchViewContainer.layoutIfNeeded()
     }
+   
+}
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if self.currentViewController == suggestionSearchViewController {
-            searchBarTapped(true)
-            return true
-        } else {
-            self.searchViewController.searchViewProtocol = self
-            searchBarTapped(false)
-            return false
-        }
-    }
 
-    func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
-        self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
-        self.currentViewController = mapViewController
-        self.mapViewController.displayCompleteBusRoute(route)
-    }
-
+// MARK: Tab Bar Delegate methods
+extension MainViewController:UITabBarDelegate {
+    
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if (item.tag == 0){
             self.mapViewController.clearRechargePoints()
@@ -191,19 +198,19 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
             self.currentViewController = mapViewController
         }
         if (item.tag == 1){
-
+            
         }
         if (item.tag == 2){
             if let userLocation = self.mapViewController.mapView.userLocation {
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
-
+                    
                     if let chargePoints = points {
                         self.mapViewController.addRechargePoints(chargePoints)
                     } else {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
                     }
-
+                    
                 }
                 if self.currentViewController != mapViewController {
                     self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
@@ -226,25 +233,69 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         }
     }
 
-    func setNavigation(Title: String){
-        self.searchBar.hidden = true
-        self.navigationItem.titleView = nil
-        self.navigationItem.title = Title
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
-        backButton.image = UIImage(named:"arrow_back")
-        backButton.tintColor = UIColor.whiteColor()
-        self.navigationItem.leftBarButtonItem = backButton
-    }
+    
+}
 
-    func backTapped(){
+// MARK: UISearchBarDelegate protocol methods
+extension MainViewController:UISearchBarDelegate {
+ 
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        if self.currentViewController == suggestionSearchViewController {
+            searchBarTapped(true)
+            return true
+        } else {
+            self.searchViewController.searchViewProtocol = self
+            searchBarTapped(false)
+            return false
+        }
+    }
+    
+}
+
+
+// MARK: UITextField delegate protocol methods
+extension MainViewController:UITextFieldDelegate {
+}
+
+
+
+// MARK: MapBusRoadDelegate protocol methods
+extension MainViewController:MapBusRoadDelegate {
+    
+    //func newBusRoad(mapBusRoad: MapBusRoad) {
+    //Now is no longer needed may be in the future with a new flow yes
+    //self.mapViewController.addBusRoad(mapBusRoad)
+    //}
+    
+    func newResults(busSearchResult: BusSearchResult) {
+        self.mapViewController.addBusLinesResults(busSearchResult)
+        self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
-        self.mapViewController.clearRouteAnnotations()
-        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
-        self.navigationItem.titleView = titleView
-        self.navigationItem.leftBarButtonItem = nil
-        self.searchBar.hidden = false
-        self.searchBar.endEditing(true)
+    }
+    
+    func newOrigin(origin: CLLocationCoordinate2D, address: String) {
+        self.mapViewController.addOriginPosition(origin, address: address)
+    }
+    
+    func newDestination(destination: CLLocationCoordinate2D, address: String) {
+        self.mapViewController.addDestinationPosition(destination, address : address)
+    }
+    
+    
+    func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
+        self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
+        self.currentViewController = mapViewController
+        self.mapViewController.displayCompleteBusRoute(route)
+    }
+}
+
+extension MainViewController:MainViewDelegate{
+    
+    func loadPositionMainView() {
+        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+        self.currentViewController = self.mapViewController
+        self.mapViewController.showUserLocation()
     }
 }
 

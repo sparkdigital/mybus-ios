@@ -28,11 +28,11 @@ class MapSearchViewContainer: UIView {
     }
     
     func loadBasicSearch(){
-        //loadConcreteSearchView(BasicSearchView(frame: bounds))
+        loadConcreteSearchView(SimpleSearchBarView(frame: bounds))
     }
     
     func loadComplexSearch(){
-        //loadConcreteSearchView(ComplexSearchView(frame: self.bounds))
+        loadConcreteSearchView(SearchView(frame: bounds))
     }
     
     private func loadConcreteSearchView(aPresenter:SearchPresenter){

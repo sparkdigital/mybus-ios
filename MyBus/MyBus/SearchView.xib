@@ -4,9 +4,15 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchView" customModule="MyBus" customModuleProvider="target">
+            <connections>
+                <outlet property="destination" destination="R8f-36-2cf" id="1UK-fa-7VX"/>
+                <outlet property="invert" destination="6Ff-4D-43L" id="iS2-8k-aXm"/>
+                <outlet property="origin" destination="eSs-cd-X5c" id="18P-za-sX4"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="XNM-Bc-6Hw" customClass="SearchView">
+        <view contentMode="scaleToFill" id="XNM-Bc-6Hw">
             <rect key="frame" x="0.0" y="0.0" width="383" height="84"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -55,11 +61,6 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="destination" destination="R8f-36-2cf" id="XGl-rh-1sx"/>
-                <outlet property="invert" destination="6Ff-4D-43L" id="6iR-Ek-xuA"/>
-                <outlet property="origin" destination="eSs-cd-X5c" id="kiA-Zi-c3Q"/>
-            </connections>
             <point key="canvasLocation" x="158.5" y="-32"/>
         </view>
     </objects>
