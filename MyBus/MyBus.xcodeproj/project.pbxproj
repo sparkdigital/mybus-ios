@@ -51,6 +51,10 @@
 		B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B47299081DA2C73300D8D6D7 /* Search.storyboard */; };
 		B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */; };
 		B472990D1DA2C74300D8D6D7 /* SearchContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */; };
+		B47299411DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */; };
+		B47299431DA80B9B00D8D6D7 /* MapSearchViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */; };
+		B47299451DA80D5F00D8D6D7 /* SimpleSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */; };
+		B47299471DA80D7D00D8D6D7 /* SimpleSearchBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */; };
 		B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */; };
 		C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50CC65C1D7A17130039C316 /* BusesRates.plist */; };
 		C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */ = {isa = PBXBuildFile; fileRef = C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */; };
@@ -137,6 +141,10 @@
 		B47299081DA2C73300D8D6D7 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewController.swift; sourceTree = "<group>"; };
 		B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContainerViewController.swift; sourceTree = "<group>"; };
+		B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewLayoutExtensions.swift; sourceTree = "<group>"; };
+		B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSearchViewContainer.swift; sourceTree = "<group>"; };
+		B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSearchBarView.swift; sourceTree = "<group>"; };
+		B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleSearchBarView.xib; sourceTree = "<group>"; };
 		B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapView.swift; sourceTree = "<group>"; };
 		C50CC65C1D7A17130039C316 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
 		C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepActivateLocate.xib; sourceTree = "<group>"; };
@@ -283,6 +291,9 @@
 				C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */,
 				C5348A301D9070C1004EADEC /* TitleMainView.xib */,
 				C58F8DAE1DA40046009AA176 /* SearchView.xib */,
+				B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */,
+				B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */,
+				B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -374,6 +385,7 @@
 				114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */,
 				110795761D9C4C4A00D63CE4 /* RegExOperator.swift */,
 				C58F8DAC1DA3FF4E009AA176 /* SearchView.swift */,
+				B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -487,6 +499,7 @@
 				C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */,
 				C58F8DAF1DA40046009AA176 /* SearchView.xib in Resources */,
 				B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */,
+				B47299471DA80D7D00D8D6D7 /* SimpleSearchBarView.xib in Resources */,
 				C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */,
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
 				C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */,
@@ -632,6 +645,7 @@
 				C581F8021D9D562800DF6663 /* NavRouter.swift in Sources */,
 				11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */,
 				C5B96F101D834D4A0073B990 /* BusesInformationTableViewCell.swift in Sources */,
+				B47299431DA80B9B00D8D6D7 /* MapSearchViewContainer.swift in Sources */,
 				C5CE59D01D8AF572003A8FE4 /* RecentTableViewCell.swift in Sources */,
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
 				C5421B271D5B609C007C8987 /* ProgressHUD.swift in Sources */,
@@ -665,7 +679,9 @@
 				11DF62501DA2D11600E21320 /* SuggestedPlace.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
+				B47299451DA80D5F00D8D6D7 /* SimpleSearchBarView.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
+				B47299411DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift in Sources */,
 				C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */,
 				08EC58531CBD482400E8410A /* MyBusMapController.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
