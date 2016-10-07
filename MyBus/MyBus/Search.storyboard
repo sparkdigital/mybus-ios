@@ -64,10 +64,10 @@
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FavoriteTableViewCell" rowHeight="55" id="Qtd-bg-ash" customClass="FavoriteTableViewCell" customModule="MyBus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="49.5" width="600" height="55"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qtd-bg-ash" id="wVE-af-FpY">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="favorite" translatesAutoresizingMaskIntoConstraints="NO" id="Eqq-RN-VZA">
@@ -93,10 +93,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentTableViewCell" rowHeight="45" id="tdh-fi-hoJ" customClass="RecenTableViewCell" customModule="MyBus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="104.5" width="600" height="45"/>
+                                        <rect key="frame" x="0.0" y="105" width="600" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tdh-fi-hoJ" id="LL0-dS-nrm">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="direccion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iRY-mn-ceX">
@@ -128,10 +128,10 @@
             </objects>
             <point key="canvasLocation" x="1069" y="-590"/>
         </scene>
-        <!--View Controller-->
+        <!--Search Suggestions View Controller-->
         <scene sceneID="CN1-xf-4zv">
             <objects>
-                <viewController storyboardIdentifier="SearchSuggestionsVC" id="BjR-fv-G15" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchSuggestionsVC" id="BjR-fv-G15" customClass="SearchSuggestionsViewController" customModule="MyBus" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="D7h-yL-J1e"/>
                         <viewControllerLayoutGuide type="bottom" id="UX2-43-0mW"/>
@@ -172,6 +172,9 @@
                             <constraint firstAttribute="trailing" secondItem="Gg3-Kc-eBy" secondAttribute="trailing" id="OkZ-Rl-wc5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="suggestionsTableView" destination="Gg3-Kc-eBy" id="VbT-V7-4cG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rf3-qC-WwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

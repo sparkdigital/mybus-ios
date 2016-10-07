@@ -20,6 +20,9 @@ class NavRouter {
     private let mapViewIdentifier: String = "MapViewController"
     private let ratesViewIdentifier: String = "BusesRatesViewController"
     private let informationViewIdentifier: String = "BusesInformationViewController"
+    private let suggestionsViewIdentifier:String = "SearchSuggestionsVC"
+    private let searchContainerViewIdentifier:String = "SearchContainerViewController"
+    
     
     //Method that receives a storyboard string identifier and returns a view controller object
     private func buildComponentVC(identifier:String,storyBoard:String) -> UIViewController {
@@ -42,5 +45,15 @@ class NavRouter {
     func busesInformationController()->UIViewController {
         return self.buildComponentVC(self.informationViewIdentifier,storyBoard: self.main)
     }
+    
+    func suggestionsViewController()->UIViewController{
+        return self.buildComponentVC(self.suggestionsViewIdentifier, storyBoard: self.search)
+    }
+    
+    func searchContainerViewController()->UIViewController {
+        return self.buildComponentVC(self.searchContainerViewIdentifier, storyBoard: self.search)
+    }
+    
+    
     
 }
