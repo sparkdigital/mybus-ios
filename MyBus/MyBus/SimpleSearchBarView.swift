@@ -1,22 +1,18 @@
 //
-//  SearchView.swift
+//  SimpleSearchBarView.swift
 //  MyBus
 //
-//  Created by Julieta Gonzalez Poume on 9/28/16.
+//  Created by Sebastian Fink on 10/7/16.
 //  Copyright © 2016 Spark Digital. All rights reserved.
 //
 
 import UIKit
 
-class SearchView:UIView{
+class SimpleSearchBarView: UIView {
     
-    private var nibId:String = "SearchView"
-    private var viewHeight:CGFloat = 84
-    
-    //View Outlets
-    @IBOutlet weak var invert: UIButton!
-    @IBOutlet weak var origin: UITextField!
-    @IBOutlet weak var destination: UITextField!
+    private var nibId: String = "SimpleSearchBarView"
+    private var viewHeight:CGFloat = 44
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override init(frame: CGRect) {
         let rect = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, viewHeight)
@@ -28,18 +24,11 @@ class SearchView:UIView{
         super.init(coder: aDecoder)
         xibSetup(nibIdentifier())
     }
-    
-    /*
-    func LoadSearchView(currentView : UIView){
-        let searchView = UINib(nibName:"SearchView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
-        currentView.addSubview(searchView)
-    }*/
-    
-    
+
 }
 
-extension SearchView:SearchPresenter {
-
+extension SimpleSearchBarView:SearchPresenter {
+    
     // MARK: SearchPresenter Delegate methods
     func nibIdentifier() -> String{
         return nibId
@@ -50,12 +39,11 @@ extension SearchView:SearchPresenter {
     }
     
     func setBarDelegate(delegate: UISearchBarDelegate) {
-        // Do nothing
+        self.searchBar.delegate = delegate
     }
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {
-        self.origin.delegate = delegate
-        self.destination.delegate = delegate
+        // Do nothing
     }
-
+   
 }
