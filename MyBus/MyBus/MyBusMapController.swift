@@ -174,21 +174,18 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
 
     func mapView(mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
-        // Set the alpha for all shape annotations to 1 (full opacity)
-        return 1
+        return self.mapView.defaultAlphaForShapeAnnotation
     }
 
     func mapView(mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat {
-        // Set the line width for polyline annotations
-        return 2.0
+        return self.mapView.defaultLineWidthForPolylineAnnotation
     }
 
     func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
         if let annotation = annotation as? MyBusPolyline {
             return annotation.color ?? mapView.tintColor
         }
-        // Fallback to the default tint color.
-        return mapView.tintColor
+        return self.mapView.defaultBusPolylineColor
     }
 
     func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
