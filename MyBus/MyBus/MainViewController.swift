@@ -11,8 +11,10 @@ import UIKit
 import MapKit
 
 
-class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDelegate, UITabBarDelegate, MainViewDelegate {
+class MainViewController: UIViewController, MapBusRoadDelegate, UITabBarDelegate, MainViewDelegate {
 
+    var searchActive:Bool = false
+    
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var locateUserButton: UIBarButtonItem!
@@ -22,7 +24,8 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
     @IBOutlet weak var tabBar: UITabBar!
 
     var mapViewController: MyBusMapController!
-    var searchViewController: SearchViewController!
+    var searchViewController:SearchContainerViewController!
+    //var searchViewController: SearchViewController!
     var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
     var navRouter: NavRouter!
@@ -35,9 +38,10 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         
         self.navRouter = NavRouter()
         self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
-        self.searchViewController = self.navRouter.searchController() as! SearchViewController
+        self.searchViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
+        //self.searchViewController = self.navRouter.searchController() as! SearchViewController
 
-        self.searchViewController.mainViewDelegate = self
+        //self.searchViewController.mainViewDelegate = self
         self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
         
@@ -54,6 +58,7 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.navigationItem.titleView = titleView
 
         self.tabBar.delegate = self
+        self.searchBar.delegate = self
     }
 
     //Method that receives a subview and adds it to the parentView with autolayout constraints
@@ -103,10 +108,10 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
     func searchBarTapped(sender: AnyObject) {
         if self.currentViewController == searchViewController {
-            self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-            self.currentViewController = self.mapViewController
+            /*self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+            self.currentViewController = self.mapViewController*/
         } else {
-            self.searchViewController.searchViewProtocol = self
+            //self.searchViewController.searchViewProtocol = self
             self.searchViewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.cycleViewController(self.currentViewController!, toViewController: self.searchViewController)
             self.currentViewController = self.searchViewController
@@ -141,11 +146,6 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
 
     func newDestination(destination: CLLocationCoordinate2D, address: String) {
         self.mapViewController.addDestinationPosition(destination, address : address)
-    }
-
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        searchBarTapped(false)
-        return false
     }
 
     func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
@@ -214,5 +214,44 @@ class MainViewController: UIViewController, MapBusRoadDelegate, UISearchBarDeleg
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
         self.searchBar.hidden = false
+    }
+}
+
+extension MainViewController:UISearchBarDelegate {
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        searchBarTapped(self)
+        return true
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchActive = true;
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        NSLog(searchText)
+       
+        /*filtered = data.filter({ (text) -> Bool in
+            let tmp: NSString = text
+            let range = tmp.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            return range.location != NSNotFound
+        })
+        if(filtered.count == 0){
+            searchActive = false;
+        } else {
+            searchActive = true;
+        }
+        self.tableView.reloadData()*/
     }
 }
