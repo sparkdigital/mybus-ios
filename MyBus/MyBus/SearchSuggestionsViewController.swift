@@ -18,6 +18,8 @@ class SearchSuggestionsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        suggestionsTableView.delegate = self
+        suggestionsTableView.dataSource = self
     }
 
     override func didReceiveMemoryWarning() {

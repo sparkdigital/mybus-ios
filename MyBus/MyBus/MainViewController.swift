@@ -17,8 +17,6 @@ protocol Searchable {
 
 
 class MainViewController: UIViewController{
-
-    var searchActive:Bool = false
     
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -63,22 +61,19 @@ class MainViewController: UIViewController{
         self.addChildViewController(self.currentViewController!)
         self.view.addAutoPinnedSubview(self.currentViewController!.view, toView: self.containerView)
         
-        //self.searchBar.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
-        //self.searchBar.layer.borderWidth = 8
-        //self.searchBar.delegate = self
-
-        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
-        self.navigationItem.titleView = titleView
+        self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
+        self.mapSearchViewContainer.layer.borderWidth = 8
+        
+        self.configureMapNavigationInfo()
 
         self.tabBar.delegate = self
-        
-        //SearchViewContainer Logic
-        self.mapSearchViewContainer.loadBasicSearch()
-        
+       
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        //SearchViewContainer Logic
         self.initWithBasicSearch()
     }
 
@@ -114,37 +109,14 @@ class MainViewController: UIViewController{
 
     }
 
-    // MARK: - Button Handlers
-
-    func searchBarTapped(sender: AnyObject) {
-        if self.currentViewController == searchViewController {
-            /*self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-            self.currentViewController = self.mapViewController*/
-        } else {
-            self.cycleViewController(self.currentViewController!, toViewController: suggestionSearchViewController)
-            self.currentViewController = suggestionSearchViewController
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
-            self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
-            
-            //self.searchViewController.searchViewProtocol = self
-            
-            self.searchViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            self.cycleViewController(self.currentViewController!, toViewController: self.searchViewController)
-            self.currentViewController = self.searchViewController
-        }
-    }
+    //self.searchViewController.searchViewProtocol = self
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.characters.count > 2 {
-            self.suggestionSearchViewController.searchBar(self.searchBar, textDidChange: searchText)
-        }else if searchText.characters.count == 0 {
-            self.suggestionSearchViewController.cleanSearch()
-        }
+    func toggleSearchViewContainer(show:Bool){
+        self.mapSearchViewContainer.hidden = !show
     }
     
     
     func setNavigation(Title: String){
-        //self.searchBar.hidden = true
         self.navigationItem.titleView = nil
         self.navigationItem.title = Title
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
@@ -154,14 +126,18 @@ class MainViewController: UIViewController{
     }
 
     func backTapped(){
+        self.toggleSearchViewContainer(true)
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
         self.mapViewController.clearRouteAnnotations()
+        configureMapNavigationInfo()
+    }
+    
+    func configureMapNavigationInfo(){
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
-        //self.searchBar.hidden = false
-        //self.searchBar.endEditing(true)
+        self.tabBar.selectedItem = tabBar.items?[0]        
     }
 }
 
@@ -193,14 +169,17 @@ extension MainViewController:UITabBarDelegate {
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if (item.tag == 0){
+            self.configureMapNavigationInfo()
+            self.toggleSearchViewContainer(true)
             self.mapViewController.clearRechargePoints()
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
         }
         if (item.tag == 1){
-            
+            self.toggleSearchViewContainer(true)
         }
         if (item.tag == 2){
+            self.toggleSearchViewContainer(true)
             if let userLocation = self.mapViewController.mapView.userLocation {
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
@@ -221,12 +200,14 @@ extension MainViewController:UITabBarDelegate {
             }
         }
         if (item.tag == 3){
+            self.toggleSearchViewContainer(false)
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
             self.setNavigation("Recorridos")
         }
         if (item.tag == 4){
+            self.toggleSearchViewContainer(false)
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
             self.currentViewController = busesRatesViewController
             self.setNavigation("Tarifas")
@@ -238,16 +219,15 @@ extension MainViewController:UITabBarDelegate {
 
 // MARK: UISearchBarDelegate protocol methods
 extension MainViewController:UISearchBarDelegate {
- 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if self.currentViewController == suggestionSearchViewController {
-            searchBarTapped(true)
-            return true
-        } else {
-            self.searchViewController.searchViewProtocol = self
-            searchBarTapped(false)
-            return false
-        }
+   
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        //Load searchviewcontroller
+        searchBar.resignFirstResponder()
+        let searchController:SearchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
+        
+        //TODO: Debe variar segun el estado del modelo...
+        searchController.searchType = SearchType.Origin
+        self.navigationController?.pushViewController(searchController, animated: true)
     }
     
 }
@@ -298,44 +278,3 @@ extension MainViewController:MainViewDelegate{
         self.mapViewController.showUserLocation()
     }
 }
-
-/*
-extension MainViewController:UISearchBarDelegate {
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        searchBarTapped(self)
-        return true
-    }
-    
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchActive = true;
-    }
-    
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        searchActive = false;
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        searchActive = false;
-    }
-    
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchActive = false;
-    }
-    
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        NSLog(searchText)
-       
-        /*filtered = data.filter({ (text) -> Bool in
-            let tmp: NSString = text
-            let range = tmp.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
-            return range.location != NSNotFound
-        })
-        if(filtered.count == 0){
-            searchActive = false;
-        } else {
-            searchActive = true;
-        }
-        self.tableView.reloadData()*/
-    }
-}
-*/
