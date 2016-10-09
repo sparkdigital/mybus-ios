@@ -12,7 +12,28 @@ import MapKit
 
 protocol Searchable {
     func initWithBasicSearch()
-    func initWithComplexSearch()
+    func initWithComplexSearch(origin:RoutePoint?, destination:RoutePoint?)
+    func newOriginSearchRequest()
+    func newDestinationSearchRequest()
+}
+
+class MapViewModel {
+    
+    var origin:RoutePoint?
+    var destiny:RoutePoint?
+    
+    var hasOrigin:Bool {
+        return origin != nil
+    }
+    var hasDestiny:Bool {
+        return destiny != nil
+    }
+    
+    func clearModel(){
+        origin = nil
+        destiny = nil
+    }
+    
 }
 
 
@@ -28,7 +49,9 @@ class MainViewController: UIViewController{
     @IBOutlet weak var mapSearchViewContainer:MapSearchViewContainer!
     @IBOutlet weak var mapSearchViewHeightConstraint: NSLayoutConstraint!
 
-
+    //Temporary model
+    var mapViewModel:MapViewModel!
+    
     var mapViewController: MyBusMapController!
     var searchViewController: SearchViewController!
     var suggestionSearchViewController: SuggestionSearchViewController!
@@ -42,6 +65,9 @@ class MainViewController: UIViewController{
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
+    let progressNotification = ProgressHUD()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,13 +94,20 @@ class MainViewController: UIViewController{
 
         self.tabBar.delegate = self
        
+        self.mapViewModel = MapViewModel()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         //SearchViewContainer Logic
-        self.initWithBasicSearch()
+        if mapViewModel.hasOrigin {
+            self.configureNewSearchNavigation()
+            self.initWithComplexSearch(mapViewModel.origin, destination:mapViewModel.destiny)
+        }else{
+            self.initWithBasicSearch()
+        }
+        
     }
 
     //This method receives the old view controller to be replaced with the new controller
@@ -108,8 +141,6 @@ class MainViewController: UIViewController{
 
 
     }
-
-    //self.searchViewController.searchViewProtocol = self
     
     func toggleSearchViewContainer(show:Bool){
         self.mapSearchViewContainer.hidden = !show
@@ -137,10 +168,59 @@ class MainViewController: UIViewController{
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
+        self.navigationItem.rightBarButtonItem = nil
         self.tabBar.selectedItem = tabBar.items?[0]        
     }
+    
+    func configureNewSearchNavigation(){
+        self.navigationItem.titleView = nil
+        
+        let cancelButton = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
+        
+        cancelButton.tintColor = UIColor.lightGrayColor()
+        
+        let searchRouteButton = UIBarButtonItem(title: "Buscar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
+        searchRouteButton.tintColor = UIColor.lightGrayColor()
+        
+        self.navigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.rightBarButtonItem = searchRouteButton
+        
+        self.navigationItem.title = "Buscar Ruta"
+        
+    }
+    
+    func searchRoute(){
+        if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
+            self.progressNotification.showLoadingNotification(self.view)
+            SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
+                
+                self.progressNotification.stopLoadingNotification(self.view)
+
+                if let r:BusSearchResult = searchResult {
+                    self.newResults(r)
+                }else{
+                    GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
+                }
+            })
+        }else{
+            let title = "Campos requeridos"
+            let message = "Se requiere un origen y un destino para calcular la ruta"
+            
+            GenerateMessageAlert.generateAlert(self, title: title, message: message)
+            
+        }
+    }
+    
+    func clearActiveSearch(){
+        self.mapViewModel.clearModel()
+        self.mapViewController.mapView.clearAllAnnotations()
+        self.initWithBasicSearch()
+        self.configureMapNavigationInfo()        
+    }
+    
 }
 
+// MARK: Searchable protocol methods
 extension MainViewController:Searchable{
     
     func initWithBasicSearch() {
@@ -149,16 +229,32 @@ extension MainViewController:Searchable{
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
     
-    func initWithComplexSearch() {
-        mapSearchViewContainer.loadComplexSearch()
+    func initWithComplexSearch(origin:RoutePoint?, destination:RoutePoint?) {
+        mapSearchViewContainer.loadComplexSearch(origin, destination: destination)
         mapSearchViewContainer.presenter.setTextFieldDelegate(self)
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
+    }
+    
+    func newOriginSearchRequest(){
+        self.createSearchRequest(SearchType.Origin)
+    }
+    func newDestinationSearchRequest(){
+        self.createSearchRequest(SearchType.Destiny)
     }
     
     func updateSearchViewLayout(preferredHeight:CGFloat){
         mapSearchViewHeightConstraint.constant = preferredHeight
         mapSearchViewContainer.updateConstraints()
         mapSearchViewContainer.layoutIfNeeded()
+    }
+    
+    func createSearchRequest(type:SearchType){
+        let searchController:SearchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
+        searchController.busRoadDelegate = self
+        
+        searchController.searchType = type
+        
+        self.navigationController?.pushViewController(searchController, animated: true)
     }
    
 }
@@ -223,20 +319,10 @@ extension MainViewController:UISearchBarDelegate {
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         //Load searchviewcontroller
         searchBar.resignFirstResponder()
-        let searchController:SearchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
-        
-        //TODO: Debe variar segun el estado del modelo...
-        searchController.searchType = SearchType.Origin
-        self.navigationController?.pushViewController(searchController, animated: true)
+        self.createSearchRequest(SearchType.Origin)
     }
     
 }
-
-
-// MARK: UITextField delegate protocol methods
-extension MainViewController:UITextFieldDelegate {
-}
-
 
 
 // MARK: MapBusRoadDelegate protocol methods
@@ -258,10 +344,19 @@ extension MainViewController:MapBusRoadDelegate {
         self.mapViewController.addOriginPosition(origin, address: address)
     }
     
+    func newOrigin(routePoint: RoutePoint) {
+        self.mapViewController.addOriginPosition(routePoint.getLatLong(), address: routePoint.address)
+        self.mapViewModel.origin = routePoint
+    }
+    
     func newDestination(destination: CLLocationCoordinate2D, address: String) {
         self.mapViewController.addDestinationPosition(destination, address : address)
     }
     
+    func newDestination(routePoint: RoutePoint) {
+        self.mapViewController.addDestinationPosition(routePoint.getLatLong(), address : routePoint.address)
+        self.mapViewModel.destiny = routePoint
+    }
     
     func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
         self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
