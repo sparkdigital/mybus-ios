@@ -19,11 +19,14 @@ class SearchContainerViewController: UIViewController {
     @IBOutlet weak var addressLocationSearchBar: UISearchBar!
     @IBOutlet weak var searchContainerView: UIView!
     
+    var busRoadDelegate:MapBusRoadDelegate?
+    
     var shortcutsViewController:SearchViewController!
     var suggestionViewController:SuggestionSearchViewController!
     
     weak var currentViewController:UIViewController!
     var searchType:SearchType = SearchType.Origin
+    let progressNotification = ProgressHUD()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +34,7 @@ class SearchContainerViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         let router = NavRouter()
-                
+        
         self.shortcutsViewController = router.searchController() as! SearchViewController
         self.suggestionViewController = router.suggestionController() as! SuggestionSearchViewController
         
@@ -49,6 +52,15 @@ class SearchContainerViewController: UIViewController {
         
         self.navigationItem.leftBarButtonItem = cancelButtonItem
         self.navigationItem.title = "Buscar \(self.searchType.rawValue)"
+        
+        var barPlaceholder:String = ""
+        if searchType == SearchType.Origin {
+            barPlaceholder = "Desde: Buscar dirección de origen"
+        }else {
+            barPlaceholder = "Hacia: Buscar dirección de destino"
+        }
+        
+        self.addressLocationSearchBar.placeholder = barPlaceholder
        
     }
     
@@ -116,9 +128,40 @@ extension SearchContainerViewController:UISearchBarDelegate {
             
         }
     } // called when text changes (including clear)
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+        if let searchTerm:String = searchBar.text, let count:Int = searchTerm.characters.count where count > 0 {
+            
+            self.progressNotification.showLoadingNotification(self.view)
+            Connectivity.sharedInstance.getCoordinateFromAddress(searchTerm, completionHandler: { (point, error) in
+                
+                self.progressNotification.stopLoadingNotification(self.view)
+                
+                if let p = point {
+                    if self.searchType == SearchType.Origin {
+                        self.busRoadDelegate?.newOrigin(p)
+                    }else{
+                        self.busRoadDelegate?.newDestination(p)
+                    }
+                    self.goBackToMap()
+                }else{
+                    
+                    let title = "No sabemos donde es el \(self.searchType.rawValue)"
+                    let message = "No pudimos resolver la dirección de \(self.searchType.rawValue) ingresada"
+                    
+                    GenerateMessageAlert.generateAlert(self, title: title, message: message)
+                    
+                }
+                
+            })
+            
+        }else {
+            let message = "El campo \(self.searchType.rawValue) no esta indicado"
+            GenerateMessageAlert.generateAlert(self, title: "No sabemos que buscar", message: message)
+        }
+       
+    }
    
     
 }
-
-
-
