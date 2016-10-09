@@ -12,7 +12,7 @@ protocol SearchPresenter{
     func nibIdentifier() -> String
     func preferredHeight() -> CGFloat
     func setBarDelegate(delegate:UISearchBarDelegate)
-    func setTextFieldDelegate(delegate:UITextFieldDelegate)
+    func setTextFieldDelegate(delegate:Searchable)
 }
 
 class MapSearchViewContainer: UIView {
@@ -31,8 +31,11 @@ class MapSearchViewContainer: UIView {
         loadConcreteSearchView(SimpleSearchBarView(frame: bounds))
     }
     
-    func loadComplexSearch(){
-        loadConcreteSearchView(SearchView(frame: bounds))
+    func loadComplexSearch(origin:RoutePoint?, destination:RoutePoint?){
+        let complexSearchView = SearchView(frame: bounds)
+        complexSearchView.origin.text = origin?.address
+        complexSearchView.destination.text = destination?.address
+        loadConcreteSearchView(complexSearchView)
     }
     
     private func loadConcreteSearchView(aPresenter:SearchPresenter){
