@@ -42,7 +42,7 @@ extension SimpleSearchBarView:SearchPresenter {
         self.searchBar.delegate = delegate
     }
     
-    func setTextFieldDelegate(delegate: UITextFieldDelegate) {
+    func setTextFieldDelegate(delegate: Searchable) {
         // Do nothing
     }
    
