@@ -39,8 +39,8 @@ class MapSearchViewContainer: UIView {
     }
     
     private func loadConcreteSearchView(aPresenter:SearchPresenter){
-        presenter = aPresenter
         clearViewSubviews()
+        presenter = aPresenter        
         addAutoPinnedSubview(presenter as! UIView, toView: self)
     }
     
