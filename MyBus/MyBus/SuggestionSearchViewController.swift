@@ -22,6 +22,7 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     var suggestionsDataSource: SearchSuggestionsDataSource!
     var searchBarController: UISearchController!
     
+    var searchBar:UISearchBar?
     
     // MARK: - View Lifecycle Methods
     
@@ -44,6 +45,7 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchBar = searchBar
         self.suggestionsDataSource.bestMatches = self.applyFilter(searchText)
         self.searchSuggestionTableView.reloadData()
     }
@@ -74,6 +76,8 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     }
     
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //do something
+        if let result:(String,SearchFilterType) = self.bestMatches[indexPath.row] {
+            self.searchBar?.text = result.0
+        }
     }
 }
