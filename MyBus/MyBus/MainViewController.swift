@@ -175,7 +175,7 @@ class MainViewController: UIViewController{
     func configureNewSearchNavigation(){
         self.navigationItem.titleView = nil
         
-        let cancelButton = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
+        let cancelButton = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
         
         cancelButton.tintColor = UIColor.lightGrayColor()
         
@@ -213,7 +213,7 @@ class MainViewController: UIViewController{
     
     func clearActiveSearch(){
         self.mapViewModel.clearModel()
-        self.mapViewController.mapView.clearAllAnnotations()
+        self.mapViewController.resetMapSearch()
         self.initWithBasicSearch()
         self.configureMapNavigationInfo()        
     }

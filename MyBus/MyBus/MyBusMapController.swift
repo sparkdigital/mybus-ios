@@ -251,6 +251,13 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func clearRouteAnnotations(){
         self.mapView.clearExistingBusRouteAnnotations()
     }
+    
+    func resetMapSearch(){
+        self.mapView.clearAllAnnotations()
+        self.bestMatches = []
+        self.busResultsTableView.reloadData()
+        setBusResultsTableViewHeight(busResultTableHeightToHide)
+    }
 
     // MARK: - Pack Download
 
