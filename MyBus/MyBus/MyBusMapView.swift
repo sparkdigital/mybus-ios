@@ -104,9 +104,13 @@ class MyBusMapView: MGLMapView{
     func addRoad(){}
     func addRoute(){}
 
+    func currentGPSLocation()->CLLocation?{
+        return self.userLocation?.location
+    }
+    
     func centerMapWithGPSLocation() -> Void {
         self.showsUserLocation = true
-        self.centerCoordinate = (self.userLocation!.location?.coordinate)!
+        self.centerCoordinate = (self.currentGPSLocation()?.coordinate)!
         self.setZoomLevel(16, animated: false)
     }
 

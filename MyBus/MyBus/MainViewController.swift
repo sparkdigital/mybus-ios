@@ -74,7 +74,6 @@ class MainViewController: UIViewController{
         self.navRouter = NavRouter()
         self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
         self.searchViewController = self.navRouter.searchController() as! SearchViewController
-        self.searchViewController.mainViewDelegate = self
         
         self.suggestionSearchViewController = self.navRouter.suggestionController() as! SuggestionSearchViewController
         self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
@@ -99,7 +98,10 @@ class MainViewController: UIViewController{
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
+        self.verifySearchStatus()
+    }
+
+    private func verifySearchStatus(){
         //SearchViewContainer Logic
         if mapViewModel.hasOrigin {
             self.configureNewSearchNavigation()
@@ -107,9 +109,8 @@ class MainViewController: UIViewController{
         }else{
             self.initWithBasicSearch()
         }
-        
     }
-
+    
     //This method receives the old view controller to be replaced with the new controller
     func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController) {
 
@@ -363,13 +364,36 @@ extension MainViewController:MapBusRoadDelegate {
         self.currentViewController = mapViewController
         self.mapViewController.displayCompleteBusRoute(route)
     }
-}
-
-extension MainViewController:MainViewDelegate{
     
-    func loadPositionMainView() {
-        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-        self.currentViewController = self.mapViewController
-        self.mapViewController.showUserLocation()
+    // TODO: Temporary solution until the location logic is refactored to another class
+    func newOriginWithCurrentLocation() {
+        self.newEndpointWithCurrentLocation(SearchType.Origin, handler: self.newOrigin)
+    }
+    
+    // TODO: Temporary solution until the location logic is refactored to another class
+    func newDestinationWithCurrentLocation() {
+        self.newEndpointWithCurrentLocation(SearchType.Destiny, handler: self.newDestination)
+    }
+    
+    private func newEndpointWithCurrentLocation(endpointType:SearchType, handler:(RoutePoint)->Void){
+        
+        guard let location = self.mapViewController.userLocation else {
+            NSLog("Location Manager not enabled")
+            return
+        }
+        
+        Connectivity.sharedInstance.getAddressFromCoordinate(location.coordinate.latitude, longitude: location.coordinate.longitude) { (point, error) in
+            
+            if let p = point {
+                handler(p)
+                self.verifySearchStatus()
+                self.mapViewController.showUserLocation()
+            }else{
+                let title = "No sabemos donde es el \(endpointType.rawValue)"
+                let message = "No pudimos resolver la dirección de \(endpointType.rawValue) ingresada"
+                GenerateMessageAlert.generateAlert(self, title: title, message: message)
+            }
+            
+        }
     }
 }

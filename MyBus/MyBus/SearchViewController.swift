@@ -18,6 +18,8 @@ protocol MapBusRoadDelegate {
     func newCompleteBusRoute(route: CompleteBusRoute)
     func newOrigin(routePoint:RoutePoint)
     func newDestination(routePoint:RoutePoint)
+    func newOriginWithCurrentLocation()
+    func newDestinationWithCurrentLocation()
 }
 
 protocol MainViewDelegate: class {

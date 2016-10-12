@@ -36,6 +36,8 @@ class SearchContainerViewController: UIViewController {
         let router = NavRouter()
         
         self.shortcutsViewController = router.searchController() as! SearchViewController
+        self.shortcutsViewController.mainViewDelegate = self
+        
         self.suggestionViewController = router.suggestionController() as! SuggestionSearchViewController
         
         self.currentViewController = shortcutsViewController
@@ -62,6 +64,11 @@ class SearchContainerViewController: UIViewController {
         
         self.addressLocationSearchBar.placeholder = barPlaceholder
        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.addressLocationSearchBar.becomeFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {
@@ -164,4 +171,20 @@ extension SearchContainerViewController:UISearchBarDelegate {
     }
    
     
+}
+
+
+extension SearchContainerViewController:MainViewDelegate{
+    
+    func loadPositionMainView() {
+        
+        if self.searchType == SearchType.Origin {
+            self.busRoadDelegate?.newOriginWithCurrentLocation()
+            self.goBackToMap()
+        }else{
+            self.busRoadDelegate?.newDestinationWithCurrentLocation()
+            self.goBackToMap()
+        }
+        
+    }
 }
