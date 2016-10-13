@@ -38,7 +38,7 @@
                             <state key="normal" image="invert"/>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.51372549019607838" blue="0.81176470588235294" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="R8f-36-2cf" firstAttribute="top" secondItem="eSs-cd-X5c" secondAttribute="bottom" constant="8" id="8rd-gm-W3V"/>
                         <constraint firstItem="6Ff-4D-43L" firstAttribute="centerY" secondItem="JKz-Yc-Nbw" secondAttribute="centerY" id="MqZ-b4-9fe"/>

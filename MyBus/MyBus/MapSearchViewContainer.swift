@@ -17,14 +17,19 @@ protocol SearchPresenter{
 
 class MapSearchViewContainer: UIView {
     
+    static let myBusBlueColor: UIColor = UIColor(red:0.01, green:0.53, blue:0.82, alpha:1.0)
     var presenter:SearchPresenter!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = MapSearchViewContainer.myBusBlueColor
+        self.tintColor = UIColor.clearColor()
     }
     
     required init?(coder aDecoder:NSCoder){
         super.init(coder: aDecoder)
+        self.backgroundColor = MapSearchViewContainer.myBusBlueColor
+        self.tintColor = UIColor.clearColor()
     }
     
     func loadBasicSearch(){
