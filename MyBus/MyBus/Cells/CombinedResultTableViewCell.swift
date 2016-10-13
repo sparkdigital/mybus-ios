@@ -6,4 +6,15 @@
 //  Copyright © 2016 Spark Digital. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class CombinedResultTableViewCell: UITableViewCell {
+    // MARK: Properties
+    @IBOutlet weak var firstBusLine: UILabel!
+    @IBOutlet weak var addressOriginStopFirstLine: UILabel!
+    @IBOutlet weak var addressDestinationStopFirstLine: UILabel!
+
+    @IBOutlet weak var addressOriginStopLastLine: UILabel!
+    @IBOutlet weak var addressEndStopLastLine: UILabel!
+
+}
