@@ -21,6 +21,10 @@
 		1131807E1D63749400425847 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1131807D1D63749400425847 /* SearchManager.swift */; };
 		114E670A1D79DD5500D8F746 /* BusColors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 114E67091D79DD5200D8F746 /* BusColors.plist */; };
 		114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */; };
+		115BE4D21DAD616B00E429D2 /* CombinedResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115BE4D11DAD616A00E429D2 /* CombinedResultTableViewCell.swift */; };
+		115BE4D41DAD618D00E429D2 /* SimpleResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115BE4D31DAD618D00E429D2 /* SimpleResultTableViewCell.swift */; };
+		115BE4D81DAD660700E429D2 /* BusesResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */; };
+		115BE4DC1DAD7A3800E429D2 /* Buses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 115BE4DB1DAD7A3800E429D2 /* Buses.storyboard */; };
 		11A552811DA6B48F00CF4C95 /* MyBusMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */; };
 		11A552831DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A552821DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift */; };
 		11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */; };
@@ -112,6 +116,10 @@
 		1131807D1D63749400425847 /* SearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchManager.swift; path = Services/SearchManager.swift; sourceTree = "<group>"; };
 		114E67091D79DD5200D8F746 /* BusColors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusColors.plist; sourceTree = "<group>"; };
 		114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexToUIColorConverter.swift; sourceTree = "<group>"; };
+		115BE4D11DAD616A00E429D2 /* CombinedResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CombinedResultTableViewCell.swift; path = Cells/CombinedResultTableViewCell.swift; sourceTree = "<group>"; };
+		115BE4D31DAD618D00E429D2 /* SimpleResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleResultTableViewCell.swift; path = Cells/SimpleResultTableViewCell.swift; sourceTree = "<group>"; };
+		115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesResultsTableViewController.swift; sourceTree = "<group>"; };
+		115BE4DB1DAD7A3800E429D2 /* Buses.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Buses.storyboard; sourceTree = "<group>"; };
 		11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMarker.swift; sourceTree = "<group>"; };
 		11A552821DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMarkerFactory.swift; sourceTree = "<group>"; };
 		11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusPolylineFactory.swift; sourceTree = "<group>"; };
@@ -254,6 +262,7 @@
 				C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */,
 				C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */,
 				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
+				115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -290,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				B47299081DA2C73300D8D6D7 /* Search.storyboard */,
+				115BE4DB1DAD7A3800E429D2 /* Buses.storyboard */,
 				B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */,
 				11DF62511DA2EF3800E21320 /* MyBusPolyline.swift */,
 				11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */,
@@ -372,6 +382,8 @@
 				C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */,
 				C5CE59CF1D8AF572003A8FE4 /* RecentTableViewCell.swift */,
 				C5619D621DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift */,
+				115BE4D11DAD616A00E429D2 /* CombinedResultTableViewCell.swift */,
+				115BE4D31DAD618D00E429D2 /* SimpleResultTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -510,6 +522,7 @@
 				08EC58561CBD482400E8410A /* Main.storyboard in Resources */,
 				C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */,
 				C58F8DAF1DA40046009AA176 /* SearchView.xib in Resources */,
+				115BE4DC1DAD7A3800E429D2 /* Buses.storyboard in Resources */,
 				B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */,
 				B47299471DA80D7D00D8D6D7 /* SimpleSearchBarView.xib in Resources */,
 				C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */,
@@ -672,6 +685,7 @@
 				C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */,
 				11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */,
 				114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */,
+				115BE4D21DAD616B00E429D2 /* CombinedResultTableViewCell.swift in Sources */,
 				11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
 				B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */,
@@ -698,6 +712,7 @@
 				B47299451DA80D5F00D8D6D7 /* SimpleSearchBarView.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				B47299411DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift in Sources */,
+				115BE4D41DAD618D00E429D2 /* SimpleResultTableViewCell.swift in Sources */,
 				C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */,
 				08EC58531CBD482400E8410A /* MyBusMapController.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
@@ -709,6 +724,7 @@
 				11DAE9021CC534D400A35D6A /* User.swift in Sources */,
 				A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */,
 				C5FD67461D89CCC400460131 /* SearchDataSource.swift in Sources */,
+				115BE4D81DAD660700E429D2 /* BusesResultsTableViewController.swift in Sources */,
 				A0926D131CFA44FE00246534 /* GisService.swift in Sources */,
 				A0926D111CFA44EE00246534 /* MapBoxDirectionsService.swift in Sources */,
 			);
