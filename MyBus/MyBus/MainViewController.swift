@@ -96,12 +96,11 @@ class MainViewController: UIViewController{
         self.tabBar.delegate = self
        
         self.mapViewModel = MapViewModel()
-        
-        self.homeNavigationBar(mapViewModel)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.homeNavigationBar(mapViewModel)
     }
     
     //This method receives the old view controller to be replaced with the new controller
@@ -135,55 +134,7 @@ class MainViewController: UIViewController{
 
 
     }
-    
-    /*
-    func toggleSearchViewContainer(show:Bool){
-        self.mapSearchViewContainer.hidden = !show
-    }
-    
-    
-    func setNavigation(Title: String){
-        self.navigationItem.titleView = nil
-        self.navigationItem.title = Title
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped))
-        backButton.image = UIImage(named:"arrow_back")
-        backButton.tintColor = UIColor.whiteColor()
-        self.navigationItem.leftBarButtonItem = backButton
-    }
-
-    func backTapped(){
-        self.toggleSearchViewContainer(true)
-        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-        self.currentViewController = self.mapViewController
-        self.mapViewController.clearRouteAnnotations()
-        configureMapNavigationInfo()
-    }
-    
-    func configureMapNavigationInfo(){
-        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
-        self.navigationItem.titleView = titleView
-        self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = nil
-        self.tabBar.selectedItem = tabBar.items?[0]        
-    }
-    
-    func configureNewSearchNavigation(){
-        self.navigationItem.titleView = nil
-        
-        let cancelButton = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
-        
-        cancelButton.tintColor = UIColor.lightGrayColor()
-        
-        let searchRouteButton = UIBarButtonItem(title: "Buscar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
-        searchRouteButton.tintColor = UIColor.lightGrayColor()
-        
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = searchRouteButton
-        
-        self.navigationItem.title = "Buscar Ruta"
-        
-    }*/
-    
+  
     func searchRoute(){
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
@@ -350,8 +301,6 @@ extension MainViewController:MapBusRoadDelegate {
     }
     
     func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
-        //self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
-        //self.currentViewController = mapViewController
         self.homeNavigationBar(self.mapViewModel)
         self.mapViewController.displayCompleteBusRoute(route)
     }
@@ -406,6 +355,7 @@ extension MainViewController {
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
         
+        self.tabBar.selectedItem = self.tabBar.items?[0]
     }
     
     func verifySearchStatus(mapModel:MapViewModel){
@@ -423,7 +373,6 @@ extension MainViewController {
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = nil
-        self.tabBar.selectedItem = self.tabBar.items?[0]
     }
     
     func searchNavigationBar(){
