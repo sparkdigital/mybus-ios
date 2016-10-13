@@ -6,4 +6,12 @@
 //  Copyright © 2016 Spark Digital. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class SimpleResultTableViewCell: UITableViewCell {
+    // MARK: Properties
+    @IBOutlet weak var busLine: UILabel!
+    @IBOutlet weak var addressStopOrigin: UILabel!
+    @IBOutlet weak var addressStopDestination: UILabel!
+
+}

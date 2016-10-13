@@ -12,37 +12,36 @@ import MapKit
 
 protocol Searchable {
     func initWithBasicSearch()
-    func initWithComplexSearch(origin:RoutePoint?, destination:RoutePoint?)
+    func initWithComplexSearch(origin: RoutePoint?, destination: RoutePoint?)
     func newOriginSearchRequest()
     func newDestinationSearchRequest()
 }
 
 class MapViewModel {
-    
-    var origin:RoutePoint?
-    var destiny:RoutePoint?
-    
-    var hasOrigin:Bool {
+
+    var origin: RoutePoint?
+    var destiny: RoutePoint?
+
+    var hasOrigin: Bool {
         return origin != nil
     }
-    var hasDestiny:Bool {
+    var hasDestiny: Bool {
         return destiny != nil
     }
-    
+
     func clearModel(){
         origin = nil
         destiny = nil
     }
-    
+
     func isEmpty()->Bool {
         return !hasOrigin && !hasDestiny
     }
-    
 }
 
 
 class MainViewController: UIViewController{
-    
+
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var locateUserButton: UIBarButtonItem!
@@ -50,20 +49,22 @@ class MainViewController: UIViewController{
     @IBOutlet weak var searchToolbar: UIToolbar!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabBar: UITabBar!
-    @IBOutlet weak var mapSearchViewContainer:MapSearchViewContainer!
+    @IBOutlet weak var mapSearchViewContainer: MapSearchViewContainer!
     @IBOutlet weak var mapSearchViewHeightConstraint: NSLayoutConstraint!
 
     //Temporary model
-    var mapViewModel:MapViewModel!
-    
+    var mapViewModel: MapViewModel!
+
     var mapViewController: MyBusMapController!
     var searchViewController: SearchViewController!
     var suggestionSearchViewController: SuggestionSearchViewController!
-    
-    var searchContainerViewController:SearchContainerViewController!
-    
+
+    var searchContainerViewController: SearchContainerViewController!
+
     var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
+    var busesResultsTableViewController: BusesResultsTableViewController!
+
     var navRouter: NavRouter!
 
     //Reference to the currentViewController being shown
@@ -71,33 +72,38 @@ class MainViewController: UIViewController{
 
     let progressNotification = ProgressHUD()
 
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.navRouter = NavRouter()
         self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
         self.searchViewController = self.navRouter.searchController() as! SearchViewController
-        
+
+        self.searchViewController.mainViewDelegate = self
+
         self.suggestionSearchViewController = self.navRouter.suggestionController() as! SuggestionSearchViewController
         self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
-        
+
         self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
-        
+
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController!)
         self.view.addAutoPinnedSubview(self.currentViewController!.view, toView: self.containerView)
-        
+
         self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.mapSearchViewContainer.layer.borderWidth = 8
-        
+
+
+        self.configureMapNavigationInfo()
+
         self.tabBar.delegate = self
-       
+
         self.mapViewModel = MapViewModel()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.homeNavigationBar(mapViewModel)
@@ -116,7 +122,7 @@ class MainViewController: UIViewController{
 
         //Add new view to the container
         self.view.addAutoPinnedSubview(newVC.view, toView: self.containerView)
-        
+
 
         newVC.view.alpha = 0
         newVC.view.layoutIfNeeded()
@@ -134,16 +140,20 @@ class MainViewController: UIViewController{
 
 
     }
-  
+
     func searchRoute(){
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
             SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
-                
+
                 self.progressNotification.stopLoadingNotification(self.view)
 
-                if let r:BusSearchResult = searchResult {
+                if let r: BusSearchResult = searchResult {
                     self.newResults(r)
+                    let searchController: BusesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
+
+                    searchController.buses = r.busRouteOptions
+                    self.navigationController?.pushViewController(searchController, animated: true)
                 }else{
                     GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
                 }
@@ -151,63 +161,63 @@ class MainViewController: UIViewController{
         }else{
             let title = "Campos requeridos"
             let message = "Se requiere un origen y un destino para calcular la ruta"
-            
+
             GenerateMessageAlert.generateAlert(self, title: title, message: message)
-            
+
         }
     }
-    
+
     func clearActiveSearch(){
         self.mapViewModel.clearModel()
         self.mapViewController.resetMapSearch()
         self.homeNavigationBar(self.mapViewModel)
     }
-    
+
 }
 
 // MARK: Searchable protocol methods
 extension MainViewController:Searchable{
-    
+
     func initWithBasicSearch() {
         mapSearchViewContainer.loadBasicSearch()
         mapSearchViewContainer.presenter.setBarDelegate(self)
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
-    
-    func initWithComplexSearch(origin:RoutePoint?, destination:RoutePoint?) {
+
+    func initWithComplexSearch(origin: RoutePoint?, destination: RoutePoint?) {
         mapSearchViewContainer.loadComplexSearch(origin, destination: destination)
         mapSearchViewContainer.presenter.setTextFieldDelegate(self)
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
-    
+
     func newOriginSearchRequest(){
         self.createSearchRequest(SearchType.Origin)
     }
     func newDestinationSearchRequest(){
         self.createSearchRequest(SearchType.Destiny)
     }
-    
-    func updateSearchViewLayout(preferredHeight:CGFloat){
+
+    func updateSearchViewLayout(preferredHeight: CGFloat){
         mapSearchViewHeightConstraint.constant = preferredHeight
         mapSearchViewContainer.updateConstraints()
         mapSearchViewContainer.layoutIfNeeded()
     }
-    
-    func createSearchRequest(type:SearchType){
-        let searchController:SearchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
+
+    func createSearchRequest(type: SearchType){
+        let searchController: SearchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
         searchController.busRoadDelegate = self
-        
+
         searchController.searchType = type
-        
+
         self.navigationController?.pushViewController(searchController, animated: true)
     }
-   
+
 }
 
 
 // MARK: Tab Bar Delegate methods
 extension MainViewController:UITabBarDelegate {
-    
+
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if (item.tag == 0){
             self.homeNavigationBar(self.mapViewModel)
@@ -223,13 +233,13 @@ extension MainViewController:UITabBarDelegate {
             if let userLocation = self.mapViewController.mapView.userLocation {
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
-                    
+
                     if let chargePoints = points {
                         self.mapViewController.addRechargePoints(chargePoints)
                     } else {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
                     }
-                    
+
                 }
                 if self.currentViewController != mapViewController {
                     self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
@@ -252,54 +262,54 @@ extension MainViewController:UITabBarDelegate {
         }
     }
 
-    
+
 }
 
 // MARK: UISearchBarDelegate protocol methods
 extension MainViewController:UISearchBarDelegate {
-   
+
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         //Load searchviewcontroller
         searchBar.resignFirstResponder()
         self.createSearchRequest(SearchType.Origin)
     }
-    
+
 }
 
 
 // MARK: MapBusRoadDelegate protocol methods
 extension MainViewController:MapBusRoadDelegate {
-    
+
     //func newBusRoad(mapBusRoad: MapBusRoad) {
     //Now is no longer needed may be in the future with a new flow yes
     //self.mapViewController.addBusRoad(mapBusRoad)
     //}
-    
+
     func newResults(busSearchResult: BusSearchResult) {
         self.mapViewController.addBusLinesResults(busSearchResult)
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
     }
-    
+
     func newOrigin(origin: CLLocationCoordinate2D, address: String) {
         self.mapViewController.addOriginPosition(origin, address: address)
     }
-    
+
     func newOrigin(routePoint: RoutePoint) {
         self.mapViewController.addOriginPosition(routePoint.getLatLong(), address: routePoint.address)
         self.mapViewModel.origin = routePoint
     }
-    
+
     func newDestination(destination: CLLocationCoordinate2D, address: String) {
         self.mapViewController.addDestinationPosition(destination, address : address)
     }
-    
+
     func newDestination(routePoint: RoutePoint) {
         self.mapViewController.addDestinationPosition(routePoint.getLatLong(), address : routePoint.address)
         self.mapViewModel.destiny = routePoint
     }
-    
+
     func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
         self.homeNavigationBar(self.mapViewModel)
         self.mapViewController.displayCompleteBusRoute(route)
@@ -412,6 +422,4 @@ extension MainViewController {
         self.homeNavigationBar(self.mapViewModel)
         //self.mapViewController.clearRouteAnnotations()
     }
-   
-    
 }
