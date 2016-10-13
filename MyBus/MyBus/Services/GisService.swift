@@ -43,8 +43,10 @@ public class GisService: NSObject, GisServiceDelegate {
                     point.address = address
                 }
                 completionHandler(point, nil)
+            }else{
+                completionHandler(nil, error)
             }
-            completionHandler(nil, error)
+            
         }
     }
 }

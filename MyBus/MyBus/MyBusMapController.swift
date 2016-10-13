@@ -30,8 +30,18 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     var currentRouteDisplayed: BusRouteResult?
 
     var searchViewProtocol: MapBusRoadDelegate?
+    
+    //Temporary solution
+    var userLocation:CLLocation? {
+        let locationServiceAuth = CLLocationManager.authorizationStatus()
+        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
+            return self.mapView.currentGPSLocation()
+        } else {
+            return nil
+        }
+    }
+    
     // MARK: - View Lifecycle Methods
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setBusResultsTableViewHeight(busResultTableHeightToHide)
@@ -142,7 +152,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         //If origin location is diferent nil
         if (locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
-            if let originLocation = self.mapView.userLocation?.coordinate {
+            if let originLocation = self.mapView.currentGPSLocation()?.coordinate {
                 self.mapView.addAnnotation(annotation)
                 Connectivity.sharedInstance.getAddressFromCoordinate(originLocation.latitude, longitude: originLocation.longitude) { (routePoint, error) in
                     if let origin = routePoint {
