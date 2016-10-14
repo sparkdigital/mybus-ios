@@ -54,6 +54,8 @@ class MainViewController: UIViewController{
 
     @IBOutlet weak var menuTabBar: UITabBar!
     @IBOutlet weak var menuTabBarHeightConstraint: NSLayoutConstraint!
+    let defaultTabBarHeight: CGFloat = 49
+
     //Temporary model
     var mapViewModel: MapViewModel!
 
@@ -82,11 +84,10 @@ class MainViewController: UIViewController{
         self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
         self.searchViewController = self.navRouter.searchController() as! SearchViewController
 
-        self.searchViewController.mainViewDelegate = self
-
         self.suggestionSearchViewController = self.navRouter.suggestionController() as! SuggestionSearchViewController
         self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
         self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
+        self.busesResultsTableViewController.mainViewDelegate = self
 
         self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
@@ -99,9 +100,6 @@ class MainViewController: UIViewController{
         self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.mapSearchViewContainer.layer.borderWidth = 8
 
-
-        self.configureMapNavigationInfo()
-
         self.tabBar.delegate = self
 
         self.mapViewModel = MapViewModel()
@@ -111,7 +109,7 @@ class MainViewController: UIViewController{
         super.viewDidAppear(animated)
         self.homeNavigationBar(mapViewModel)
     }
-    
+
     //This method receives the old view controller to be replaced with the new controller
     func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController) {
 
@@ -144,6 +142,18 @@ class MainViewController: UIViewController{
 
     }
 
+    func hideTabBar() {
+        self.menuTabBar.layer.zPosition = -1
+        self.menuTabBar.hidden = true
+        self.menuTabBarHeightConstraint.constant = 0
+    }
+
+    func showTabBar() {
+        self.menuTabBar.layer.zPosition = 0
+        self.menuTabBar.hidden = false
+        self.menuTabBarHeightConstraint.constant = defaultTabBarHeight
+    }
+
     func searchRoute(){
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
@@ -152,9 +162,9 @@ class MainViewController: UIViewController{
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let r: BusSearchResult = searchResult {
-                    self.newResults(r)
-                    self.menuTabBar.layer.zPosition = -1
-                    self.busesResultsTableViewController.buses = r.busRouteOptions
+                    self.hideTabBar()
+
+                    self.busesResultsTableViewController.loadBuses(r)
                     self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
                     self.currentViewController = self.busesResultsTableViewController
 
@@ -291,7 +301,9 @@ extension MainViewController:MapBusRoadDelegate {
     //}
 
     func newResults(busSearchResult: BusSearchResult) {
+        self.showTabBar()
         self.mapViewController.addBusLinesResults(busSearchResult)
+        self.mapViewController.loadBusLineRoad(busSearchResult.indexSelected!)
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
@@ -319,26 +331,26 @@ extension MainViewController:MapBusRoadDelegate {
         self.homeNavigationBar(self.mapViewModel)
         self.mapViewController.displayCompleteBusRoute(route)
     }
-    
+
     // TODO: Temporary solution until the location logic is refactored to another class
     func newOriginWithCurrentLocation() {
         self.newEndpointWithCurrentLocation(SearchType.Origin, handler: self.newOrigin)
     }
-    
+
     // TODO: Temporary solution until the location logic is refactored to another class
     func newDestinationWithCurrentLocation() {
         self.newEndpointWithCurrentLocation(SearchType.Destiny, handler: self.newDestination)
     }
-    
-    private func newEndpointWithCurrentLocation(endpointType:SearchType, handler:(RoutePoint)->Void){
-        
+
+    private func newEndpointWithCurrentLocation(endpointType: SearchType, handler: (RoutePoint)->Void){
+
         guard let location = self.mapViewController.userLocation else {
             NSLog("Location Manager not enabled")
             return
         }
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.coordinate.latitude, longitude: location.coordinate.longitude) { (point, error) in
-            
+
             if let p = point {
                 handler(p)
                 self.verifySearchStatus(self.mapViewModel)
@@ -348,81 +360,81 @@ extension MainViewController:MapBusRoadDelegate {
                 let message = "No pudimos resolver la dirección de \(endpointType.rawValue) ingresada"
                 GenerateMessageAlert.generateAlert(self, title: title, message: message)
             }
-            
+
         }
     }
 }
 
 // MARK: Custom Navigation bars extension
 extension MainViewController {
-    
-    func homeNavigationBar(mapModel:MapViewModel){
-        
+
+    func homeNavigationBar(mapModel: MapViewModel){
+
         self.verifySearchStatus(mapModel)
-        
+
         if mapViewModel.isEmpty() {
             self.logoNavigationBar()
         }else{
             self.searchNavigationBar()
         }
-        
+
         self.toggleSearchViewContainer(true)
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
-        
+
         self.tabBar.selectedItem = self.tabBar.items?[0]
     }
-    
-    func verifySearchStatus(mapModel:MapViewModel){
+
+    func verifySearchStatus(mapModel: MapViewModel){
         //SearchViewContainer Logic
-        
+
         if mapModel.isEmpty() {
             self.initWithBasicSearch()
         }else{
             self.initWithComplexSearch(mapModel.origin, destination:mapModel.destiny)
         }
     }
-    
+
     func logoNavigationBar(){
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = nil
     }
-    
+
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
-        
+
         let cancelButton = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
         cancelButton.tintColor = UIColor.lightGrayColor()
-        
+
         let searchRouteButton = UIBarButtonItem(title: "Buscar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
         searchRouteButton.tintColor = UIColor.lightGrayColor()
-        
+
         self.navigationItem.leftBarButtonItem = cancelButton
         self.navigationItem.rightBarButtonItem = searchRouteButton
-        
+
         self.navigationItem.title = "Buscar Ruta"
     }
-    
-    func sectionNavigationBar(title:String){
+
+    func sectionNavigationBar(title: String){
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
-        
+
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
         backButton.tintColor = UIColor.whiteColor()
-        
+
         self.navigationItem.leftBarButtonItem = backButton
         self.navigationItem.rightBarButtonItem = nil
-        
+
         self.toggleSearchViewContainer(false)
     }
-    
-    func toggleSearchViewContainer(show:Bool){
+
+    func toggleSearchViewContainer(show: Bool){
         self.mapSearchViewContainer.hidden = !show
     }
-    
+
     func backTapped(){
         self.homeNavigationBar(self.mapViewModel)
         //self.mapViewController.clearRouteAnnotations()
