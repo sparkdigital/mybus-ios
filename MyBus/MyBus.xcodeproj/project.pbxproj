@@ -80,6 +80,8 @@
 		C5B96F101D834D4A0073B990 /* BusesInformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B96F0F1D834D4A0073B990 /* BusesInformationTableViewCell.swift */; };
 		C5CE59D01D8AF572003A8FE4 /* RecentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CE59CF1D8AF572003A8FE4 /* RecentTableViewCell.swift */; };
 		C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */; };
+		C5EEC5731DB1205A00691734 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EEC5721DB1205A00691734 /* FavoriteViewController.swift */; };
+		C5EEC5751DB1208100691734 /* FavoriteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EEC5741DB1208100691734 /* FavoriteDataSource.swift */; };
 		C5FD67461D89CCC400460131 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD67451D89CCC400460131 /* SearchDataSource.swift */; };
 /* End PBXBuildFile section */
 
@@ -174,6 +176,8 @@
 		C5B96F0F1D834D4A0073B990 /* BusesInformationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesInformationTableViewCell.swift; sourceTree = "<group>"; };
 		C5CE59CF1D8AF572003A8FE4 /* RecentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentTableViewCell.swift; sourceTree = "<group>"; };
 		C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTableView.xib; sourceTree = "<group>"; };
+		C5EEC5721DB1205A00691734 /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		C5EEC5741DB1208100691734 /* FavoriteDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDataSource.swift; sourceTree = "<group>"; };
 		C5FD67451D89CCC400460131 /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -254,6 +258,7 @@
 				C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */,
 				C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */,
 				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
+				C5EEC5721DB1205A00691734 /* FavoriteViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 				C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */,
 				C5B96F0D1D834CE20073B990 /* BusesInformationDataSource.swift */,
 				C5FD67451D89CCC400460131 /* SearchDataSource.swift */,
+				C5EEC5741DB1208100691734 /* FavoriteDataSource.swift */,
 			);
 			name = DataSources;
 			sourceTree = "<group>";
@@ -675,6 +681,7 @@
 				11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */,
 				112A11091CE5194A00D00709 /* Strings.swift in Sources */,
 				B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */,
+				C5EEC5751DB1208100691734 /* FavoriteDataSource.swift in Sources */,
 				B472990D1DA2C74300D8D6D7 /* SearchContainerViewController.swift in Sources */,
 				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
 				11A552831DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift in Sources */,
@@ -686,6 +693,7 @@
 				1131807E1D63749400425847 /* SearchManager.swift in Sources */,
 				B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */,
 				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
+				C5EEC5731DB1205A00691734 /* FavoriteViewController.swift in Sources */,
 				110795771D9C4C4A00D63CE4 /* RegExOperator.swift in Sources */,
 				A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */,
 				C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */,

@@ -23,6 +23,7 @@ class NavRouter {
     private let suggestionViewIdentifier: String = "SuggestionSearchViewController"
     private let suggestionsViewIdentifier:String = "SearchSuggestionsVC"
     private let searchContainerViewIdentifier:String = "SearchContainerViewController"
+    private let favoriteViewIdentifier:String = "FavoriteViewController"
     
     //Method that receives a storyboard string identifier and returns a view controller object
     private func buildComponentVC(identifier:String,storyBoard:String) -> UIViewController {
@@ -58,6 +59,8 @@ class NavRouter {
         return self.buildComponentVC(self.searchContainerViewIdentifier, storyBoard: self.search)
     }
     
-    
+    func favoriteController()->UIViewController {
+        return self.buildComponentVC(self.favoriteViewIdentifier, storyBoard: self.main)
+    }
     
 }

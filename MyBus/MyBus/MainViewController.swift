@@ -64,6 +64,7 @@ class MainViewController: UIViewController{
     
     var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
+    var favoriteViewController: FavoriteViewController!
     var navRouter: NavRouter!
 
     //Reference to the currentViewController being shown
@@ -84,6 +85,7 @@ class MainViewController: UIViewController{
         
         self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
+        self.favoriteViewController = self.navRouter.favoriteController() as! FavoriteViewController
         
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
@@ -216,7 +218,9 @@ extension MainViewController:UITabBarDelegate {
             self.mapViewController.clearRechargePoints()
         }
         if (item.tag == 1){
-            //self.toggleSearchViewContainer(true)
+            self.sectionNavigationBar("Favoritos")
+            self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
+            self.currentViewController = favoriteViewController
         }
         if (item.tag == 2){
             self.toggleSearchViewContainer(true)
@@ -252,7 +256,6 @@ extension MainViewController:UITabBarDelegate {
         }
     }
 
-    
 }
 
 // MARK: UISearchBarDelegate protocol methods
