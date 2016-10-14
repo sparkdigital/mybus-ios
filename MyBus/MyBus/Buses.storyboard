@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SimpleBusResultCell" rowHeight="135" id="AD7-wB-gHy" customClass="SimpleResultTableViewCell" customModule="MyBus" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SimpleBusResultCell" rowHeight="135" id="AD7-wB-gHy" customClass="SimpleResultTableViewCell" customModule="MyBus" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="135"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AD7-wB-gHy" id="gYI-no-I52">
@@ -90,7 +90,7 @@
                                     <outlet property="busLine" destination="mdA-4t-Kq0" id="3wL-xc-rd2"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CombinedResultTableViewCell" rowHeight="224" id="Ch6-1Z-wOr" customClass="CombinedResultTableViewCell" customModule="MyBus" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CombinedResultTableViewCell" rowHeight="224" id="Ch6-1Z-wOr" customClass="CombinedResultTableViewCell" customModule="MyBus" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="163" width="600" height="224"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ch6-1Z-wOr" id="j4Q-rZ-h1Q">
