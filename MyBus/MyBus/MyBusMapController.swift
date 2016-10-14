@@ -242,12 +242,18 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.bestMatches = searchResults.stringifyBusRoutes()
         self.busResultsDetail = searchResults.busRouteOptions
         progressNotification.stopLoadingNotification(self.view)
-        getRoadForSelectedResult(self.busResultsDetail.first)
+
+
+    }
+
+    func loadBusLineRoad(indexRouteSelected: Int) {
+        let bus = busResultsDetail[indexRouteSelected]
+        getRoadForSelectedResult(bus)
+
         self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
-        //Scroll to first result preventing keep previous row selected by user
-        self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: .Middle)
+        self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: indexRouteSelected, inSection: 0), animated: true, scrollPosition: .Middle)
     }
 
     func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {
