@@ -13,13 +13,11 @@ class BusesResultsTableViewController: UITableViewController {
     // MARK: Properties
     let simpleCellIdentifier = "SimpleBusResultCell"
     let combinedCellIdentifier = "CombinedResultTableViewCell"
-    let searchView: SearchView = SearchView()
 
     var buses = [BusRouteResult]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.tableHeaderView = searchView
     }
 
     func loadBuses() {
