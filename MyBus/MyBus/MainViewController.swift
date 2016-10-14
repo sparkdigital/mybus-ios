@@ -52,6 +52,8 @@ class MainViewController: UIViewController{
     @IBOutlet weak var mapSearchViewContainer: MapSearchViewContainer!
     @IBOutlet weak var mapSearchViewHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var menuTabBar: UITabBar!
+    @IBOutlet weak var menuTabBarHeightConstraint: NSLayoutConstraint!
     //Temporary model
     var mapViewModel: MapViewModel!
 
@@ -84,6 +86,7 @@ class MainViewController: UIViewController{
 
         self.suggestionSearchViewController = self.navRouter.suggestionController() as! SuggestionSearchViewController
         self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
+        self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
 
         self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
@@ -150,10 +153,12 @@ class MainViewController: UIViewController{
 
                 if let r: BusSearchResult = searchResult {
                     self.newResults(r)
-                    let searchController: BusesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
+                    self.menuTabBar.layer.zPosition = -1
+                    self.busesResultsTableViewController.buses = r.busRouteOptions
+                    self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
+                    self.currentViewController = self.busesResultsTableViewController
 
-                    searchController.buses = r.busRouteOptions
-                    self.navigationController?.pushViewController(searchController, animated: true)
+
                 }else{
                     GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
                 }
