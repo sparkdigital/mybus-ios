@@ -199,7 +199,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PYi-zB-pA7">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="443"/>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEo-aK-iz3" customClass="MapSearchViewContainer" customModule="MyBus" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -211,6 +211,9 @@
                             <tabBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WxU-N3-lcX">
                                 <rect key="frame" x="0.0" y="487" width="600" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49" id="0O1-Qe-wM6"/>
+                                </constraints>
                                 <items>
                                     <tabBarItem title="Buscar" image="tabbar_search_line" selectedImage="tabbar_search_fill" id="jdY-c7-xhJ"/>
                                     <tabBarItem tag="1" title="Favoritos" image="tabbar_favourite_line" selectedImage="tabbar_favourite_fill" id="rhQ-4V-CCJ"/>
@@ -223,6 +226,7 @@
                         <color key="backgroundColor" red="0.0" green="0.51372549019607838" blue="0.81176470588235294" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="WxU-N3-lcX" secondAttribute="trailing" id="3xs-gD-dLu"/>
+                            <constraint firstItem="PYi-zB-pA7" firstAttribute="top" secondItem="OEo-aK-iz3" secondAttribute="bottom" id="4ho-td-aDo"/>
                             <constraint firstItem="OEo-aK-iz3" firstAttribute="top" secondItem="cCf-VQ-n9P" secondAttribute="bottom" id="8ul-bH-rPt"/>
                             <constraint firstItem="WxU-N3-lcX" firstAttribute="top" secondItem="PYi-zB-pA7" secondAttribute="bottom" id="9ZH-H2-XQB"/>
                             <constraint firstAttribute="trailing" secondItem="PYi-zB-pA7" secondAttribute="trailing" id="AZD-Yb-IIQ"/>
@@ -233,6 +237,11 @@
                             <constraint firstItem="WxU-N3-lcX" firstAttribute="bottom" secondItem="I9x-pI-vZ2" secondAttribute="top" id="fz7-ax-KBx"/>
                             <constraint firstItem="PYi-zB-pA7" firstAttribute="leading" secondItem="Zwe-iT-eyH" secondAttribute="leading" id="hoj-cc-6SG"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="HKa-so-vUD"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="3k0-lW-wwW">
                         <nil key="title"/>
@@ -241,6 +250,8 @@
                         <outlet property="containerView" destination="PYi-zB-pA7" id="A9d-e5-QeX"/>
                         <outlet property="mapSearchViewContainer" destination="OEo-aK-iz3" id="0Y7-rw-bcJ"/>
                         <outlet property="mapSearchViewHeightConstraint" destination="KVp-8J-lTg" id="wPx-gj-mvb"/>
+                        <outlet property="menuTabBar" destination="WxU-N3-lcX" id="PZ4-g1-M6N"/>
+                        <outlet property="menuTabBarHeightConstraint" destination="0O1-Qe-wM6" id="42S-Vg-obP"/>
                         <outlet property="tabBar" destination="WxU-N3-lcX" id="ylW-DX-ehu"/>
                     </connections>
                 </viewController>
@@ -500,7 +511,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bus_small" width="26" height="26"/>
+        <image name="bus_small" width="21" height="21"/>
         <image name="favorite" width="30" height="30"/>
         <image name="location-icon" width="135" height="135"/>
         <image name="recent" width="26" height="26"/>

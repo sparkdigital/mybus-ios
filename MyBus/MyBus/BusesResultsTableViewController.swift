@@ -13,15 +13,17 @@ class BusesResultsTableViewController: UITableViewController {
     // MARK: Properties
     let simpleCellIdentifier = "SimpleBusResultCell"
     let combinedCellIdentifier = "CombinedResultTableViewCell"
-
+    var busSearchResult: BusSearchResult?
     var buses = [BusRouteResult]()
+    var mainViewDelegate: MapBusRoadDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    func loadBuses() {
-
+    func loadBuses(buses: BusSearchResult) {
+        self.busSearchResult = buses
+        self.buses = buses.busRouteOptions
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,9 +76,9 @@ class BusesResultsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedRoute = buses[indexPath.row]
-        NSLog(selectedRoute.busRoutes.first!.busLineName!)
-        //getRoadForSelectedResult(selectedRoute)
+        let indexSelectedRoute = indexPath.row
+        busSearchResult!.indexSelected = indexSelectedRoute
+        self.mainViewDelegate?.newResults(busSearchResult!)
     }
 
 
