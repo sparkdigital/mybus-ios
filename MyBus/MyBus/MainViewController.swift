@@ -163,6 +163,7 @@ class MainViewController: UIViewController{
 
                 if let r: BusSearchResult = searchResult {
                     self.hideTabBar()
+                    self.addBackNavItem("Rutas encontradas")
 
                     self.busesResultsTableViewController.loadBuses(r)
                     self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
@@ -418,6 +419,11 @@ extension MainViewController {
     }
 
     func sectionNavigationBar(title: String){
+        addBackNavItem(title)
+        self.toggleSearchViewContainer(false)
+    }
+
+    func addBackNavItem(title: String) {
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
 
@@ -427,12 +433,11 @@ extension MainViewController {
 
         self.navigationItem.leftBarButtonItem = backButton
         self.navigationItem.rightBarButtonItem = nil
-
-        self.toggleSearchViewContainer(false)
     }
 
     func toggleSearchViewContainer(show: Bool){
         self.mapSearchViewContainer.hidden = !show
+        mapSearchViewHeightConstraint.constant = !show ? 0 : mapSearchViewContainer.presenter.preferredHeight()
     }
 
     func backTapped(){
