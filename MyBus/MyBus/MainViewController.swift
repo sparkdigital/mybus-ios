@@ -378,7 +378,7 @@ extension MainViewController {
         }else{
             self.searchNavigationBar()
         }
-
+        self.showTabBar()
         self.toggleSearchViewContainer(true)
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
@@ -441,7 +441,10 @@ extension MainViewController {
     }
 
     func backTapped(){
+        if(self.navigationItem.title == "Rutas encontradas"){
+            self.mapViewModel.clearModel()
+            self.mapViewController.resetMapSearch()
+        }
         self.homeNavigationBar(self.mapViewModel)
-        //self.mapViewController.clearRouteAnnotations()
     }
 }
