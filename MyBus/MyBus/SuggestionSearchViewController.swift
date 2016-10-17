@@ -77,7 +77,7 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let result:(String,SearchFilterType) = self.bestMatches[indexPath.row] {
-            self.searchBar?.text = result.0
+            self.searchBar?.text = "\(result.0) "
         }
     }
 }
