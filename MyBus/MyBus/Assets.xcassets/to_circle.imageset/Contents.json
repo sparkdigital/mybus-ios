@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "bus_small.png",
+      "filename" : "to_circle.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "bus_small@2x.png.png",
+      "filename" : "to_circle@2x.png.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "bus_small@3x.png.png",
+      "filename" : "to_circle@3x.png-1.png",
       "scale" : "3x"
     }
   ],

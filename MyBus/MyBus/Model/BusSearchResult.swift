@@ -13,6 +13,7 @@ class BusSearchResult
     var origin: RoutePoint
     var destination: RoutePoint
     var busRouteOptions: [BusRouteResult]
+    var indexSelected: Int?
     var road: [String: RoadResult] = [String: RoadResult]()
 
     init(origin: RoutePoint, destination: RoutePoint, busRoutes: [BusRouteResult]?)
