@@ -103,12 +103,12 @@ class MyBusMarkerFactory {
     }
 
     class func createOriginPointMarker(coord: CLLocationCoordinate2D, address: String)->MGLAnnotation{
-        let marker = MyBusMarkerAddressPoint(position: coord, title: MyBusTitle.OriginTitle.rawValue, subtitle: address, imageIdentifier: "markerOrigen")
+        let marker = MyBusMarkerOriginPoint(position: coord, title: MyBusTitle.OriginTitle.rawValue, subtitle: address, imageIdentifier: "markerOrigen")
         return marker
     }
 
     class func createDestinationPointMarker(coord: CLLocationCoordinate2D, address: String)->MGLAnnotation{
-        let marker = MyBusMarkerAddressPoint(position: coord, title: MyBusTitle.DestinationTitle.rawValue, subtitle: address, imageIdentifier: "markerDestino")
+        let marker = MyBusMarkerDestinationPoint(position: coord, title: MyBusTitle.DestinationTitle.rawValue, subtitle: address, imageIdentifier: "markerDestino")
         return marker
     }
 
