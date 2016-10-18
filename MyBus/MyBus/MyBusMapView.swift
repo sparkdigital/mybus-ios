@@ -71,38 +71,40 @@ class MyBusMapView: MGLMapView{
      - delegate?
     */
 
-
-    /*
-
-     ANNOTATIONS
-     MARKERS
-     POLYLINES
-
-     */
-
-
-
     // Methods
-
-    /*
-
-     -addPoint(title, subtitle, CLLocationCoordinate2D) -> MGLPointAnnotation
-     -selectPoint(annotation)
-     - addPolylineAnnotationForRoute(mbroute)
-
-    */
 
     func initialize(delegate: MGLMapViewDelegate){
         self.maximumZoomLevel = maxZoomLevel
         self.minimumZoomLevel = minZoomLevel
         self.userTrackingMode = .None
         self.delegate = delegate
+        
+        
+        // Add observers
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addOriginPoint), name:MyBusMapModelNotificationKey.originChanged.rawValue , object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addDestinationPoint), name: MyBusMapModelNotificationKey.destinationChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRoad), name: MyBusMapModelNotificationKey.currentRoadChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRoute), name: MyBusMapModelNotificationKey.completeRouteChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRechargePointList), name: MyBusMapModelNotificationKey.rechargePointsChanged.rawValue, object: nil)
+        
     }
 
 
-    func addPoint(){}
-    func addRoad(){}
-    func addRoute(){}
+    func addOriginPoint(notification:NSNotification){
+    }
+    func addDestinationPoint(notification:NSNotification){
+    }
+    
+    func addRoad(notification:NSNotification){
+        
+    }
+    func addRoute(notification:NSNotification){
+        
+    }
+    func addRechargePointList(notification:NSNotification){
+        
+    }
 
     func currentGPSLocation()->CLLocation?{
         return self.userLocation?.location
