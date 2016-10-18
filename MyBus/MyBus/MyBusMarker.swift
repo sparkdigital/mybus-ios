@@ -10,7 +10,9 @@ import Foundation
 import Mapbox
 import UIKit
 
-class MyBusMarkerAddressPoint: MyBusMarker {}
+//class MyBusMarkerAddressPoint: MyBusMarker {}
+class MyBusMarkerOriginPoint: MyBusMarker {}
+class MyBusMarkerDestinationPoint: MyBusMarker {}
 class MyBusMarkerBusStopPoint: MyBusMarker{}
 class MyBusMarkerRechargePoint: MyBusMarker{}
 

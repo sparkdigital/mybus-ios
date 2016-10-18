@@ -61,8 +61,8 @@ class MyBusMapView: MGLMapView{
     }
 
     var annotationIsOriginOrDestination: (MGLAnnotation) -> Bool = {
-        annotation in
-        return (annotation is MyBusMarkerAddressPoint)
+        annotation in        
+        return annotation is MyBusMarkerOriginPoint || annotation is MyBusMarkerDestinationPoint
     }
 
     //Constructor
