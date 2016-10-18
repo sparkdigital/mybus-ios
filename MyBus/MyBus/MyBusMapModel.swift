@@ -8,26 +8,82 @@
 
 import Foundation
 
-class MyBusMapModel {
+enum MyBusMapModelNotificationKey: String {
+    case originChanged = "markerOriginChanged"
+    case destinationChanged = "markerDestinationChanged"
+    case currentRoadChanged = "currentRoadChanged"
+    case rechargePointsChanged = "rechargePointsChanged"
+    case completeRouteChanged = "completeRouteChanged"
+}
+
+
+class MyBusMapRoad {
+    var roadMarkers:[MyBusMarker]!
+    var roadPolyline:[MyBusPolyline]!
+    var walkingPath:[MyBusPolyline]!
+}
+
+class MyBusMapRoute {
+    var markers:[MyBusMarker]!
+    var polyline:[MyBusPolyline]!
+}
+
+
+class MyBusMapModel: NSObject {
     
-    var originMarker:MyBusMarkerOriginPoint?
-    var destinationMarker:MyBusMarkerDestinationPoint?
-    var currentRoad:(roadMarkers:MyBusMarker,roadPolyline:MyBusRoadResultPolyline,walkingPath:MyBusWalkingPolyline)?
-    var rechargePointList:[MyBusMarkerRechargePoint]?
-    var completeBusRoute:(markers:MyBusMarkerCompleteRoutePoint,polyline:MyBusPolyline)?
+    // Origin
+    var originMarker:MyBusMarkerOriginPoint? {
+        didSet {
+            notifyPropertyChanged(MyBusMapModelNotificationKey.originChanged, object: originMarker)
+        }
+    }
     
+    // Destination
+    var destinationMarker:MyBusMarkerDestinationPoint? {
+        didSet {
+            notifyPropertyChanged(MyBusMapModelNotificationKey.destinationChanged, object: destinationMarker)
+        }
+    }
     
-    init(){
-        
+    // Road to display
+    var currentRoad:MyBusMapRoad? {
+        didSet {
+            notifyPropertyChanged(MyBusMapModelNotificationKey.currentRoadChanged, object: currentRoad)
+        }
+    }
+    
+    // Recharge Points to display
+    var rechargePointList:[MyBusMarkerRechargePoint]? {
+        didSet {
+            notifyPropertyChanged(MyBusMapModelNotificationKey.rechargePointsChanged, object: rechargePointList)
+        }
+    }
+    
+    // Complete Route selected
+    var completeBusRoute:MyBusMapRoute? {
+        didSet {
+            notifyPropertyChanged(MyBusMapModelNotificationKey.completeRouteChanged, object: completeBusRoute)
+        }
+    }
+    
+   
+    override init(){
+        super.init()
     }
     
     func clearModel(){
+        self.originMarker = nil
+        self.destinationMarker = nil
+        self.currentRoad = nil
+        self.rechargePointList = nil
+        self.completeBusRoute = nil
     }
     
-    func updateOrigin(newOrigin:RoutePoint){}
-    func updateDestination(newDestination:RoutePoint){}
-    func updateRoad(){}
-    func toggleRechargePoints(points:[RechargePoint]){}
-    func updateCompleteBusRoute(){}
     
+    private func notifyPropertyChanged(propertyKey:MyBusMapModelNotificationKey, object: AnyObject?){
+        NSNotificationCenter.defaultCenter().postNotificationName(propertyKey.rawValue, object: nil, userInfo: ["property":object!])
+    }
+    
+
 }
+
