@@ -99,7 +99,7 @@ public class SearchManager: NSObject {
         if let roadResult = self.currentSearch?.roads(busRouteResult) {
             completionHandler(roadResult, nil)
         } else {
-            let busRouteType: MyBusRouteResultType = busRouteResult.busRouteType == 0 ? MyBusRouteResultType.Single : MyBusRouteResultType.Combined
+            let busRouteType: MyBusRouteResultType = busRouteResult.busRouteType
             switch busRouteType {
             case .Single:
                 Connectivity.sharedInstance.getSingleResultRoadApi((busRouteResult.busRoutes.first?.idBusLine)!, firstDirection: (busRouteResult.busRoutes.first?.busLineDirection)!, beginStopFirstLine: (busRouteResult.busRoutes.first?.startBusStopNumber)!, endStopFirstLine: (busRouteResult.busRoutes.first?.destinationBusStopNumber)!) {
