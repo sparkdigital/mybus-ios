@@ -25,17 +25,22 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     }
-    
-    @IBAction func deleteFavoritePlace(sender: AnyObject) {
-        let button = sender as! UIButton
-        let buttonRow = button.tag
-        self.favoriteDataSource.deleteFavoritePlace(buttonRow)
-        self.favoriteTableView.reloadData()
+ 
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Borrar") { (action , indexPath ) -> Void in
+            self.editing = false
+            self.favoriteDataSource.deleteFavoritePlace(indexPath.row)
+            self.favoriteTableView.reloadData()
+        };
+      
+        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Editar") { (action , indexPath ) -> Void in
+            let cell: FavoriteTableViewCell = self.favoriteTableView.cellForRowAtIndexPath(indexPath) as! FavoriteTableViewCell
+            cell.editCell()
+            self.favoriteTableView.setEditing(false, animated: true)
+        }
+        editAction.backgroundColor = UIColor(hexString: "0288D1")
+        return [deleteAction,editAction]
     }
-    
-    @IBAction func addFavoritePlace(place: Location) {
-        self.favoriteDataSource.addFavoritePlace(place)
-        self.favoriteTableView.reloadData()
-    }
-    
 }
+
+

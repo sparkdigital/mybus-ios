@@ -13,8 +13,6 @@ class FavoriteTableViewCell: UITableViewCell {
    
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var address: UITextField!
-    @IBOutlet weak var delete: UIButton!
-    @IBOutlet weak var edit: UIButton!
     
     func loadItem(name: String,street: String,number: String) {
         self.name.text = name
@@ -23,11 +21,26 @@ class FavoriteTableViewCell: UITableViewCell {
         self.address.userInteractionEnabled = false
     }
     
-    @IBAction func editCell(sender: AnyObject) {
+    func editCell() {
         self.name.userInteractionEnabled = true
         self.name.becomeFirstResponder()
         self.address.userInteractionEnabled = true
     }
   
+    @IBAction func nameEndOnExit(sender: AnyObject) {
+        self.name.userInteractionEnabled = false
+        self.name.resignFirstResponder()
+        self.address.becomeFirstResponder()
+        //TODO save field in bd
+    }
+    
+    @IBAction func addressEndOnExit(sender: AnyObject) {   self.name.userInteractionEnabled = false
+        self.address.userInteractionEnabled = false
+        self.address.resignFirstResponder()
+        //TODO save field in bd
+    }
     
 }
+   
+ 
+   
