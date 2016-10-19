@@ -18,6 +18,10 @@ class RoutePoint: Object {
     dynamic var address: String = " "
     dynamic var isWaypoint: Bool = false
 
+    override class func primaryKey() -> String {
+        return "address"
+    }
+
     static func parse(routePointJson: JSON) -> RoutePoint
     {
         let point = RoutePoint()
