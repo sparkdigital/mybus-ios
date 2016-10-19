@@ -12,7 +12,7 @@ import RealmSwift
 
 class FavoriteDataSource: NSObject, UITableViewDataSource {
 
-    var favorite: List<Location>!
+    var favorite: List<Location> = List<Location>()
 
     override init() {
     }
