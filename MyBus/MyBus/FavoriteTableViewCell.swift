@@ -9,12 +9,12 @@
 import UIKit
 
 class FavoriteTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var address: UILabel!
-    
-    func loadItem(name: String,street: String,number: String) {
+
+    func loadItem(name: String, street: String) {
         self.name.text = name
-        self.address.text = street+" "+number
+        self.address.text = street
     }
 }
