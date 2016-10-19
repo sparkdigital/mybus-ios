@@ -31,6 +31,8 @@ class MyBusMapRoute {
 
 class MyBusMapModel: NSObject {
     
+    static let kPropertyChangedDescriptor:String = "MapPropertyChanged"
+    
     // Origin
     var originMarker:MyBusMarkerOriginPoint? {
         didSet {
@@ -81,7 +83,12 @@ class MyBusMapModel: NSObject {
     
     
     private func notifyPropertyChanged(propertyKey:MyBusMapModelNotificationKey, object: AnyObject?){
-        NSNotificationCenter.defaultCenter().postNotificationName(propertyKey.rawValue, object: nil, userInfo: ["property":object!])
+        if object == nil {
+            // Don't send the notification if the property has been set to nil
+            NSLog("\(propertyKey.rawValue) is now nil")
+        }else{
+            NSNotificationCenter.defaultCenter().postNotificationName(propertyKey.rawValue, object: nil, userInfo: [MyBusMapModel.kPropertyChangedDescriptor:object!])
+        }        
     }
     
 
