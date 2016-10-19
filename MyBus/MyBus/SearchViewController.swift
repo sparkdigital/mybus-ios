@@ -24,6 +24,7 @@ protocol MapBusRoadDelegate {
 
 protocol MainViewDelegate: class {
     func loadPositionMainView()
+    func loadPostionFromFavsRecents(position: RoutePoint)
 }
 
 class SearchViewController: UIViewController, UITableViewDelegate
@@ -31,12 +32,10 @@ class SearchViewController: UIViewController, UITableViewDelegate
 
     @IBOutlet weak var searchTableView: UITableView!
 
-    //var searchViewProtocol: MapBusRoadDelegate?
     var mainViewDelegate: MainViewDelegate?
     var busResults: [String] = []
     var bestMatches: [String] = []
     var favourites: List<Location>?
-    //var roadResultList: [MapBusRoad] = []
     var streetSuggestionsDataSource: SearchDataSource!
     let progressNotification = ProgressHUD()
 
@@ -59,19 +58,24 @@ class SearchViewController: UIViewController, UITableViewDelegate
         self.mainViewDelegate?.loadPositionMainView()
     }
 
-    override func viewDidAppear(animated: Bool) {
-        // Create realm pointing to default file
-        //let realm = try! Realm()
-        // Retrive favs locations for user
-        //favourites = realm.objects(User).first?.favourites
-
-        //self.streetSuggestionsDataSource.favourites = favourites
-
-        //self.searchTableView.reloadData()
-    }
+    override func viewDidAppear(animated: Bool) {}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        switch indexPath.section {
+        case 0:
+            let selectedRecent = self.streetSuggestionsDataSource.recents[indexPath.row]
+            self.mainViewDelegate?.loadPostionFromFavsRecents(selectedRecent)
+        case 1:
+            let selectedFavourite = self.streetSuggestionsDataSource.favourites[indexPath.row]
+            self.mainViewDelegate?.loadPostionFromFavsRecents(selectedFavourite)
+        default:
+            break
+        }
     }
 }
