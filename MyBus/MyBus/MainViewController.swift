@@ -64,7 +64,7 @@ class MainViewController: UIViewController{
     var suggestionSearchViewController: SuggestionSearchViewController!
 
     var searchContainerViewController: SearchContainerViewController!
-
+    var favoriteViewController: FavoriteViewController!
     var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
     var busesResultsTableViewController: BusesResultsTableViewController!
@@ -83,7 +83,7 @@ class MainViewController: UIViewController{
         self.navRouter = NavRouter()
         self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
         self.searchViewController = self.navRouter.searchController() as! SearchViewController
-
+        self.favoriteViewController = self.navRouter.favoriteController() as! FavoriteViewController
         self.suggestionSearchViewController = self.navRouter.suggestionController() as! SuggestionSearchViewController
         self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
         self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
@@ -242,7 +242,9 @@ extension MainViewController:UITabBarDelegate {
             self.mapViewController.toggleRechargePoints(nil)
         }
         if (item.tag == 1){
-            //self.toggleSearchViewContainer(true)
+            self.sectionNavigationBar("Favoritos")
+            self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
+            self.currentViewController = favoriteViewController
         }
         if (item.tag == 2){
             self.toggleSearchViewContainer(true)

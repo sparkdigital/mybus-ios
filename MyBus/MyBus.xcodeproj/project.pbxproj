@@ -74,6 +74,8 @@
 		C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */; };
 		C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */; };
 		C5619D631DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5619D621DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift */; };
+		C57317621DB7BD3900689F00 /* FavoriteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57317611DB7BD3900689F00 /* FavoriteDataSource.swift */; };
+		C57317641DB7BDCC00689F00 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57317631DB7BDCC00689F00 /* FavoriteViewController.swift */; };
 		C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */; };
 		C57886F91D7DC2050056A5E1 /* BusesRatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */; };
 		C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */; };
@@ -173,6 +175,8 @@
 		C55620DE1D8AD5CB0011E427 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionSearchViewController.swift; sourceTree = "<group>"; };
 		C5619D621DA591F3001CE3BA /* SuggestionSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionSearchTableViewCell.swift; sourceTree = "<group>"; };
+		C57317611DB7BD3900689F00 /* FavoriteDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteDataSource.swift; sourceTree = "<group>"; };
+		C57317631DB7BDCC00689F00 /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		C57886F61D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesTableViewCell.swift; sourceTree = "<group>"; };
 		C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesViewController.swift; sourceTree = "<group>"; };
 		C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesRatesDataSource.swift; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 				C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */,
 				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
 				115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */,
+				C57317631DB7BDCC00689F00 /* FavoriteViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -355,6 +360,7 @@
 				C57886FA1D7DC59F0056A5E1 /* BusesRatesDataSource.swift */,
 				C5B96F0D1D834CE20073B990 /* BusesInformationDataSource.swift */,
 				C5FD67451D89CCC400460131 /* SearchDataSource.swift */,
+				C57317611DB7BD3900689F00 /* FavoriteDataSource.swift */,
 			);
 			name = DataSources;
 			sourceTree = "<group>";
@@ -700,6 +706,7 @@
 				C58F8DAD1DA3FF4E009AA176 /* SearchView.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
+				C57317641DB7BDCC00689F00 /* FavoriteViewController.swift in Sources */,
 				1131807E1D63749400425847 /* SearchManager.swift in Sources */,
 				B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */,
 				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
@@ -714,6 +721,7 @@
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
 				B47299451DA80D5F00D8D6D7 /* SimpleSearchBarView.swift in Sources */,
+				C57317621DB7BD3900689F00 /* FavoriteDataSource.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				B47299411DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift in Sources */,
 				115BE4D41DAD618D00E429D2 /* SimpleResultTableViewCell.swift in Sources */,
