@@ -13,9 +13,9 @@ class FavoriteTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var address: UITextField!
 
-    func loadItem(name: String, street: String) {
+    func loadItem(name: String, street: String, number: String = "") {
         self.name.text = name
-        self.address.text = street
+        self.address.text = street+" "+number
         self.name.userInteractionEnabled = false
         self.address.userInteractionEnabled = false
     }
