@@ -21,6 +21,7 @@
 		1131807E1D63749400425847 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1131807D1D63749400425847 /* SearchManager.swift */; };
 		114E670A1D79DD5500D8F746 /* BusColors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 114E67091D79DD5200D8F746 /* BusColors.plist */; };
 		114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */; };
+		1153DF841DB6875C00B25A49 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153DF831DB6875B00B25A49 /* DBManager.swift */; };
 		115BE4D21DAD616B00E429D2 /* CombinedResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115BE4D11DAD616A00E429D2 /* CombinedResultTableViewCell.swift */; };
 		115BE4D41DAD618D00E429D2 /* SimpleResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115BE4D31DAD618D00E429D2 /* SimpleResultTableViewCell.swift */; };
 		115BE4D81DAD660700E429D2 /* BusesResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */; };
@@ -119,6 +120,7 @@
 		1131807D1D63749400425847 /* SearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchManager.swift; path = Services/SearchManager.swift; sourceTree = "<group>"; };
 		114E67091D79DD5200D8F746 /* BusColors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusColors.plist; sourceTree = "<group>"; };
 		114E670B1D7A1A9C00D8F746 /* HexToUIColorConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexToUIColorConverter.swift; sourceTree = "<group>"; };
+		1153DF831DB6875B00B25A49 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		115BE4D11DAD616A00E429D2 /* CombinedResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CombinedResultTableViewCell.swift; path = Cells/CombinedResultTableViewCell.swift; sourceTree = "<group>"; };
 		115BE4D31DAD618D00E429D2 /* SimpleResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleResultTableViewCell.swift; path = Cells/SimpleResultTableViewCell.swift; sourceTree = "<group>"; };
 		115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesResultsTableViewController.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				1131807D1D63749400425847 /* SearchManager.swift */,
+				1153DF831DB6875B00B25A49 /* DBManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 				B47299431DA80B9B00D8D6D7 /* MapSearchViewContainer.swift in Sources */,
 				C5CE59D01D8AF572003A8FE4 /* RecentTableViewCell.swift in Sources */,
 				A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */,
+				1153DF841DB6875C00B25A49 /* DBManager.swift in Sources */,
 				11DF62521DA2EF3800E21320 /* MyBusPolyline.swift in Sources */,
 				C5421B271D5B609C007C8987 /* ProgressHUD.swift in Sources */,
 				A0D8B21F1D80D5150062A339 /* CompleteBusRoute.swift in Sources */,

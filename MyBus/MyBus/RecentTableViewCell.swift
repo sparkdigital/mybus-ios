@@ -9,10 +9,10 @@
 import UIKit
 
 class RecenTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var address: UILabel!
-   
-    func loadItem(street: String,number: String) {
-        self.address.text = street+" "+number
+
+    func loadItem(street: String) {
+        self.address.text = street
     }
 }
