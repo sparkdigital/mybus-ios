@@ -16,6 +16,10 @@ class BusSearchResult
     var indexSelected: Int?
     var road: [String: RoadResult] = [String: RoadResult]()
 
+    var hasRouteOptions:Bool {
+        return busRouteOptions.count > 0
+    }
+    
     init(origin: RoutePoint, destination: RoutePoint, busRoutes: [BusRouteResult]?)
     {
         self.origin = origin

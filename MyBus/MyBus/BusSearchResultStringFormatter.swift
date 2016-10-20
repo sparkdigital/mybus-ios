@@ -17,19 +17,28 @@ extension BusSearchResult {
             getStringBusResultRow(busRouteResult)
         }
     }
+    
+    func getStringBusResultRow(busRouteResult: BusRouteResult) -> String {
+        return busRouteResult.emojiDescription()
+    }
+}
 
+
+extension BusRouteResult {
+    
     /**
-    Concating 🚍 with bus line number(s) is used as dictonary key or to display in results table row
-
+     Concating 🚍 with bus line number(s) is used as dictonary key or to display in results table row
+     
      :returns: Emoji and bus line number(s) string
      */
-    func getStringBusResultRow(busRouteResult: BusRouteResult) -> String {
+    func emojiDescription() -> String{
         var 🚌 : String = "🚍"
-        for route in busRouteResult.busRoutes {
+        for route in self.busRoutes {
             let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
             🚌 = "\(🚌) \(busLineFormatted) ➡"
         }
         🚌.removeAtIndex(🚌.endIndex.predecessor())
         return 🚌
     }
+    
 }
