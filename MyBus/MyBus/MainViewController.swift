@@ -239,7 +239,7 @@ extension MainViewController:UITabBarDelegate {
             self.homeNavigationBar(self.mapViewModel)
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
-            self.mapViewController.clearRechargePoints()
+            self.mapViewController.toggleRechargePoints(nil)
         }
         if (item.tag == 1){
             self.sectionNavigationBar("Favoritos")
@@ -252,8 +252,8 @@ extension MainViewController:UITabBarDelegate {
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
 
-                    if let chargePoints = points {
-                        self.mapViewController.addRechargePoints(chargePoints)
+                    if let chargePoints = points {                        
+                        self.mapViewController.toggleRechargePoints(chargePoints)
                     } else {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
                     }
@@ -305,34 +305,41 @@ extension MainViewController:MapBusRoadDelegate {
 
     func newResults(busSearchResult: BusSearchResult) {
         self.showTabBar()
-        self.mapViewController.addBusLinesResults(busSearchResult)
-        self.mapViewController.loadBusLineRoad(busSearchResult.indexSelected!)
+        
+        if busSearchResult.hasRouteOptions {
+            self.mapViewController.addBusLinesResults(busSearchResult.busRouteOptions, preselectedRouteIndex: busSearchResult.indexSelected!)
+        }else{
+            GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+        }
+        
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
     }
 
+    // TODO: Candidate method to be removed
     func newOrigin(origin: CLLocationCoordinate2D, address: String) {
-        self.mapViewController.addOriginPosition(origin, address: address)
+        //self.mapViewController.addOriginPosition(origin, address: address)
     }
 
     func newOrigin(routePoint: RoutePoint) {
-        self.mapViewController.addOriginPosition(routePoint.getLatLong(), address: routePoint.address)
+        self.mapViewController.updateOrigin(routePoint)
         self.mapViewModel.origin = routePoint
     }
-
+    
+    // TODO: Candidate method to be removed
     func newDestination(destination: CLLocationCoordinate2D, address: String) {
-        self.mapViewController.addDestinationPosition(destination, address : address)
+        //self.mapViewController.addDestinationPosition(destination, address : address)
     }
 
     func newDestination(routePoint: RoutePoint) {
-        self.mapViewController.addDestinationPosition(routePoint.getLatLong(), address : routePoint.address)
+        self.mapViewController.updateDestination(routePoint)
         self.mapViewModel.destiny = routePoint
     }
 
     func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
         self.homeNavigationBar(self.mapViewModel)
-        self.mapViewController.displayCompleteBusRoute(route)
+        self.mapViewController.updateCompleteBusRoute(route)
     }
 
     // TODO: Temporary solution until the location logic is refactored to another class

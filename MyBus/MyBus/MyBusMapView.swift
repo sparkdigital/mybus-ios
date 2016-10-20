@@ -12,11 +12,6 @@ import Mapbox
 @IBDesignable
 class MyBusMapView: MGLMapView{
 
-
-    // This needs to be refactored
-    var origin: CLLocationCoordinate2D!
-    var destination: CLLocationCoordinate2D!
-
     //Attributes
     @IBInspectable var maxZoomLevel: Double = 18.0 {
         didSet{
@@ -61,8 +56,16 @@ class MyBusMapView: MGLMapView{
     }
 
     var annotationIsOriginOrDestination: (MGLAnnotation) -> Bool = {
-        annotation in
-        return (annotation is MyBusMarkerAddressPoint)
+        annotation in        
+        return annotation is MyBusMarkerOriginPoint || annotation is MyBusMarkerDestinationPoint
+    }
+    
+    var annotationIsOrigin: (MGLAnnotation) -> Bool = { annotation in
+        return annotation is MyBusMarkerOriginPoint
+    }
+    
+    var annotationIsDestination: (MGLAnnotation) -> Bool = { annotation in
+        return annotation is MyBusMarkerDestinationPoint
     }
 
     //Constructor
@@ -71,38 +74,82 @@ class MyBusMapView: MGLMapView{
      - delegate?
     */
 
-
-    /*
-
-     ANNOTATIONS
-     MARKERS
-     POLYLINES
-
-     */
-
-
-
     // Methods
-
-    /*
-
-     -addPoint(title, subtitle, CLLocationCoordinate2D) -> MGLPointAnnotation
-     -selectPoint(annotation)
-     - addPolylineAnnotationForRoute(mbroute)
-
-    */
 
     func initialize(delegate: MGLMapViewDelegate){
         self.maximumZoomLevel = maxZoomLevel
         self.minimumZoomLevel = minZoomLevel
         self.userTrackingMode = .None
         self.delegate = delegate
+        
+        
+        // Add observers
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addOriginPoint), name:MyBusMapModelNotificationKey.originChanged.rawValue , object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addDestinationPoint), name: MyBusMapModelNotificationKey.destinationChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRoad), name: MyBusMapModelNotificationKey.currentRoadChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRoute), name: MyBusMapModelNotificationKey.completeRouteChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRechargePointList), name: MyBusMapModelNotificationKey.rechargePointsChanged.rawValue, object: nil)
+        
+    }
+    
+    deinit{
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
 
-    func addPoint(){}
-    func addRoad(){}
-    func addRoute(){}
+    private func getPropertyChangedFromNotification(notification:NSNotification) -> AnyObject {
+        let userInfo:[String : AnyObject] = notification.userInfo as! [String:AnyObject]
+        return userInfo[MyBusMapModel.kPropertyChangedDescriptor]!
+    }
+    
+    func addOriginPoint(notification:NSNotification){
+        NSLog("New Origin detected")
+        let newOrigin:MyBusMarkerOriginPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerOriginPoint
+        
+        clearAnnotations(self.annotationIsOrigin)
+        addAnnotation(newOrigin)
+        setCenterCoordinate(newOrigin.coordinate, animated: true)
+        
+    }
+    func addDestinationPoint(notification:NSNotification){
+        NSLog("New Destination detected")
+        let newDestination:MyBusMarkerDestinationPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerDestinationPoint
+        
+        clearAnnotations(self.annotationIsDestination)
+        addAnnotation(newDestination)
+        fitToAnnotationsInMap()
+    }
+    
+    func addRoad(notification:NSNotification){
+        NSLog("New Road detected")
+        let newRoad:MyBusMapRoad = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoad
+        
+        clearExistingBusRoadAnnotations()
+        addAnnotations(newRoad.walkingPath)
+        addAnnotations(newRoad.roadMarkers)
+        addAnnotations(newRoad.roadPolyline)
+        fitToAnnotationsInMap()
+    }
+    
+
+    func addRoute(notification:NSNotification){
+        NSLog("New Route detected")
+        let newRoute:MyBusMapRoute = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoute
+        
+        clearAnnotations()
+        addAnnotations(newRoute.markers)
+        addAnnotations(newRoute.polyline)
+        fitToAnnotationsInMap()
+    }
+    
+    func addRechargePointList(notification:NSNotification){
+        NSLog("New recharge list detected")
+        let newRechargePoints:[MyBusMarkerRechargePoint] = self.getPropertyChangedFromNotification(notification) as! [MyBusMarkerRechargePoint]
+        
+        addAnnotations(newRechargePoints)
+        fitToAnnotationsInMap()
+    }
 
     func currentGPSLocation()->CLLocation?{
         return self.userLocation?.location
@@ -114,16 +161,7 @@ class MyBusMapView: MGLMapView{
         self.setZoomLevel(16, animated: false)
     }
 
-    func addRechargePoints(rechargePoints: [RechargePoint]) -> Void {
-
-        let rechargePointAnnotations = rechargePoints.map { (point: RechargePoint) -> MyBusMarkerRechargePoint in
-            return MyBusMarkerFactory.createRechargePointMarker(point)
-        }
-        self.addAnnotations(rechargePointAnnotations)
-        self.fitToAnnotationsInMap()
-
-    }
-
+    
     func selectDestinationMarker() -> Void {
         if let annotations = self.annotations {
             for annotation in annotations {
@@ -136,53 +174,7 @@ class MyBusMapView: MGLMapView{
     }
 
     // MARK: - Mapview bus roads manipulation Methods
-
-    func displayCompleteBusRoute(route: CompleteBusRoute) -> Void {
-        clearAnnotations()
-
-        let roadStopsMarkerList = MyBusMarkerFactory.buildCompleteBusRoadStopMarkers(route)
-        self.addAnnotations(roadStopsMarkerList)
-
-        let busRoutePolylineList = MyBusPolylineFactory.buildCompleteBusRoutePolylineList(route)
-        self.addAnnotations(busRoutePolylineList)
-    }
-
-
-    func addBusRoad(roadResult: RoadResult) {
-        clearExistingBusRoadAnnotations()
-
-        let walkingPolylineList = MyBusPolylineFactory.buildWalkingRoutePolylineList(roadResult)
-        self.addAnnotations(walkingPolylineList)
-
-        let roadStopsMarkerList = MyBusMarkerFactory.buildBusRoadStopMarkers(roadResult)
-        self.addAnnotations(roadStopsMarkerList)
-
-        let busRoutePolylineList = MyBusPolylineFactory.buildBusRoutePolylineList(roadResult)
-        self.addAnnotations(busRoutePolylineList)
-
-    }
-
-    func addOriginPosition(origin: CLLocationCoordinate2D, address: String) {
-        self.clearAllAnnotations()
-
-        self.origin = origin
-        let originMarker = MyBusMarkerFactory.createOriginPointMarker(origin, address: address)
-        self.addAnnotation(originMarker)
-
-        self.setCenterCoordinate(origin, animated: true)
-    }
-
-    func addDestinationPosition(destination: CLLocationCoordinate2D, address: String) {
-        self.destination = destination
-
-        // Declare the marker point and set its coordinates
-        let destinationMarker = MyBusMarkerFactory.createDestinationPointMarker(destination, address: address)
-
-        self.addAnnotation(destinationMarker)
-        self.fitToAnnotationsInMap()
-
-    }
-
+    
     func fitToAnnotationsInMap() -> Void {
         if let annotations = self.annotations {
             self.showAnnotations(annotations, edgePadding: UIEdgeInsetsMake(CGFloat(30), CGFloat(30), CGFloat(30), CGFloat(30)), animated: true)
