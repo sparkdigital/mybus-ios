@@ -61,8 +61,10 @@ public class DBManager: NSObject {
         let users = db.objects(User)
         if let user = users.first {
             try! db.write({
-                db.add(newRecentPoint, update: true) //Must be added before check
-                guard user.recents.indexOf(newRecentPoint) == nil else {
+                let recentsEqualNew = user.recents.filter({ (recent) -> Bool in
+                    return recent.latitude == newRecentPoint.latitude && recent.longitude == newRecentPoint.longitude
+                })
+                guard recentsEqualNew.count == 0 else {
                     return
                 }
 
