@@ -12,9 +12,10 @@ import RealmSwift
 
 class FavoriteDataSource: NSObject, UITableViewDataSource {
 
-    var favorite: List<Location> = List<Location>()
+    var favorite: List<Location>!
 
     override init() {
+        self.favorite = List<Location>()
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
