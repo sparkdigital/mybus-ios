@@ -11,29 +11,28 @@ import UIKit
 import RealmSwift
 
 class FavoriteDataSource: NSObject, UITableViewDataSource {
-    
+
     var favorite: List<Location>!
-    
+
     override init() {
         self.favorite = List<Location>()
     }
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: FavoriteTableViewCell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
-        cell.loadItem(favorite[indexPath.row].name,street: favorite[indexPath.row].streetName, number:String(favorite[indexPath.row].houseNumber))
+        cell.loadItem(favorite[indexPath.row].name, street: favorite[indexPath.row].streetName, number:String(favorite[indexPath.row].houseNumber))
         return cell
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favorite.count
     }
-    
-    func deleteFavoritePlace(index : Int) {
+
+    func deleteFavoritePlace(index: Int) {
         self.favorite.removeAtIndex(index)
     }
-    
-    func addFavoritePlace(place : Location) {
+
+    func addFavoritePlace(place: Location) {
         self.favorite.append(place)
     }
 }
-

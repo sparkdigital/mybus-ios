@@ -12,7 +12,8 @@ import RealmSwift
 class User: Object
 {
     dynamic var name = "DeviceiOS"
-    let favourites = List<Location>()
+    var favourites = List<Location> ()
+    var recents = List<RoutePoint>()
 
     func addFavouriteLocation(favLocation: Location)
     {
