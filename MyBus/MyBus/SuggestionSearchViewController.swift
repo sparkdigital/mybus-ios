@@ -10,22 +10,80 @@ import UIKit
 import Mapbox
 import RealmSwift
 
-public enum SearchFilterType {
-    case Search,Favorite,Tourist
+protocol SuggestionProtocol {
+    var name: String { get }
+    func getImage() -> UIImage
+    func getPoint() -> RoutePoint
+}
+
+class FavoriteSuggestion: SuggestionProtocol {
+    var name: String = ""
+    var 📍: Location
+
+    init(name: String, location: Location){
+        self.name = name
+        self.📍 = location
+    }
+
+    func getImage() -> UIImage {
+        return UIImage(named: "favorite")!
+    }
+
+    func getPoint() -> RoutePoint {
+        let point = RoutePoint()
+        point.address = "\(📍.streetName) \(📍.houseNumber)"
+        point.latitude = 📍.latitude
+        point.longitude = 📍.longitude
+        return point
+    }
+}
+
+class SearchSuggestion: SuggestionProtocol {
+    var name: String = ""
+
+    init(name: String){
+        self.name = name
+    }
+
+    func getImage() -> UIImage {
+        return UIImage(named: "search")!
+    }
+
+    func getPoint() -> RoutePoint {
+        return RoutePoint()
+    }
+}
+
+class RecentSuggestion: SuggestionProtocol {
+    var name: String = ""
+    var 📍: RoutePoint
+
+    init(name: String, point: RoutePoint){
+        self.name = name
+        self.📍 = point
+    }
+
+    func getImage() -> UIImage {
+        return UIImage(named: "recent")!
+    }
+
+    func getPoint() -> RoutePoint {
+        return 📍
+    }
 }
 
 class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
 {
     @IBOutlet weak var searchSuggestionTableView: UITableView!
-    
-    var bestMatches: [(String,SearchFilterType)] = []
+
+    var bestMatches: [SuggestionProtocol] = []
     var suggestionsDataSource: SearchSuggestionsDataSource!
     var searchBarController: UISearchController!
-    
-    var searchBar:UISearchBar?
-    
+    var mainViewDelegate: MainViewDelegate?
+
+    var searchBar: UISearchBar?
     // MARK: - View Lifecycle Methods
-    
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -33,51 +91,71 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.searchSuggestionTableView.delegate = self
         self.searchSuggestionTableView.dataSource = suggestionsDataSource
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         self.suggestionsDataSource.bestMatches = bestMatches
         self.searchSuggestionTableView.reloadData()
+
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchBar = searchBar
         self.suggestionsDataSource.bestMatches = self.applyFilter(searchText)
         self.searchSuggestionTableView.reloadData()
     }
-    
-    func applyFilter(searchText: String) -> [(String,SearchFilterType)] {
+
+    func applyFilter(searchText: String) -> [SuggestionProtocol] {
         self.bestMatches = []
+        let recents = DBManager.sharedInstance.getRecents().filter(NSPredicate(format: "address CONTAINS[c] %@", searchText))
+        for recent in recents {
+            self.bestMatches.append(RecentSuggestion(name: recent.address, point: recent))
+        }
+
+        //TODO Refactor favorites collections -> use RoutePoint instead Location
+        let favs = DBManager.sharedInstance.getFavourites().filter(NSPredicate(format: "name CONTAINS[c] %@", searchText))
+        for fav in favs {
+            self.bestMatches.append(FavoriteSuggestion(name: "\(fav.streetName) \(fav.houseNumber)", location: fav))
+        }
+
         //filter streets
         Connectivity.sharedInstance.getStreetNames(forName: searchText) { (streets, error) in
             if error == nil {
                 for street in streets! {
-                    self.bestMatches.append(street, SearchFilterType.Search)
+                    self.bestMatches.append(SearchSuggestion(name: street))
                 }
             }
         }
         //filter tourist places
         let touristPlaces = Configuration.suggestedPlaces().filter{($0.name.lowercaseString).containsString(searchText.lowercaseString)}
         for place in touristPlaces {
-            self.bestMatches.append((place.name,SearchFilterType.Tourist))
+            self.bestMatches.append(place)
         }
-        //TODO: load favorites
+
         return self.bestMatches
     }
-    
+
     func cleanSearch() {
         self.bestMatches = []
         self.suggestionsDataSource.bestMatches = self.bestMatches
         self.searchSuggestionTableView.reloadData()
     }
-    
+
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let result:(String,SearchFilterType) = self.bestMatches[indexPath.row] {
-            self.searchBar?.text = "\(result.0) "
+        if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
+            if let recentSelected = result as? RecentSuggestion {
+                self.mainViewDelegate?.loadPostionFromFavsRecents(recentSelected.getPoint())
+            } else if let placeSelected = result as? SuggestedPlace {
+                self.mainViewDelegate?.loadPostionFromFavsRecents(placeSelected.getPoint())
+            } else if let favSelected = result as? FavoriteSuggestion {
+                self.mainViewDelegate?.loadPostionFromFavsRecents(favSelected.getPoint())
+            } else {
+                self.searchBar?.text = "\(result.name) "
+            }
         }
     }
 }
