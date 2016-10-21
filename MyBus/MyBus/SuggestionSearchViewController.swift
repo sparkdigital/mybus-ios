@@ -13,6 +13,7 @@ import RealmSwift
 protocol SuggestionProtocol {
     var name: String { get }
     func getImage() -> UIImage
+    func getPoint() -> RoutePoint
 }
 
 class FavoriteSuggestion: SuggestionProtocol {
@@ -27,6 +28,14 @@ class FavoriteSuggestion: SuggestionProtocol {
     func getImage() -> UIImage {
         return UIImage(named: "favorite")!
     }
+
+    func getPoint() -> RoutePoint {
+        let point = RoutePoint()
+        point.address = "\(📍.streetName) \(📍.houseNumber)"
+        point.latitude = 📍.latitude
+        point.longitude = 📍.longitude
+        return point
+    }
 }
 
 class SearchSuggestion: SuggestionProtocol {
@@ -38,6 +47,10 @@ class SearchSuggestion: SuggestionProtocol {
 
     func getImage() -> UIImage {
         return UIImage(named: "search")!
+    }
+
+    func getPoint() -> RoutePoint {
+        return RoutePoint()
     }
 }
 
@@ -52,6 +65,10 @@ class RecentSuggestion: SuggestionProtocol {
 
     func getImage() -> UIImage {
         return UIImage(named: "recent")!
+    }
+
+    func getPoint() -> RoutePoint {
+        return 📍
     }
 }
 
@@ -131,15 +148,11 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
             if let recentSelected = result as? RecentSuggestion {
-                self.mainViewDelegate?.loadPostionFromFavsRecents(recentSelected.📍)
+                self.mainViewDelegate?.loadPostionFromFavsRecents(recentSelected.getPoint())
             } else if let placeSelected = result as? SuggestedPlace {
-                let 📍 = RoutePoint()
-                📍.latitude = placeSelected.location.latitude
-                📍.longitude = placeSelected.location.longitude
-                📍.address = placeSelected.address != nil ? placeSelected.address! : placeSelected.name
-                self.mainViewDelegate?.loadPostionFromFavsRecents(📍)
+                self.mainViewDelegate?.loadPostionFromFavsRecents(placeSelected.getPoint())
             } else if let favSelected = result as? FavoriteSuggestion {
-                //TODO
+                self.mainViewDelegate?.loadPostionFromFavsRecents(favSelected.getPoint())
             } else {
                 self.searchBar?.text = "\(result.name) "
             }
