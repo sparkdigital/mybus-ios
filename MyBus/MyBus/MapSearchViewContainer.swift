@@ -11,8 +11,7 @@ import UIKit
 protocol SearchPresenter{
     func nibIdentifier() -> String
     func preferredHeight() -> CGFloat
-    func setBarDelegate(delegate:UISearchBarDelegate)
-    func setTextFieldDelegate(delegate:Searchable)
+    func setSearchDelegate(delegate:Searchable)    
 }
 
 class MapSearchViewContainer: UIView {
