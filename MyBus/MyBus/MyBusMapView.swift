@@ -96,7 +96,14 @@ class MyBusMapView: MGLMapView{
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
+    
+    func removeOriginPoint(){
+        clearAnnotations(self.annotationIsOrigin)
+    }
+    
+    func removeDestinationPoint(){
+        clearAnnotations(self.annotationIsDestination)
+    }
 
     private func getPropertyChangedFromNotification(notification:NSNotification) -> AnyObject {
         let userInfo:[String : AnyObject] = notification.userInfo as! [String:AnyObject]
@@ -107,16 +114,17 @@ class MyBusMapView: MGLMapView{
         NSLog("New Origin detected")
         let newOrigin:MyBusMarkerOriginPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerOriginPoint
         
-        clearAnnotations(self.annotationIsOrigin)
+        removeOriginPoint()
         addAnnotation(newOrigin)
         setCenterCoordinate(newOrigin.coordinate, animated: true)
         
     }
+    
     func addDestinationPoint(notification:NSNotification){
         NSLog("New Destination detected")
         let newDestination:MyBusMarkerDestinationPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerDestinationPoint
         
-        clearAnnotations(self.annotationIsDestination)
+        removeDestinationPoint()
         addAnnotation(newDestination)
         fitToAnnotationsInMap()
     }
