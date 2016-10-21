@@ -17,9 +17,11 @@ protocol SuggestionProtocol {
 
 class FavoriteSuggestion: SuggestionProtocol {
     var name: String = ""
+    var 📍: Location
 
-    init(name: String){
+    init(name: String, location: Location){
         self.name = name
+        self.📍 = location
     }
 
     func getImage() -> UIImage {
@@ -41,9 +43,11 @@ class SearchSuggestion: SuggestionProtocol {
 
 class RecentSuggestion: SuggestionProtocol {
     var name: String = ""
+    var 📍: RoutePoint
 
-    init(name: String){
+    init(name: String, point: RoutePoint){
         self.name = name
+        self.📍 = point
     }
 
     func getImage() -> UIImage {
@@ -90,15 +94,15 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
     func applyFilter(searchText: String) -> [SuggestionProtocol] {
         self.bestMatches = []
-        let a = DBManager.sharedInstance.getRecents().filter(NSPredicate(format: "address CONTAINS[c] %@", searchText))
-        for recent in a {
-            self.bestMatches.append(RecentSuggestion(name: recent.address))
+        let recents = DBManager.sharedInstance.getRecents().filter(NSPredicate(format: "address CONTAINS[c] %@", searchText))
+        for recent in recents {
+            self.bestMatches.append(RecentSuggestion(name: recent.address, point: recent))
         }
 
         //TODO Refactor favorites collections -> use RoutePoint instead Location
         let favs = DBManager.sharedInstance.getFavourites().filter(NSPredicate(format: "name CONTAINS[c] %@", searchText))
         for fav in favs {
-            self.bestMatches.append(FavoriteSuggestion(name: "\(fav.streetName) \(fav.houseNumber)"))
+            self.bestMatches.append(FavoriteSuggestion(name: "\(fav.streetName) \(fav.houseNumber)", location: fav))
         }
 
         //filter streets
@@ -126,10 +130,19 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
-            if result is FavoriteSuggestion || result is RecentSuggestion || result is SuggestedPlace {
-
+            if let recentSelected = result as? RecentSuggestion {
+                self.mainViewDelegate?.loadPostionFromFavsRecents(recentSelected.📍)
+            } else if let placeSelected = result as? SuggestedPlace {
+                let 📍 = RoutePoint()
+                📍.latitude = placeSelected.location.latitude
+                📍.longitude = placeSelected.location.longitude
+                📍.address = placeSelected.address != nil ? placeSelected.address! : placeSelected.name
+                self.mainViewDelegate?.loadPostionFromFavsRecents(📍)
+            } else if let favSelected = result as? FavoriteSuggestion {
+                //TODO
+            } else {
+                self.searchBar?.text = "\(result.name) "
             }
-            self.searchBar?.text = "\(result.name) "
         }
     }
 }
