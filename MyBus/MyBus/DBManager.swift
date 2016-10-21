@@ -27,20 +27,20 @@ public class DBManager: NSObject {
         return results
     }
 
-    func getFavourites() -> List<Location> {
+    func getFavourites() -> List<Location>? {
         let users = db.objects(User)
         if let user = users.first {
             return user.favourites
         }
-        return List<Location>()
+        return nil
     }
 
-    func getRecents() -> List<RoutePoint> {
+    func getRecents() -> List<RoutePoint>? {
         let users = db.objects(User)
         if let user = users.first {
             return user.recents
         }
-        return List<RoutePoint>()
+        return nil
     }
 
     func getUserProfile() -> User {
