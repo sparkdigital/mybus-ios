@@ -7,8 +7,8 @@
 //
 
 import Foundation
-
-class SuggestedPlace {
+import UIKit
+class SuggestedPlace: SuggestionProtocol {
     var name: String = ""
     var description: String?
     var address: String?
@@ -23,4 +23,7 @@ class SuggestedPlace {
         self.location = (object.objectForKey("lat") as! Double, object.objectForKey("lng") as! Double)
     }
 
+    func getImage() -> UIImage {
+        return UIImage(named: "tourist_spot")!
+    }
 }

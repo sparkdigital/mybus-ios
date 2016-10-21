@@ -11,17 +11,17 @@ import UIKit
 import RealmSwift
 
 class SearchSuggestionsDataSource: NSObject, UITableViewDataSource {
-    
-    var bestMatches: [(String, SearchFilterType)] = []
-    
+
+    var bestMatches: [SuggestionProtocol] = []
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: SuggestionSearchTableViewCell = tableView.dequeueReusableCellWithIdentifier("SuggestionSearchTableViewCell", forIndexPath: indexPath) as! SuggestionSearchTableViewCell
-        cell.loadItem(bestMatches[indexPath.row].0,type: bestMatches[indexPath.row].1)
+        cell.loadItem(bestMatches[indexPath.row])
         return cell
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bestMatches.count
     }
-    
+
 }
