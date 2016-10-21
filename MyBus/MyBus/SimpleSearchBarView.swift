@@ -38,12 +38,8 @@ extension SimpleSearchBarView:SearchPresenter {
         return viewHeight
     }
     
-    func setBarDelegate(delegate: UISearchBarDelegate) {
-        self.searchBar.delegate = delegate
+    func setSearchDelegate(delegate: Searchable) {
+        self.searchBar.delegate = delegate as? UISearchBarDelegate
     }
-    
-    func setTextFieldDelegate(delegate: Searchable) {
-        // Do nothing
-    }
-   
+  
 }
