@@ -26,4 +26,12 @@ class SuggestedPlace: SuggestionProtocol {
     func getImage() -> UIImage {
         return UIImage(named: "tourist_spot")!
     }
+
+    func getPoint() -> RoutePoint {
+        let 📍 = RoutePoint()
+        📍.latitude = self.location.latitude
+        📍.longitude = self.location.longitude
+        📍.address = self.address != nil ? self.address! : self.name
+        return 📍
+    }
 }
