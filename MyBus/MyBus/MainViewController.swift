@@ -19,7 +19,7 @@ protocol Searchable {
 }
 
 protocol MapViewModelDelegate {
-    func endPointsInverted(from:RoutePoint?, to:RoutePoint?)
+    func endPointsInverted(from: RoutePoint?, to: RoutePoint?)
 }
 
 class MapViewModel {
@@ -27,8 +27,8 @@ class MapViewModel {
     var origin: RoutePoint?
     var destiny: RoutePoint?
 
-    var delegate:MapViewModelDelegate?
-    
+    var delegate: MapViewModelDelegate?
+
     var hasOrigin: Bool {
         return origin != nil
     }
@@ -44,9 +44,9 @@ class MapViewModel {
     func isEmpty()->Bool {
         return !hasOrigin && !hasDestiny
     }
-    
+
     func invertEndpoints(){
-        let tmpPoint:RoutePoint? = origin
+        let tmpPoint: RoutePoint? = origin
         self.origin = destiny
         self.destiny = tmpPoint
         self.delegate?.endPointsInverted(origin, to: destiny)
@@ -177,14 +177,16 @@ class MainViewController: UIViewController{
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let r: BusSearchResult = searchResult {
-                    self.hideTabBar()
-                    self.addBackNavItem("Rutas encontradas")
+                    if r.hasRouteOptions {
+                        self.hideTabBar()
+                        self.addBackNavItem("Rutas encontradas")
 
-                    self.busesResultsTableViewController.loadBuses(r)
-                    self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
-                    self.currentViewController = self.busesResultsTableViewController
-
-
+                        self.busesResultsTableViewController.loadBuses(r)
+                        self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
+                        self.currentViewController = self.busesResultsTableViewController
+                    }else{
+                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+                    }
                 }else{
                     GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
                 }
@@ -209,29 +211,29 @@ class MainViewController: UIViewController{
 
 extension MainViewController:MapViewModelDelegate {
     func endPointsInverted(from: RoutePoint?, to: RoutePoint?) {
-        
+
         //Do nothing if both endpoints are nil
         if mapViewModel.isEmpty() {
             return
         }
-        
+
         //Else, just invert the points
         self.newOrigin(from)
         self.newDestination(to)
-        
+
         //update search view
         verifySearchStatus(mapViewModel)
-       
+
         //If there's already a current search, fire the searchRoute method again
-        
+
         if let _ = SearchManager.sharedInstance.currentSearch {
             self.searchRoute()
             return
         }
-        
+
         return
-        
-       
+
+
     }
 }
 
@@ -272,7 +274,7 @@ extension MainViewController:Searchable{
 
         self.navigationController?.pushViewController(searchController, animated: true)
     }
-    
+
     func invertSearch() {
         self.mapViewModel.invertEndpoints()
     }
@@ -301,7 +303,7 @@ extension MainViewController:UITabBarDelegate {
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
 
-                    if let chargePoints = points {                        
+                    if let chargePoints = points {
                         self.mapViewController.toggleRechargePoints(chargePoints)
                     } else {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
@@ -354,13 +356,13 @@ extension MainViewController:MapBusRoadDelegate {
 
     func newResults(busSearchResult: BusSearchResult) {
         self.showTabBar()
-        
+
         if busSearchResult.hasRouteOptions {
             self.mapViewController.addBusLinesResults(busSearchResult.busRouteOptions, preselectedRouteIndex: busSearchResult.indexSelected!)
         }else{
             GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
         }
-        
+
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
@@ -375,7 +377,7 @@ extension MainViewController:MapBusRoadDelegate {
         self.mapViewController.updateOrigin(routePoint)
         self.mapViewModel.origin = routePoint
     }
-    
+
     // TODO: Candidate method to be removed
     func newDestination(destination: CLLocationCoordinate2D, address: String) {
         //self.mapViewController.addDestinationPosition(destination, address : address)
