@@ -18,7 +18,13 @@ class SearchView:UIView{
     @IBOutlet weak var origin: UITextField!
     @IBOutlet weak var destination: UITextField!
     
-    var searchDelegate:Searchable?
+    var searchDelegate:Searchable? {
+        didSet {
+            if let _ = searchDelegate {
+                invert.addTarget(self, action: #selector(invertEndpoints), forControlEvents: UIControlEvents.TouchUpInside)
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         let rect = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, viewHeight)
@@ -34,7 +40,12 @@ class SearchView:UIView{
         self.origin.delegate = self
         self.destination.delegate = self
     }
-       
+    
+    func invertEndpoints(){
+        self.searchDelegate?.invertSearch()
+    }
+   
+    
 }
 
 extension SearchView:SearchPresenter {
@@ -48,12 +59,8 @@ extension SearchView:SearchPresenter {
         return viewHeight
     }
     
-    func setBarDelegate(delegate: UISearchBarDelegate) {
-        // Do nothing
-    }
-    
-    func setTextFieldDelegate(delegate: Searchable) {
-       self.searchDelegate = delegate
+    func setSearchDelegate(delegate: Searchable) {
+        self.searchDelegate = delegate
     }
 
 }

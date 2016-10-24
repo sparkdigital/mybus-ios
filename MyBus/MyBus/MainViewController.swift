@@ -15,6 +15,11 @@ protocol Searchable {
     func initWithComplexSearch(origin: RoutePoint?, destination: RoutePoint?)
     func newOriginSearchRequest()
     func newDestinationSearchRequest()
+    func invertSearch()
+}
+
+protocol MapViewModelDelegate {
+    func endPointsInverted(from:RoutePoint?, to:RoutePoint?)
 }
 
 class MapViewModel {
@@ -22,6 +27,8 @@ class MapViewModel {
     var origin: RoutePoint?
     var destiny: RoutePoint?
 
+    var delegate:MapViewModelDelegate?
+    
     var hasOrigin: Bool {
         return origin != nil
     }
@@ -36,6 +43,13 @@ class MapViewModel {
 
     func isEmpty()->Bool {
         return !hasOrigin && !hasDestiny
+    }
+    
+    func invertEndpoints(){
+        let tmpPoint:RoutePoint? = origin
+        self.origin = destiny
+        self.destiny = tmpPoint
+        self.delegate?.endPointsInverted(origin, to: destiny)
     }
 }
 
@@ -103,6 +117,7 @@ class MainViewController: UIViewController{
         self.tabBar.delegate = self
 
         self.mapViewModel = MapViewModel()
+        self.mapViewModel.delegate = self
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -186,23 +201,53 @@ class MainViewController: UIViewController{
     func clearActiveSearch(){
         self.mapViewModel.clearModel()
         self.mapViewController.resetMapSearch()
+        SearchManager.sharedInstance.currentSearch = nil
         self.homeNavigationBar(self.mapViewModel)
     }
 
 }
+
+extension MainViewController:MapViewModelDelegate {
+    func endPointsInverted(from: RoutePoint?, to: RoutePoint?) {
+        
+        //Do nothing if both endpoints are nil
+        if mapViewModel.isEmpty() {
+            return
+        }
+        
+        //Else, just invert the points
+        self.newOrigin(from)
+        self.newDestination(to)
+        
+        //update search view
+        verifySearchStatus(mapViewModel)
+       
+        //If there's already a current search, fire the searchRoute method again
+        
+        if let _ = SearchManager.sharedInstance.currentSearch {
+            self.searchRoute()
+            return
+        }
+        
+        return
+        
+       
+    }
+}
+
 
 // MARK: Searchable protocol methods
 extension MainViewController:Searchable{
 
     func initWithBasicSearch() {
         mapSearchViewContainer.loadBasicSearch()
-        mapSearchViewContainer.presenter.setBarDelegate(self)
+        mapSearchViewContainer.presenter.setSearchDelegate(self)
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
 
     func initWithComplexSearch(origin: RoutePoint?, destination: RoutePoint?) {
         mapSearchViewContainer.loadComplexSearch(origin, destination: destination)
-        mapSearchViewContainer.presenter.setTextFieldDelegate(self)
+        mapSearchViewContainer.presenter.setSearchDelegate(self)
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
 
@@ -226,6 +271,10 @@ extension MainViewController:Searchable{
         searchController.searchType = type
 
         self.navigationController?.pushViewController(searchController, animated: true)
+    }
+    
+    func invertSearch() {
+        self.mapViewModel.invertEndpoints()
     }
 
 }
@@ -322,7 +371,7 @@ extension MainViewController:MapBusRoadDelegate {
         //self.mapViewController.addOriginPosition(origin, address: address)
     }
 
-    func newOrigin(routePoint: RoutePoint) {
+    func newOrigin(routePoint: RoutePoint?) {
         self.mapViewController.updateOrigin(routePoint)
         self.mapViewModel.origin = routePoint
     }
@@ -332,7 +381,7 @@ extension MainViewController:MapBusRoadDelegate {
         //self.mapViewController.addDestinationPosition(destination, address : address)
     }
 
-    func newDestination(routePoint: RoutePoint) {
+    func newDestination(routePoint: RoutePoint?) {
         self.mapViewController.updateDestination(routePoint)
         self.mapViewModel.destiny = routePoint
     }

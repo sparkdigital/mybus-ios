@@ -355,16 +355,28 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     
     
     //Newest implementation
-    func updateOrigin(newOrigin:RoutePoint){
+    func updateOrigin(newOrigin:RoutePoint?){
         self.mapView.clearExistingBusRouteAnnotations()
-        let marker = MyBusMarkerFactory.createOriginPointMarker(newOrigin)
-        self.mapModel.originMarker = marker
+        
+        if let origin = newOrigin {
+            let marker = MyBusMarkerFactory.createOriginPointMarker(origin)
+            self.mapModel.originMarker = marker
+        }else{
+            self.mapView.removeOriginPoint()
+            self.mapModel.originMarker = nil
+        }
     }
     
-    func updateDestination(newDestination:RoutePoint){
+    func updateDestination(newDestination:RoutePoint?){
         self.mapView.clearExistingBusRouteAnnotations()
-        let marker = MyBusMarkerFactory.createDestinationPointMarker(newDestination)
-        self.mapModel.destinationMarker = marker
+        
+        if let destination = newDestination {
+            let marker = MyBusMarkerFactory.createDestinationPointMarker(destination)
+            self.mapModel.destinationMarker = marker
+        }else{
+            self.mapView.removeDestinationPoint()
+            self.mapModel.destinationMarker = nil
+        }
     }
     
     func updateRoad(newRoad:RoadResult){
