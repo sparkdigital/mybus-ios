@@ -25,6 +25,8 @@ class BusesResultsTableViewController: UITableViewController {
     func loadBuses(buses: BusSearchResult) {
         self.busSearchResult = buses
         self.buses = buses.busRouteOptions
+        self.tableView.reloadData()
+        self.tableView.layoutIfNeeded()
     }
 
     override func didReceiveMemoryWarning() {
