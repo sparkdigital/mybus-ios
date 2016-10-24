@@ -111,17 +111,22 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
     func applyFilter(searchText: String) -> [SuggestionProtocol] {
         self.bestMatches = []
-        let recents = DBManager.sharedInstance.getRecents().filter(NSPredicate(format: "address CONTAINS[c] %@", searchText))
-        for recent in recents {
-            self.bestMatches.append(RecentSuggestion(name: recent.address, point: recent))
+        
+        if let recents = DBManager.sharedInstance.getRecents() {
+            let filteredRecents = recents.filter(NSPredicate(format: "address CONTAINS[c] %@", searchText))
+            for recent in filteredRecents {
+                self.bestMatches.append(RecentSuggestion(name: recent.address, point: recent))
+            }
         }
-
+       
         //TODO Refactor favorites collections -> use RoutePoint instead Location
-        let favs = DBManager.sharedInstance.getFavourites().filter(NSPredicate(format: "name CONTAINS[c] %@", searchText))
-        for fav in favs {
-            self.bestMatches.append(FavoriteSuggestion(name: "\(fav.streetName) \(fav.houseNumber)", location: fav))
+        if let favs = DBManager.sharedInstance.getFavourites() {
+            let filteredFavs = favs.filter(NSPredicate(format: "name CONTAINS[c] %@", searchText))
+            for fav in filteredFavs {
+                self.bestMatches.append(FavoriteSuggestion(name: "\(fav.streetName) \(fav.houseNumber)", location: fav))
+            }
         }
-
+        
         //filter streets
         Connectivity.sharedInstance.getStreetNames(forName: searchText) { (streets, error) in
             if error == nil {
@@ -146,6 +151,9 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     }
 
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
         if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
             if let recentSelected = result as? RecentSuggestion {
                 self.mainViewDelegate?.loadPostionFromFavsRecents(recentSelected.getPoint())
