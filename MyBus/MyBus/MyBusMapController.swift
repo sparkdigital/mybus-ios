@@ -26,11 +26,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     var bestMatches: [String] = []
     var busResultsDetail: [BusRouteResult] = []
     var currentRouteDisplayed: BusRouteResult?
-    
-    var mapModel:MyBusMapModel!
-   
+
+    var mapModel: MyBusMapModel!
+
     //Temporary solution
-    var userLocation:CLLocation? {
+    var userLocation: CLLocation? {
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
             return self.mapView.currentGPSLocation()
@@ -38,21 +38,21 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             return nil
         }
     }
-    
+
     // MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setBusResultsTableViewHeight(busResultTableHeightToHide)
-        
+
         self.mapModel = MyBusMapModel()
-        
+
         initMapboxView()
     }
 
     func initMapboxView() {
         mapView.initialize(self)
-        
-        
+
+
         // Setup offline pack notification handlers.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
@@ -208,15 +208,15 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
 
     // MARK: - Mapview bus roads manipulation Methods
-    func addBusLinesResults(busRouteOptions:[BusRouteResult], preselectedRouteIndex:Int = 0){
-        
+    func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
+
         self.busResultsDetail = busRouteOptions
         self.bestMatches = busRouteOptions.map({ (route) -> String in
             return route.emojiDescription()
         })
-        
+
         self.loadBusLineRoad(preselectedRouteIndex)
-        
+
     }
 
     func loadBusLineRoad(indexRouteSelected: Int) {
@@ -229,14 +229,18 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: indexRouteSelected, inSection: 0), animated: true, scrollPosition: .Middle)
     }
 
-    
+
     func clearRouteAnnotations(){
         self.mapView.clearExistingBusRouteAnnotations()
     }
-    
+
     func resetMapSearch(){
         self.mapView.clearAllAnnotations()
         self.mapModel.clearModel()
+        self.resetHideResultsTable()
+    }
+
+    func resetHideResultsTable() {
         self.bestMatches = []
         self.busResultsTableView.reloadData()
         setBusResultsTableViewHeight(busResultTableHeightToHide)
@@ -344,7 +348,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             SearchManager.sharedInstance.getRoad(route) {
                 road, error in
                 self.progressNotification.stopLoadingNotification(self.view)
-                if let routeRoad = road {                    
+                if let routeRoad = road {
                     self.updateRoad(routeRoad)
                 } else {
                     GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos resolver el detalle de la opción seleccionada")
@@ -352,12 +356,13 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             }
         }
     }
-    
-    
+
+
     //Newest implementation
-    func updateOrigin(newOrigin:RoutePoint?){
+    func updateOrigin(newOrigin: RoutePoint?){
         self.mapView.clearExistingBusRouteAnnotations()
-        
+        self.mapView.clearExistingBusRoadAnnotations()
+        resetHideResultsTable()
         if let origin = newOrigin {
             let marker = MyBusMarkerFactory.createOriginPointMarker(origin)
             self.mapModel.originMarker = marker
@@ -366,10 +371,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             self.mapModel.originMarker = nil
         }
     }
-    
-    func updateDestination(newDestination:RoutePoint?){
+
+    func updateDestination(newDestination: RoutePoint?){
         self.mapView.clearExistingBusRouteAnnotations()
-        
+        self.mapView.clearExistingBusRoadAnnotations()
+        resetHideResultsTable()
         if let destination = newDestination {
             let marker = MyBusMarkerFactory.createDestinationPointMarker(destination)
             self.mapModel.destinationMarker = marker
@@ -378,8 +384,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             self.mapModel.destinationMarker = nil
         }
     }
-    
-    func updateRoad(newRoad:RoadResult){
+
+    func updateRoad(newRoad: RoadResult){
         self.mapView.clearExistingBusRouteAnnotations()
         let mapRoad = MyBusMapRoad()
         mapRoad.walkingPath = MyBusPolylineFactory.buildWalkingRoutePolylineList(newRoad)
@@ -387,8 +393,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         mapRoad.roadPolyline = MyBusPolylineFactory.buildBusRoutePolylineList(newRoad)
         self.mapModel.currentRoad = mapRoad
     }
-    
-    func toggleRechargePoints(points:[RechargePoint]?){
+
+    func toggleRechargePoints(points: [RechargePoint]?){
         if let points = points {
             let rechargePointAnnotations = points.map { (point: RechargePoint) -> MyBusMarkerRechargePoint in
                 return MyBusMarkerFactory.createRechargePointMarker(point)
@@ -397,21 +403,21 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         }else{
             //Should clear the annotations in the model???
             self.mapView.clearRechargePointAnnotations()
-        }       
+        }
     }
-    
-    func updateCompleteBusRoute(newRoute:CompleteBusRoute){
+
+    func updateCompleteBusRoute(newRoute: CompleteBusRoute){
         self.mapModel.originMarker = nil
         self.mapModel.destinationMarker = nil
         self.mapModel.currentRoad = nil
         self.mapView.clearAllAnnotations()
-        
+
         let mapRoute = MyBusMapRoute()
         mapRoute.markers = MyBusMarkerFactory.buildCompleteBusRoadStopMarkers(newRoute)
         mapRoute.polyline = MyBusPolylineFactory.buildCompleteBusRoutePolylineList(newRoute)
         self.mapModel.completeBusRoute = mapRoute
     }
-    
-    
+
+
 
 }
