@@ -370,6 +370,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             self.mapView.removeOriginPoint()
             self.mapModel.originMarker = nil
         }
+
+        //If destination is set, we should fit to origin and destionation marker
+        if let _ = self.mapModel.destinationMarker {
+            self.mapView.fitToAnnotationsInMap()
+        }
     }
 
     func updateDestination(newDestination: RoutePoint?){
