@@ -68,7 +68,7 @@ class RoutePoint: Object {
 
             geoPoint.latitude = originLocation["lat"].doubleValue
             geoPoint.longitude = originLocation["lng"].doubleValue
-            geoPoint.address = address!
+            geoPoint.address = address ?? "Ubicación sin nombre"
 
             return geoPoint
         default:
