@@ -83,18 +83,87 @@ public class DBManager: NSObject {
     }
     
     func addFavorite(newFavoritePlace: Location) {
-        let user = (db.objects(User).first != nil) ? db.objects(User).first! : User()
-        user.addFavouriteLocation(newFavoritePlace)
+        // Realms are used to group data together
+        let realm = try! Realm() // Create realm pointing to default file
+        let users = realm.objects(User)
+         if users.count > 0
+        {
+            let user = users.first
+            // Save your object
+            try! realm.write
+                {
+                    user!.favourites.append(newFavoritePlace)
+            }
+        } else
+        {
+            let user = User()
+            user.favourites.append(newFavoritePlace)
+            realm.beginWrite()
+            realm.add(user)
+            try! realm.commitWrite()
+        }
     }
 
-    func removeFavorite(newFavoritePlace: Location) {
-        let user = (db.objects(User).first != nil) ? db.objects(User).first! : User()
-        user.removeFavouriteLocation(newFavoritePlace)
+    func removeFavorite(favoritePlace: Location) {
+        // Realms are used to group data together
+        let realm = try! Realm() // Create realm pointing to default file
+        let users = realm.objects(User)
+        
+        if users.count > 0
+        {
+            let user = users.first
+            // Remove your object
+            try! realm.write
+                {
+                    if let indexLocation = user!.favourites.indexOf(favoritePlace) {
+                        user?.favourites.removeAtIndex(indexLocation)
+                    } else {
+                        let location = user!.favourites.filter{($0.streetName == favoritePlace.streetName && $0.houseNumber == favoritePlace.houseNumber)}[0]
+                        let indexLocation = user!.favourites.indexOf(location)
+                        user?.favourites.removeAtIndex(indexLocation!)
+                    }
+            }
+        } else
+        {
+            let user = User()
+            if let indexLocation = user.favourites.indexOf(favoritePlace) {
+                user.favourites.removeAtIndex(indexLocation)
+            } else {
+                let location = user.favourites.filter{($0.streetName == favoritePlace.streetName &&  $0.houseNumber == favoritePlace.houseNumber)}[0]
+                let indexLocation = user.favourites.indexOf(location)
+                user.favourites.removeAtIndex(indexLocation!)
+            }
+            realm.beginWrite()
+            realm.add(user)
+            try! realm.commitWrite()
+        }
     }
     
     func updateFavorite(favoritePlace: Location) {
-        let user = (db.objects(User).first != nil) ? db.objects(User).first! : User()
-        user.updateFavouriteLocation(favoritePlace)
+        // Realms are used to group data together
+        let realm = try! Realm() // Create realm pointing to default file
+        let users = realm.objects(User)
+        
+        if users.count > 0
+        {
+            let user = users.first
+            //Update your object
+            try! realm.write
+                {
+                    let location = user!.favourites.filter{($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
+                    let indexLocation = user?.favourites.indexOf(location)
+                    user?.favourites.replace(indexLocation!, object: favoritePlace)
+            }
+        } else
+        {
+            let user = User()
+            let location = user.favourites.filter{($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
+            let indexLocation = user.favourites.indexOf(location)
+            user.favourites.replace(indexLocation!, object: favoritePlace)
+            realm.beginWrite()
+            realm.add(user)
+            try! realm.commitWrite()
+        }
     }
     
     func addDataModelEntry(object: Object){
