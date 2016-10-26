@@ -29,7 +29,8 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Borrar") { (action, indexPath ) -> Void in
             self.editing = false
-            self.favoriteDataSource.deleteFavoritePlace(indexPath.row)
+            let location = self.favoriteDataSource.favorite[indexPath.row]
+            DBManager.sharedInstance.removeFavorite(location)
             self.favoriteTableView.reloadData()
         }
 

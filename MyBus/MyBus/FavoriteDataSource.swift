@@ -27,18 +27,4 @@ class FavoriteDataSource: NSObject, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favorite.count
     }
-    
-    func addFavoritePlace(place: Location) {
-        self.favorite.append(place)
-    }
-    
-    func updateFavoritePlace(index: Int) {
-        let location = favorite[index]
-        DBManager.sharedInstance.updateFavorite(location)
-    }
-    
-    func deleteFavoritePlace(index: Int) {
-        let location = favorite[index]
-        DBManager.sharedInstance.removeFavorite(location)
-    }
 }
