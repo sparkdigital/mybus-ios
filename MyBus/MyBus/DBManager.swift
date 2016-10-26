@@ -81,7 +81,22 @@ public class DBManager: NSObject {
             })
         }
     }
+    
+    func addFavorite(newFavoritePlace: Location) {
+        let user = (db.objects(User).first != nil) ? db.objects(User).first! : User()
+        user.addFavouriteLocation(newFavoritePlace)
+    }
 
+    func removeFavorite(newFavoritePlace: Location) {
+        let user = (db.objects(User).first != nil) ? db.objects(User).first! : User()
+        user.removeFavouriteLocation(newFavoritePlace)
+    }
+    
+    func updateFavorite(favoritePlace: Location) {
+        let user = (db.objects(User).first != nil) ? db.objects(User).first! : User()
+        user.updateFavouriteLocation(favoritePlace)
+    }
+    
     func addDataModelEntry(object: Object){
         db.beginWrite()
         db.add(object, update: true)
