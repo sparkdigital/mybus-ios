@@ -128,28 +128,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
     }
-
-    /**
-     This method sets the button of the annotation
-     */
-    func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
-        let annotationTitle = annotation.title!! as String
-        // Only display button when marker is with Destino title
-        if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
-            let button = UIButton(type: .DetailDisclosure)
-            button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
-            return button
-        }
-        return nil
-    }
-
-    /**
-     This method makes the search when the button is pressed on the annotation
-     */
-    func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
-        // Hide the callout view.
-        mapView.deselectAnnotation(annotation, animated: false)
-        progressNotification.showLoadingNotification(self.view)
+    
+    func searchBusRoad(annotation: MGLAnnotation) {
         //Make the search
         let locationServiceAuth = CLLocationManager.authorizationStatus()
         //If origin location is diferent nil
@@ -179,7 +159,100 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             GenerateMessageAlert.generateAlertToSetting(self)
         }
     }
-
+    
+    func existFavoritePlace(address: CLLocationCoordinate2D) -> Bool {
+        if let favorites = DBManager.sharedInstance.getFavourites(){
+            let filter  = favorites.filter{($0.latitude) == address.latitude && ($0.longitude) == address.longitude}
+            return !filter.isEmpty
+        }
+        return false
+    }
+    
+    func getLocationByAnnotation(annotation : MGLAnnotation,name: String) -> Location {
+        let location = Location()
+        location.name = name
+        location.latitude = annotation.coordinate.latitude
+        location.longitude = annotation.coordinate.longitude
+        var addressAnnotation = annotation.subtitle!!.componentsSeparatedByString(" ")
+        let numberAnnotation = addressAnnotation.popLast()
+        var finish = false
+        let number = numberAnnotation?.characters.filter({ (character) -> Bool in if ((Int(String(character)) != nil) && !finish ){ return true} else { finish = true; return false}}).map({(String($0))})
+        location.houseNumber = Int((number?.joinWithSeparator(""))!)!
+        location.streetName = addressAnnotation.joinWithSeparator(" ")
+        return location
+    }
+    
+    /**
+     This method sets the button of the annotation
+     */
+    func mapView(mapView: MGLMapView, leftCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+        let annotationTitle = annotation.title!! as String
+        // Only display button when marker is with Destino title
+        let address = annotation.coordinate
+        if (existFavoritePlace(address)) {
+            if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
+                let button = UIButton(type: .DetailDisclosure)
+                button.setImage(UIImage(named: "tabbar_favourite_fill"), forState: UIControlState.Normal)
+                button.tag = 0
+                return button
+            }
+        } else {
+            if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
+                let button = UIButton(type: .DetailDisclosure)
+                button.setImage(UIImage(named: "tabbar_favourite_line"), forState: UIControlState.Normal)
+                button.tag = 1
+                return button
+            }
+        }
+        return nil
+    }
+    
+    func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+        let annotationTitle = annotation.title!! as String
+        // Only display button when marker is with Destino title
+        if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
+            let button = UIButton(type: .DetailDisclosure)
+            button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
+            button.tag = 2
+            return button
+        }
+        return nil
+    }
+    
+    /**
+     This method makes the search when the button is pressed on the annotation
+     */
+    func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+        // Hide the callout view.
+        mapView.deselectAnnotation(annotation, animated: false)
+        progressNotification.showLoadingNotification(self.view)
+        
+        switch control.tag {
+        case 0:
+            self.progressNotification.stopLoadingNotification(self.view)
+            let alert = UIAlertController(title: "Eliminando un lugar favorito", message: "Está seguro que quiere borrar esta ubicación de su lista de Favoritos?", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+            let location = self.getLocationByAnnotation(annotation, name: annotation.title!!)
+            DBManager.sharedInstance.removeFavorite(location)})
+            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        case 1:
+            self.progressNotification.stopLoadingNotification(self.view)
+            let alert = UIAlertController(title: "Agregando un lugar favorito", message: "Por favor ingrese un nombre para el lugar Favorito", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addTextFieldWithConfigurationHandler({ (textField) in textField.placeholder = "Name" })
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+            let location = self.getLocationByAnnotation(annotation, name: alert.textFields![0].text!)
+            DBManager.sharedInstance.addFavorite(location)})
+            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        case 2:
+            self.searchBusRoad(annotation)
+        default: break
+        }
+    }
+    
     func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
         if let myBusMarker = annotation as? MyBusMarker {
             return myBusMarker.markerImage
