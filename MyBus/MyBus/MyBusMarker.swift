@@ -10,7 +10,6 @@ import Foundation
 import Mapbox
 import UIKit
 
-//class MyBusMarkerAddressPoint: MyBusMarker {}
 class MyBusMarkerOriginPoint: MyBusMarker {}
 class MyBusMarkerDestinationPoint: MyBusMarker {}
 class MyBusMarkerBusStopPoint: MyBusMarker{}
@@ -29,6 +28,15 @@ class MyBusMarker: MGLPointAnnotation {
             if var image = UIImage(named: identifier) {
                 image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
                 return MGLAnnotationImage(image: image, reuseIdentifier: identifier)
+            }
+            return nil
+        }
+    }
+    var markerView: MGLAnnotationView? {
+        get {
+            guard let identifier = markerImageIdentifier else { return nil }
+            if var image = UIImage(named: identifier) {
+                return MyBusMarkerAnnotationView(reuseIdentifier: identifier)
             }
             return nil
         }
