@@ -280,6 +280,14 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         GenerateMessageAlert.generateAlertToSetting(self)
     }
 
+    func mapView(mapView: MGLMapView, viewForAnnotation annotation: MGLAnnotation) -> MGLAnnotationView? {
+        guard annotation is MyBusMarker else {
+            return nil
+        }
+        return (annotation as! MyBusMarker).markerView
+
+    }
+
     // MARK: - Mapview bus roads manipulation Methods
     func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
 
