@@ -62,5 +62,14 @@ class MyBusMarkerAnnotationView: MGLAnnotationView {
             self.layer.opacity = 1
             self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1)
             }, completion: nil)
+
+        if let annotation = self.annotation {
+            let newCoordinate = annotation.coordinate
+            Connectivity.sharedInstance.getAddressFromCoordinate(newCoordinate.latitude, longitude: newCoordinate.longitude) { (routePoint, error) in
+                if let newPoint = routePoint {
+                    print(newPoint.address)
+                }
+            }
+        }
     }
 }
