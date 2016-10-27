@@ -39,7 +39,9 @@ public class GisService: NSObject, GisServiceDelegate {
                 point.latitude = latitude
                 point.longitude = longitude
                 if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
-                    let address = "\(street as String) \(houseNumber as String)"
+                    let streetName = (street as String).stringByReplacingOccurrencesOfString("Calle ", withString: "")
+                    let house = (houseNumber as String).componentsSeparatedByString("–").first! ?? ""
+                    let address = "\(streetName) \(house)"
                     point.address = address
                 }
                 completionHandler(point, nil)
