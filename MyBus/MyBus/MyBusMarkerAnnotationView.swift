@@ -24,7 +24,7 @@ class MyBusMarkerAnnotationView: MGLAnnotationView {
         if var image = UIImage(named: reuseIdentifier) {
             image =  image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
             let imageView = UIImageView(image: image)
-            self.frame = imageView.frame
+            self.frame = CGRectMake(0, 0, image.size.width + 5, image.size.height + 5)
             self.backgroundColor = .clearColor()
             self.addSubview(imageView)
         }
