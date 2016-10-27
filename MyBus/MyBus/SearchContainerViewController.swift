@@ -190,7 +190,7 @@ extension SearchContainerViewController:MainViewDelegate{
         }
     }
 
-    func loadPostionFromFavsRecents(position: RoutePoint) {
+    func loadPositionFromFavsRecents(position: RoutePoint) {
         if self.searchType == SearchType.Origin {
             self.busRoadDelegate?.newOrigin(position)
         }else{
