@@ -118,6 +118,32 @@ class MainViewController: UIViewController{
 
         self.mapViewModel = MapViewModel()
         self.mapViewModel.delegate = self
+
+        // Add observers
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
+
+    }
+
+
+    private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
+        let userInfo: [String : AnyObject] = notification.userInfo as! [String:AnyObject]
+        return userInfo[MyBusMarkerAnnotationView.kPropertyChangedDescriptor]!
+    }
+
+    func updateDraggedOrigin(notification: NSNotification) {
+        NSLog("Origin dragged detected")
+        let draggedOrigin: RoutePoint = self.getPropertyChangedFromNotification(notification) as! RoutePoint
+        newOrigin(draggedOrigin)
+        verifySearchStatus(mapViewModel)
+    }
+
+    func updateDraggedDestination(notification: NSNotification) {
+        NSLog("Destination dragged detected")
+        let draggedDestination: RoutePoint = self.getPropertyChangedFromNotification(notification) as! RoutePoint
+        newDestination(draggedDestination)
+        verifySearchStatus(mapViewModel)
     }
 
     override func viewDidAppear(animated: Bool) {

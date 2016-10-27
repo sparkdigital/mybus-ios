@@ -8,7 +8,15 @@
 
 import Mapbox
 
+enum MyBusEndpointNotificationKey: String {
+    case originChanged = "markerOriginEndDragged"
+    case destinationChanged = "markerDestinationEndDragged"
+}
+
 class MyBusMarkerAnnotationView: MGLAnnotationView {
+
+    static let kPropertyChangedDescriptor: String = "MapPropertyChanged"
+
     init(reuseIdentifier: String, size: CGFloat? = 30.0) {
         super.init(reuseIdentifier: reuseIdentifier)
         draggable = true
@@ -68,8 +76,23 @@ class MyBusMarkerAnnotationView: MGLAnnotationView {
             Connectivity.sharedInstance.getAddressFromCoordinate(newCoordinate.latitude, longitude: newCoordinate.longitude) { (routePoint, error) in
                 if let newPoint = routePoint {
                     print(newPoint.address)
+                    if annotation is MyBusMarkerOriginPoint {
+                        self.notifyPropertyChanged(MyBusEndpointNotificationKey.originChanged, object: newPoint)
+                    } else if annotation is MyBusMarkerDestinationPoint {
+                        self.notifyPropertyChanged(MyBusEndpointNotificationKey.destinationChanged, object: newPoint)
+                    }
                 }
             }
+        }
+    }
+
+    private func notifyPropertyChanged(propertyKey: MyBusEndpointNotificationKey, object: AnyObject?){
+        if object == nil {
+            // Don't send the notification if the property has been set to nil
+            NSLog("\(propertyKey.rawValue) is now nil")
+        } else {
+            NSNotificationCenter.defaultCenter().postNotificationName(propertyKey.rawValue, object: nil, userInfo: [MyBusMarkerAnnotationView.kPropertyChangedDescriptor
+                :object!])
         }
     }
 }
