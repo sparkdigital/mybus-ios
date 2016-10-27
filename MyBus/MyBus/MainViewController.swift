@@ -136,7 +136,7 @@ class MainViewController: UIViewController{
         NSLog("Origin dragged detected")
         let draggedOrigin: RoutePoint = self.getPropertyChangedFromNotification(notification) as! RoutePoint
         newOrigin(draggedOrigin)
-        verifySearchStatus(mapViewModel)
+        homeNavigationBar(mapViewModel)
     }
 
     func updateDraggedDestination(notification: NSNotification) {
@@ -148,7 +148,7 @@ class MainViewController: UIViewController{
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.homeNavigationBar(mapViewModel)
+        homeNavigationBar(mapViewModel)
     }
 
     //This method receives the old view controller to be replaced with the new controller
