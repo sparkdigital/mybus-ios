@@ -281,11 +281,15 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
 
     func mapView(mapView: MGLMapView, viewForAnnotation annotation: MGLAnnotation) -> MGLAnnotationView? {
-        guard annotation is MyBusMarker else {
+        guard let myBusMarker = annotation as? MyBusMarker else {
             return nil
         }
-        return (annotation as! MyBusMarker).markerView
 
+        if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(myBusMarker.markerImageIdentifier!) {
+            return annotationView
+        } else {
+            return myBusMarker.markerView
+        }
     }
 
     // MARK: - Mapview bus roads manipulation Methods
@@ -503,7 +507,4 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         mapRoute.polyline = MyBusPolylineFactory.buildCompleteBusRoutePolylineList(newRoute)
         self.mapModel.completeBusRoute = mapRoute
     }
-
-
-
 }

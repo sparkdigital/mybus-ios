@@ -34,13 +34,11 @@ class MyBusMarker: MGLPointAnnotation {
     }
     var markerView: MGLAnnotationView? {
         get {
-            guard let identifier = markerImageIdentifier else { return nil }
-            if var image = UIImage(named: identifier) {
-                return MyBusMarkerAnnotationView(reuseIdentifier: identifier)
-            }
-            return nil
+            guard let identifier = markerImageIdentifier where (self is MyBusMarkerOriginPoint || self is MyBusMarkerDestinationPoint) else { return nil }
+            return MyBusMarkerAnnotationView(reuseIdentifier: identifier)
         }
     }
+
 
     // MARK: MyBusMarker Constructor
     init(position: CLLocationCoordinate2D, title: String, subtitle: String? = "", imageIdentifier: String?) {
