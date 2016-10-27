@@ -170,10 +170,7 @@ extension SearchContainerViewController:UISearchBarDelegate {
             let message = "El campo \(self.searchType.rawValue) no esta indicado"
             GenerateMessageAlert.generateAlert(self, title: "No sabemos que buscar", message: message)
         }
-
     }
-
-
 }
 
 
