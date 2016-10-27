@@ -21,12 +21,13 @@ class MyBusMarkerAnnotationView: MGLAnnotationView {
         super.init(reuseIdentifier: reuseIdentifier)
         draggable = true
         scalesWithViewingDistance = false
-        var image = UIImage(named: reuseIdentifier)
-        image =  image!.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image!.size.height/2, 0))
-        let imageView = UIImageView(image: image)
-        self.frame = imageView.frame
-        self.backgroundColor = .clearColor()
-        self.addSubview(imageView)
+        if var image = UIImage(named: reuseIdentifier) {
+            image =  image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+            let imageView = UIImageView(image: image)
+            self.frame = imageView.frame
+            self.backgroundColor = .clearColor()
+            self.addSubview(imageView)
+        }
     }
 
     // These two initializers are forced upon us by Swift.
@@ -44,12 +45,10 @@ class MyBusMarkerAnnotationView: MGLAnnotationView {
 
         switch dragState {
         case .Starting:
-            print("Starting", terminator: "")
             startDragging()
         case .Dragging:
             print(".", terminator: "")
         case .Ending, .Canceling:
-            print("Ending")
             endDragging()
         case .None:
             return
