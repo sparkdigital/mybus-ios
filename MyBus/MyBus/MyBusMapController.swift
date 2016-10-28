@@ -154,38 +154,30 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
      This method sets the button of the annotation
      */
     func mapView(mapView: MGLMapView, leftCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
-        let annotationTitle = annotation.title!! as String
-        // Only display button when marker is with Destino title
-        let address = annotation.coordinate
-        if (existFavoritePlace(address)) {
-            if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
-                let button = UIButton(type: .DetailDisclosure)
-                button.setImage(UIImage(named: "tabbar_favourite_fill"), forState: UIControlState.Normal)
-                button.tag = 0
-                return button
-            }
-        } else {
-            if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
-                let button = UIButton(type: .DetailDisclosure)
-                button.setImage(UIImage(named: "tabbar_favourite_line"), forState: UIControlState.Normal)
-                button.tag = 1
-                return button
-            }
+        guard (annotation is MyBusMarkerDestinationPoint || annotation is MyBusMarkerOriginPoint) else {
+            return nil
         }
-        return nil
+        let locationCoordinate = annotation.coordinate
+        let alreadyIsFavorite = existFavoritePlace(locationCoordinate)
+        let buttonImage = alreadyIsFavorite ? UIImage(named: "tabbar_favourite_fill") : UIImage(named: "tabbar_favourite_line")
+        
+        let button = UIButton(type: .DetailDisclosure)
+        button.setImage(buttonImage, forState: UIControlState.Normal)
+        button.tag = alreadyIsFavorite ? 0 : 1
+        return button
     }
     
-    func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
-        let annotationTitle = annotation.title!! as String
-        // Only display button when marker is with Destino title
-        if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
-            let button = UIButton(type: .DetailDisclosure)
-            button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
-            button.tag = 2
-            return button
-        }
-        return nil
-    }
+//    func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+//        let annotationTitle = annotation.title!! as String
+//        // Only display button when marker is with Destino title
+//        if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
+//            let button = UIButton(type: .DetailDisclosure)
+//            button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
+//            button.tag = 2
+//            return button
+//        }
+//        return nil
+//    }
     
     /**
      This method makes the search when the button is pressed on the annotation
