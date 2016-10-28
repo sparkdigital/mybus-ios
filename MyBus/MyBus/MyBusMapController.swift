@@ -97,37 +97,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         return true
     }
     
-    func searchBusRoad(annotation: MGLAnnotation) {
-        //Make the search
-        let locationServiceAuth = CLLocationManager.authorizationStatus()
-        //If origin location is diferent nil
-        if (locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
-            if let originLocation = self.mapView.currentGPSLocation()?.coordinate {
-                self.mapView.addAnnotation(annotation)
-                Connectivity.sharedInstance.getAddressFromCoordinate(originLocation.latitude, longitude: originLocation.longitude) { (routePoint, error) in
-                    if let origin = routePoint {
-                        self.updateOrigin(origin)
-                        SearchManager.sharedInstance.search(origin, destination:self.destination!, completionHandler: {
-                            (busRouteResult, error) in
-                            self.progressNotification.stopLoadingNotification(self.view)
-                            if let results = busRouteResult where results.hasRouteOptions {
-                                self.addBusLinesResults(results.busRouteOptions)
-                            }else{
-                                GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
-                            }
-                        })
-                    }
-                }
-            } else {
-                self.mapView.showsUserLocation = true
-                self.progressNotification.stopLoadingNotification(self.view)
-            }
-        } else {
-            self.progressNotification.stopLoadingNotification(self.view)
-            GenerateMessageAlert.generateAlertToSetting(self)
-        }
-    }
-    
     func existFavoritePlace(address: CLLocationCoordinate2D) -> Bool {
         if let favorites = DBManager.sharedInstance.getFavourites(){
             let filter  = favorites.filter{($0.latitude) == address.latitude && ($0.longitude) == address.longitude}
@@ -167,18 +136,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         return button
     }
     
-//    func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
-//        let annotationTitle = annotation.title!! as String
-//        // Only display button when marker is with Destino title
-//        if annotationTitle == MyBusTitle.DestinationTitle.rawValue {
-//            let button = UIButton(type: .DetailDisclosure)
-//            button.setImage(UIImage(named: "tabbar_route_fill"), forState: UIControlState.Normal)
-//            button.tag = 2
-//            return button
-//        }
-//        return nil
-//    }
-    
     /**
      This method makes the search when the button is pressed on the annotation
      */
@@ -206,9 +163,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             DBManager.sharedInstance.addFavorite(location)})
             alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
-            
-        case 2:
-            self.searchBusRoad(annotation)
         default: break
         }
     }
