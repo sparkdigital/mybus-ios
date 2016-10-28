@@ -71,16 +71,10 @@ class MyBusMarkerAnnotationView: MGLAnnotationView {
             }, completion: nil)
 
         if let annotation = self.annotation {
-            let newCoordinate = annotation.coordinate
-            Connectivity.sharedInstance.getAddressFromCoordinate(newCoordinate.latitude, longitude: newCoordinate.longitude) { (routePoint, error) in
-                if let newPoint = routePoint {
-                    print(newPoint.address)
-                    if annotation is MyBusMarkerOriginPoint {
-                        self.notifyPropertyChanged(MyBusEndpointNotificationKey.originChanged, object: newPoint)
-                    } else if annotation is MyBusMarkerDestinationPoint {
-                        self.notifyPropertyChanged(MyBusEndpointNotificationKey.destinationChanged, object: newPoint)
-                    }
-                }
+            if annotation is MyBusMarkerOriginPoint {
+                self.notifyPropertyChanged(MyBusEndpointNotificationKey.originChanged, object: annotation)
+            } else if annotation is MyBusMarkerDestinationPoint {
+                self.notifyPropertyChanged(MyBusEndpointNotificationKey.destinationChanged, object: annotation)
             }
         }
     }
