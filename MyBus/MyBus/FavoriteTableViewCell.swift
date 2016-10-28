@@ -12,6 +12,7 @@ class FavoriteTableViewCell: UITableViewCell {
 
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var address: UITextField!
+    var index:Int!
 
     func loadItem(name: String, street: String, number: String = "") {
         self.name.text = name
@@ -25,18 +26,20 @@ class FavoriteTableViewCell: UITableViewCell {
         self.name.becomeFirstResponder()
         self.address.userInteractionEnabled = true
     }
-
-    @IBAction func nameEndOnExit(sender: AnyObject) {
+    
+    @IBAction func nameDidEndEdit(cell: AnyObject) {
         self.name.userInteractionEnabled = false
         self.name.resignFirstResponder()
         self.address.becomeFirstResponder()
-        //TODO save field in bd
+     //   let location = self.favoriteDataSource.favorite[self.index]
+     //   DBManager.sharedInstance.updateFavorite(location)
     }
-
-    @IBAction func addressEndOnExit(sender: AnyObject) {   self.name.userInteractionEnabled = false
+    
+    @IBAction func addressDidEndEdit(cell: AnyObject) {
         self.address.userInteractionEnabled = false
         self.address.resignFirstResponder()
-        //TODO save field in bd
+      //  let location = self.favoriteDataSource.favorite[self.index]
+     //   DBManager.sharedInstance.updateFavorite(location)
     }
 
 }

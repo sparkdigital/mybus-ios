@@ -115,7 +115,7 @@ class MainViewController: UIViewController{
         self.mapSearchViewContainer.layer.borderWidth = 8
 
         self.tabBar.delegate = self
-
+        
         self.mapViewModel = MapViewModel()
         self.mapViewModel.delegate = self
     }
@@ -296,9 +296,12 @@ extension MainViewController:UITabBarDelegate {
             self.sectionNavigationBar("Favoritos")
             self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
             self.currentViewController = favoriteViewController
+            let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
+            add.tintColor = UIColor.whiteColor()
+            self.navigationItem.rightBarButtonItem = add
         }
         if (item.tag == 2){
-            self.toggleSearchViewContainer(true)
+            self.currentViewController = mapViewController
             if let userLocation = self.mapViewController.mapView.userLocation {
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
@@ -311,8 +314,8 @@ extension MainViewController:UITabBarDelegate {
 
                 }
                 if self.currentViewController != mapViewController {
+                    self.toggleSearchViewContainer(true)
                     self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
-                    self.currentViewController = mapViewController
                 }
             } else {
                 GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
@@ -330,8 +333,6 @@ extension MainViewController:UITabBarDelegate {
             self.currentViewController = busesRatesViewController
         }
     }
-
-
 }
 
 // MARK: UISearchBarDelegate protocol methods
@@ -486,8 +487,8 @@ extension MainViewController {
     func addBackNavItem(title: String) {
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
-
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
+        
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
         backButton.tintColor = UIColor.whiteColor()
 
@@ -499,12 +500,16 @@ extension MainViewController {
         self.mapSearchViewContainer.hidden = !show
         mapSearchViewHeightConstraint.constant = !show ? 0 : mapSearchViewContainer.presenter.preferredHeight()
     }
-
+    
     func backTapped(){
         if(self.navigationItem.title == "Rutas encontradas"){
             self.mapViewModel.clearModel()
             self.mapViewController.resetMapSearch()
         }
         self.homeNavigationBar(self.mapViewModel)
+    }
+    
+    func addFavoritePlace(){
+        self.favoriteViewController.addFavoritePlace()
     }
 }
