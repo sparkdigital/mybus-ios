@@ -15,9 +15,14 @@ class FavoriteDataSource: NSObject, UITableViewDataSource {
     var favorite: List<Location>!
 
     override init() {
-        self.favorite = DBManager.sharedInstance.getFavourites()
+        super.init()
+        self.loadFav()
     }
 
+    func loadFav() {
+        self.favorite = DBManager.sharedInstance.getFavourites()
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: FavoriteTableViewCell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
         cell.loadItem(favorite[indexPath.row].name, street: favorite[indexPath.row].streetName, number:String(favorite[indexPath.row].houseNumber))
