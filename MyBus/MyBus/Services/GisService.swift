@@ -34,21 +34,20 @@ public class GisService: NSObject, GisServiceDelegate {
         print("You tapped at: \(latitude), \(longitude)")
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) {
             placemarks, error in
-            if let placemark = placemarks?.first {
-                let point = RoutePoint()
-                point.latitude = latitude
-                point.longitude = longitude
-                if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
-                    let streetName = (street as String).stringByReplacingOccurrencesOfString("Calle ", withString: "")
-                    let house = (houseNumber as String).componentsSeparatedByString("–").first! ?? ""
-                    let address = "\(streetName) \(house)"
-                    point.address = address
-                }
-                completionHandler(point, nil)
-            }else{
-                completionHandler(nil, error)
+            guard let placemark = placemarks?.first where (placemark.locality == "General Pueyrredón" || placemark.locality == "Mar del Plata" || placemark.locality == "Sierra de los Padres" || placemark.locality == "Batán") else {
+                return completionHandler(nil, error)
             }
-            
+
+            let point = RoutePoint()
+            point.latitude = latitude
+            point.longitude = longitude
+            if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
+                let streetName = (street as String).stringByReplacingOccurrencesOfString("Calle ", withString: "")
+                let house = (houseNumber as String).componentsSeparatedByString("–").first! ?? ""
+                let address = "\(streetName) \(house)"
+                point.address = address
+            }
+            completionHandler(point, nil)
         }
     }
 }

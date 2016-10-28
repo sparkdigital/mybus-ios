@@ -123,9 +123,43 @@ class MainViewController: UIViewController{
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
+        
+        // Double tapping zooms the map, so ensure that can still happen
+        let doubleTap = UITapGestureRecognizer(target: self, action: nil)
+        doubleTap.numberOfTapsRequired = 2
+        self.mapViewController.mapView.addGestureRecognizer(doubleTap)
+        
+        // Delay single tap recognition until it is clearly not a double
+        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
+        singleLongTap.requireGestureRecognizerToFail(doubleTap)
+        self.mapViewController.mapView.addGestureRecognizer(singleLongTap)
 
     }
 
+    func handleSingleLongTap(tap: UITapGestureRecognizer) {
+        if (tap.state == .Ended) {
+            NSLog("Long press Ended")
+        } else if (tap.state == .Began) {
+            self.mapViewController.mapView.showsUserLocation = true
+            // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
+            let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
+            
+            progressNotification.showLoadingNotification(self.view)
+            
+            Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
+                if let destination = routePoint {
+                    if let origin = self.mapViewModel.origin {
+                        self.newDestination(destination)
+                    } else {
+                        self.newOrigin(destination)
+                    }
+                    self.homeNavigationBar(self.mapViewModel)
+                }
+                self.progressNotification.stopLoadingNotification(self.view)
+            }
+        }
+        
+    }
 
     private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
         let userInfo: [String : AnyObject] = notification.userInfo as! [String:AnyObject]
@@ -134,16 +168,38 @@ class MainViewController: UIViewController{
 
     func updateDraggedOrigin(notification: NSNotification) {
         NSLog("Origin dragged detected")
-        let draggedOrigin: RoutePoint = self.getPropertyChangedFromNotification(notification) as! RoutePoint
-        newOrigin(draggedOrigin)
-        homeNavigationBar(mapViewModel)
+        let draggedOrigin: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
+        let location = draggedOrigin.coordinate
+        progressNotification.showLoadingNotification(self.view)
+        
+        Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
+            if let newOrigin = routePoint {
+                self.newOrigin(newOrigin)
+                self.homeNavigationBar(self.mapViewModel)
+            } else if let origin = self.mapViewModel.origin {
+                self.newOrigin(origin)
+                self.homeNavigationBar(self.mapViewModel)
+            }
+            self.progressNotification.stopLoadingNotification(self.view)
+        }
     }
 
     func updateDraggedDestination(notification: NSNotification) {
         NSLog("Destination dragged detected")
-        let draggedDestination: RoutePoint = self.getPropertyChangedFromNotification(notification) as! RoutePoint
-        newDestination(draggedDestination)
-        verifySearchStatus(mapViewModel)
+        let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
+        let location = draggedDestination.coordinate
+        progressNotification.showLoadingNotification(self.view)
+        
+        Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
+            if let newDestination = routePoint {
+                self.newDestination(newDestination)
+                self.homeNavigationBar(self.mapViewModel)
+            } else if let destination = self.mapViewModel.destiny {
+                self.newDestination(destination)
+                self.homeNavigationBar(self.mapViewModel)
+            }
+            self.progressNotification.stopLoadingNotification(self.view)
+        }
     }
 
     override func viewDidAppear(animated: Bool) {

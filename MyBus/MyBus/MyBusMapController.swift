@@ -57,16 +57,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
-
-        // Double tapping zooms the map, so ensure that can still happen
-        let doubleTap = UITapGestureRecognizer(target: self, action: nil)
-        doubleTap.numberOfTapsRequired = 2
-        mapView.addGestureRecognizer(doubleTap)
-
-        // Delay single tap recognition until it is clearly not a double
-        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MyBusMapController.handleSingleLongTap(_:)))
-        singleLongTap.requireGestureRecognizerToFail(doubleTap)
-        mapView.addGestureRecognizer(singleLongTap)
     }
 
     // MARK: - Tapping Methods
@@ -82,28 +72,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         } else {
             GenerateMessageAlert.generateAlertToSetting(self)
         }
-    }
-
-    func handleSingleLongTap(tap: UITapGestureRecognizer) {
-        if (tap.state == .Ended) {
-            NSLog("Long press Ended")
-        } else if (tap.state == .Began) {
-            mapView.showsUserLocation = true
-            // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
-            let tappedLocation = mapView.convertPoint(tap.locationInView(mapView), toCoordinateFromView: mapView)
-
-            progressNotification.showLoadingNotification(self.view)
-
-            Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
-                if let destination = routePoint {
-                    self.destination = destination
-                    self.updateDestination(destination)
-                    self.mapView.selectDestinationMarker()
-                }
-                self.progressNotification.stopLoadingNotification(self.view)
-            }
-        }
-
     }
 
     // MARK: - Memory Management Methods
