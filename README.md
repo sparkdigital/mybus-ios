@@ -7,6 +7,7 @@ Julián Astrada `jastrada@devspark.com`
 Natalia Stele `nstele@devspark.com`
 Lisandro Falconi `lfalconi@devspark.com`
 Marcos Vivar `mvivar@devspark.com`
+Sebastián Fink `sfink@sparkdigital.com`
 
 ## git Workflow Guidelines
 
