@@ -32,9 +32,10 @@ public class GisService: NSObject, GisServiceDelegate {
     func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
+        let validLocalities = ["general pueyrredón", "mar del plata", "sierra de los padres", "batán"]
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) {
             placemarks, error in
-            guard let placemark = placemarks?.first where (placemark.locality == "General Pueyrredón" || placemark.locality == "Mar del Plata" || placemark.locality == "Sierra de los Padres" || placemark.locality == "Batán") else {
+            guard let placemark = placemarks?.first, let locality = placemark.locality where validLocalities.contains(locality.lowercaseString) else {
                 return completionHandler(nil, error)
             }
 
@@ -46,6 +47,8 @@ public class GisService: NSObject, GisServiceDelegate {
                 let house = (houseNumber as String).componentsSeparatedByString("–").first! ?? ""
                 let address = "\(streetName) \(house)"
                 point.address = address
+            } else {
+                point.address = locality
             }
             completionHandler(point, nil)
         }
