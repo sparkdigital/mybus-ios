@@ -170,10 +170,7 @@ extension SearchContainerViewController:UISearchBarDelegate {
             let message = "El campo \(self.searchType.rawValue) no esta indicado"
             GenerateMessageAlert.generateAlert(self, title: "No sabemos que buscar", message: message)
         }
-
     }
-
-
 }
 
 
@@ -190,7 +187,7 @@ extension SearchContainerViewController:MainViewDelegate{
         }
     }
 
-    func loadPostionFromFavsRecents(position: RoutePoint) {
+    func loadPositionFromFavsRecents(position: RoutePoint) {
         if self.searchType == SearchType.Origin {
             self.busRoadDelegate?.newOrigin(position)
         }else{
