@@ -117,7 +117,7 @@ class MyBusMapView: MGLMapView{
         removeOriginPoint()
         addAnnotation(newOrigin)
         setCenterCoordinate(newOrigin.coordinate, animated: true)
-        
+        selectMyBusAnnotation(newOrigin)
     }
     
     func addDestinationPoint(notification:NSNotification){
@@ -127,6 +127,7 @@ class MyBusMapView: MGLMapView{
         removeDestinationPoint()
         addAnnotation(newDestination)
         fitToAnnotationsInMap()
+        selectMyBusAnnotation(newDestination)
     }
     
     func addRoad(notification:NSNotification){
@@ -169,18 +170,20 @@ class MyBusMapView: MGLMapView{
         self.setZoomLevel(16, animated: false)
     }
 
-    
-    func selectDestinationMarker() -> Void {
-        if let annotations = self.annotations {
-            for annotation in annotations {
-                if annotation.title! == MyBusTitle.DestinationTitle.rawValue {
-                    self.setCenterCoordinate(annotation.coordinate, zoomLevel: 14, animated: false)
-                    self.selectAnnotation(annotation, animated: false)
-                }
-            }
-        }
+    func selectMyBusAnnotation(annotation: MyBusMarker) {
+        //To prevent marker from displaying marker callout in a different position
+        let seconds = 0.6
+        let delay = seconds * Double(NSEC_PER_SEC)  // nanoseconds per seconds
+        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        
+        dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+            
+            // here code perfomed with delay
+            self.selectAnnotation(annotation, animated: false)
+            
+        })
     }
-
+    
     // MARK: - Mapview bus roads manipulation Methods
     
     func fitToAnnotationsInMap() -> Void {

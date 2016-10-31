@@ -24,7 +24,7 @@ protocol MapBusRoadDelegate {
 
 protocol MainViewDelegate: class {
     func loadPositionMainView()
-    func loadPostionFromFavsRecents(position: RoutePoint)
+    func loadPositionFromFavsRecents(position: RoutePoint)
 }
 
 class SearchViewController: UIViewController, UITableViewDelegate
@@ -70,10 +70,10 @@ class SearchViewController: UIViewController, UITableViewDelegate
         switch indexPath.section {
         case 0:
             let selectedRecent = self.streetSuggestionsDataSource.recents[indexPath.row]
-            self.mainViewDelegate?.loadPostionFromFavsRecents(selectedRecent)
+            self.mainViewDelegate?.loadPositionFromFavsRecents(selectedRecent)
         case 1:
             let selectedFavourite = self.streetSuggestionsDataSource.favourites[indexPath.row]
-            self.mainViewDelegate?.loadPostionFromFavsRecents(selectedFavourite)
+            self.mainViewDelegate?.loadPositionFromFavsRecents(selectedFavourite)
         default:
             break
         }
