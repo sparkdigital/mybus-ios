@@ -35,7 +35,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
     var mainViewDelegate: MainViewDelegate?
     var busResults: [String] = []
     var bestMatches: [String] = []
-    var favourites: List<Location>?
+    var favourites: List<RoutePoint>?
     var streetSuggestionsDataSource: SearchDataSource!
     let progressNotification = ProgressHUD()
 

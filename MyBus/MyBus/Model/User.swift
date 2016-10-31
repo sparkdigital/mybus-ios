@@ -12,31 +12,6 @@ import RealmSwift
 class User: Object
 {
     dynamic var name = "DeviceiOS"
-    var favourites = List<Location> ()
+    var favourites = List<RoutePoint> ()
     var recents = List<RoutePoint>()
-
-    func addFavouriteLocation(favLocation: Location)
-    {
-
-        // Realms are used to group data together
-        let realm = try! Realm() // Create realm pointing to default file
-        let users = realm.objects(User)
-
-        if users.count > 0
-        {
-            let user = users.first
-            // Save your object
-            try! realm.write
-            {
-                user!.favourites.append(favLocation)
-            }
-        } else
-        {
-            let user = User()
-            user.favourites.append(favLocation)
-            realm.beginWrite()
-            realm.add(user)
-            try! realm.commitWrite()
-        }
-    }
 }

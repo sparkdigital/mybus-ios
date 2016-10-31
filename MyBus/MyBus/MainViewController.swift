@@ -123,12 +123,12 @@ class MainViewController: UIViewController{
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
-        
+
         // Double tapping zooms the map, so ensure that can still happen
         let doubleTap = UITapGestureRecognizer(target: self, action: nil)
         doubleTap.numberOfTapsRequired = 2
         self.mapViewController.mapView.addGestureRecognizer(doubleTap)
-        
+
         // Delay single tap recognition until it is clearly not a double
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
@@ -143,12 +143,12 @@ class MainViewController: UIViewController{
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-            
+
             progressNotification.showLoadingNotification(self.view)
-            
+
             Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
                 if let destination = routePoint {
-                    if let origin = self.mapViewModel.origin {
+                    if (self.mapViewModel.origin) != nil {
                         self.newDestination(destination)
                     } else {
                         self.newOrigin(destination)
@@ -158,7 +158,7 @@ class MainViewController: UIViewController{
                 self.progressNotification.stopLoadingNotification(self.view)
             }
         }
-        
+
     }
 
     private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
@@ -171,7 +171,7 @@ class MainViewController: UIViewController{
         let draggedOrigin: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedOrigin.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newOrigin = routePoint {
                 self.newOrigin(newOrigin)
@@ -189,7 +189,7 @@ class MainViewController: UIViewController{
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newDestination = routePoint {
                 self.newDestination(newDestination)

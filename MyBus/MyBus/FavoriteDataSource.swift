@@ -12,7 +12,7 @@ import RealmSwift
 
 class FavoriteDataSource: NSObject, UITableViewDataSource {
 
-    var favorite: List<Location>!
+    var favorite: List<RoutePoint>!
 
     override init() {
         self.favorite = DBManager.sharedInstance.getFavourites()
@@ -20,7 +20,7 @@ class FavoriteDataSource: NSObject, UITableViewDataSource {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: FavoriteTableViewCell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
-        cell.loadItem(favorite[indexPath.row].name, street: favorite[indexPath.row].streetName, number:String(favorite[indexPath.row].houseNumber))
+        cell.loadItem(favorite[indexPath.row].name, address: favorite[indexPath.row].address)
         return cell
     }
 
