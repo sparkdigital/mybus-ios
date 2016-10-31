@@ -31,7 +31,6 @@
 		11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */; };
 		11C84AFD1DC1200400ACE925 /* MyBusMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C84AFC1DC1200400ACE925 /* MyBusMarkerAnnotationView.swift */; };
 		11D4BEE51D343B51005E0031 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D4BEE41D343B51005E0031 /* MainViewController.swift */; };
-		11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE8FD1CC52EC600A35D6A /* Location.swift */; };
 		11DAE9021CC534D400A35D6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DAE9011CC534D400A35D6A /* User.swift */; };
 		11DF624E1DA2CE0900E21320 /* SuggestedPlaces.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */; };
 		11DF62501DA2D11600E21320 /* SuggestedPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */; };
@@ -131,7 +130,6 @@
 		11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusPolylineFactory.swift; sourceTree = "<group>"; };
 		11C84AFC1DC1200400ACE925 /* MyBusMarkerAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		11D4BEE41D343B51005E0031 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		11DAE8FD1CC52EC600A35D6A /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Model/Location.swift; sourceTree = "<group>"; };
 		11DAE9011CC534D400A35D6A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SuggestedPlaces.plist; sourceTree = "<group>"; };
 		11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuggestedPlace.swift; path = Model/SuggestedPlace.swift; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 			children = (
 				A06C061C1D908F39000023FC /* CompleteBusItineray.swift */,
 				08EC58571CBD482400E8410A /* MyBus.xcdatamodeld */,
-				11DAE8FD1CC52EC600A35D6A /* Location.swift */,
 				11DAE9011CC534D400A35D6A /* User.swift */,
 			);
 			name = Persistence;
@@ -739,7 +736,6 @@
 				C5B96F0C1D834C8F0073B990 /* BusesInformationViewController.swift in Sources */,
 				A0CF2BAF1D88A9F80044499F /* RechargePoint.swift in Sources */,
 				C57886F91D7DC2050056A5E1 /* BusesRatesViewController.swift in Sources */,
-				11DAE8FE1CC52EC600A35D6A /* Location.swift in Sources */,
 				08EC58511CBD482400E8410A /* AppDelegate.swift in Sources */,
 				11DAE9021CC534D400A35D6A /* User.swift in Sources */,
 				A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */,

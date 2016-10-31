@@ -137,7 +137,7 @@
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tss-Hn-sNV">
                                                     <rect key="frame" x="45" y="11" width="547" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -153,6 +153,7 @@
                                                 <constraint firstItem="lvE-KO-yof" firstAttribute="top" secondItem="tss-Hn-sNV" secondAttribute="bottom" constant="2" id="HQ9-YW-L8K"/>
                                                 <constraint firstItem="tss-Hn-sNV" firstAttribute="leading" secondItem="lvE-KO-yof" secondAttribute="leading" id="PPS-ft-hV4"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="tss-Hn-sNV" secondAttribute="trailing" id="YLM-aE-4De"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="lvE-KO-yof" secondAttribute="bottom" constant="-3" id="YW4-J3-UO5"/>
                                                 <constraint firstItem="GBp-Ly-w7h" firstAttribute="leading" secondItem="fwy-bp-vdu" secondAttribute="leadingMargin" constant="9" id="anq-0I-WFT"/>
                                                 <constraint firstItem="tss-Hn-sNV" firstAttribute="leading" secondItem="GBp-Ly-w7h" secondAttribute="trailing" constant="10" id="fip-sc-6qb"/>
                                                 <constraint firstItem="tss-Hn-sNV" firstAttribute="centerY" secondItem="GBp-Ly-w7h" secondAttribute="centerY" id="lB0-Ps-rii"/>
