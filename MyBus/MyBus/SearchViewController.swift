@@ -52,6 +52,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
         let view = UINib(nibName:"HeaderTableView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         view.addGestureRecognizer(tap)
         self.searchTableView.tableHeaderView = view
+        self.searchTableView.tableFooterView = UIView(frame: CGRectMake(0.0,0.0,self.view.frame.width,140.0))
     }
 
     func tappedCurrentLocation(){
