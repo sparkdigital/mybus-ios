@@ -8,52 +8,49 @@
 
 import Foundation
 import SwiftyJSON
+import MapKit
 
 protocol GisServiceDelegate {
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
-    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
+    func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
+    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
 }
 
-
-private let municipalityBaseURL = "http://gis.mardelplata.gob.ar/opendata/ws.php?method=rest"
-
-private let municipalityAccessToken = "rwef3253465htrt546dcasadg4343"
-
-private let streetNamesEndpointURL = "\(municipalityBaseURL)&endpoint=callejero_mgp&token=\(municipalityAccessToken)&nombre_calle="
-
-private let addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=callealtura_coordenada&token=\(municipalityAccessToken)"
-
-private let coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)"
-
 public class GisService: NSObject, GisServiceDelegate {
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
-    {
-        let escapedStreet = address.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
-        let streetNameURLString = "\(streetNamesEndpointURL)\(escapedStreet)"
 
-        BaseNetworkService().performRequest(streetNameURLString)
-        {
-            response, error in
-            if let json = response {
-                var streetsNames: [Street] = [Street]()
-                if let streets = json.array {
-                    for street in streets {
-                        streetsNames.append(Street(json: street))
-                    }
-                }
-                completionHandler(streetsNames, nil)
-            } else {
-                print("\nError: \(error!.localizedDescription)")
-                completionHandler(nil, error)
-            }
+    func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
+    {
+        let streets = Configuration.streetsName()
+
+        guard streets.count > 0 else {
+            let error: NSError = NSError(domain:"street plist", code:2, userInfo:nil)
+            return completionHandler(nil, error)
         }
+        let streetsFiltered = streets.filter{($0.lowercaseString).containsString(address.lowercaseString)}
+        completionHandler(streetsFiltered, nil)
     }
 
-    public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
+    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
-        let addressFromCoordinateURLString = "\(coordinateToAddressEndpointURL)&latitud=\(latitude)&longitud=\(longitude)"
+        let validLocalities = ["general pueyrredón", "mar del plata", "sierra de los padres", "batán"]
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) {
+            placemarks, error in
+            guard let placemark = placemarks?.first, let locality = placemark.locality where validLocalities.contains(locality.lowercaseString) else {
+                return completionHandler(nil, error)
+            }
 
-        BaseNetworkService().performRequest(addressFromCoordinateURLString, completionHandler: completionHandler)
+            let point = RoutePoint()
+            point.latitude = latitude
+            point.longitude = longitude
+            if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
+                let streetName = (street as String).stringByReplacingOccurrencesOfString("Calle ", withString: "")
+                let house = (houseNumber as String).componentsSeparatedByString("–").first! ?? ""
+                let address = "\(streetName) \(house)"
+                point.address = address
+            } else {
+                point.address = locality
+            }
+            completionHandler(point, nil)
+        }
     }
 }

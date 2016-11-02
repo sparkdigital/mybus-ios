@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Search Container View Controller-->
+        <scene sceneID="7gk-XU-xFQ">
+            <objects>
+                <viewController storyboardIdentifier="SearchContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="D5z-2g-Kbh" customClass="SearchContainerViewController" customModule="MyBus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PU7-gI-Xrc"/>
+                        <viewControllerLayoutGuide type="bottom" id="1Qf-96-UEI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Iis-V4-bHW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="redraw" placeholder="Desde: Buscar dirección de origen" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tw6-LA-Vku">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <color key="backgroundColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.0078431372550000003" green="0.53333333329999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.0" green="0.51372549020000002" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vgO-IC-Z1A">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Tw6-LA-Vku" firstAttribute="top" secondItem="Iis-V4-bHW" secondAttribute="top" id="2K3-Ep-sfY"/>
+                            <constraint firstItem="1Qf-96-UEI" firstAttribute="top" secondItem="vgO-IC-Z1A" secondAttribute="bottom" id="6nk-ed-uAK"/>
+                            <constraint firstItem="Tw6-LA-Vku" firstAttribute="leading" secondItem="Iis-V4-bHW" secondAttribute="leading" id="Ldk-87-hAW"/>
+                            <constraint firstItem="vgO-IC-Z1A" firstAttribute="leading" secondItem="Iis-V4-bHW" secondAttribute="leading" id="bz6-XF-eBy"/>
+                            <constraint firstAttribute="trailing" secondItem="Tw6-LA-Vku" secondAttribute="trailing" id="dK5-cu-uWi"/>
+                            <constraint firstAttribute="trailing" secondItem="vgO-IC-Z1A" secondAttribute="trailing" id="x3m-nK-h2e"/>
+                            <constraint firstItem="vgO-IC-Z1A" firstAttribute="top" secondItem="Tw6-LA-Vku" secondAttribute="bottom" id="zsE-Ee-edE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addressLocationSearchBar" destination="Tw6-LA-Vku" id="kBb-sq-vWh"/>
+                        <outlet property="searchContainerView" destination="vgO-IC-Z1A" id="KaU-wT-BrU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gjz-sG-GIB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="386" y="-320"/>
+        </scene>
+        <!--Search Controller-->
+        <scene sceneID="5wl-WH-ey3">
+            <objects>
+                <viewController storyboardIdentifier="SearchViewController" title="Locations" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KGe-yM-r0Y" userLabel="Search Controller" customClass="SearchViewController" customModule="MyBus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MI5-gC-kay"/>
+                        <viewControllerLayoutGuide type="bottom" id="5yI-zT-iaH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pgI-EQ-Zue">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="50" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="kTx-Yv-bYY">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FavoriteTableViewCell" rowHeight="55" id="Qtd-bg-ash" customClass="FavoriteTableViewCell" customModule="MyBus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="600" height="55"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qtd-bg-ash" id="wVE-af-FpY">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="favorite" translatesAutoresizingMaskIntoConstraints="NO" id="Eqq-RN-VZA">
+                                                    <rect key="frame" x="17" y="11" width="18" height="18"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9b0-ft-rrf">
+                                                    <rect key="frame" x="45" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="direccion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XgA-k0-zmf">
+                                                    <rect key="frame" x="45" y="29" width="133" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="address" destination="XgA-k0-zmf" id="PeT-Ep-iYH"/>
+                                            <outlet property="name" destination="9b0-ft-rrf" id="LJA-5J-1xU"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentTableViewCell" rowHeight="45" id="tdh-fi-hoJ" customClass="RecenTableViewCell" customModule="MyBus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="105" width="600" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tdh-fi-hoJ" id="LL0-dS-nrm">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="direccion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iRY-mn-ceX">
+                                                    <rect key="frame" x="45" y="12" width="132" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="recent" translatesAutoresizingMaskIntoConstraints="NO" id="JJB-zN-pqh">
+                                                    <rect key="frame" x="17" y="14" width="18" height="18"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="address" destination="iRY-mn-ceX" id="fgd-w4-B2B"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="searchTableView" destination="kTx-Yv-bYY" id="vCk-nC-YjW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jsy-hy-JQG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="obj-c6-toB"/>
+            </objects>
+            <point key="canvasLocation" x="1069" y="-590"/>
+        </scene>
+        <!--Search Suggestions View Controller-->
+        <scene sceneID="CN1-xf-4zv">
+            <objects>
+                <viewController storyboardIdentifier="SearchSuggestionsVC" id="BjR-fv-G15" customClass="SearchSuggestionsViewController" customModule="MyBus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="D7h-yL-J1e"/>
+                        <viewControllerLayoutGuide type="bottom" id="UX2-43-0mW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WHL-ji-kUg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Gg3-Kc-eBy">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="suggestionCell" textLabel="XUI-ll-Tfw" style="IBUITableViewCellStyleDefault" id="bA1-Xd-HJC">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bA1-Xd-HJC" id="ZCD-Ba-IyI">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XUI-ll-Tfw">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UX2-43-0mW" firstAttribute="top" secondItem="Gg3-Kc-eBy" secondAttribute="bottom" id="AbR-B5-QKx"/>
+                            <constraint firstItem="Gg3-Kc-eBy" firstAttribute="leading" secondItem="WHL-ji-kUg" secondAttribute="leading" id="Gl8-5d-LVt"/>
+                            <constraint firstItem="Gg3-Kc-eBy" firstAttribute="top" secondItem="WHL-ji-kUg" secondAttribute="top" id="LCf-zS-oIp"/>
+                            <constraint firstAttribute="trailing" secondItem="Gg3-Kc-eBy" secondAttribute="trailing" id="OkZ-Rl-wc5"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="suggestionsTableView" destination="Gg3-Kc-eBy" id="VbT-V7-4cG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rf3-qC-WwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1069" y="52"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="favorite" width="30" height="30"/>
+        <image name="recent" width="26" height="26"/>
+    </resources>
+</document>
