@@ -31,7 +31,7 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
         coreLocationManager.delegate = self
         coreLocationManager.desiredAccuracy = kCLLocationAccuracyBest
         
-        if isLocationAuthorized() {
+        if CLLocationManager.locationServicesEnabled() {
             startUpdating()
         }
         
@@ -55,7 +55,9 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     }
     
     
-    
+    private func resetLocation(){
+        self.lastKnownLocation = nil
+    }
     
     // MARK: CLLocationManagerDelegate protocol methods
     internal func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -69,9 +71,26 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     }
     
     internal func locationManager(manager: CLLocationManager, didFailWithError error: NSError){
+        stopUpdating()
+        resetLocation()
         
+        //send a nsnotification
     }
-
+    
+    
+    // MARK: Apple Forward/Reverse Geocoding
+    func CLReverseGeocoding(location:CLLocation){
+    }
+    
+    func CLForwardGeocoding(address:String){
+    }
+    
+    // MARK: Google Forward/Reverse Geocoding
+    func googleReverseGeocoding(location:(latitude:Double,longitude:Double)){
+    }
+    
+    func googleForwardGeocoding(address:String){
+    }
     
     
     
