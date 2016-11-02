@@ -380,8 +380,11 @@ extension MainViewController:UITabBarDelegate {
             self.currentViewController = favoriteViewController
         }
         if (item.tag == 2){
-            self.toggleSearchViewContainer(true)
+            self.clearActiveSearch()
+            self.homeNavigationBar(self.mapViewModel)
+            self.tabBar.selectedItem = self.tabBar.items?[2]
             if let userLocation = self.mapViewController.mapView.userLocation {
+                progressNotification.showLoadingNotification(self.view)
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
 
@@ -390,6 +393,7 @@ extension MainViewController:UITabBarDelegate {
                     } else {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
                     }
+                    self.progressNotification.stopLoadingNotification(self.view)
 
                 }
                 if self.currentViewController != mapViewController {
@@ -495,9 +499,9 @@ extension MainViewController:MapBusRoadDelegate {
         Connectivity.sharedInstance.getAddressFromCoordinate(location.coordinate.latitude, longitude: location.coordinate.longitude) { (point, error) in
 
             if let p = point {
+                self.mapViewController.showUserLocation()
                 handler(p)
                 self.verifySearchStatus(self.mapViewModel)
-                self.mapViewController.showUserLocation()
             }else{
                 let title = "No sabemos donde es el \(endpointType.rawValue)"
                 let message = "No pudimos resolver la dirección de \(endpointType.rawValue) ingresada"
