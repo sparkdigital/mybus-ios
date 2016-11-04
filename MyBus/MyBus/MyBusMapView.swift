@@ -169,6 +169,12 @@ class MyBusMapView: MGLMapView{
         self.centerCoordinate = (self.currentGPSLocation()?.coordinate)!
         self.setZoomLevel(16, animated: false)
     }
+    
+    func centerMapWithGPSLocationWithZoom(zoom : Double) -> Void {
+        self.showsUserLocation = true
+        self.centerCoordinate = (self.currentGPSLocation()?.coordinate)!
+        self.setZoomLevel(zoom, animated: false)
+    }
 
     func selectMyBusAnnotation(annotation: MyBusMarker) {
         //To prevent marker from displaying marker callout in a different position
