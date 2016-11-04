@@ -57,6 +57,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+        
+        mapView.showsUserLocation = true
+
     }
 
     // MARK: - Tapping Methods
@@ -90,6 +93,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
         if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
             startOfflinePackDownload()
+        }
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.mapView.centerMapWithGPSLocationWithZoom(12)
         }
     }
 
@@ -201,6 +209,12 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         } else {
             return myBusMarker.markerView
         }
+    }
+    
+    func centerMapWithGPSLocation() -> Void {
+        self.mapView.showsUserLocation = true
+        self.mapView.centerCoordinate = self.mapView.centerCoordinate
+        self.mapView.setZoomLevel(12, animated: false)
     }
 
     // MARK: - Mapview bus roads manipulation Methods
