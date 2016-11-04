@@ -17,6 +17,7 @@ class RoutePoint: Object {
     dynamic var longitude: Double = 0.0
     dynamic var address: String = " "
     dynamic var isWaypoint: Bool = false
+    dynamic var name: String = ""
 
     static func parse(routePointJson: JSON) -> RoutePoint
     {
