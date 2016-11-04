@@ -123,12 +123,12 @@ class MainViewController: UIViewController{
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
-        
+
         // Double tapping zooms the map, so ensure that can still happen
         let doubleTap = UITapGestureRecognizer(target: self, action: nil)
         doubleTap.numberOfTapsRequired = 2
         self.mapViewController.mapView.addGestureRecognizer(doubleTap)
-        
+
         // Delay single tap recognition until it is clearly not a double
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
@@ -143,12 +143,12 @@ class MainViewController: UIViewController{
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-            
+
             progressNotification.showLoadingNotification(self.view)
-            
+
             Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
                 if let destination = routePoint {
-                    if let origin = self.mapViewModel.origin {
+                    if (self.mapViewModel.origin) != nil {
                         self.newDestination(destination)
                     } else {
                         self.newOrigin(destination)
@@ -158,7 +158,7 @@ class MainViewController: UIViewController{
                 self.progressNotification.stopLoadingNotification(self.view)
             }
         }
-        
+
     }
 
     private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
@@ -171,7 +171,7 @@ class MainViewController: UIViewController{
         let draggedOrigin: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedOrigin.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newOrigin = routePoint {
                 self.newOrigin(newOrigin)
@@ -189,7 +189,7 @@ class MainViewController: UIViewController{
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newDestination = routePoint {
                 self.newDestination(newDestination)
@@ -380,8 +380,11 @@ extension MainViewController:UITabBarDelegate {
             self.currentViewController = favoriteViewController
         }
         if (item.tag == 2){
-            self.toggleSearchViewContainer(true)
+            self.clearActiveSearch()
+            self.homeNavigationBar(self.mapViewModel)
+            self.tabBar.selectedItem = self.tabBar.items?[2]
             if let userLocation = self.mapViewController.mapView.userLocation {
+                progressNotification.showLoadingNotification(self.view)
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
 
@@ -390,6 +393,7 @@ extension MainViewController:UITabBarDelegate {
                     } else {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
                     }
+                    self.progressNotification.stopLoadingNotification(self.view)
 
                 }
                 if self.currentViewController != mapViewController {
@@ -495,9 +499,9 @@ extension MainViewController:MapBusRoadDelegate {
         Connectivity.sharedInstance.getAddressFromCoordinate(location.coordinate.latitude, longitude: location.coordinate.longitude) { (point, error) in
 
             if let p = point {
+                self.mapViewController.showUserLocation()
                 handler(p)
                 self.verifySearchStatus(self.mapViewModel)
-                self.mapViewController.showUserLocation()
             }else{
                 let title = "No sabemos donde es el \(endpointType.rawValue)"
                 let message = "No pudimos resolver la dirección de \(endpointType.rawValue) ingresada"
