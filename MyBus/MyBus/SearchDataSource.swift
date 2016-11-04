@@ -18,10 +18,15 @@ class SearchDataSource: NSObject, UITableViewDataSource {
     override init() {
         super.init()
         loadRecents()
+        loadFavs()
     }
 
     func loadRecents() {
         recents = DBManager.sharedInstance.getRecents()
+    }
+
+    func loadFavs() {
+        favourites = DBManager.sharedInstance.getFavourites()
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -32,7 +37,7 @@ class SearchDataSource: NSObject, UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
-            cell.loadItem(favourites[indexPath.row].address, street: favourites[indexPath.row].address)
+            cell.loadItem(favourites[indexPath.row].name, address: favourites[indexPath.row].address)
             return cell
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as UITableViewCell
