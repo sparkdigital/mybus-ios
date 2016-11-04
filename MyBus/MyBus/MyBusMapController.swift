@@ -95,7 +95,10 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             startOfflinePackDownload()
         }
         
-        self.mapView.setCenterCoordinate(self.mapView.centerCoordinate, zoomLevel: 12, animated: true)
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.mapView.centerMapWithGPSLocationWithZoom(12)
+        }
     }
 
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
@@ -209,6 +212,12 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         } else {
             return myBusMarker.markerView
         }
+    }
+    
+    func centerMapWithGPSLocation() -> Void {
+        self.mapView.showsUserLocation = true
+        self.mapView.centerCoordinate = self.mapView.centerCoordinate
+        self.mapView.setZoomLevel(12, animated: false)
     }
 
     // MARK: - Mapview bus roads manipulation Methods
