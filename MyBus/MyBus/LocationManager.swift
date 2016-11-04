@@ -14,11 +14,12 @@ import MapKit
 @objc protocol LocationManagerDelegate:NSObjectProtocol {
     func locationFound(latitude:Double, longitude:Double) -> Void
     optional func locationManagerReceivedError(error:String, localizedDescription:String)
+    optional func locationManagerStatus(authStatus:CLAuthorizationStatus, authVerboseMessage:String)
 }
 
 typealias CLReverseGeocodeCompletionHandler = (street:String?, houseNumber:String?, locality:String?, error:String?) -> ()
 typealias GoogleReverseGeocodeCompletionHandler = () -> ()
-
+typealias CurrentLocationFoundHandler = (location:CLLocation?, error:String?)->()
 
 
 private let _sharedInstance = LocationManager()
@@ -38,7 +39,13 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     
     var lastKnownLocation:CLLocation?
     var locationDelegate:LocationManagerDelegate?
+    var currentLocationHandler:CurrentLocationFoundHandler?
     
+    var verboseMessage:String = ""
+    var locationStatus:CLAuthorizationStatus = CLAuthorizationStatus.NotDetermined
+    
+    var autoUpdate:Bool = false
+    var isLocationServiceRunning:Bool = false
     
     // MARK: - Instantiation
     class var sharedInstance: LocationManager {
@@ -49,7 +56,7 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
         super.init()
     }
     
-    private func startLocationManager(){
+    private func setupLocationManager(){
         coreLocationManager = CLLocationManager()
         coreLocationManager.delegate = self
         coreLocationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -58,6 +65,11 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
             startUpdating()
         }
         
+    }
+    
+    func startUpdatingWithCompletionHandler(handler:CurrentLocationFoundHandler){
+        self.currentLocationHandler = handler
+        setupLocationManager()
     }
     
     func startUpdating(){
@@ -103,8 +115,36 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
         stopUpdating()
         resetLocation()
         
-        //send a nsnotification
+        //send a nsnotification?
+        if let handler = currentLocationHandler {
+            handler(location: nil, error: error.localizedDescription)
+        }
     }
+    
+    
+    internal func locationManager(manager: CLLocationManager,didChangeAuthorization status: CLAuthorizationStatus) {
+        let hasAuthorized = (status == CLAuthorizationStatus.AuthorizedAlways) ||
+        (status == CLAuthorizationStatus.AuthorizedWhenInUse)
+        
+        verboseMessage = verboseMessageDictionary[status]!
+        
+        if hasAuthorized {
+            setupLocationManager()
+        }else{
+            resetLocation()
+            
+            if let delegate = locationDelegate {
+                delegate.locationManagerStatus?(status, authVerboseMessage: verboseMessage)
+            }
+            
+            if let handler = currentLocationHandler {
+                handler(location: nil, error: verboseMessage)
+            }
+           
+        }
+       
+    }
+    
     
     
     
@@ -119,6 +159,7 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
                 return handler(street: nil, houseNumber: nil, locality: nil, error: err.localizedDescription)
             }
            
+            
             
             
             
