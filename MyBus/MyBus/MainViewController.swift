@@ -133,7 +133,14 @@ class MainViewController: UIViewController{
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         self.mapViewController.mapView.addGestureRecognizer(singleLongTap)
-
+        
+        let reachability = Reach()
+        switch reachability.connectionStatus() {
+            case ReachabilityStatus.Offline:
+                GenerateMessageAlert.generateAlertToNoInternetConnection(self)
+            default:
+                print("device online")
+        }
     }
 
     func handleSingleLongTap(tap: UITapGestureRecognizer) {

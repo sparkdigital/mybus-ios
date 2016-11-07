@@ -94,6 +94,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
             startOfflinePackDownload()
         }
+        
+        self.mapView.setCenterCoordinate(self.mapView.centerCoordinate, zoomLevel: 12, animated: true)
     }
 
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {

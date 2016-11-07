@@ -44,6 +44,33 @@ class GenerateMessageAlert
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
     
+    class func generateAlertToNoInternetConnection(viewController: UIViewController){
+        
+        let alertController = UIAlertController (title: "Conexión a internet no está habilitada", message: "\n \n \n \n \n \n \n \n \n", preferredStyle: .Alert)
+        
+        let x = alertController.view.frame.origin.x
+        let y = alertController.view.frame.origin.y
+        alertController.view.frame=CGRectMake(x, y, alertController.view.frame.width, alertController.view.frame.height*0.35)
+        
+        let stepsView = loadFromNibNamed("StepActivateInternet")
+        stepsView!.frame=CGRectMake(x+25, y+65, (stepsView?.frame.width)!, (stepsView?.frame.height)!)
+        alertController.view.addSubview(stepsView!)
+        
+        let settingsAction = UIAlertAction(title: "Configuración", style: .Default) { (_) -> Void in
+            let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
+            if let url = settingsUrl {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+        
+        alertController.addAction(settingsAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .Default, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        viewController.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     class func loadFromNibNamed(nibNamed: String, bundle: NSBundle? = nil) -> UIView? {
         return UINib(
             nibName: nibNamed,
