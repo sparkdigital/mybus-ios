@@ -22,6 +22,12 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
         self.favoriteTableView.delegate = self
         self.favoriteTableView.dataSource = favoriteDataSource
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.favoriteDataSource.loadFav()
+        self.favoriteTableView.reloadData()
+    }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     }
@@ -30,8 +36,7 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Borrar") { (action, indexPath ) -> Void in
             self.editing = false
-            let location = self.favoriteDataSource.favorite[indexPath.row]
-            DBManager.sharedInstance.removeFavorite(location)
+            self.favoriteDataSource.removeFavorite(indexPath)
             self.favoriteTableView.reloadData()
         }
 
@@ -58,13 +63,8 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
             if (!name.isEmpty && !streetName.isEmpty && !houseNumber.isEmpty){
                 Connectivity.sharedInstance.getCoordinateFromAddress(streetName.lowercaseString+houseNumber.lowercaseString, completionHandler: { (point, error) in
                     if let p = point {
-                        let location = Location()
-                        location.name = name
-                        location.streetName = streetName
-                        location.houseNumber = Int(houseNumber)!
-                        location.latitude = p.latitude
-                        location.longitude = p.longitude
-                        DBManager.sharedInstance.addFavorite(location)
+                        p.name = name
+                        self.favoriteDataSource.addFavorite(p)
                         self.favoriteTableView.reloadData()
                     }else{
                         GenerateMessageAlert.generateAlert(self, title: "No encontramos la ubicacion en el mapa", message: "No pudimos resolver la dirección de \(streetName+" "+houseNumber) ingresada")

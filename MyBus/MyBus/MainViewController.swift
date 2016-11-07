@@ -148,7 +148,7 @@ class MainViewController: UIViewController{
 
             Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
                 if let destination = routePoint {
-                    if let origin = self.mapViewModel.origin {
+                    if let _ = self.mapViewModel.origin {
                         self.newDestination(destination)
                     } else {
                         self.newOrigin(destination)
@@ -385,8 +385,7 @@ extension MainViewController:UITabBarDelegate {
         if (item.tag == 2){
             self.clearActiveSearch()
             self.homeNavigationBar(self.mapViewModel)
-            self.tabBar.selectedItem = self.tabBar.items?[2]
-            self.currentViewController = mapViewController
+            self.tabBar.selectedItem = self.tabBar.items?[2]            
             if let userLocation = self.mapViewController.mapView.userLocation {
                 progressNotification.showLoadingNotification(self.view)
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
