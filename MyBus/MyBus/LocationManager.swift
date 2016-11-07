@@ -17,9 +17,13 @@ import MapKit
     optional func locationManagerStatus(authStatus:CLAuthorizationStatus, authVerboseMessage:String)
 }
 
-typealias CLReverseGeocodeCompletionHandler = (street:String?, houseNumber:String?, locality:String?, error:String?) -> ()
+typealias CLReverseGeocodeCompletionHandler = (placemark:CLPlacemark?, error:String?) -> ()
 typealias GoogleReverseGeocodeCompletionHandler = () -> ()
 typealias CurrentLocationFoundHandler = (location:CLLocation?, error:String?)->()
+
+enum LocationManagerError:String {
+    case ReverseGeocodeLocationNotFound = "No location found for given address"
+}
 
 
 private let _sharedInstance = LocationManager()
@@ -107,6 +111,13 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
             delegate.locationFound(bestLocation.coordinate.latitude, longitude: bestLocation.coordinate.longitude)
         }
         
+        if let handler = currentLocationHandler {
+            handler(location: bestLocation, error: nil)
+            stopUpdating()            
+            currentLocationHandler = nil
+        }
+        
+        
         
     }
     
@@ -156,54 +167,22 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
         CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
             
             if let err = error {
-                return handler(street: nil, houseNumber: nil, locality: nil, error: err.localizedDescription)
+                return handler(placemark: nil, error: err.localizedDescription)
             }
            
+            guard let placemark = placemarks?.first else {
+                return handler(placemark: nil, error: LocationManagerError.ReverseGeocodeLocationNotFound.rawValue)
+            }
             
-            
-            
-            
+            handler(placemark: placemark, error: nil)
+           
         }
-        
-        /*
-         
-         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) {
-         placemarks, error in
-         guard let placemark = placemarks?.first, let locality = placemark.locality where validLocalities.contains(locality.lowercaseString) else {
-         return completionHandler(nil, error)
-         }
-         
-         let point = RoutePoint()
-         point.latitude = latitude
-         point.longitude = longitude
-         if let street = placemark.thoroughfare, let houseNumber = placemark.subThoroughfare {
-         let streetName = (street as String).stringByReplacingOccurrencesOfString("Calle ", withString: "")
-         let house = (houseNumber as String).componentsSeparatedByString("–").first! ?? ""
-         let address = "\(streetName) \(house)"
-         point.address = address
-         } else {
-         point.address = locality
-         }
-         completionHandler(point, nil)
-         }
-         
-         
-         */
-        
-        
-        
+       
     }
     
     // MARK: Google Reverse Geocoding
     func googleReverseGeocoding(location:(latitude:Double,longitude:Double)){
     }
-    
-    
-    
-    
-    
-    
-    
     
     
 }
