@@ -58,8 +58,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         
-        mapView.showsUserLocation = true
-
     }
 
     // MARK: - Tapping Methods
@@ -101,7 +99,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
     }
-    
+
     func existFavoritePlace(address: CLLocationCoordinate2D) -> Bool {
         if let favorites = DBManager.sharedInstance.getFavourites(){
             let filter  = favorites.filter{($0.latitude) == address.latitude && ($0.longitude) == address.longitude}
@@ -109,21 +107,18 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         }
         return false
     }
-    
-    func getLocationByAnnotation(annotation : MGLAnnotation,name: String) -> Location {
-        let location = Location()
+
+    func getLocationByAnnotation(annotation: MGLAnnotation, name: String) -> RoutePoint {
+        let location = RoutePoint()
         location.name = name
         location.latitude = annotation.coordinate.latitude
         location.longitude = annotation.coordinate.longitude
-        var addressAnnotation = annotation.subtitle!!.componentsSeparatedByString(" ")
-        let numberAnnotation = addressAnnotation.popLast()
-        var finish = false
-        let number = numberAnnotation?.characters.filter({ (character) -> Bool in if ((Int(String(character)) != nil) && !finish ){ return true} else { finish = true; return false}}).map({(String($0))})
-        location.houseNumber = Int((number?.joinWithSeparator(""))!)!
-        location.streetName = addressAnnotation.joinWithSeparator(" ")
+        if let address = annotation.subtitle {
+            location.address = address!
+        }
         return location
     }
-    
+
     /**
      This method sets the button of the annotation
      */
@@ -134,13 +129,13 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         let locationCoordinate = annotation.coordinate
         let alreadyIsFavorite = existFavoritePlace(locationCoordinate)
         let buttonImage = alreadyIsFavorite ? UIImage(named: "tabbar_favourite_fill") : UIImage(named: "tabbar_favourite_line")
-        
+
         let button = UIButton(type: .DetailDisclosure)
         button.setImage(buttonImage, forState: UIControlState.Normal)
         button.tag = alreadyIsFavorite ? 0 : 1
         return button
     }
-    
+
     /**
      This method makes the search when the button is pressed on the annotation
      */
@@ -148,7 +143,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         // Hide the callout view.
         mapView.deselectAnnotation(annotation, animated: false)
         progressNotification.showLoadingNotification(self.view)
-        
+
         switch control.tag {
         case 0:
             self.progressNotification.stopLoadingNotification(self.view)
@@ -158,7 +153,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             DBManager.sharedInstance.removeFavorite(location)})
             alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
-            
+
         case 1:
             self.progressNotification.stopLoadingNotification(self.view)
             let alert = UIAlertController(title: "Agregando un lugar favorito", message: "Por favor ingrese un nombre para el lugar Favorito", preferredStyle: UIAlertControllerStyle.Alert)
@@ -171,7 +166,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         default: break
         }
     }
-    
+
     func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
         if let myBusMarker = annotation as? MyBusMarker {
             return myBusMarker.markerImage
@@ -209,6 +204,12 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         } else {
             return myBusMarker.markerView
         }
+    }
+    
+    func centerMapWithGPSLocation() -> Void {
+        self.mapView.showsUserLocation = true
+        self.mapView.centerCoordinate = self.mapView.centerCoordinate
+        self.mapView.setZoomLevel(12, animated: false)
     }
 
     // MARK: - Mapview bus roads manipulation Methods

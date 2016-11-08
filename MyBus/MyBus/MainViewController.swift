@@ -117,7 +117,7 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
         self.mapSearchViewContainer.layer.borderWidth = 8
 
         self.tabBar.delegate = self
-
+        
         self.mapViewModel = MapViewModel()
         self.mapViewModel.delegate = self
 
@@ -125,12 +125,12 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
-        
+
         // Double tapping zooms the map, so ensure that can still happen
         let doubleTap = UITapGestureRecognizer(target: self, action: nil)
         doubleTap.numberOfTapsRequired = 2
         self.mapViewController.mapView.addGestureRecognizer(doubleTap)
-        
+
         // Delay single tap recognition until it is clearly not a double
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
@@ -184,12 +184,12 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-            
+
             progressNotification.showLoadingNotification(self.view)
-            
+
             Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
                 if let destination = routePoint {
-                    if let origin = self.mapViewModel.origin {
+                    if let _ = self.mapViewModel.origin {
                         self.newDestination(destination)
                     } else {
                         self.newOrigin(destination)
@@ -410,7 +410,6 @@ extension MainViewController:UITabBarDelegate {
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         
-        
         // check reachbility first
         switch (self.reachability.connectionStatus()) {
         case ReachabilityStatus.Offline:
@@ -446,6 +445,7 @@ extension MainViewController:UITabBarDelegate {
                     }
                 } else {
                     GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
+                    
                 }
             }
             if (item.tag == 3){
@@ -461,11 +461,6 @@ extension MainViewController:UITabBarDelegate {
             }
         }
     }
-        
-        
-        
-
-
 }
 
 // MARK: UISearchBarDelegate protocol methods
@@ -547,9 +542,9 @@ extension MainViewController:MapBusRoadDelegate {
         Connectivity.sharedInstance.getAddressFromCoordinate(location.coordinate.latitude, longitude: location.coordinate.longitude) { (point, error) in
 
             if let p = point {
+                self.mapViewController.showUserLocation()
                 handler(p)
                 self.verifySearchStatus(self.mapViewModel)
-                self.mapViewController.showUserLocation()
             }else{
                 let title = "No sabemos donde es el \(endpointType.rawValue)"
                 let message = "No pudimos resolver la dirección de \(endpointType.rawValue) ingresada"
@@ -620,8 +615,8 @@ extension MainViewController {
     func addBackNavItem(title: String) {
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
-
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
+        
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
         backButton.tintColor = UIColor.whiteColor()
 
@@ -633,12 +628,16 @@ extension MainViewController {
         self.mapSearchViewContainer.hidden = !show
         mapSearchViewHeightConstraint.constant = !show ? 0 : mapSearchViewContainer.presenter.preferredHeight()
     }
-
+    
     func backTapped(){
         if(self.navigationItem.title == "Rutas encontradas"){
             self.mapViewModel.clearModel()
             self.mapViewController.resetMapSearch()
         }
         self.homeNavigationBar(self.mapViewModel)
+    }
+    
+    func addFavoritePlace(){
+        self.favoriteViewController.addFavoritePlace()
     }
 }

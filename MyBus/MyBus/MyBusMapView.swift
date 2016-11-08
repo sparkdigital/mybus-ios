@@ -169,6 +169,12 @@ class MyBusMapView: MGLMapView{
         self.centerCoordinate = (self.currentGPSLocation()?.coordinate)!
         self.setZoomLevel(16, animated: false)
     }
+    
+    func centerMapWithGPSLocationWithZoom(zoom : Double) -> Void {
+        self.showsUserLocation = true
+        self.centerCoordinate = (self.currentGPSLocation()?.coordinate)!
+        self.setZoomLevel(zoom, animated: false)
+    }
 
     func selectMyBusAnnotation(annotation: MyBusMarker) {
         //To prevent marker from displaying marker callout in a different position
@@ -188,7 +194,8 @@ class MyBusMapView: MGLMapView{
     
     func fitToAnnotationsInMap() -> Void {
         if let annotations = self.annotations {
-            self.showAnnotations(annotations, edgePadding: UIEdgeInsetsMake(CGFloat(30), CGFloat(30), CGFloat(30), CGFloat(30)), animated: true)
+            //Used 90 for top edge inset to prevent from callout view (popover) is not visible if marker is located in top edge of view
+            self.showAnnotations(annotations, edgePadding: UIEdgeInsetsMake(CGFloat(90), CGFloat(30), CGFloat(30), CGFloat(30)), animated: true)
         }
     }
 
