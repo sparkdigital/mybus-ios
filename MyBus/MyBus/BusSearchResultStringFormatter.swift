@@ -17,7 +17,7 @@ extension BusSearchResult {
             getStringBusResultRow(busRouteResult)
         }
     }
-    
+
     func getStringBusResultRow(busRouteResult: BusRouteResult) -> String {
         return busRouteResult.emojiDescription()
     }
@@ -25,20 +25,20 @@ extension BusSearchResult {
 
 
 extension BusRouteResult {
-    
+
     /**
      Concating 🚍 with bus line number(s) is used as dictonary key or to display in results table row
-     
+
      :returns: Emoji and bus line number(s) string
      */
     func emojiDescription() -> String{
         var 🚌 : String = "🚍"
         for route in self.busRoutes {
-            let busLineFormatted = route.busLineName!.characters.count == 3 ? route.busLineName!+"  " : route.busLineName!
+            let busLineFormatted = route.busLineName.characters.count == 3 ? route.busLineName+"  " : route.busLineName
             🚌 = "\(🚌) \(busLineFormatted) ➡"
         }
         🚌.removeAtIndex(🚌.endIndex.predecessor())
         return 🚌
     }
-    
+
 }

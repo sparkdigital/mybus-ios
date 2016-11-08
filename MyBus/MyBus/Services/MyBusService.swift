@@ -27,12 +27,12 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
         let request = MyBusRouter.SearchRoutes(latOrigin: latitudeOrigin, lngOrigin: longitudeOrigin, latDest: latitudeDestination, lngDest: longitudeDestination, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).URLRequest
 
         BaseNetworkService.performRequest(request) { json, error in
-            guard json != nil else {
+            guard let response = json else {
                 return completionHandler(nil, error)
             }
 
-            let type = json!["Type"].intValue
-            let results = json!["Results"]
+            let type = response["Type"].intValue
+            let results = response["Results"]
             let busResults: [BusRouteResult]
 
             busResults = BusRouteResult.parseResults(results, type: type)
