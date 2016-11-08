@@ -19,7 +19,7 @@ protocol Searchable {
 }
 
 protocol MapViewModelDelegate {
-    func endPointsInverted(from:RoutePoint?, to:RoutePoint?)
+    func endPointsInverted(from: RoutePoint?, to: RoutePoint?)
 }
 
 class MapViewModel {
@@ -27,8 +27,8 @@ class MapViewModel {
     var origin: RoutePoint?
     var destiny: RoutePoint?
 
-    var delegate:MapViewModelDelegate?
-    
+    var delegate: MapViewModelDelegate?
+
     var hasOrigin: Bool {
         return origin != nil
     }
@@ -44,9 +44,9 @@ class MapViewModel {
     func isEmpty()->Bool {
         return !hasOrigin && !hasDestiny
     }
-    
+
     func invertEndpoints(){
-        let tmpPoint:RoutePoint? = origin
+        let tmpPoint: RoutePoint? = origin
         self.origin = destiny
         self.destiny = tmpPoint
         self.delegate?.endPointsInverted(origin, to: destiny)
@@ -115,14 +115,96 @@ class MainViewController: UIViewController{
         self.mapSearchViewContainer.layer.borderWidth = 8
 
         self.tabBar.delegate = self
-
+        
         self.mapViewModel = MapViewModel()
         self.mapViewModel.delegate = self
+
+        // Add observers
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
+
+        // Double tapping zooms the map, so ensure that can still happen
+        let doubleTap = UITapGestureRecognizer(target: self, action: nil)
+        doubleTap.numberOfTapsRequired = 2
+        self.mapViewController.mapView.addGestureRecognizer(doubleTap)
+
+        // Delay single tap recognition until it is clearly not a double
+        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
+        singleLongTap.requireGestureRecognizerToFail(doubleTap)
+        self.mapViewController.mapView.addGestureRecognizer(singleLongTap)
+
+    }
+
+    func handleSingleLongTap(tap: UITapGestureRecognizer) {
+        if (tap.state == .Ended) {
+            NSLog("Long press Ended")
+        } else if (tap.state == .Began) {
+            self.mapViewController.mapView.showsUserLocation = true
+            // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
+            let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
+
+            progressNotification.showLoadingNotification(self.view)
+
+            Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
+                if let destination = routePoint {
+                    if let _ = self.mapViewModel.origin {
+                        self.newDestination(destination)
+                    } else {
+                        self.newOrigin(destination)
+                    }
+                    self.homeNavigationBar(self.mapViewModel)
+                }
+                self.progressNotification.stopLoadingNotification(self.view)
+            }
+        }
+        
+    }
+
+    private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
+        let userInfo: [String : AnyObject] = notification.userInfo as! [String:AnyObject]
+        return userInfo[MyBusMarkerAnnotationView.kPropertyChangedDescriptor]!
+    }
+
+    func updateDraggedOrigin(notification: NSNotification) {
+        NSLog("Origin dragged detected")
+        let draggedOrigin: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
+        let location = draggedOrigin.coordinate
+        progressNotification.showLoadingNotification(self.view)
+        
+        Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
+            if let newOrigin = routePoint {
+                self.newOrigin(newOrigin)
+                self.homeNavigationBar(self.mapViewModel)
+            } else if let origin = self.mapViewModel.origin {
+                self.newOrigin(origin)
+                self.homeNavigationBar(self.mapViewModel)
+            }
+            self.progressNotification.stopLoadingNotification(self.view)
+        }
+    }
+
+    func updateDraggedDestination(notification: NSNotification) {
+        NSLog("Destination dragged detected")
+        let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
+        let location = draggedDestination.coordinate
+        progressNotification.showLoadingNotification(self.view)
+        
+        Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
+            if let newDestination = routePoint {
+                self.newDestination(newDestination)
+                self.homeNavigationBar(self.mapViewModel)
+            } else if let destination = self.mapViewModel.destiny {
+                self.newDestination(destination)
+                self.homeNavigationBar(self.mapViewModel)
+            }
+            self.progressNotification.stopLoadingNotification(self.view)
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.homeNavigationBar(mapViewModel)
+        homeNavigationBar(mapViewModel)
     }
 
     //This method receives the old view controller to be replaced with the new controller
@@ -177,14 +259,16 @@ class MainViewController: UIViewController{
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let r: BusSearchResult = searchResult {
-                    self.hideTabBar()
-                    self.addBackNavItem("Rutas encontradas")
+                    if r.hasRouteOptions {
+                        self.hideTabBar()
+                        self.addBackNavItem("Rutas encontradas")
 
-                    self.busesResultsTableViewController.loadBuses(r)
-                    self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
-                    self.currentViewController = self.busesResultsTableViewController
-
-
+                        self.busesResultsTableViewController.loadBuses(r)
+                        self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
+                        self.currentViewController = self.busesResultsTableViewController
+                    }else{
+                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+                    }
                 }else{
                     GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
                 }
@@ -209,29 +293,29 @@ class MainViewController: UIViewController{
 
 extension MainViewController:MapViewModelDelegate {
     func endPointsInverted(from: RoutePoint?, to: RoutePoint?) {
-        
+
         //Do nothing if both endpoints are nil
         if mapViewModel.isEmpty() {
             return
         }
-        
+
         //Else, just invert the points
         self.newOrigin(from)
         self.newDestination(to)
-        
+
         //update search view
         verifySearchStatus(mapViewModel)
-       
+
         //If there's already a current search, fire the searchRoute method again
-        
+
         if let _ = SearchManager.sharedInstance.currentSearch {
             self.searchRoute()
             return
         }
-        
+
         return
-        
-       
+
+
     }
 }
 
@@ -272,7 +356,7 @@ extension MainViewController:Searchable{
 
         self.navigationController?.pushViewController(searchController, animated: true)
     }
-    
+
     func invertSearch() {
         self.mapViewModel.invertEndpoints()
     }
@@ -294,18 +378,25 @@ extension MainViewController:UITabBarDelegate {
             self.sectionNavigationBar("Favoritos")
             self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
             self.currentViewController = favoriteViewController
+            let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
+            add.tintColor = UIColor.whiteColor()
+            self.navigationItem.rightBarButtonItem = add
         }
         if (item.tag == 2){
-            self.toggleSearchViewContainer(true)
+            self.clearActiveSearch()
+            self.homeNavigationBar(self.mapViewModel)
+            self.tabBar.selectedItem = self.tabBar.items?[2]            
             if let userLocation = self.mapViewController.mapView.userLocation {
+                progressNotification.showLoadingNotification(self.view)
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
                     points, error in
 
-                    if let chargePoints = points {                        
+                    if let chargePoints = points {
                         self.mapViewController.toggleRechargePoints(chargePoints)
                     } else {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
                     }
+                    self.progressNotification.stopLoadingNotification(self.view)
 
                 }
                 if self.currentViewController != mapViewController {
@@ -328,8 +419,6 @@ extension MainViewController:UITabBarDelegate {
             self.currentViewController = busesRatesViewController
         }
     }
-
-
 }
 
 // MARK: UISearchBarDelegate protocol methods
@@ -354,13 +443,13 @@ extension MainViewController:MapBusRoadDelegate {
 
     func newResults(busSearchResult: BusSearchResult) {
         self.showTabBar()
-        
+
         if busSearchResult.hasRouteOptions {
             self.mapViewController.addBusLinesResults(busSearchResult.busRouteOptions, preselectedRouteIndex: busSearchResult.indexSelected!)
         }else{
             GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
         }
-        
+
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
         self.currentViewController = self.mapViewController
@@ -375,7 +464,7 @@ extension MainViewController:MapBusRoadDelegate {
         self.mapViewController.updateOrigin(routePoint)
         self.mapViewModel.origin = routePoint
     }
-    
+
     // TODO: Candidate method to be removed
     func newDestination(destination: CLLocationCoordinate2D, address: String) {
         //self.mapViewController.addDestinationPosition(destination, address : address)
@@ -411,9 +500,9 @@ extension MainViewController:MapBusRoadDelegate {
         Connectivity.sharedInstance.getAddressFromCoordinate(location.coordinate.latitude, longitude: location.coordinate.longitude) { (point, error) in
 
             if let p = point {
+                self.mapViewController.showUserLocation()
                 handler(p)
                 self.verifySearchStatus(self.mapViewModel)
-                self.mapViewController.showUserLocation()
             }else{
                 let title = "No sabemos donde es el \(endpointType.rawValue)"
                 let message = "No pudimos resolver la dirección de \(endpointType.rawValue) ingresada"
@@ -484,8 +573,8 @@ extension MainViewController {
     func addBackNavItem(title: String) {
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
-
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
+        
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
         backButton.tintColor = UIColor.whiteColor()
 
@@ -497,12 +586,16 @@ extension MainViewController {
         self.mapSearchViewContainer.hidden = !show
         mapSearchViewHeightConstraint.constant = !show ? 0 : mapSearchViewContainer.presenter.preferredHeight()
     }
-
+    
     func backTapped(){
         if(self.navigationItem.title == "Rutas encontradas"){
             self.mapViewModel.clearModel()
             self.mapViewController.resetMapSearch()
         }
         self.homeNavigationBar(self.mapViewModel)
+    }
+    
+    func addFavoritePlace(){
+        self.favoriteViewController.addFavoritePlace()
     }
 }

@@ -17,6 +17,7 @@ class RoutePoint: Object {
     dynamic var longitude: Double = 0.0
     dynamic var address: String = " "
     dynamic var isWaypoint: Bool = false
+    dynamic var name: String = ""
 
     static func parse(routePointJson: JSON) -> RoutePoint
     {
@@ -45,32 +46,35 @@ class RoutePoint: Object {
     }
 
     static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
+        let validTypes = ["street_address", "intersection", "natural_feature", "airport", "park", "point_of_interest", "establishment", "bus_station"]
         let successCode: String = "OK"
         let geoPoint = RoutePoint()
         let firstResultJson = geoPointJson["results"][0]
-        let isAddress = firstResultJson["address_components"][0]["types"] == [ "street_number" ]
+        let setValidTypes = Set(validTypes)
+        let responseTypes = firstResultJson["types"].arrayObject as! [String]
+        let isValid = !(setValidTypes.intersect(responseTypes).isEmpty)
+
         let jsonStatus = geoPointJson["status"].stringValue
 
-        guard isAddress else {
+        guard isValid else {
             return nil
         }
 
         switch jsonStatus {
         case successCode:
             let originLocation = firstResultJson["geometry"]["location"]
-            let streetName = firstResultJson["address_components"][1]["short_name"].stringValue
-            let streetNumber = firstResultJson["address_components"][0]["short_name"].stringValue
+
+            var address = firstResultJson["formatted_address"].stringValue.componentsSeparatedByString(",").first
+            address = address?.stringByReplacingOccurrencesOfString("&", withString: "Y")
 
             geoPoint.latitude = originLocation["lat"].doubleValue
             geoPoint.longitude = originLocation["lng"].doubleValue
-            geoPoint.address = "\(streetName) \(streetNumber)"
+            geoPoint.address = address ?? "Ubicación sin nombre"
 
             return geoPoint
         default:
             return nil
         }
-
-
     }
 
     func getLatLong() -> CLLocationCoordinate2D {
