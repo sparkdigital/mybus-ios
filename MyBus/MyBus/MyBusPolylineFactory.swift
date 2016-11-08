@@ -34,7 +34,9 @@ class MyBusPolylineFactory {
         var busRoutePolylineList: [MyBusPolyline] = []
 
         // First bus route polyline
-        let firstBusRoute: Route = (roadResult.routeList.first)!
+        guard let firstBusRoute: Route = roadResult.routeList.first else {
+            return busRoutePolylineList
+        }
 
         let firstBusLine = MyBusPolylineFactory.createBusRoutePolyline(firstBusRoute, busLineId: roadResult.idBusLine1)
         busRoutePolylineList.append(firstBusLine)

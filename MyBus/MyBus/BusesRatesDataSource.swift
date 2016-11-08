@@ -21,7 +21,7 @@ class BusesRatesDataSource: NSObject, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: BusesRatesTableViewCell = tableView.dequeueReusableCellWithIdentifier("BusesRatesTableViewCell", forIndexPath: indexPath) as! BusesRatesTableViewCell
         let (busline, busprice) = busRate[indexPath.row]
-        cell.loadItem(busline,BusPrice: busprice)
+        cell.loadItem(busline,busPrice: busprice)
         return cell
     }
    

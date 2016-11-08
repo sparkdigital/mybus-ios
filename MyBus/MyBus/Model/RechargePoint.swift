@@ -16,7 +16,7 @@ struct RechargePoint {
     let address: String
     let location: (latitude: Double, longitude: Double)
     let openTime: String
-    let distance: Double
+    let distance: Double?
 }
 
 extension RechargePoint {
@@ -37,7 +37,7 @@ extension RechargePoint {
         self.address = address
         self.location = (Double(latitude)!, Double(longitude)!)
         self.openTime = openTime
-        self.distance = Double(distance)!
+        self.distance = Double(distance)
     }
 
     func getLatLong() -> CLLocationCoordinate2D {

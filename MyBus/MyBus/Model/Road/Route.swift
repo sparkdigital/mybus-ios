@@ -26,11 +26,11 @@ class Route: NSObject {
         return route
     }
 
-    func getFirstLatLng() -> CLLocationCoordinate2D {
-        return (pointList.first?.getLatLong())!
+    func getFirstLatLng() -> CLLocationCoordinate2D? {
+        return pointList.first?.getLatLong()
     }
 
-    func getLastLatLng() -> CLLocationCoordinate2D {
-        return (pointList.last?.getLatLong())!
+    func getLastLatLng() -> CLLocationCoordinate2D? {
+        return pointList.last?.getLatLong()
     }
 }

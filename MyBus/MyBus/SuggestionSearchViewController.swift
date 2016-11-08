@@ -125,8 +125,8 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
         //filter streets
         Connectivity.sharedInstance.getStreetNames(forName: searchText) { (streets, error) in
-            if error == nil {
-                for street in streets! {
+            if let streets = streets {
+                for street in streets {
                     self.bestMatches.append(SearchSuggestion(name: street))
                 }
             }
