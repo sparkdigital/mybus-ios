@@ -54,7 +54,7 @@ class MapViewModel {
 }
 
 
-class MainViewController: UIViewController{
+class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -82,8 +82,10 @@ class MainViewController: UIViewController{
     var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
     var busesResultsTableViewController: BusesResultsTableViewController!
+    var connectionNotAvailableViewController : ConnectionNotAvailable!
 
     var navRouter: NavRouter!
+    var reachability : Reach!
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
@@ -93,7 +95,7 @@ class MainViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.navRouter = NavRouter()
         self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
         self.searchViewController = self.navRouter.searchController() as! SearchViewController
@@ -134,13 +136,45 @@ class MainViewController: UIViewController{
         singleLongTap.requireGestureRecognizerToFail(doubleTap)
         self.mapViewController.mapView.addGestureRecognizer(singleLongTap)
         
-        let reachability = Reach()
-        switch reachability.connectionStatus() {
-            case ReachabilityStatus.Offline:
-                GenerateMessageAlert.generateAlertToNoInternetConnection(self)
-            default:
-                print("device online")
+        self.reachability = Reach()
+        checkInternetConnectionAvailability()
+        
+    }
+    
+    func checkInternetConnectionAvailability(){
+        
+        switch self.reachability.connectionStatus() {
+        case ReachabilityStatus.Offline:
+            GenerateMessageAlert.generateAlertToNoInternetConnection(self)
+            self.containerView.hidden = true            
+            
+            if((self.connectionNotAvailableViewController == nil)){
+                let noConnectionViewController = ConnectionNotAvailable(nibName: "ConnectionNotAvailable", bundle: nil)
+                noConnectionViewController.delegate = self
+                noConnectionViewController.view.frame = CGRectMake(self.containerView.frame.origin.x ,self.containerView.frame.origin.y,self.containerView.frame.size.height,self.containerView.frame.size.width)
+                self.connectionNotAvailableViewController = noConnectionViewController
+            }
+            
+            self .addChildViewController(self.connectionNotAvailableViewController)
+            self.view.addSubview(self.connectionNotAvailableViewController.view)
+            
+        default:
+            if(self.connectionNotAvailableViewController != nil){
+                self.connectionNotAvailableViewController.view.removeFromSuperview()
+            }
+            self.containerView.hidden = false
         }
+    }
+    
+    // MARK: NoConnection Delegate
+    func didTapRetry(){
+        checkInternetConnectionAvailability()
+    }
+    
+    
+    
+    func someAction(sender:UITapGestureRecognizer){
+        
     }
 
     func handleSingleLongTap(tap: UITapGestureRecognizer) {
@@ -373,52 +407,63 @@ extension MainViewController:Searchable{
 
 // MARK: Tab Bar Delegate methods
 extension MainViewController:UITabBarDelegate {
-
+    
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
-        if (item.tag == 0){
-            self.homeNavigationBar(self.mapViewModel)
-            self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
-            self.currentViewController = mapViewController
-            self.mapViewController.toggleRechargePoints(nil)
-        }
-        if (item.tag == 1){
-            self.sectionNavigationBar("Favoritos")
-            self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
-            self.currentViewController = favoriteViewController
-        }
-        if (item.tag == 2){
-            self.toggleSearchViewContainer(true)
-            if let userLocation = self.mapViewController.mapView.userLocation {
-                Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
-                    points, error in
-
-                    if let chargePoints = points {
-                        self.mapViewController.toggleRechargePoints(chargePoints)
-                    } else {
-                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
+        
+        
+        // check reachbility first
+        switch (self.reachability.connectionStatus()) {
+        case ReachabilityStatus.Offline:
+            self.checkInternetConnectionAvailability()
+        default:
+            if (item.tag == 0){
+                self.homeNavigationBar(self.mapViewModel)
+                self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
+                self.currentViewController = mapViewController
+                self.mapViewController.toggleRechargePoints(nil)
+            }
+            if (item.tag == 1){
+                self.sectionNavigationBar("Favoritos")
+                self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
+                self.currentViewController = favoriteViewController
+            }
+            if (item.tag == 2){
+                self.toggleSearchViewContainer(true)
+                if let userLocation = self.mapViewController.mapView.userLocation {
+                    Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
+                        points, error in
+                        
+                        if let chargePoints = points {
+                            self.mapViewController.toggleRechargePoints(chargePoints)
+                        } else {
+                            GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
+                        }
+                        
                     }
-
+                    if self.currentViewController != mapViewController {
+                        self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
+                        self.currentViewController = mapViewController
+                    }
+                } else {
+                    GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
                 }
-                if self.currentViewController != mapViewController {
-                    self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
-                    self.currentViewController = mapViewController
-                }
-            } else {
-                GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
+            }
+            if (item.tag == 3){
+                self.sectionNavigationBar("Recorridos")
+                self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
+                self.currentViewController = busesInformationViewController
+                self.busesInformationViewController.searchViewProtocol = self
+            }
+            if (item.tag == 4){
+                self.sectionNavigationBar("Tarifas")
+                self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
+                self.currentViewController = busesRatesViewController
             }
         }
-        if (item.tag == 3){
-            self.sectionNavigationBar("Recorridos")
-            self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
-            self.currentViewController = busesInformationViewController
-            self.busesInformationViewController.searchViewProtocol = self
-        }
-        if (item.tag == 4){
-            self.sectionNavigationBar("Tarifas")
-            self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
-            self.currentViewController = busesRatesViewController
-        }
     }
+        
+        
+        
 
 
 }

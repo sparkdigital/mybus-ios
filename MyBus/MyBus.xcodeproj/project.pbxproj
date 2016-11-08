@@ -42,6 +42,10 @@
 		1442CDF06BAB610AD4C299F5 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */; };
 		660C71951DCBB50100CD6E1D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660C71941DCBB50100CD6E1D /* Reachability.swift */; };
 		660C71961DCBB50100CD6E1D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660C71941DCBB50100CD6E1D /* Reachability.swift */; };
+		6684BCE81DD253EF00A55F56 /* ConnectionNotAvailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6684BCE61DD253EF00A55F56 /* ConnectionNotAvailable.swift */; };
+		6684BCE91DD253EF00A55F56 /* ConnectionNotAvailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6684BCE61DD253EF00A55F56 /* ConnectionNotAvailable.swift */; };
+		6684BCEA1DD253EF00A55F56 /* ConnectionNotAvailable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6684BCE71DD253EF00A55F56 /* ConnectionNotAvailable.xib */; };
+		6684BCEB1DD253EF00A55F56 /* ConnectionNotAvailable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6684BCE71DD253EF00A55F56 /* ConnectionNotAvailable.xib */; };
 		66B6B37A1DCBDD9700594913 /* StepActivateInternet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66B6B3791DCBDD9700594913 /* StepActivateInternet.xib */; };
 		66B6B37B1DCBDD9700594913 /* StepActivateInternet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66B6B3791DCBDD9700594913 /* StepActivateInternet.xib */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
@@ -146,6 +150,8 @@
 		35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.debug.xcconfig"; sourceTree = "<group>"; };
 		660C71941DCBB50100CD6E1D /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = Services/Reachability.swift; sourceTree = "<group>"; };
+		6684BCE61DD253EF00A55F56 /* ConnectionNotAvailable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionNotAvailable.swift; sourceTree = "<group>"; };
+		6684BCE71DD253EF00A55F56 /* ConnectionNotAvailable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectionNotAvailable.xib; sourceTree = "<group>"; };
 		66B6B3791DCBDD9700594913 /* StepActivateInternet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepActivateInternet.xib; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9982576D1CC532ED00909F1B /* Street.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Street.swift; path = Model/Street.swift; sourceTree = "<group>"; };
@@ -280,6 +286,8 @@
 				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
 				115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */,
 				C57317631DB7BDCC00689F00 /* FavoriteViewController.swift */,
+				6684BCE61DD253EF00A55F56 /* ConnectionNotAvailable.swift */,
+				6684BCE71DD253EF00A55F56 /* ConnectionNotAvailable.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -552,6 +560,7 @@
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
 				C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */,
 				66B6B37A1DCBDD9700594913 /* StepActivateInternet.xib in Resources */,
+				6684BCEA1DD253EF00A55F56 /* ConnectionNotAvailable.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66B6B37B1DCBDD9700594913 /* StepActivateInternet.xib in Resources */,
+				6684BCEB1DD253EF00A55F56 /* ConnectionNotAvailable.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +754,7 @@
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
 				B47299411DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift in Sources */,
 				115BE4D41DAD618D00E429D2 /* SimpleResultTableViewCell.swift in Sources */,
+				6684BCE81DD253EF00A55F56 /* ConnectionNotAvailable.swift in Sources */,
 				C5460B591D5CBA2F000504BB /* GenerateMessageAlert.swift in Sources */,
 				08EC58531CBD482400E8410A /* MyBusMapController.swift in Sources */,
 				08EC58591CBD482400E8410A /* MyBus.xcdatamodeld in Sources */,
@@ -766,6 +777,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				660C71961DCBB50100CD6E1D /* Reachability.swift in Sources */,
+				6684BCE91DD253EF00A55F56 /* ConnectionNotAvailable.swift in Sources */,
 				08EC58691CBD482400E8410A /* MyBusTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
