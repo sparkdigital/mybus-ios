@@ -10,7 +10,6 @@ import Foundation
 import Mapbox
 import UIKit
 
-//class MyBusMarkerAddressPoint: MyBusMarker {}
 class MyBusMarkerOriginPoint: MyBusMarker {}
 class MyBusMarkerDestinationPoint: MyBusMarker {}
 class MyBusMarkerBusStopPoint: MyBusMarker{}
@@ -33,6 +32,13 @@ class MyBusMarker: MGLPointAnnotation {
             return nil
         }
     }
+    var markerView: MGLAnnotationView? {
+        get {
+            guard let identifier = markerImageIdentifier where (self is MyBusMarkerOriginPoint || self is MyBusMarkerDestinationPoint) else { return nil }
+            return MyBusMarkerAnnotationView(reuseIdentifier: identifier)
+        }
+    }
+
 
     // MARK: MyBusMarker Constructor
     init(position: CLLocationCoordinate2D, title: String, subtitle: String? = "", imageIdentifier: String?) {

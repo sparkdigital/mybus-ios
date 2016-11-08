@@ -18,9 +18,9 @@ protocol SuggestionProtocol {
 
 class FavoriteSuggestion: SuggestionProtocol {
     var name: String = ""
-    var 📍: Location
+    var 📍: RoutePoint
 
-    init(name: String, location: Location){
+    init(name: String, location: RoutePoint){
         self.name = name
         self.📍 = location
     }
@@ -30,11 +30,7 @@ class FavoriteSuggestion: SuggestionProtocol {
     }
 
     func getPoint() -> RoutePoint {
-        let point = RoutePoint()
-        point.address = "\(📍.streetName) \(📍.houseNumber)"
-        point.latitude = 📍.latitude
-        point.longitude = 📍.longitude
-        return point
+        return 📍
     }
 }
 
@@ -111,22 +107,22 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
     func applyFilter(searchText: String) -> [SuggestionProtocol] {
         self.bestMatches = []
-        
+
         if let recents = DBManager.sharedInstance.getRecents() {
             let filteredRecents = recents.filter(NSPredicate(format: "address CONTAINS[c] %@", searchText))
             for recent in filteredRecents {
                 self.bestMatches.append(RecentSuggestion(name: recent.address, point: recent))
             }
         }
-       
+
         //TODO Refactor favorites collections -> use RoutePoint instead Location
         if let favs = DBManager.sharedInstance.getFavourites() {
             let filteredFavs = favs.filter(NSPredicate(format: "name CONTAINS[c] %@", searchText))
             for fav in filteredFavs {
-                self.bestMatches.append(FavoriteSuggestion(name: "\(fav.streetName) \(fav.houseNumber)", location: fav))
+                self.bestMatches.append(FavoriteSuggestion(name: fav.address, location: fav))
             }
         }
-        
+
         //filter streets
         Connectivity.sharedInstance.getStreetNames(forName: searchText) { (streets, error) in
             if error == nil {
@@ -151,16 +147,16 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     }
 
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
+
         if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
             if let recentSelected = result as? RecentSuggestion {
-                self.mainViewDelegate?.loadPostionFromFavsRecents(recentSelected.getPoint())
+                self.mainViewDelegate?.loadPositionFromFavsRecents(recentSelected.getPoint())
             } else if let placeSelected = result as? SuggestedPlace {
-                self.mainViewDelegate?.loadPostionFromFavsRecents(placeSelected.getPoint())
+                self.mainViewDelegate?.loadPositionFromFavsRecents(placeSelected.getPoint())
             } else if let favSelected = result as? FavoriteSuggestion {
-                self.mainViewDelegate?.loadPostionFromFavsRecents(favSelected.getPoint())
+                self.mainViewDelegate?.loadPositionFromFavsRecents(favSelected.getPoint())
             } else {
                 self.searchBar?.text = "\(result.name) "
             }
