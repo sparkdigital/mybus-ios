@@ -38,6 +38,7 @@ class MyBusMapView: MGLMapView{
     //defaultBusPolylineColor
     @IBInspectable var defaultBusPolylineColor: UIColor = UIColor.grayColor()
 
+    static let defaultZoomLevel:Double = 16
 
     //Closures
 
@@ -159,21 +160,31 @@ class MyBusMapView: MGLMapView{
         addAnnotations(newRechargePoints)
         fitToAnnotationsInMap()
     }
-
-    func currentGPSLocation()->CLLocation?{
-        return self.userLocation?.location
+    
+    func currentGPSLocation(callback:((CLLocation?, error:String?)->Void)){
+        if let gpsLocation = LocationManager.sharedInstance.lastKnownLocation {
+            callback(gpsLocation, error: nil)
+        }else{
+            LocationManager.sharedInstance.startUpdatingWithCompletionHandler({ (location, error) in
+                callback(location, error: error)
+            })
+        }
+        
     }
     
-    func centerMapWithGPSLocation() -> Void {
-        self.showsUserLocation = true
-        self.centerCoordinate = (self.currentGPSLocation()?.coordinate)!
-        self.setZoomLevel(16, animated: false)
-    }
-    
-    func centerMapWithGPSLocationWithZoom(zoom : Double) -> Void {
-        self.showsUserLocation = true
-        self.centerCoordinate = (self.currentGPSLocation()?.coordinate)!
-        self.setZoomLevel(zoom, animated: false)
+    func centerMapWithGPSLocation(zoomLevel:Double? = nil) {
+        
+        self.currentGPSLocation { (location, error) in
+            
+            if let gpsLocation = location {
+                self.showsUserLocation = true
+                self.centerCoordinate = gpsLocation.coordinate
+                self.setZoomLevel(zoomLevel ?? MyBusMapView.defaultZoomLevel, animated: false)
+            }else{
+                NSLog("Location Error Ocurred: \(error!)")
+            }
+        }
+        
     }
 
     func selectMyBusAnnotation(annotation: MyBusMarker) {
