@@ -178,13 +178,43 @@ extension SearchContainerViewController:MainViewDelegate{
 
     func loadPositionMainView() {
 
-        if self.searchType == SearchType.Origin {
-            self.busRoadDelegate?.newOriginWithCurrentLocation()
-            self.goBackToMap()
-        }else{
-            self.busRoadDelegate?.newDestinationWithCurrentLocation()
-            self.goBackToMap()
+        
+        LocationManager.sharedInstance.startUpdatingWithCompletionHandler { (location, error) in
+            
+            if let _ = error {
+                let title = "No sabemos donde es el lugar"
+                let message = "No pudimos resolver la dirección de ubicación actual"
+                GenerateMessageAlert.generateAlert(self, title: title, message: message)
+                return
+            }
+            
+            NSLog("Location found!")
+            
+            self.progressNotification.showLoadingNotification(self.view)
+            
+            Connectivity.sharedInstance.getAddressFromCoordinate(location!.coordinate.latitude, longitude: location!.coordinate.longitude) { (point, error) in
+                
+                self.progressNotification.stopLoadingNotification(self.view)
+                
+                if let p = point {
+                    
+                    if self.searchType == SearchType.Origin {
+                        self.busRoadDelegate?.newOrigin(p)
+                    }else{
+                        self.busRoadDelegate?.newDestination(p)
+                    }
+                    
+                    return self.goBackToMap()
+                    
+                }else{
+                    let title = "No sabemos donde es el lugar"
+                    let message = "No pudimos resolver la dirección de ubicación actual"
+                    GenerateMessageAlert.generateAlert(self, title: title, message: message)
+                }
+            }
+           
         }
+        
     }
 
     func loadPositionFromFavsRecents(position: RoutePoint) {
