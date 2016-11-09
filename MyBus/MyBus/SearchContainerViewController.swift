@@ -190,7 +190,11 @@ extension SearchContainerViewController:MainViewDelegate{
             
             NSLog("Location found!")
             
+            self.progressNotification.showLoadingNotification(self.view)
+            
             Connectivity.sharedInstance.getAddressFromCoordinate(location!.coordinate.latitude, longitude: location!.coordinate.longitude) { (point, error) in
+                
+                self.progressNotification.stopLoadingNotification(self.view)
                 
                 if let p = point {
                     
