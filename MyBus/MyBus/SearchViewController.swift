@@ -13,13 +13,9 @@ import RealmSwift
 protocol MapBusRoadDelegate {
     //func newBusRoad(mapBusRoad: MapBusRoad)
     func newResults(busSearchResult: BusSearchResult)
-    func newOrigin(coordinate: CLLocationCoordinate2D, address: String)
-    func newDestination(coordinate: CLLocationCoordinate2D, address: String)
     func newCompleteBusRoute(route: CompleteBusRoute)
     func newOrigin(routePoint: RoutePoint?)
     func newDestination(routePoint: RoutePoint?)
-    func newOriginWithCurrentLocation()
-    func newDestinationWithCurrentLocation()
 }
 
 protocol MainViewDelegate: class {

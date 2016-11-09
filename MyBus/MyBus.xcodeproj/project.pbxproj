@@ -73,6 +73,7 @@
 		B47299431DA80B9B00D8D6D7 /* MapSearchViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */; };
 		B47299451DA80D5F00D8D6D7 /* SimpleSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */; };
 		B47299471DA80D7D00D8D6D7 /* SimpleSearchBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */; };
+		B4C3FCE71DC93F1500D696FC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C3FCE61DC93F1500D696FC /* LocationManager.swift */; };
 		B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */; };
 		C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50CC65C1D7A17130039C316 /* BusesRates.plist */; };
 		C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */ = {isa = PBXBuildFile; fileRef = C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */; };
@@ -179,6 +180,7 @@
 		B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSearchViewContainer.swift; sourceTree = "<group>"; };
 		B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSearchBarView.swift; sourceTree = "<group>"; };
 		B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleSearchBarView.xib; sourceTree = "<group>"; };
+		B4C3FCE61DC93F1500D696FC /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapView.swift; sourceTree = "<group>"; };
 		C50CC65C1D7A17130039C316 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
 		C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepActivateLocate.xib; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 			children = (
 				1131807D1D63749400425847 /* SearchManager.swift */,
 				1153DF831DB6875B00B25A49 /* DBManager.swift */,
+				B4C3FCE61DC93F1500D696FC /* LocationManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -744,6 +747,7 @@
 				11DF62501DA2D11600E21320 /* SuggestedPlace.swift in Sources */,
 				660C71951DCBB50100CD6E1D /* Reachability.swift in Sources */,
 				B455FA9C1DB1803500069F22 /* MyBusMapModel.swift in Sources */,
+				B4C3FCE71DC93F1500D696FC /* LocationManager.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
 				B47299451DA80D5F00D8D6D7 /* SimpleSearchBarView.swift in Sources */,
@@ -902,7 +906,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "341c47bd-5593-42af-b683-99a9245c9edf";
+				PROVISIONING_PROFILE = "aa1eb020-a234-4838-ac4d-df41de0502a4";
 			};
 			name = Debug;
 		};
@@ -917,7 +921,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "341c47bd-5593-42af-b683-99a9245c9edf";
+				PROVISIONING_PROFILE = "aa1eb020-a234-4838-ac4d-df41de0502a4";
 			};
 			name = Release;
 		};

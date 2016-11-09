@@ -28,17 +28,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     var currentRouteDisplayed: BusRouteResult?
 
     var mapModel: MyBusMapModel!
-
-    //Temporary solution
-    var userLocation: CLLocation? {
-        let locationServiceAuth = CLLocationManager.authorizationStatus()
-        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
-            return self.mapView.currentGPSLocation()
-        } else {
-            return nil
-        }
-    }
-
+    
     // MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,10 +57,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
 
     func showUserLocation() {
-        let locationServiceAuth = CLLocationManager.authorizationStatus()
-        if(locationServiceAuth == .AuthorizedAlways || locationServiceAuth == .AuthorizedWhenInUse) {
+        if LocationManager.sharedInstance.isLocationAuthorized() {
             self.mapView.centerMapWithGPSLocation()
-        } else {
+        }else{
             GenerateMessageAlert.generateAlertToSetting(self)
         }
     }
@@ -93,7 +82,10 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             startOfflinePackDownload()
         }
         
-        self.mapView.setCenterCoordinate(self.mapView.centerCoordinate, zoomLevel: 12, animated: true)
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {            
+            self.mapView.centerMapWithGPSLocation(12)
+        }
     }
 
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
@@ -205,13 +197,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             return myBusMarker.markerView
         }
     }
-    
-    func centerMapWithGPSLocation() -> Void {
-        self.mapView.showsUserLocation = true
-        self.mapView.centerCoordinate = self.mapView.centerCoordinate
-        self.mapView.setZoomLevel(12, animated: false)
-    }
-
+        
     // MARK: - Mapview bus roads manipulation Methods
     func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
 
