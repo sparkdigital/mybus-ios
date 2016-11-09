@@ -63,7 +63,7 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     private func setupLocationManager(){
         coreLocationManager = CLLocationManager()
         coreLocationManager.delegate = self
-        coreLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+        coreLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         
         if CLLocationManager.locationServicesEnabled() {
             startUpdating()
@@ -84,6 +84,10 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
         coreLocationManager.stopUpdatingLocation()
     }
     
+    func requestAuthorization(){
+        setupLocationManager()
+        self.coreLocationManager.requestWhenInUseAuthorization()
+    }
     
     func isLocationAuthorized() -> Bool {
         let locationServiceAuth = CLLocationManager.authorizationStatus()
