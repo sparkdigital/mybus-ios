@@ -141,7 +141,7 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
         
     }
     
-    func checkInternetConnectionAvailability(){
+    func checkInternetConnectionAvailability() -> Bool{
         
         switch self.reachability.connectionStatus() {
         case ReachabilityStatus.Offline:
@@ -157,12 +157,13 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
             
             self .addChildViewController(self.connectionNotAvailableViewController)
             self.view.addSubview(self.connectionNotAvailableViewController.view)
-            
+            return false
         default:
             if(self.connectionNotAvailableViewController != nil){
                 self.connectionNotAvailableViewController.view.removeFromSuperview()
             }
             self.containerView.hidden = false
+            return true
         }
     }
     
@@ -291,35 +292,38 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
         self.menuTabBar.hidden = false
         self.menuTabBarHeightConstraint.constant = defaultTabBarHeight
     }
-
+    
     func searchRoute(){
-        if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
-            self.progressNotification.showLoadingNotification(self.view)
-            SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
-
-                self.progressNotification.stopLoadingNotification(self.view)
-
-                if let r: BusSearchResult = searchResult {
-                    if r.hasRouteOptions {
-                        self.hideTabBar()
-                        self.addBackNavItem("Rutas encontradas")
-
-                        self.busesResultsTableViewController.loadBuses(r)
-                        self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
-                        self.currentViewController = self.busesResultsTableViewController
+        
+        if(self.checkInternetConnectionAvailability()){            
+            if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
+                self.progressNotification.showLoadingNotification(self.view)
+                SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
+                    
+                    self.progressNotification.stopLoadingNotification(self.view)
+                    
+                    if let r: BusSearchResult = searchResult {
+                        if r.hasRouteOptions {
+                            self.hideTabBar()
+                            self.addBackNavItem("Rutas encontradas")
+                            
+                            self.busesResultsTableViewController.loadBuses(r)
+                            self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
+                            self.currentViewController = self.busesResultsTableViewController
+                        }else{
+                            GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+                        }
                     }else{
-                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+                        GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
                     }
-                }else{
-                    GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
-                }
-            })
-        }else{
-            let title = "Campos requeridos"
-            let message = "Se requiere un origen y un destino para calcular la ruta"
-
-            GenerateMessageAlert.generateAlert(self, title: title, message: message)
-
+                })
+            }else{
+                let title = "Campos requeridos"
+                let message = "Se requiere un origen y un destino para calcular la ruta"
+                
+                GenerateMessageAlert.generateAlert(self, title: title, message: message)
+                
+            }
         }
     }
 
