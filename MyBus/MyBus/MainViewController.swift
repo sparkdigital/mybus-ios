@@ -466,7 +466,7 @@ extension MainViewController:MapBusRoadDelegate {
     }
 
     func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
-        self.homeNavigationBar(self.mapViewModel)
+        self.clearActiveSearch()
         self.mapViewController.updateCompleteBusRoute(route)
     }
     
