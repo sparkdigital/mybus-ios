@@ -10,21 +10,25 @@ import Foundation
 import SwiftyJSON
 
 protocol GeoCodingServiceDelegate {
-    func getCoordinateFromAddress(streetName: String, completionHandler: (JSON?, NSError?) -> ())
+    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ())
 }
 
-private let googleMapsGeocodingBaseURL = "https://maps.googleapis.com/maps/api/geocode/json?"
-
-private let googleGeocodingApiKey = "AIzaSyCXgPZbEkpO_KsQqr5_q7bShcOhRlvodyc"
-
 public class GeoCodingService: NSObject, GeoCodingServiceDelegate {
-    public func getCoordinateFromAddress(streetName: String, completionHandler: (JSON?, NSError?) -> ())
-    {
+    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ()) {
         print("Address to resolve geocoding: \(streetName)")
-        let address = "\(streetName), mar del plata"
-        var coordinateFromAddressURLString = "\(googleMapsGeocodingBaseURL)&address=\(address)&components=administrative_area:General Pueyrredón&key=\(googleGeocodingApiKey)"
-        coordinateFromAddressURLString = coordinateFromAddressURLString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
 
-        BaseNetworkService().performRequest(coordinateFromAddressURLString, completionHandler: completionHandler)
+        let address = "\(streetName), mar del plata"
+        let components = "administrative_area:General Pueyrredón"
+
+        let request: NSURLRequest = GeoCodingRouter.CoordinateFromAddressComponents(address: address, components: components, key: GeoCodingRouter.GEO_CODING_API_KEY).URLRequest
+
+        BaseNetworkService.performRequest(request) { response, error in
+            if let json = response {
+                completionHandler(RoutePoint.parseFromGeoGoogle(json), error)
+            } else {
+                completionHandler(nil, error)
+            }
+        }
+
     }
 }

@@ -30,18 +30,18 @@ public class Connectivity: NSObject
     override init() { }
 
     // MARK: Municipality Endpoints
-    func getStreetNames(forName address: String, completionHandler: ([Street]?, NSError?) -> ())
+    func getStreetNames(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     {
-        mgpGisService.getStreetNames(forName: address, completionHandler: completionHandler)
+        mgpGisService.getStreetNamesByFile(forName: address, completionHandler: completionHandler)
     }
 
-    public func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (JSON?, NSError?) -> ())
+    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         mgpGisService.getAddressFromCoordinate(latitude, longitude : longitude, completionHandler : completionHandler)
     }
 
     // MARK - Google Geocoding Endpoint
-    public func getCoordinateFromAddress(streetName: String, completionHandler: (JSON?, NSError?) -> ())
+    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         googleGeocodingService.getCoordinateFromAddress(streetName, completionHandler : completionHandler)
     }
@@ -60,8 +60,18 @@ public class Connectivity: NSObject
 
     func getCombinedResultRoadApi(idFirstLine: Int, idSecondLine: Int, firstDirection: Int, secondDirection: Int, beginStopFirstLine: Int, endStopFirstLine: Int, beginStopSecondLine: Int, endStopSecondLine: Int, completionHandler: (RoadResult?, NSError?) -> ())
     {
-        let singleRoadSearch =  RoadSearch(combinedRoad: idFirstLine, firstDirection: firstDirection, beginStopFirstLine: beginStopFirstLine, endStopFirstLine: endStopFirstLine, idSecondLine: idSecondLine, secondDirection: secondDirection, beginStopSecondLine: beginStopSecondLine, endStopSecondLine: endStopSecondLine)
-        myBusService.searchRoads(.Combined, roadSearch: singleRoadSearch, completionHandler: completionHandler)
+        let combinedRoadSearch =  RoadSearch(combinedRoad: idFirstLine, firstDirection: firstDirection, beginStopFirstLine: beginStopFirstLine, endStopFirstLine: endStopFirstLine, idSecondLine: idSecondLine, secondDirection: secondDirection, beginStopSecondLine: beginStopSecondLine, endStopSecondLine: endStopSecondLine)
+        myBusService.searchRoads(.Combined, roadSearch: combinedRoadSearch, completionHandler: completionHandler)
+    }
+
+    func getCompleteRoads(idLine: Int, direction: Int, completionHanlder: (CompleteBusRoute?, NSError?)->())
+    {
+        myBusService.getCompleteRoads(idLine, direction: direction, completionHandler: completionHanlder)
+    }
+
+    func getRechargeCardPoints(latitude: Double, longitude: Double, completionHandler: ([RechargePoint]?, NSError?) -> ())
+    {
+        myBusService.getRechargeCardPoints(latitude, longitude: longitude, completionHandler: completionHandler)
     }
 
     // MARK - Directions Endpoints
