@@ -24,7 +24,7 @@ public class DBManager: NSObject {
         do {
             self.db = try Realm()
         } catch let error as NSError {
-            fatalError("Error opening realm: \(error)")
+            NSLog("Error opening realm: \(error)")
         }
     }
 
@@ -90,7 +90,7 @@ public class DBManager: NSObject {
                         user.recents.insert(newRecentPoint, atIndex: 0)
                     })
                 } catch let error as NSError {
-                    fatalError("Error writing realm: \(error)")
+                    NSLog("### Realm ### Error writing a new recent : \(error)")
                 }
 
             } else {
@@ -110,7 +110,7 @@ public class DBManager: NSObject {
                         user.favourites.append(newFavoritePlace)
                     }
                 } catch let error as NSError {
-                    fatalError("Error writing realm: \(error)")
+                    NSLog("### Realm ### Error writing a new favorite : \(error)")
                 }
 
             } else {
@@ -138,7 +138,7 @@ public class DBManager: NSObject {
                         }
                     }
                 } catch let error as NSError {
-                    fatalError("Error writing realm: \(error)")
+                    NSLog("### Realm ### Error removing a favorite : \(error)")
                 }
 
             } else {
@@ -160,7 +160,7 @@ public class DBManager: NSObject {
                         }
                     }
                 } catch let error as NSError {
-                    fatalError("Error writing realm: \(error)")
+                    NSLog("### Realm ### Error updating a favorite : \(error)")
                 }
             }
         }
@@ -192,7 +192,7 @@ public class DBManager: NSObject {
                 db.add(object, update: isUpdate!)
                 try db.commitWrite()
             } catch let error as NSError {
-                fatalError("Error writing realm: \(error)")
+                NSLog("### Realm ### Error writing: \(error)")
             }
 
         }
