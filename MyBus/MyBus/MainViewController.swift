@@ -497,19 +497,9 @@ extension MainViewController:MapBusRoadDelegate {
         self.currentViewController = self.mapViewController
     }
 
-    // TODO: Candidate method to be removed
-    func newOrigin(origin: CLLocationCoordinate2D, address: String) {
-        //self.mapViewController.addOriginPosition(origin, address: address)
-    }
-
     func newOrigin(routePoint: RoutePoint?) {
         self.mapViewController.updateOrigin(routePoint)
         self.mapViewModel.origin = routePoint
-    }
-
-    // TODO: Candidate method to be removed
-    func newDestination(destination: CLLocationCoordinate2D, address: String) {
-        //self.mapViewController.addDestinationPosition(destination, address : address)
     }
 
     func newDestination(routePoint: RoutePoint?) {
@@ -518,41 +508,10 @@ extension MainViewController:MapBusRoadDelegate {
     }
 
     func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
-        self.homeNavigationBar(self.mapViewModel)
+        self.clearActiveSearch()
         self.mapViewController.updateCompleteBusRoute(route)
     }
-
-    // TODO: Temporary solution until the location logic is refactored to another class
-    func newOriginWithCurrentLocation() {
-        self.newEndpointWithCurrentLocation(SearchType.Origin, handler: self.newOrigin)
-    }
-
-    // TODO: Temporary solution until the location logic is refactored to another class
-    func newDestinationWithCurrentLocation() {
-        self.newEndpointWithCurrentLocation(SearchType.Destiny, handler: self.newDestination)
-    }
-
-    private func newEndpointWithCurrentLocation(endpointType: SearchType, handler: (RoutePoint)->Void){
-
-        guard let location = self.mapViewController.userLocation else {
-            NSLog("Location Manager not enabled")
-            return
-        }
-
-        Connectivity.sharedInstance.getAddressFromCoordinate(location.coordinate.latitude, longitude: location.coordinate.longitude) { (point, error) in
-
-            if let p = point {
-                self.mapViewController.showUserLocation()
-                handler(p)
-                self.verifySearchStatus(self.mapViewModel)
-            }else{
-                let title = "No sabemos donde es el \(endpointType.rawValue)"
-                let message = "No pudimos resolver la dirección de \(endpointType.rawValue) ingresada"
-                GenerateMessageAlert.generateAlert(self, title: title, message: message)
-            }
-
-        }
-    }
+    
 }
 
 // MARK: Custom Navigation bars extension
