@@ -181,17 +181,7 @@ public class SearchManager: NSObject {
                         completeRoute.returnPointList = fullCompleteRoute.goingPointList
 
                         //Save in device storage using Realm
-                        let itineray = CompleteBusItineray()
-                        itineray.busLineName = completeRoute.busLineName
-                        itineray.goingItineraryPoint.appendContentsOf(completeRoute.goingPointList)
-                        itineray.returnItineraryPoint.appendContentsOf(completeRoute.returnPointList)
-                        itineray.savedDate = NSDate()
-
-                        let realm = try! Realm()
-                        // Add to the Realm inside a transaction
-                        try! realm.write {
-                            realm.add(itineray, update: true)
-                        }
+                        DBManager.sharedInstance.updateCompleteBusItinerary(completeRoute)
                         return completion(completeRoute, error)
                     } else {
                         return completion(completeRoute, error)
@@ -202,15 +192,8 @@ public class SearchManager: NSObject {
             }
         }
 
-
-        // Get the default Realm
-        let realm = try! Realm()
-        let results = realm.objects(CompleteBusItineray.self).filter("busLineName = '\(busLineName)'")
-
-
-        if results.count > 0 {
-            let busItinerary = results.first!
-
+        let busItineraryResult = DBManager.sharedInstance.findOneCompleteBusItinerary(busLineName)
+        if let busItinerary = busItineraryResult {
             let secondsInADay: NSTimeInterval = 3600 * 30
             let secondsSavedSinceNow = abs(busItinerary.savedDate.timeIntervalSinceNow)
 

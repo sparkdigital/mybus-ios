@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 
 class BusesRatesTableViewCell: UITableViewCell {
-    
-    @IBOutlet weak var BusLine: UITextView!
-    @IBOutlet weak var BusPrice: UILabel!
-    
-    func loadItem(BusLine: String, BusPrice: String) {
-        self.BusLine.text = BusLine
-        self.BusPrice.text = BusPrice
+
+    @IBOutlet weak var busLineTextView: UITextView!
+    @IBOutlet weak var busPriceLevel: UILabel!
+
+    func loadItem(busLine: String, busPrice: String) {
+        self.busLineTextView.text = busLine
+        self.busPriceLevel.text = busPrice
     }
 }

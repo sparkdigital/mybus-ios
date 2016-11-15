@@ -54,34 +54,41 @@ class BusesResultsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let bus = buses[indexPath.row]
 
+
         switch bus.busRouteType {
         case .Single:
             let cell = tableView.dequeueReusableCellWithIdentifier(simpleCellIdentifier, forIndexPath: indexPath) as! SimpleResultTableViewCell
-            let resultData = bus.busRoutes.first!
-            cell.busLine.text = resultData.busLineName
-            cell.addressStopOrigin.text = "\(resultData.startBusStopStreetName!) \(resultData.startBusStopStreetNumber!)"
-            cell.addressStopDestination.text = "\(resultData.destinationBusStopStreetName!) \(resultData.destinationBusStopStreetNumber!)"
+            guard let busOption = bus.busRoutes.first else {
+                return cell
+            }
+            cell.busLine.text = busOption.busLineName
+            cell.addressStopOrigin.text = "\(busOption.startBusStopStreetName) \(busOption.startBusStopStreetNumber)"
+
+            cell.addressStopDestination.text = "\(busOption.destinationBusStopStreetName) \(busOption.destinationBusStopStreetNumber)"
             return cell
         case .Combined:
             let combinedResultCell = tableView.dequeueReusableCellWithIdentifier(combinedCellIdentifier, forIndexPath: indexPath) as! CombinedResultTableViewCell
-            let firstResultData = bus.busRoutes.first!
-            let secondResultData = bus.busRoutes.last!
+            guard let firstBusOfOption = bus.busRoutes.first, let secondBusOfOption = bus.busRoutes.last else {
+                return combinedResultCell
+            }
+            combinedResultCell.firstBusLine.text = "\(firstBusOfOption.busLineName) → \(secondBusOfOption.busLineName)"
+            combinedResultCell.addressOriginStopFirstLine.text = "\(firstBusOfOption.startBusStopStreetName) \(firstBusOfOption.startBusStopStreetNumber)"
+            combinedResultCell.addressDestinationStopFirstLine.text = "\(firstBusOfOption.destinationBusStopStreetName) \(firstBusOfOption.destinationBusStopStreetNumber)"
 
-            combinedResultCell.firstBusLine.text = "\(firstResultData.busLineName!) → \(secondResultData.busLineName!)"
-            combinedResultCell.addressOriginStopFirstLine.text = "\(firstResultData.startBusStopStreetName!) \(firstResultData.startBusStopStreetNumber!)"
-            combinedResultCell.addressDestinationStopFirstLine.text = "\(firstResultData.destinationBusStopStreetName!) \(firstResultData.destinationBusStopStreetNumber!)"
-
-            combinedResultCell.addressOriginStopLastLine.text = "\(secondResultData.startBusStopStreetName!) \(secondResultData.startBusStopStreetNumber!)"
-            let address = "\(secondResultData.destinationBusStopStreetName!) \(secondResultData.destinationBusStopStreetNumber!)"
+            combinedResultCell.addressOriginStopLastLine.text = "\(secondBusOfOption.startBusStopStreetName) \(secondBusOfOption.startBusStopStreetNumber)"
+            let address = "\(secondBusOfOption.destinationBusStopStreetName) \(secondBusOfOption.destinationBusStopStreetNumber)"
             combinedResultCell.addressEndStopLastLine.text = address
             return combinedResultCell
         }
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let busSearchResult = busSearchResult else {
+            return
+        }
         let indexSelectedRoute = indexPath.row
-        busSearchResult!.indexSelected = indexSelectedRoute
-        self.mainViewDelegate?.newResults(busSearchResult!)
+        busSearchResult.indexSelected = indexSelectedRoute
+        self.mainViewDelegate?.newResults(busSearchResult)
     }
 
 
