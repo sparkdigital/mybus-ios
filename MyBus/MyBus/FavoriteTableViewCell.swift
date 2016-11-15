@@ -8,17 +8,20 @@
 
 import UIKit
 
-class FavoriteTableViewCell: UITableViewCell {
-
+class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
+    
+    var favorite: RoutePoint?
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var address: UITextField!
-    var index:Int!
 
-    func loadItem(name: String, address: String) {
-        self.name.text = name
-        self.address.text = address
+    func loadItem(favorite: RoutePoint) {
+        self.name.text = favorite.name
+        self.address.text = favorite.address
+        self.favorite = favorite
         self.name.userInteractionEnabled = false
         self.address.userInteractionEnabled = false
+        self.address.delegate = self
+        self.name.delegate = self
     }
 
     func editCell() {
@@ -27,19 +30,33 @@ class FavoriteTableViewCell: UITableViewCell {
         self.address.userInteractionEnabled = true
     }
     
-    @IBAction func nameDidEndEdit(cell: AnyObject) {
-        self.name.userInteractionEnabled = false
-        self.name.resignFirstResponder()
-        self.address.becomeFirstResponder()
-     //   let location = self.favoriteDataSource.favorite[self.index]
-     //   DBManager.sharedInstance.updateFavorite(location)
-    }
-    
-    @IBAction func addressDidEndEdit(cell: AnyObject) {
+    func editFav() {
         self.address.userInteractionEnabled = false
-        self.address.resignFirstResponder()
-      //  let location = self.favoriteDataSource.favorite[self.index]
-     //   DBManager.sharedInstance.updateFavorite(location)
+        if let fav = favorite, let newAddress = self.address.text, let newName = self.name.text where (newAddress != fav.address || newName != fav.name) {
+            ProgressHUD().showLoadingNotification(nil)
+            if newAddress != fav.address {
+                Connectivity.sharedInstance.getCoordinateFromAddress(newAddress, completionHandler: { (point, error) in
+                    if let newFav = point {
+                        DBManager.sharedInstance.updateFavorite(fav, name: newName, address: newFav.address)
+                        ProgressHUD().stopLoadingNotification(nil)
+                    }
+                })
+            } else {
+                DBManager.sharedInstance.updateFavorite(fav, name: newName, address: nil)
+                ProgressHUD().stopLoadingNotification(nil)
+            }
+            
+            
+        }
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (self.name == textField){
+            self.address.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+            self.editFav()
+        }
+        return true
     }
 
 }

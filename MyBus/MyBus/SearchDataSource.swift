@@ -41,7 +41,7 @@ class SearchDataSource: NSObject, UITableViewDataSource {
             }
             
             let cell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
-            cell.loadItem(favs[indexPath.row].name, address: favs[indexPath.row].address)
+            cell.loadItem(favs[indexPath.row])
             
             return cell
         default:
