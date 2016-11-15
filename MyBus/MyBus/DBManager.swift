@@ -94,6 +94,13 @@ public class DBManager: NSObject {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
+                    let favsEqualNew = user.favourites.filter({ (favorite) -> Bool in
+                        return favorite.latitude == newFavoritePlace.latitude && favorite.longitude == newFavoritePlace.longitude
+                    })
+                    guard favsEqualNew.count == 0 else {
+                        return
+                    }
+
                     user.favourites.append(newFavoritePlace)
                 }
             } catch let error as NSError {
