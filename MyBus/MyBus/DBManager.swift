@@ -137,12 +137,14 @@ public class DBManager: NSObject {
         }
     }
 
-    func updateFavorite(favoritePlace: RoutePoint) {
+    func updateFavorite(favoritePlace: RoutePoint, name: String?, address: String?) {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
                     let location = user.favourites.filter {($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
                     if let indexLocation = user.favourites.indexOf(location) {
+                        favoritePlace.name = name ?? favoritePlace.name
+                        favoritePlace.address = address ?? favoritePlace.address
                         user.favourites.replace(indexLocation, object: favoritePlace)
                     }
                 }
