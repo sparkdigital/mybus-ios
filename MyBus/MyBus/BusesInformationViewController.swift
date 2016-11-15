@@ -28,9 +28,13 @@ class BusesInformationViewController: UIViewController, UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         progressNotification.showLoadingNotification(self.view)
         let bus = self.busesInformationDataSource.busInformation[indexPath.row]
-        let busId = bus.0
         let busName = bus.1
-        SearchManager.sharedInstance.getCompleteRoute(Int(busId)!, busLineName: busName) { (completeRoute, error) in
+
+        guard let busId = Int(bus.0) else {
+            return
+        }
+
+        SearchManager.sharedInstance.getCompleteRoute(busId, busLineName: busName) { (completeRoute, error) in
             if let route = completeRoute {
                 self.searchViewProtocol?.newCompleteBusRoute(route)
                 self.progressNotification.stopLoadingNotification(self.view)

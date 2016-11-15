@@ -12,19 +12,21 @@ class BusSearchResult
 {
     var origin: RoutePoint
     var destination: RoutePoint
-    var busRouteOptions: [BusRouteResult]
+    var busRouteOptions: [BusRouteResult] = [BusRouteResult]()
     var indexSelected: Int?
     var road: [String: RoadResult] = [String: RoadResult]()
 
-    var hasRouteOptions:Bool {
+    var hasRouteOptions: Bool {
         return busRouteOptions.count > 0
     }
-    
+
     init(origin: RoutePoint, destination: RoutePoint, busRoutes: [BusRouteResult]?)
     {
         self.origin = origin
         self.destination = destination
-        self.busRouteOptions = busRoutes!
+        if let busOptions = busRoutes {
+            self.busRouteOptions = busOptions
+        }
     }
 
 

@@ -67,33 +67,50 @@ class MyBusMarkerFactory {
         let busRouteType: MyBusRouteResultType = roadResult.busRouteResultType()
 
         if let firstRoute = roadResult.routeList.first, let lastRoute = roadResult.routeList.last {
+            guard let stopOrigin = firstRoute.pointList.first, let stopDestination = firstRoute.pointList.last else {
+                return roadStopsMarkerList
+            }
             switch busRouteType {
             case .Single:
-
-                let stopOriginMapPoint = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: (firstRoute.pointList.first?.address)!)
+                guard let stopOriginCoordinate = firstRoute.getFirstLatLng() else {
+                    break
+                }
+                let stopOriginMapPoint = MyBusMarkerFactory.createBusStopOriginMarker(stopOriginCoordinate, address: stopOrigin.address)
                 roadStopsMarkerList.append(stopOriginMapPoint)
 
-                let stopDestinationMapPoint = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: (firstRoute.pointList.last?.address)!)
+                guard let stopDestionationCoordinate = firstRoute.getLastLatLng() else {
+                    break
+                }
+                let stopDestinationMapPoint = MyBusMarkerFactory.createBusStopDestinationMarker(stopDestionationCoordinate, address: stopDestination.address)
                 roadStopsMarkerList.append(stopDestinationMapPoint)
 
             case .Combined:
+                guard let secondBusStopOrigin = lastRoute.pointList.first, let secondBusStopDestination = lastRoute.pointList.last else {
+                    break
+                }
                 //First bus
                 // StopOriginRouteOne
-                let mapStopOriginRouteOne = MyBusMarkerFactory.createBusStopOriginMarker(firstRoute.getFirstLatLng(), address: (firstRoute.pointList.first?.address)!)
+                guard let firstStopOriginCoordinate = firstRoute.getFirstLatLng(), let firstStopDestionationCoordinate = firstRoute.getLastLatLng() else {
+                    break
+                }
+                let mapStopOriginRouteOne = MyBusMarkerFactory.createBusStopOriginMarker(firstStopOriginCoordinate, address: stopOrigin.address)
                 roadStopsMarkerList.append(mapStopOriginRouteOne)
 
                 // StopDestinationRouteOne
-                let mapStopDestinationRouteOne = MyBusMarkerFactory.createBusStopDestinationMarker(firstRoute.getLastLatLng(), address: (firstRoute.pointList.last?.address)!)
+                let mapStopDestinationRouteOne = MyBusMarkerFactory.createBusStopDestinationMarker(firstStopDestionationCoordinate, address: stopDestination.address)
                 roadStopsMarkerList.append(mapStopDestinationRouteOne)
 
                 // Second bus
                 // StopOriginRouteTwo
-                let mapStopOriginRouteTwo = MyBusMarkerFactory.createBusStopOriginMarker(lastRoute.getFirstLatLng(), address: (lastRoute.pointList.first?.address)!)
+                guard let secondStopOriginCoordinate = lastRoute.getFirstLatLng(), let secondStopDestionationCoordinate = lastRoute.getLastLatLng() else {
+                    break
+                }
+                let mapStopOriginRouteTwo = MyBusMarkerFactory.createBusStopOriginMarker(secondStopOriginCoordinate, address: secondBusStopOrigin.address)
 
                 roadStopsMarkerList.append(mapStopOriginRouteTwo)
 
                 // StopDestinationRouteTwo
-                let mapStopDestinationRouteTwo = MyBusMarkerFactory.createBusStopDestinationMarker(lastRoute.getLastLatLng(), address: (lastRoute.pointList.last?.address)!)
+                let mapStopDestinationRouteTwo = MyBusMarkerFactory.createBusStopDestinationMarker(secondStopDestionationCoordinate, address: secondBusStopDestination.address)
 
                 roadStopsMarkerList.append(mapStopDestinationRouteTwo)
             }
@@ -102,16 +119,16 @@ class MyBusMarkerFactory {
         return roadStopsMarkerList
     }
 
-    class func createOriginPointMarker(point:RoutePoint)->MyBusMarkerOriginPoint {
+    class func createOriginPointMarker(point: RoutePoint)->MyBusMarkerOriginPoint {
         let marker = MyBusMarkerOriginPoint(position: point.getLatLong(), title: MyBusTitle.OriginTitle.rawValue, subtitle: point.address, imageIdentifier: "markerOrigen")
         return marker
     }
-    
-    class func createDestinationPointMarker(point:RoutePoint)->MyBusMarkerDestinationPoint {
+
+    class func createDestinationPointMarker(point: RoutePoint)->MyBusMarkerDestinationPoint {
         let marker = MyBusMarkerDestinationPoint(position: point.getLatLong(), title: MyBusTitle.DestinationTitle.rawValue, subtitle: point.address, imageIdentifier: "markerDestino")
         return marker
     }
-        
+
     class func createOriginPointMarker(coord: CLLocationCoordinate2D, address: String)->MyBusMarkerOriginPoint{
         let marker = MyBusMarkerOriginPoint(position: coord, title: MyBusTitle.OriginTitle.rawValue, subtitle: address, imageIdentifier: "markerOrigen")
         return marker

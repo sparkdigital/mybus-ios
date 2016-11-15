@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+
 class SuggestedPlace: SuggestionProtocol {
     var name: String = ""
     var description: String?
@@ -31,7 +32,7 @@ class SuggestedPlace: SuggestionProtocol {
         let 📍 = RoutePoint()
         📍.latitude = self.location.latitude
         📍.longitude = self.location.longitude
-        📍.address = self.address != nil ? self.address! : self.name
+        📍.address = self.address ?? self.name
         return 📍
     }
 }

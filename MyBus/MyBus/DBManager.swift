@@ -12,163 +12,168 @@ import RealmSwift
 private let _sharedInstance = DBManager()
 
 public class DBManager: NSObject {
-    let db = try! Realm()
+    var db: Realm?
+    var currentUser: User? {
+        if let db = db {
+            let users = db.objects(User)
+            if let user = users.first {
+                return user
+            }
+        }
+        return nil
+    }
 
     // MARK: - Instantiation
-    public class var sharedInstance: DBManager
-    {
+    public class var sharedInstance: DBManager {
         return _sharedInstance
     }
 
-    override init() {}
+    override init() {
+        super.init()
+        do {
+            self.db = try Realm()
+        } catch let error as NSError {
+            NSLog("Error opening realm: \(error)")
+        }
+    }
 
     func getCompleteBusRoutes(busLineName: String) -> Results<CompleteBusItineray>? {
-        let results = db.objects(CompleteBusItineray.self).filter("busLineName = '\(busLineName)'")
-        return results
+        if let db = db {
+            let results = db.objects(CompleteBusItineray.self).filter("busLineName = '\(busLineName)'")
+            return results
+        }
+        return nil
     }
 
     func getFavourites() -> List<RoutePoint>? {
-        let users = db.objects(User)
-        if let user = users.first {
-            return user.favourites
-        }
-        return nil
+        return currentUser?.favourites
     }
 
     func getRecents() -> List<RoutePoint>? {
-        let users = db.objects(User)
-        if let user = users.first {
-            return user.recents
-        }
-        return nil
+        return currentUser?.recents
     }
 
-    func getUserProfile() -> User {
-        let users = db.objects(User)
-
-        if let user = users.first {
+    func getUserProfile() -> User? {
+        if let user = currentUser {
             return user
         } else {
             let user = User()
-            db.beginWrite()
-            db.add(user)
-            try! db.commitWrite()
+            self.addDataModelEntry(user)
             return user
         }
     }
 
     func addRecent(newRecentPoint: RoutePoint) {
-        let users = db.objects(User)
-        if let user = users.first {
-            try! db.write({
-                let recentsEqualNew = user.recents.filter({ (recent) -> Bool in
-                    return recent.latitude == newRecentPoint.latitude && recent.longitude == newRecentPoint.longitude
-                })
-                guard recentsEqualNew.count == 0 else {
-                    return
-                }
+        if let user = currentUser, let db = db {
+            do {
+                try db.write({
+                    let recentsEqualNew = user.recents.filter({ (recent) -> Bool in
+                        return recent.latitude == newRecentPoint.latitude && recent.longitude == newRecentPoint.longitude
+                    })
+                    guard recentsEqualNew.count == 0 else {
+                        return
+                    }
 
-                if user.recents.count == 5 {
-                    user.recents.removeLast()
-                }
-                user.recents.insert(newRecentPoint, atIndex: 0)
-            })
+                    if user.recents.count == 5 {
+                        user.recents.removeLast()
+                    }
+                    user.recents.insert(newRecentPoint, atIndex: 0)
+                })
+            } catch let error as NSError {
+                NSLog("### Realm ### Error writing a new recent : \(error)")
+            }
+
         } else {
             let user = User()
             user.recents.append(newRecentPoint)
-            try! db.write({
-                db.add(user)
-            })
+            self.addDataModelEntry(user)
         }
     }
 
     func addFavorite(newFavoritePlace: RoutePoint) {
-        // Realms are used to group data together
-        let realm = try! Realm() // Create realm pointing to default file
-        let users = realm.objects(User)
-         if users.count > 0
-        {
-            let user = users.first
-            // Save your object
-            try! realm.write
-                {
-                    user!.favourites.append(newFavoritePlace)
+        if let user = currentUser, let db = db {
+            do {
+                try db.write {
+                    user.favourites.append(newFavoritePlace)
+                }
+            } catch let error as NSError {
+                NSLog("### Realm ### Error writing a new favorite : \(error)")
             }
-        } else
-        {
+
+        } else {
             let user = User()
             user.favourites.append(newFavoritePlace)
-            realm.beginWrite()
-            realm.add(user)
-            try! realm.commitWrite()
+            self.addDataModelEntry(user)
         }
     }
 
     func removeFavorite(favoritePlace: RoutePoint) {
-        // Realms are used to group data together
-        let realm = try! Realm() // Create realm pointing to default file
-        let users = realm.objects(User)
-
-        if users.count > 0
-        {
-            let user = users.first
-            // Remove your object
-            try! realm.write
-                {
-                    if let indexLocation = user!.favourites.indexOf(favoritePlace) {
-                        user?.favourites.removeAtIndex(indexLocation)
+        if let user = currentUser, let db = db {
+            do {
+                try db.write {
+                    if let indexLocation = user.favourites.indexOf(favoritePlace) {
+                        user.favourites.removeAtIndex(indexLocation)
                     } else {
-                        let location = user!.favourites.filter{($0.address == favoritePlace.address)}[0]
-                        let indexLocation = user!.favourites.indexOf(location)
-                        user?.favourites.removeAtIndex(indexLocation!)
+                        let location = user.favourites.filter {($0.address == favoritePlace.address)}[0]
+                        if let indexLocation = user.favourites.indexOf(location) {
+                            user.favourites.removeAtIndex(indexLocation)
+                        }
                     }
+                }
+            } catch let error as NSError {
+                NSLog("### Realm ### Error removing a favorite : \(error)")
             }
-        } else
-        {
+
+        } else {
             let user = User()
-            if let indexLocation = user.favourites.indexOf(favoritePlace) {
-                user.favourites.removeAtIndex(indexLocation)
-            } else {
-                let location = user.favourites.filter{($0.address == favoritePlace.address)}[0]
-                let indexLocation = user.favourites.indexOf(location)
-                user.favourites.removeAtIndex(indexLocation!)
-            }
-            realm.beginWrite()
-            realm.add(user)
-            try! realm.commitWrite()
+            self.addDataModelEntry(user)
         }
     }
 
     func updateFavorite(favoritePlace: RoutePoint) {
-        // Realms are used to group data together
-        let realm = try! Realm() // Create realm pointing to default file
-        let users = realm.objects(User)
-
-        if users.count > 0
-        {
-            let user = users.first
-            //Update your object
-            try! realm.write
-                {
-                    let location = user!.favourites.filter{($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
-                    let indexLocation = user?.favourites.indexOf(location)
-                    user?.favourites.replace(indexLocation!, object: favoritePlace)
+        if let user = currentUser, let db = db {
+            do {
+                try db.write {
+                    let location = user.favourites.filter {($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
+                    if let indexLocation = user.favourites.indexOf(location) {
+                        user.favourites.replace(indexLocation, object: favoritePlace)
+                    }
+                }
+            } catch let error as NSError {
+                NSLog("### Realm ### Error updating a favorite : \(error)")
             }
-        } else
-        {
-            let user = User()
-            let location = user.favourites.filter{($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
-            let indexLocation = user.favourites.indexOf(location)
-            user.favourites.replace(indexLocation!, object: favoritePlace)
-            realm.beginWrite()
-            realm.add(user)
-            try! realm.commitWrite()
         }
     }
 
-    func addDataModelEntry(object: Object){
-        db.beginWrite()
-        db.add(object, update: true)
-        try! db.commitWrite()
+    func updateCompleteBusItinerary(itinerary: CompleteBusRoute) {
+        let itineray = CompleteBusItineray()
+        itineray.busLineName = itinerary.busLineName
+        itineray.goingItineraryPoint.appendContentsOf(itinerary.goingPointList)
+        itineray.returnItineraryPoint.appendContentsOf(itinerary.returnPointList)
+        itineray.savedDate = NSDate()
+
+        self.addDataModelEntry(itineray, isUpdate: true)
+    }
+
+    func findOneCompleteBusItinerary(busLine: String) -> CompleteBusItineray? {
+        if let db = db {
+            let results = db.objects(CompleteBusItineray.self).filter("busLineName = '\(busLine)'")
+            return results.first ?? nil
+        } else {
+            return nil
+        }
+    }
+
+    func addDataModelEntry(object: Object, isUpdate: Bool? = false) {
+        if let db = db {
+            do {
+                db.beginWrite()
+                db.add(object, update: isUpdate!)
+                try db.commitWrite()
+            } catch let error as NSError {
+                NSLog("### Realm ### Error writing: \(error)")
+            }
+
+        }
     }
 }
