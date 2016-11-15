@@ -16,7 +16,7 @@
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7M5-pM-RlA">
                     <rect key="frame" x="6" y="8" width="296" height="95"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wifi_icon" translatesAutoresizingMaskIntoConstraints="NO" id="O3O-88-gXa">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wifi_signal_icon" translatesAutoresizingMaskIntoConstraints="NO" id="O3O-88-gXa">
                             <rect key="frame" x="20" y="28" width="23" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="23" id="oSq-1g-Cqy"/>
@@ -127,7 +127,7 @@
     </objects>
     <resources>
         <image name="settings-icon" width="118" height="118"/>
-        <image name="wifi_icon" width="512" height="455"/>
         <image name="wifi_ios_icon" width="256" height="256"/>
+        <image name="wifi_signal_icon" width="512" height="455"/>
     </resources>
 </document>

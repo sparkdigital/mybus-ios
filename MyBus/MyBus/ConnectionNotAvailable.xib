@@ -6,6 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConnectionNotAvailable" customModule="MyBus" customModuleProvider="target">
             <connections>
+                <outlet property="backgroundView" destination="i5M-Pr-FkT" id="kC0-6T-lRd"/>
+                <outlet property="blackView" destination="zHw-pt-kas" id="uEA-Vz-PB4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,54 +16,53 @@
             <rect key="frame" x="0.0" y="0.0" width="396" height="382"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10m-HE-bPk">
-                    <rect key="frame" x="64" y="8" width="272" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="ANB-UG-UMi"/>
-                        <constraint firstAttribute="width" constant="272" id="O7Y-ut-Grh"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                    <state key="normal" title="Conexión no disponible">
-                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="didTapRetryButton:" destination="-1" eventType="touchUpInside" id="M3t-UC-wPH"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUW-eQ-ZTU">
-                    <rect key="frame" x="71" y="58" width="254" height="256"/>
-                    <state key="normal" title="Button" image="no_internet_retry"/>
-                    <connections>
-                        <action selector="didTapRetryButton:" destination="-1" eventType="touchUpInside" id="Xue-ZA-SP2"/>
-                        <action selector="didTouchRetryImage:" destination="-1" eventType="touchUpInside" id="S4B-PN-dbX"/>
-                    </connections>
-                </button>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zHw-pt-kas">
+                    <rect key="frame" x="86" y="44" width="240" height="273"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUW-eQ-ZTU">
+                            <rect key="frame" x="63" y="78" width="114" height="118"/>
+                            <state key="normal" title="Button" image="no_internet_retry"/>
+                            <connections>
+                                <action selector="didTapRetryButton:" destination="-1" eventType="touchUpInside" id="Xue-ZA-SP2"/>
+                                <action selector="didTouchRetryImage:" destination="-1" eventType="touchUpInside" id="S4B-PN-dbX"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="deN-Ob-NnM">
-                    <rect key="frame" x="76" y="337" width="260" height="30"/>
+                    <rect key="frame" x="100" y="333" width="226" height="38"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="uLL-8J-rTB"/>
                         <constraint firstAttribute="width" constant="245" id="v0B-Yf-4Bn"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <state key="normal" title="Toqué aquí para reintentar">
-                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="Conexión no disponible">
+                        <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
                     </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="v0B-Yf-4Bn"/>
+                        </mask>
+                    </variation>
                     <connections>
                         <action selector="didTapRetryButton:" destination="-1" eventType="touchUpInside" id="rv8-Dp-N2o"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
             <constraints>
-                <constraint firstItem="deN-Ob-NnM" firstAttribute="top" secondItem="sUW-eQ-ZTU" secondAttribute="bottom" constant="24" id="Fyv-ge-HW4"/>
+                <constraint firstAttribute="trailing" secondItem="deN-Ob-NnM" secondAttribute="trailing" constant="70" id="5xW-qN-QR9"/>
                 <constraint firstItem="deN-Ob-NnM" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PAb-m4-Kmf"/>
                 <constraint firstAttribute="bottom" secondItem="deN-Ob-NnM" secondAttribute="bottom" constant="14" id="Q1T-GE-3D4"/>
-                <constraint firstItem="10m-HE-bPk" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="hVZ-9f-dBx"/>
-                <constraint firstItem="10m-HE-bPk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="mtW-wo-LOm"/>
-                <constraint firstItem="sUW-eQ-ZTU" firstAttribute="top" secondItem="10m-HE-bPk" secondAttribute="bottom" constant="20" id="uOo-Zz-OQL"/>
-                <constraint firstItem="sUW-eQ-ZTU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ybT-8x-eit"/>
+                <constraint firstItem="deN-Ob-NnM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="90" id="oKz-T2-tBe"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="PAb-m4-Kmf"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="358" y="269"/>
         </view>
     </objects>
