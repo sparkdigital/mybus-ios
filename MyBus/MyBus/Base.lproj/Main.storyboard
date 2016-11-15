@@ -366,8 +366,8 @@
                                         </tableViewCellContentView>
                                         <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                         <connections>
-                                            <outlet property="BusLine" destination="Q7q-zw-cQe" id="dGU-Ee-DwU"/>
-                                            <outlet property="BusPrice" destination="Iue-am-A31" id="Pd7-i6-NfD"/>
+                                            <outlet property="busLineLabel" destination="Q7q-zw-cQe" id="8Ep-gn-v4J"/>
+                                            <outlet property="busPriceLevel" destination="Iue-am-A31" id="69w-zN-Rrv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
