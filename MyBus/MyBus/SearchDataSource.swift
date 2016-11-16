@@ -39,13 +39,13 @@ class SearchDataSource: NSObject, UITableViewDataSource {
             guard let favs = favourites else {
                 return UITableViewCell()
             }
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
+
+            let cell = tableView.dequeueReusableCellWithIdentifier("SearchFavoriteTableViewCell", forIndexPath: indexPath) as! SearchFavoriteTableViewCell
             cell.loadItem(favs[indexPath.row])
-            
+
             return cell
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("SearchFavoriteTableViewCell", forIndexPath: indexPath) as UITableViewCell
             return cell
         }
     }
