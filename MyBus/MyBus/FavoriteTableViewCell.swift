@@ -38,14 +38,17 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
                 Connectivity.sharedInstance.getCoordinateFromAddress(newAddress, completionHandler: { (point, error) in
                     if let newFav = point {
                         DBManager.sharedInstance.updateFavorite(fav, name: newName, address: newFav.address)
-                        ProgressHUD().stopLoadingNotification(nil)
+                        self.address.text = newFav.address
+                    } else {
+                        self.address.text = fav.address
+                        DBManager.sharedInstance.updateFavorite(fav, name: newName, address: nil)
                     }
+                    ProgressHUD().stopLoadingNotification(nil)
                 })
-            } else {
+            } else if newName != fav.name {
                 DBManager.sharedInstance.updateFavorite(fav, name: newName, address: nil)
                 ProgressHUD().stopLoadingNotification(nil)
             }
-            
             
         }
     }
