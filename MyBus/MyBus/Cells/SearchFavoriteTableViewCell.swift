@@ -14,8 +14,16 @@ class SearchFavoriteTableViewCell: UITableViewCell {
     @IBOutlet weak var favoriteNameLabel: UILabel!
     @IBOutlet weak var favoriteAddressLabel: UILabel!
     func loadItem(favorite: RoutePoint) {
-        self.favoriteNameLabel.text = favorite.name
-        self.favoriteAddressLabel.text = favorite.address
         self.favorite = favorite
+        setUpFields()
     }
+
+    func setUpFields() {
+        guard let fav = self.favorite else {
+            return
+        }
+        self.favoriteNameLabel.text = fav.name
+        self.favoriteAddressLabel.text = fav.address
+    }
+
 }
