@@ -16,6 +16,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     @IBOutlet weak var busResultsTableView: UITableView!
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
     @IBOutlet var mapView: MyBusMapView!
+    
+    @IBOutlet var roadRouteContainerView:UIView!
 
     let busResultCellHeight: Int = 45
     let busResultTableHeightToHide: CGFloat = 0
