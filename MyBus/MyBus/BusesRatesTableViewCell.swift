@@ -11,11 +11,11 @@ import UIKit
 
 class BusesRatesTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var busLineTextView: UITextView!
     @IBOutlet weak var busPriceLevel: UILabel!
+    @IBOutlet weak var busLineLabel: UILabel!
 
     func loadItem(busLine: String, busPrice: String) {
-        self.busLineTextView.text = busLine
+        self.busLineLabel.text = busLine
         self.busPriceLevel.text = busPrice
     }
 }

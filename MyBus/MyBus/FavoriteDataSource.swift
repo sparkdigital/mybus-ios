@@ -46,7 +46,7 @@ class FavoriteDataSource: NSObject, UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell: FavoriteTableViewCell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
-        cell.loadItem(favorite[indexPath.row].name, address: favorite[indexPath.row].address)
+        cell.loadItem(favorite[indexPath.row])
         return cell
     }
 
