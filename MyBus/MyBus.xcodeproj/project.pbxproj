@@ -57,6 +57,8 @@
 		A0CF2BAF1D88A9F80044499F /* RechargePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF2BAE1D88A9F80044499F /* RechargePoint.swift */; };
 		A0D8B21F1D80D5150062A339 /* CompleteBusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D8B21E1D80D5150062A339 /* CompleteBusRoute.swift */; };
 		A0E1430B1CFB9A6E00BAA6AD /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */; };
+		B44695711DDD040A0073BC2C /* BusesResultsMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */; };
+		B44695731DDD66DA0073BC2C /* BusResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44695721DDD66DA0073BC2C /* BusResultViewController.swift */; };
 		B455FA9C1DB1803500069F22 /* MyBusMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B455FA9B1DB1803500069F22 /* MyBusMapModel.swift */; };
 		B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B47299081DA2C73300D8D6D7 /* Search.storyboard */; };
 		B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */; };
@@ -160,6 +162,8 @@
 		A0D8B21E1D80D5150062A339 /* CompleteBusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompleteBusRoute.swift; path = Model/Road/CompleteBusRoute.swift; sourceTree = "<group>"; };
 		A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseNetworkService.swift; path = Services/BaseNetworkService.swift; sourceTree = "<group>"; };
 		B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
+		B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesResultsMenuViewController.swift; sourceTree = "<group>"; };
+		B44695721DDD66DA0073BC2C /* BusResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusResultViewController.swift; sourceTree = "<group>"; };
 		B455FA9B1DB1803500069F22 /* MyBusMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapModel.swift; sourceTree = "<group>"; };
 		B47299081DA2C73300D8D6D7 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewController.swift; sourceTree = "<group>"; };
@@ -274,6 +278,8 @@
 				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
 				115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */,
 				C57317631DB7BDCC00689F00 /* FavoriteViewController.swift */,
+				B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */,
+				B44695721DDD66DA0073BC2C /* BusResultViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -725,6 +731,8 @@
 				C5B96F0E1D834CE20073B990 /* BusesInformationDataSource.swift in Sources */,
 				11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */,
 				11DF62501DA2D11600E21320 /* SuggestedPlace.swift in Sources */,
+				B44695731DDD66DA0073BC2C /* BusResultViewController.swift in Sources */,
+				B44695711DDD040A0073BC2C /* BusesResultsMenuViewController.swift in Sources */,
 				B455FA9C1DB1803500069F22 /* MyBusMapModel.swift in Sources */,
 				B4C3FCE71DC93F1500D696FC /* LocationManager.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
