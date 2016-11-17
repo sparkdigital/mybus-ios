@@ -94,6 +94,13 @@ public class DBManager: NSObject {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
+                    let favsEqualNew = user.favourites.filter({ (favorite) -> Bool in
+                        return favorite.latitude == newFavoritePlace.latitude && favorite.longitude == newFavoritePlace.longitude
+                    })
+                    guard favsEqualNew.count == 0 else {
+                        return
+                    }
+
                     user.favourites.append(newFavoritePlace)
                 }
             } catch let error as NSError {
@@ -130,12 +137,18 @@ public class DBManager: NSObject {
         }
     }
 
-    func updateFavorite(favoritePlace: RoutePoint) {
+    func updateFavorite(favoritePlace: RoutePoint, name: String?, newFavLocation: RoutePoint?) {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
                     let location = user.favourites.filter {($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
                     if let indexLocation = user.favourites.indexOf(location) {
+                        favoritePlace.name = name ?? favoritePlace.name
+                        if let updatedLocation = newFavLocation {
+                            favoritePlace.address = updatedLocation.address ?? favoritePlace.address
+                            favoritePlace.latitude = updatedLocation.latitude ?? favoritePlace.latitude
+                            favoritePlace.longitude = updatedLocation.longitude ?? favoritePlace.longitude
+                        }
                         user.favourites.replace(indexLocation, object: favoritePlace)
                     }
                 }

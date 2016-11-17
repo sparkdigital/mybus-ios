@@ -81,7 +81,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
 
     func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
         if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
-            startOfflinePackDownload()
+            //startOfflinePackDownload() Does not download offline maps programatically. //TODO User should agree
         }
         
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
