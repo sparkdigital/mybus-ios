@@ -4,9 +4,15 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SingleRouteView" customModule="MyBus" customModuleProvider="target">
+            <connections>
+                <outlet property="lblBusLineNumber" destination="ric-oB-Z9V" id="iTN-N0-yr9"/>
+                <outlet property="lblDestinationAddress" destination="dla-Nn-IkC" id="2vS-ev-YX3"/>
+                <outlet property="lblOriginAddress" destination="oVS-aY-EBG" id="muW-2T-WE3"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SingleRouteView" customModule="MyBus" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="600" height="135"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -112,11 +118,6 @@
                 <constraint firstItem="b1K-4B-fZy" firstAttribute="leading" secondItem="ric-oB-Z9V" secondAttribute="leading" id="umG-VY-LWU"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="lblBusLineNumber" destination="ric-oB-Z9V" id="re2-cS-wfm"/>
-                <outlet property="lblDestinationAddress" destination="dla-Nn-IkC" id="8ek-wP-ETo"/>
-                <outlet property="lblOriginAddress" destination="oVS-aY-EBG" id="kwL-1E-LBN"/>
-            </connections>
         </view>
     </objects>
     <resources>

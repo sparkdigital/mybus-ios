@@ -45,7 +45,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
         super.init(coder: aDecoder)
         xibSetup(nibId)
     }
-   
+       
     // MARK: RouterPresenterDelegate methods
     func reloadData() {
         
