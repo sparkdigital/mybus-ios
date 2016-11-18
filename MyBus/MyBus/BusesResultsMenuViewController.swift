@@ -18,25 +18,28 @@ class BusesResultsMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setup()
-   }
+    }
     
-    func setup(){
+    func setup(busOptions:[BusRouteResult]?){
+        
+        self.busRouteOptions = busOptions
+        
         if let options = busRouteOptions {
             controllerArray = buildControllers(options)
         }
         
         let parameters: [CAPSPageMenuOption] = [
-            .ScrollMenuBackgroundColor(UIColor(red: 20.0/255.0, green: 20.0/255.0, blue: 20.0/255.0, alpha: 1.0)),
-            .ViewBackgroundColor(UIColor.blueColor()),  //color del contenedor debajo de la vista del controller, solo funciona si el controller ingresado tiene el backcolor en ClearColor
+            .ScrollMenuBackgroundColor(UIColor.lightGrayColor()),
+            .ViewBackgroundColor(UIColor.clearColor()),  //color del contenedor debajo de la vista del controller, solo funciona si el controller ingresado tiene el backcolor en ClearColor
             .SelectionIndicatorColor(UIColor.orangeColor()), //color de la linea debajo de la seleccion
             .SelectionIndicatorHeight(2.0), //linea corta debajo de la seleccion
             .AddBottomMenuHairline(false), //linea continua debajo del menu
             .BottomMenuHairlineColor(UIColor.greenColor()),//color de la linea continua debajo del menu
-            .MenuItemFont(UIFont(name: "HelveticaNeue", size: 35.0)!),
+            .MenuItemFont(UIFont(name: "HelveticaNeue", size: 20.0)!),
             .MenuHeight(50.0),
             .MenuItemWidthBasedOnTitleTextWidth(true),
-            .SelectedMenuItemLabelColor(UIColor.orangeColor()) //color del tab seleccionado
+            .SelectedMenuItemLabelColor(UIColor.orangeColor()), //color del tab seleccionado,
+            .UnselectedMenuItemLabelColor(UIColor.blackColor())
         ]
         
         let layoutFrameFull:CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
@@ -73,6 +76,7 @@ class BusesResultsMenuViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
 }
 
