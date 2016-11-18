@@ -39,20 +39,25 @@ class BusResultViewController: UIViewController {
         //clean up views
         self.view.clearViewSubviews()
         
-        //Set up title of controller (used by page menu item)
-        self.title = result.emojiDescription()
-        
+        var routeResultView:RoutePresenterDelegate? = nil
         
         if result.busRouteType == MyBusRouteResultType.Single {
             //Build simple cell
+            routeResultView = SingleRouteView(frame: self.view.bounds)
         }else{
             //Build combinated cell
+            routeResultView = CombinedRouteView(frame: self.view.bounds)
         }
         
-        //set model to cell
+        //Set model
+        routeResultView?.routeResultModel = result
+        
+        //Set up title of controller (used by page menu item)
+        self.title = result.toStringDescription()
+        
         //add cell view to currentview
-        
-        
+        self.view.addAutoPinnedSubview(routeResultView as! UIView, toView: self.view)
+       
     }
     
     

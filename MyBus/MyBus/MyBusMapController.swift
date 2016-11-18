@@ -18,6 +18,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     @IBOutlet var mapView: MyBusMapView!
     
     @IBOutlet var roadRouteContainerView:UIView!
+    var busesSearchOptions:BusesResultsMenuViewController!
 
     let busResultCellHeight: Int = 45
     let busResultTableHeightToHide: CGFloat = 0
@@ -39,6 +40,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.mapModel = MyBusMapModel()
 
         initMapboxView()
+       
     }
 
     func initMapboxView() {
@@ -204,6 +206,15 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
 
         self.busResultsDetail = busRouteOptions
+        
+        self.busesSearchOptions = BusesResultsMenuViewController()
+        self.busesSearchOptions.setup(busRouteOptions)
+        self.busesSearchOptions.view.translatesAutoresizingMaskIntoConstraints = false
+        self.addChildViewController(self.busesSearchOptions)
+        self.view.addAutoPinnedSubview(self.busesSearchOptions!.view, toView: self.roadRouteContainerView)
+        
+        
+        
         self.bestMatches = busRouteOptions.map({ (route) -> String in
             return route.emojiDescription()
         })
@@ -415,4 +426,39 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         mapRoute.polyline = MyBusPolylineFactory.buildCompleteBusRoutePolylineList(newRoute)
         self.mapModel.completeBusRoute = mapRoute
     }
+    
+    
+    
+    // MARK: PageMenuLayout containerView handling
+    
+    //ContainerViewController logic
+    private func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController){
+        
+        if oldVC == newVC {
+            return
+        }
+        
+        oldVC.willMoveToParentViewController(nil)
+        self.addChildViewController(newVC)
+        
+        
+        //Add new view to the container
+        self.view.addAutoPinnedSubview(newVC.view, toView: self.roadRouteContainerView)
+        
+        newVC.view.alpha = 0
+        newVC.view.layoutIfNeeded()
+        
+        UIView.animateWithDuration(0.5, animations: {
+            newVC.view.alpha = 1.0
+            oldVC.view.alpha = 0.0
+            },
+                                   completion:{ finished in
+                                    oldVC.view.removeFromSuperview()
+                                    oldVC.removeFromParentViewController()
+                                    newVC.didMoveToParentViewController(self)
+        })
+        
+    }
+    
+    
 }
