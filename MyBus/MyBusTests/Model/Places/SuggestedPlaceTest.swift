@@ -8,28 +8,59 @@
 
 import XCTest
 
-class SuggestedPlaceTest: XCTestCase {
+class SuggestedPlaceTest: XCTestCase
+{
+    var suggestedPlaces: [SuggestedPlace] = []
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+        let suggestedPlacesArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("SuggestedPlaces", ofType: "plist")!)!
+        
+        suggestedPlaces = suggestedPlacesArray.map { (placeDict) -> SuggestedPlace in
+            return SuggestedPlace(object: placeDict as! NSDictionary)
         }
     }
     
+    override func tearDown()
+    {
+        super.tearDown()
+    }
+    
+    func testResultExistence()
+    {
+        XCTAssertNotNil(suggestedPlaces)
+    }
+    
+    func testResultContents()
+    {
+        XCTAssert(suggestedPlaces.count > 0)
+    }
+    
+    func testFirstRouteResultSingleForValidContents()
+    {
+        print("\nSuggested Places:\n")
+        
+        let suggestedPlacesInConfiguration = Configuration.suggestedPlaces()
+        
+        for case let item:SuggestedPlace in suggestedPlaces
+        {
+            let indexOfSuggestedItem = suggestedPlaces.indexOf({$0 === item})
+            
+            XCTAssertNotNil(item.name)
+            XCTAssertNotNil(item.description)
+            XCTAssertNotNil(item.address)
+            XCTAssertNotNil(item.photoUrl)
+            XCTAssertNotNil(item.location.latitude)
+            XCTAssertNotNil(item.location.longitude)
+            
+            XCTAssertEqual(item.name, suggestedPlacesInConfiguration[indexOfSuggestedItem!].name)
+            XCTAssertEqual(item.description, suggestedPlacesInConfiguration[indexOfSuggestedItem!].description)
+            XCTAssertEqual(item.address, suggestedPlacesInConfiguration[indexOfSuggestedItem!].address)
+            XCTAssertEqual(item.photoUrl, suggestedPlacesInConfiguration[indexOfSuggestedItem!].photoUrl)
+            XCTAssertEqual(item.location.latitude, suggestedPlacesInConfiguration[indexOfSuggestedItem!].location.latitude)
+            XCTAssertEqual(item.location.longitude, suggestedPlacesInConfiguration[indexOfSuggestedItem!].location.longitude)
+        }
+    }
 }

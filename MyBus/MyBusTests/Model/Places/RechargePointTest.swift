@@ -7,29 +7,59 @@
 //
 
 import XCTest
+import SwiftyJSON
 
-class RechargePointTest: XCTestCase {
+class RechargePointTest: XCTestCase
+{
+    var rechargePoints: [RechargePoint] = []
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+        
+        let filePath = NSBundle(forClass: BusRouteSingleTest.self).pathForResource("RechargePoints_1", ofType: "json")
+        
+        let rechargePointsJSONData = try! NSData(contentsOfFile: filePath!, options:.DataReadingMappedIfSafe)
+        let rechargePointsJSON = try! NSJSONSerialization.JSONObjectWithData(rechargePointsJSONData, options: .MutableContainers)
+        
+        var rechargePointsDictionary = JSON(rechargePointsJSON)
+        let rechargePointsResults = rechargePointsDictionary["Results"]
+        
+        rechargePoints = rechargePointsResults.arrayValue.map { (point: JSON) -> RechargePoint in
+            RechargePoint(json: point)!
         }
     }
     
+    override func tearDown()
+    {
+        super.tearDown()
+    }
+    
+    func testResultExistence()
+    {
+        XCTAssertNotNil(rechargePoints)
+    }
+    
+    func testResultContents()
+    {
+        XCTAssert(rechargePoints.count > 0)
+    }
+    
+    func testRechargePointsForValidContents()
+    {
+        print("\nNearby Recharge Points:\n")
+        for case let item:RechargePoint in rechargePoints
+        {
+            XCTAssertNotNil(item)
+            
+            XCTAssertNotNil(item.id)
+            XCTAssertNotNil(item.name)
+            XCTAssertNotNil(item.address)
+            XCTAssertNotNil(item.location)
+            XCTAssertNotNil(item.openTime)
+            XCTAssertNotNil(item.distance)
+            
+            XCTAssertGreaterThanOrEqual(item.distance, 0.0)
+        }
+    }
 }

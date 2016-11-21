@@ -7,47 +7,140 @@
 //
 
 import XCTest
+import SwiftyJSON
 
-class BusRouteTest: XCTestCase
+class BusRouteSingleTest: XCTestCase
 {
-    let busRoute1:BusRoute
-    let busRoute2:BusRoute
-    let busRoute3:BusRoute
+    var firstResultSingleArray: [BusRouteResult] = []
+    var secondResultSingleArray: [BusRouteResult] = []
     
     override func setUp()
     {
         super.setUp()
         
-        let firstFilePath = NSBundle.mainBundle().pathForResource("BusRouteSingle_1", ofType: "json")
-        let secondFilePath = NSBundle.mainBundle().pathForResource("BusRouteSingle_2", ofType: "json")
-        let thirdFilePath = NSBundle.mainBundle().pathForResource("BusRouteSingle_3", ofType: "json")
+        let firstFilePath = NSBundle(forClass: BusRouteSingleTest.self).pathForResource("BusRouteResultSingle_1", ofType: "json")
+        let secondFilePath = NSBundle(forClass: BusRouteSingleTest.self).pathForResource("BusRouteResultSingle_2", ofType: "json")
         
-        let firstJSONData = try! NSData(contentsOfFile: firstFilePath!, options: .DataReadingMappedIfSafe)
-        let secondJSONData = try! NSData(contentsOfFile: secondFilePath!, options: .DataReadingMappedIfSafe)
-        let thirdJSONData = try! NSData(contentsOfFile: thirdFilePath!, options: .DataReadingMappedIfSafe)
+        let firstJSONData = try! NSData(contentsOfFile: firstFilePath!, options:.DataReadingMappedIfSafe)
+        let secondJSONData = try! NSData(contentsOfFile: secondFilePath!, options:.DataReadingMappedIfSafe)
         
-        let firstRouteDictionary = try! NSJSONSerialization.JSONObjectWithData(firstJSONData, options: .MutableContainers)
-        let secondRouteDictionary = try! NSJSONSerialization.JSONObjectWithData(secondJSONData, options: .MutableContainers)
-        let thirdRouteDictionary = try! NSJSONSerialization.JSONObjectWithData(thirdJSONData, options: .MutableContainers)
+        let firstJSON = try! NSJSONSerialization.JSONObjectWithData(firstJSONData, options: .MutableContainers)
+        let secondJSON = try! NSJSONSerialization.JSONObjectWithData(secondJSONData, options: .MutableContainers)
         
-        //busRoute1 = BusRoute
+        var firstRouteDictionary = JSON(firstJSON)
+        var secondRouteDictionary = JSON(secondJSON)
+        
+        let firstType = firstRouteDictionary["Type"].intValue
+        let firstResults = firstRouteDictionary["Results"]
+        
+        let secondType = secondRouteDictionary["Type"].intValue
+        let secondResults = secondRouteDictionary["Results"]
+        
+        // For logging purposes
+        //print("1st BusRouteResult: \(firstRouteDictionary)")
+        //print("2nd BusRouteResult: \(secondRouteDictionary)")
+        
+        firstResultSingleArray = BusRouteResult.parseResults(firstResults, type: firstType)
+        secondResultSingleArray = BusRouteResult.parseResults(secondResults, type: secondType)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown()
+    {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testResultExistence()
+    {
+        XCTAssertNotNil(firstResultSingleArray)
+        XCTAssertNotNil(secondResultSingleArray)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+    func testResultUniqueness()
+    {
+        XCTAssertNotEqual(firstResultSingleArray, secondResultSingleArray)
+    }
+    
+    func testResultContents()
+    {
+        XCTAssert(firstResultSingleArray.count > 0)
+        XCTAssert(secondResultSingleArray.count > 0)
+    }
+    
+    func testFirstRouteResultSingleForValidContents()
+    {
+        print("\nFirst Result Single:\n")
+        for case let item:BusRouteResult in firstResultSingleArray
+        {
+            let routes = item.busRoutes
+            
+            for case let subItem:BusRoute in routes
+            {
+                XCTAssertNotNil(subItem)
+                
+                XCTAssertGreaterThanOrEqual(subItem.idBusLine!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.busLineDirection!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopStreetNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopDistanceToOrigin!, 0.0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopStreetNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopDistanceToDestination!, 0.0)
+                
+                XCTAssertNotNil(subItem.busLineName)
+                XCTAssertNotNil(subItem.busLineColor)
+                XCTAssertNotNil(subItem.startBusStopLat)
+                XCTAssertNotNil(subItem.startBusStopLng)
+                XCTAssertNotNil(subItem.startBusStopStreetName)
+                XCTAssertNotNil(subItem.destinationBusStopLat)
+                XCTAssertNotNil(subItem.destinationBusStopLng)
+                XCTAssertNotNil(subItem.destinationBusStopStreetName)
+                
+                XCTAssertNotEqual(subItem.startBusStopLat, subItem.destinationBusStopLat)
+                XCTAssertNotEqual(subItem.startBusStopLng, subItem.destinationBusStopLng)
+                
+                let busRouteDescription = "Route: Bus \(subItem.busLineName!) from \(subItem.startBusStopStreetName!) \(subItem.startBusStopStreetNumber!) to \(subItem.destinationBusStopStreetName!) \(subItem.destinationBusStopStreetNumber!)"
+                
+                print(busRouteDescription)
+            }
         }
     }
     
+    func testSecondRouteResultSingleForValidContents()
+    {
+        print("\nSecond Result Single:\n")
+        for case let item:BusRouteResult in secondResultSingleArray
+        {
+            let routes = item.busRoutes
+            
+            for case let subItem:BusRoute in routes
+            {
+                XCTAssertNotNil(subItem)
+                
+                XCTAssertGreaterThanOrEqual(subItem.idBusLine!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.busLineDirection!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopStreetNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopDistanceToOrigin!, 0.0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopStreetNumber!, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopDistanceToDestination!, 0.0)
+                
+                XCTAssertNotNil(subItem.busLineName)
+                XCTAssertNotNil(subItem.busLineColor)
+                XCTAssertNotNil(subItem.startBusStopLat)
+                XCTAssertNotNil(subItem.startBusStopLng)
+                XCTAssertNotNil(subItem.startBusStopStreetName)
+                XCTAssertNotNil(subItem.destinationBusStopLat)
+                XCTAssertNotNil(subItem.destinationBusStopLng)
+                XCTAssertNotNil(subItem.destinationBusStopStreetName)
+                
+                XCTAssertNotEqual(subItem.startBusStopLat, subItem.destinationBusStopLat)
+                XCTAssertNotEqual(subItem.startBusStopLng, subItem.destinationBusStopLng)
+                
+                let busRouteDescription = "Route: Bus \(subItem.busLineName!) from \(subItem.startBusStopStreetName!) \(subItem.startBusStopStreetNumber!) to \(subItem.destinationBusStopStreetName!) \(subItem.destinationBusStopStreetNumber!)"
+                
+                print(busRouteDescription)
+            }
+        }
+    }
 }

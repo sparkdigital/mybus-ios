@@ -7,38 +7,82 @@
 //
 
 import XCTest
+import SwiftyJSON
 
-class BusCombinedRouteResultTest: XCTestCase {
+class BusRouteResultCombinedTest: XCTestCase
+{
+    var firstResultCombined: [BusRouteResult] = []
+    var secondResultCombined: [BusRouteResult] = []
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
         
-        let firstFilePath = NSBundle.mainBundle().pathForResource("BusRouteSingle_1", ofType: "json")
-        let secondFilePath = NSBundle.mainBundle().pathForResource("BusRouteSingle_2", ofType: "json")
-        let thirdFilePath = NSBundle.mainBundle().pathForResource("BusRouteSingle_3", ofType: "json")
+        let firstFilePath = NSBundle(forClass: BusRouteResultCombinedTest.self).pathForResource("BusRouteResultCombined_1", ofType: "json")
+        let secondFilePath = NSBundle(forClass: BusRouteResultCombinedTest.self).pathForResource("BusRouteResultCombined_2", ofType: "json")
         
-        let firstJSONData = try! NSData(contentsOfFile: firstFilePath!, options: .DataReadingMappedIfSafe)
-        let secondJSONData = try! NSData(contentsOfFile: secondFilePath!, options: .DataReadingMappedIfSafe)
-        let thirdJSONData = try! NSData(contentsOfFile: thirdFilePath!, options: .DataReadingMappedIfSafe)
+        let firstJSONData = try! NSData(contentsOfFile: firstFilePath!, options:.DataReadingMappedIfSafe)
+        let secondJSONData = try! NSData(contentsOfFile: secondFilePath!, options:.DataReadingMappedIfSafe)
         
-        let firstRouteDictionary = try! NSJSONSerialization.JSONObjectWithData(firstJSONData, options: .MutableContainers)
+        let firstJSON = try! NSJSONSerialization.JSONObjectWithData(firstJSONData, options: .MutableContainers)
+        let secondJSON = try! NSJSONSerialization.JSONObjectWithData(secondJSONData, options: .MutableContainers)
+        
+        var firstRouteDictionary = JSON(firstJSON)
+        var secondRouteDictionary = JSON(secondJSON)
+        
+        let firstType = firstRouteDictionary["Type"].intValue
+        let firstResults = firstRouteDictionary["Results"]
+        
+        let secondType = secondRouteDictionary["Type"].intValue
+        let secondResults = secondRouteDictionary["Results"]
+        
+        // For logging purposes
+        //print("1st BusRouteResult: \(firstRouteDictionary)")
+        //print("2nd BusRouteResult: \(secondRouteDictionary)")
+        
+        firstResultCombined = BusRouteResult.parseResults(firstResults, type: firstType)
+        secondResultCombined = BusRouteResult.parseResults(secondResults, type: secondType)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown()
+    {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testResultExistence()
+    {
+        XCTAssertNotNil(firstResultCombined)
+        XCTAssertNotNil(secondResultCombined)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+    func testResultUniqueness()
+    {
+        XCTAssertNotEqual(firstResultCombined, secondResultCombined)
+    }
+    
+    func testResultContents()
+    {
+        XCTAssert(firstResultCombined.count > 0)
+        XCTAssert(secondResultCombined.count > 0)
+        
+        print("\nFirst Result Combined:\n")
+        for case let item:BusRouteResult in firstResultCombined
+        {
+            XCTAssertNotNil(item)
+            XCTAssert(item.busRoutes.count > 0)
+            XCTAssertNotNil(item.busRouteType)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+            XCTAssertGreaterThanOrEqual(item.combinationDistance, 0.0)
+        }
+        
+        print("\nSecond Result Combined:\n")
+        for case let item:BusRouteResult in secondResultCombined
+        {
+            XCTAssertNotNil(item)
+            XCTAssert(item.busRoutes.count > 0)
+            XCTAssertNotNil(item.busRouteType)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+            XCTAssertGreaterThanOrEqual(item.combinationDistance, 0.0)
         }
     }
-    
 }
