@@ -160,7 +160,7 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
             if((self.connectionNotAvailableViewController == nil)){
                 let noConnectionViewController = ConnectionNotAvailable(nibName: "ConnectionNotAvailable", bundle: nil)
                 noConnectionViewController.delegate = self
-                noConnectionViewController.view.frame = CGRectMake(self.containerView.frame.origin.x,self.containerView.frame.size.height/2-noConnectionViewController.view.frame.size.height/2,noConnectionViewController.view.frame.size.width,noConnectionViewController.view.frame.size.height)
+                noConnectionViewController.view.frame = CGRectMake((self.view.frame.size.width-noConnectionViewController.view.frame.width)/2,self.containerView.frame.size.height/2-noConnectionViewController.view.frame.size.height/2,noConnectionViewController.view.frame.size.width,noConnectionViewController.view.frame.size.height)
                 self.connectionNotAvailableViewController = noConnectionViewController
             }
             
