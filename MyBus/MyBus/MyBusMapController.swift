@@ -11,7 +11,7 @@ import Mapbox
 import RealmSwift
 import MapKit
 
-class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDelegate {
+class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDelegate, BusesResultsMenuDelegate {
 
     @IBOutlet weak var busResultsTableView: UITableView!
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
@@ -204,33 +204,36 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         
     // MARK: - Mapview bus roads manipulation Methods
     func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
+        
+        self.showBusesResultsMenu()
 
         self.busResultsDetail = busRouteOptions
         
         self.busesSearchOptions = BusesResultsMenuViewController()
         self.busesSearchOptions.setup(busRouteOptions)
+        self.busesSearchOptions.busResultDelegate = self
         self.busesSearchOptions.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.busesSearchOptions)
         self.view.addAutoPinnedSubview(self.busesSearchOptions!.view, toView: self.roadRouteContainerView)
         
+        self.busesSearchOptions.setOptionSelected(preselectedRouteIndex)
         
-        
+        self.loadBusLineRoad(preselectedRouteIndex)
+        /*
         self.bestMatches = busRouteOptions.map({ (route) -> String in
             return route.emojiDescription()
-        })
-
-        self.loadBusLineRoad(preselectedRouteIndex)
-
+        })*/
     }
 
     func loadBusLineRoad(indexRouteSelected: Int) {
         let bus = busResultsDetail[indexRouteSelected]
+        
         getRoadForSelectedResult(bus)
 
-        self.busResultsTableView.reloadData()
+        /*self.busResultsTableView.reloadData()
         self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
         self.busResultsTableView.layoutIfNeeded()
-        self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: indexRouteSelected, inSection: 0), animated: true, scrollPosition: .Middle)
+        self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: indexRouteSelected, inSection: 0), animated: true, scrollPosition: .Middle)*/
     }
 
 
@@ -241,14 +244,16 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func resetMapSearch(){
         self.mapView.clearAllAnnotations()
         self.mapModel.clearModel()
-        self.resetHideResultsTable()
+        self.hideBusesResultsMenu()
+        //self.resetHideResultsTable()
     }
 
+    /*
     func resetHideResultsTable() {
         self.bestMatches = []
         self.busResultsTableView.reloadData()
         setBusResultsTableViewHeight(busResultTableHeightToHide)
-    }
+    }*/
 
     // MARK: - Pack Download
 
@@ -361,12 +366,12 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         }
     }
 
-
     //Newest implementation
     func updateOrigin(newOrigin: RoutePoint?){
         self.mapView.clearExistingBusRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
-        resetHideResultsTable()
+        hideBusesResultsMenu()
+        //resetHideResultsTable()
         if let origin = newOrigin {
             let marker = MyBusMarkerFactory.createOriginPointMarker(origin)
             self.mapModel.originMarker = marker
@@ -384,7 +389,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func updateDestination(newDestination: RoutePoint?){
         self.mapView.clearExistingBusRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
-        resetHideResultsTable()
+        //resetHideResultsTable()
+        hideBusesResultsMenu()
         if let destination = newDestination {
             let marker = MyBusMarkerFactory.createDestinationPointMarker(destination)
             self.mapModel.destinationMarker = marker
@@ -427,38 +433,28 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.mapModel.completeBusRoute = mapRoute
     }
     
-    
-    
-    // MARK: PageMenuLayout containerView handling
-    
-    //ContainerViewController logic
-    private func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController){
-        
-        if oldVC == newVC {
-            return
+    // MARK: BusesResultsMenuViewController protocol delegate methods and additional functions
+    func didSelectBusRouteOption(busRouteSelected:BusRouteResult) {
+        if let currentRoute = self.currentRouteDisplayed {
+            if currentRoute != busRouteSelected {
+                progressNotification.showLoadingNotification(self.view)
+                getRoadForSelectedResult(busRouteSelected)
+            } else {
+                self.mapView.fitToAnnotationsInMap()
+            }
         }
-        
-        oldVC.willMoveToParentViewController(nil)
-        self.addChildViewController(newVC)
-        
-        
-        //Add new view to the container
-        self.view.addAutoPinnedSubview(newVC.view, toView: self.roadRouteContainerView)
-        
-        newVC.view.alpha = 0
-        newVC.view.layoutIfNeeded()
-        
-        UIView.animateWithDuration(0.5, animations: {
-            newVC.view.alpha = 1.0
-            oldVC.view.alpha = 0.0
-            },
-                                   completion:{ finished in
-                                    oldVC.view.removeFromSuperview()
-                                    oldVC.removeFromParentViewController()
-                                    newVC.didMoveToParentViewController(self)
-        })
-        
     }
     
+    func showBusesResultsMenu(){
+       self.toggleBusesResultsContainerView(true)
+    }
     
+    func hideBusesResultsMenu(){
+       self.toggleBusesResultsContainerView(false)
+    }
+    
+    private func toggleBusesResultsContainerView(show:Bool){
+        self.roadRouteContainerView.alpha = (show) ? CGFloat(1) : CGFloat(0)
+        self.roadRouteContainerView.userInteractionEnabled = show
+    }
 }
