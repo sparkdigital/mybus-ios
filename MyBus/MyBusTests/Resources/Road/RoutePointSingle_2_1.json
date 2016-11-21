@@ -1,8 +1,8 @@
 {
-	stopId =  ;
-	latitude = -37.9572304;
-	longitude = -57.5991252;
-	address = Brasil 316;
-	isWaypoint = 0;
-	name = ;
+	"stopId": "",
+	"latitude": "-37.9572304",
+	"longitude": "-57.5991252",
+	"address": "Brasil 316",
+    "isWaypoint": "0",
+    "name": ""
 }

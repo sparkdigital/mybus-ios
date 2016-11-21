@@ -1,8 +1,8 @@
 {
-	stopId =  ;
-	latitude = -37.9563541;
-	longitude = -57.5871811;
-	address = Luzuriaga 301;
-	isWaypoint = 0;
-	name = ;
+	"stopId": "",
+	"latitude": "-37.9563541",
+	"longitude": "-57.5871811",
+	"address": "Luzuriaga 301",
+	"isWaypoint": "0",
+	"name": ""
 }
