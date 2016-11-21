@@ -224,18 +224,13 @@ class MainViewController: UIViewController{
 
         newVC.view.alpha = 0
         newVC.view.layoutIfNeeded()
-
-        UIView.animateWithDuration(0.5, animations: {
-            newVC.view.alpha = 1.0
-            oldVC.view.alpha = 0.0
-            }, completion: {
-                finished in
-
-                oldVC.view.removeFromSuperview()
-                oldVC.removeFromParentViewController()
-                newVC.didMoveToParentViewController(self)
-        })
-
+        
+        newVC.view.alpha = 1.0
+        oldVC.view.alpha = 0.0
+        
+        oldVC.view.removeFromSuperview()
+        oldVC.removeFromParentViewController()
+        newVC.didMoveToParentViewController(self)
 
     }
 
