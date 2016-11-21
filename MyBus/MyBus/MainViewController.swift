@@ -138,7 +138,18 @@ class MainViewController: UIViewController,ConnectionNotAvailableProtocol{
         
         self.reachability = Reach()
         checkInternetConnectionAvailability()
+        subscribeToConnectionAvailabilityChanges()
+        self.reachability.monitorReachabilityChanges()
         
+    }
+    
+    func subscribeToConnectionAvailabilityChanges(){
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(checkInternetConnectionAvailability),
+            name: ReachabilityStatusChangedNotification ,
+            object: nil)
+
     }
     
     func checkInternetConnectionAvailability(){
