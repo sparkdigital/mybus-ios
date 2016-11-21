@@ -54,7 +54,7 @@ class MapViewModel {
 }
 
 
-class MainViewController: UIViewController{
+class MainViewController: UIViewController {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -106,6 +106,7 @@ class MainViewController: UIViewController{
 
         self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.mapSearchViewContainer.layer.borderWidth = 8
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: "applicationDidBecomeActive", object: nil)
 
         self.tabBar.delegate = self
     }
@@ -122,8 +123,6 @@ class MainViewController: UIViewController{
     }
 
     func addReachabilityObserver() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)), name: "applicationDidBecomeActive", object: nil)
-
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
         let settingsAction = UIAlertAction(title: "Configuración", style: .Default) { (_) -> Void in
             let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
@@ -168,10 +167,7 @@ class MainViewController: UIViewController{
     }
 
     func reachabilityChanged(note: NSNotification) {
-        let reachObject = note.object as? ReachabilityMyBus ?? self.reachability
-        guard let reachability = reachObject else {
-            return
-        }
+        let reachability = note.object as! ReachabilityMyBus
         if reachability.isReachable() {
             if reachability.isReachableViaWiFi() {
                 print("Reachable via WiFi")
@@ -181,6 +177,7 @@ class MainViewController: UIViewController{
             alertNetworkNotReachable.dismissViewControllerAnimated(true, completion: nil)
         } else {
             print("Network not reachable")
+            alertNetworkNotReachable.dismissViewControllerAnimated(false, completion: nil)
             self.presentViewController(alertNetworkNotReachable, animated: true, completion: nil)
         }
     }
@@ -253,7 +250,11 @@ class MainViewController: UIViewController{
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        startReachablity(nil)
+        homeNavigationBar(mapViewModel)
+    }
 
+    func startReachablity(note: NSNotification?) {
         do {
             reachability = try ReachabilityMyBus.reachabilityForInternetConnection()
         } catch {
@@ -265,7 +266,6 @@ class MainViewController: UIViewController{
         } catch {
             print("could not start reachability notifier")
         }
-        homeNavigationBar(mapViewModel)
     }
 
     //This method receives the old view controller to be replaced with the new controller
