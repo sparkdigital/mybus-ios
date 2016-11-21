@@ -9,11 +9,17 @@
 import UIKit
 import PageMenu
 
+protocol BusesResultsMenuDelegate {
+    func didSelectBusRouteOption(busRouteSelected:BusRouteResult)
+}
+
+
 class BusesResultsMenuViewController: UIViewController {
     
     var pageMenu : CAPSPageMenu?
     var busRouteOptions: [BusRouteResult]?
     var controllerArray:[BusResultViewController] = []
+    var busResultDelegate:BusesResultsMenuDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +74,12 @@ class BusesResultsMenuViewController: UIViewController {
         
     }
     
-    
+    func setOptionSelected(preselectedIndex:Int){
+        if let _ = busRouteOptions?[preselectedIndex] {
+            self.pageMenu?.moveToPage(preselectedIndex)
+        }
+        return
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -81,13 +92,19 @@ class BusesResultsMenuViewController: UIViewController {
 extension BusesResultsMenuViewController:CAPSPageMenuDelegate {
     
     func willMoveToPage(controller: UIViewController, index: Int){
-        NSLog("moving to page")
+        //NSLog("moving to page")
     }
     
     func didMoveToPage(controller: UIViewController, index: Int){
         
-        //didSelectItemAtMenuPath
+        //NSLog("did move to page")
+        guard let currentOption = controller as? BusResultViewController else {
+            NSLog("Couldn't cast ")
+            return
+        }
         
-        NSLog("did move to page")
+        self.busResultDelegate?.didSelectBusRouteOption(currentOption.routeResult)
+       
+        
     }
 }
