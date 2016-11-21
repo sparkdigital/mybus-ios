@@ -1,0 +1,18 @@
+{
+    "StartBusStopDistanceToOrigin" : "112,04",
+    "StartBusStopStreetName" : "Olavarria",
+    "StartBusStopStreetNumber" : "3349",
+    "BusLineName" : "533",
+    "DestinationBusStopNumber" : "54",
+    "BusLineDirection" : "1",
+    "DestinationBusStopLat" : "-37.996246",
+    "DestinatioBusStopLng" : "-57.550911",
+    "DestinatioBusStopStreetNumber" : "3074",
+    "StartBusStopLng" : "-57.545456",
+    "DestinatioBusStopDistanceToDestination" : "49,91",
+    "StartBusStopNumber" : "26",
+    "BusLineColor" : "2c800e",
+    "StartBusStopLat" : "-38.018696",
+    "IdBusLine" : "12",
+    "DestinatioBusStopStreetName" : "Av Pedro Luro"
+}
