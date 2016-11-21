@@ -10,6 +10,8 @@ import UIKit
 
 class BusResultViewController: UIViewController {
     
+    var busResultScrollView:UIScrollView!
+    
     var routeResult:BusRouteResult! {
         didSet {
             self.reloadData()
@@ -55,9 +57,22 @@ class BusResultViewController: UIViewController {
         //Set up title of controller (used by page menu item)
         self.title = result.toStringDescription()
         
-        //add cell view to currentview
-        self.view.addAutoPinnedSubview(routeResultView as! UIView, toView: self.view)
-       
+        //Create and Setup ScrollView
+        self.busResultScrollView = UIScrollView(frame: self.view.bounds)
+        self.busResultScrollView.contentSize = CGSize(width: self.view.bounds.width, height: routeResultView!.preferredHeight())
+        self.busResultScrollView.scrollEnabled = true
+        self.busResultScrollView.bounces = false
+        self.busResultScrollView.alwaysBounceVertical = false
+        self.busResultScrollView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+        
+        //Add RouteResultView to scrollview
+        self.view.addAutoPinnedSubview(routeResultView as! UIView, toView: self.busResultScrollView)
+        
+        //Add ScrollView to viewController's view
+        self.view.addAutoPinnedSubview(busResultScrollView, toView: self.view)
+        
+        
+      
     }
     
     

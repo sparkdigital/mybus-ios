@@ -29,7 +29,7 @@ class BusesResultsMenuViewController: UIViewController {
         }
         
         let parameters: [CAPSPageMenuOption] = [
-            .ScrollMenuBackgroundColor(UIColor.lightGrayColor()),
+            .ScrollMenuBackgroundColor(UIColor(red:0.98, green:0.98, blue:0.98, alpha:1.0)),
             .ViewBackgroundColor(UIColor.clearColor()),  //color del contenedor debajo de la vista del controller, solo funciona si el controller ingresado tiene el backcolor en ClearColor
             .SelectionIndicatorColor(UIColor.orangeColor()), //color de la linea debajo de la seleccion
             .SelectionIndicatorHeight(2.0), //linea corta debajo de la seleccion
@@ -43,8 +43,6 @@ class BusesResultsMenuViewController: UIViewController {
         ]
         
         let layoutFrameFull:CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-        let layoutFramePortion:CGRect = CGRectMake(0, 60, self.view.frame.width, 150)
-        
         
         initializeTabbedMenu(controllerArray, parameters: parameters, frame: layoutFrameFull, delegate: self)
        
