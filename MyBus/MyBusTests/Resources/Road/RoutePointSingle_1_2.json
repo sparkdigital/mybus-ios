@@ -1,8 +1,8 @@
 {
-	stopId =  ;
-	latitude = -37.9959936;
-	longitude = -57.5513413;
-	address = Av. Pedro Luro 3099;
-	isWaypoint = 0;
-	name = ;
+	"stopId": "",
+	"latitude": "-37.9959936",
+    "longitude":"-57.5513413",
+	"address": "Av. Pedro Luro 3099",
+    "isWaypoint": "0",
+    "name": ""
 }

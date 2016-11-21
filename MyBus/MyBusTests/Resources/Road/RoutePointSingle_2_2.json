@@ -1,8 +1,8 @@
 {
-	stopId =  ;
-	latitude = -38.0493198;
-	longitude = -57.5568464;
-	address = Rosales 3458;
-	isWaypoint = 0;
-	name = ;
+    "stopId": "",
+    "latitude": "-38.0493198",
+    "longitude": "-57.5568464",
+    "address": "Rosales 3458",
+    "isWaypoint": "0",
+    "name": ""
 }

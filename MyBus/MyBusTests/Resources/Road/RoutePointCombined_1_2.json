@@ -1,8 +1,8 @@
 {
-	stopId =  ;
-	latitude = -38.0918826;
-	longitude = -57.55677679999999;
-	address = Diagonal Estados Unidos Norte 540;
-	isWaypoint = 0;
-	name = ;
+	"stopId": "",
+	"latitude": "-38.0918826",
+	"longitude": "-57.55677679999999",
+	"address": "Diagonal Estados Unidos Norte 540",
+	"isWaypoint": "0",
+	"name": ""
 }

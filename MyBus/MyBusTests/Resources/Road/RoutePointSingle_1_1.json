@@ -1,8 +1,8 @@
 {
-	stopId =  ;
-	latitude = -38.0187847;
-	longitude = -57.5443391;
-	address = Julio Argentino Roca 1374;
-	isWaypoint = 0;
-	name = ;
+	"stopId": "",
+	"latitude": "-38.0187847",
+	"longitude": "-57.5443391",
+	"address": "Julio Argentino Roca 1374",
+	"isWaypoint": "0",
+	"name": ""
 }
