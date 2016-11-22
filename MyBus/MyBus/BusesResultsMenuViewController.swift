@@ -13,6 +13,10 @@ protocol BusesResultsMenuDelegate {
     func didSelectBusRouteOption(busRouteSelected:BusRouteResult)
 }
 
+enum BusesResultsMenuStatusNotification:String {
+    case Collapsed = "com.mybus.busesmenucollapsed"
+    case Expanded  = "com.mybus.busesmenuexpanded"
+}
 
 class BusesResultsMenuViewController: UIViewController {
     
@@ -104,7 +108,5 @@ extension BusesResultsMenuViewController:CAPSPageMenuDelegate {
         }
         
         self.busResultDelegate?.didSelectBusRouteOption(currentOption.routeResult)
-       
-        
     }
 }
