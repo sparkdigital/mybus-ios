@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConnectionNotAvailable" customModule="MyBus" customModuleProvider="target">
+            <connections>
+                <outlet property="backgroundView" destination="i5M-Pr-FkT" id="kC0-6T-lRd"/>
+                <outlet property="blackView" destination="zHw-pt-kas" id="uEA-Vz-PB4"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="240" height="273"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHw-pt-kas">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="273"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUW-eQ-ZTU">
+                            <rect key="frame" x="63" y="78" width="114" height="118"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="118" id="Z3P-CF-Fjw"/>
+                                <constraint firstAttribute="width" constant="114" id="f1M-H9-gBX"/>
+                            </constraints>
+                            <state key="normal" title="Button" image="no_internet_retry"/>
+                            <connections>
+                                <action selector="didTapRetryButton:" destination="-1" eventType="touchUpInside" id="Xue-ZA-SP2"/>
+                                <action selector="didTouchRetryImage:" destination="-1" eventType="touchUpInside" id="S4B-PN-dbX"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="deN-Ob-NnM">
+                            <rect key="frame" x="6" y="235" width="226" height="38"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="uLL-8J-rTB"/>
+                                <constraint firstAttribute="width" constant="245" id="v0B-Yf-4Bn"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                            <state key="normal" title="Conexión no disponible">
+                                <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                            </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="v0B-Yf-4Bn"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="didTapRetryButton:" destination="-1" eventType="touchUpInside" id="rv8-Dp-N2o"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <constraints>
+                        <constraint firstItem="sUW-eQ-ZTU" firstAttribute="centerY" secondItem="zHw-pt-kas" secondAttribute="centerY" id="3Qq-BJ-C55"/>
+                        <constraint firstAttribute="bottom" secondItem="deN-Ob-NnM" secondAttribute="bottom" id="8U9-9f-BwS"/>
+                        <constraint firstItem="sUW-eQ-ZTU" firstAttribute="centerX" secondItem="zHw-pt-kas" secondAttribute="centerX" id="RXD-YP-5Db"/>
+                        <constraint firstItem="deN-Ob-NnM" firstAttribute="leading" secondItem="zHw-pt-kas" secondAttribute="leading" constant="6" id="RdR-mL-CN8"/>
+                        <constraint firstItem="deN-Ob-NnM" firstAttribute="trailing" secondItem="zHw-pt-kas" secondAttribute="trailingMargin" id="ckU-hk-Yr6"/>
+                        <constraint firstItem="deN-Ob-NnM" firstAttribute="top" secondItem="sUW-eQ-ZTU" secondAttribute="bottom" constant="39" id="r7n-1z-uNU"/>
+                        <constraint firstItem="sUW-eQ-ZTU" firstAttribute="leading" secondItem="zHw-pt-kas" secondAttribute="leading" constant="63" id="r8M-Kw-4gV"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="r8M-Kw-4gV"/>
+                            <exclude reference="r7n-1z-uNU"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="zHw-pt-kas" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4tg-GT-rdY"/>
+                <constraint firstAttribute="bottom" secondItem="zHw-pt-kas" secondAttribute="bottom" id="I8K-wz-cNC"/>
+                <constraint firstItem="zHw-pt-kas" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Iex-oj-R6P"/>
+                <constraint firstItem="zHw-pt-kas" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="XHH-Xm-MM1"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="281" y="217.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="no_internet_retry" width="512" height="512"/>
+    </resources>
+</document>

@@ -88,7 +88,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
             //startOfflinePackDownload() Does not download offline maps programatically. //TODO User should agree
         }
-        
+
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {            
             self.mapView.centerMapWithGPSLocation(12)
