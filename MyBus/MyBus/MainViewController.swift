@@ -95,31 +95,40 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navRouter = NavRouter()
+        
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
+        initMapModel()
         initTabBarControllers()
         setCurrentViewController()
+        setupSearchViewContainer()
         setUpMapGestures()
-        initMapModel()
         addDragDropMarkersObservers()
+        addBusesResultsMenuStatusObservers()
         addReachabilityObserver()
-
-        self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
-        self.mapSearchViewContainer.layer.borderWidth = 8
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: "applicationDidBecomeActive", object: nil)
-
-        self.tabBar.delegate = self
+        addAppBecameActiveObserver()
     }
 
     func initMapModel() {
         self.mapViewModel = MapViewModel()
         self.mapViewModel.delegate = self
     }
+    
+    func setupSearchViewContainer(){
+        self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
+        self.mapSearchViewContainer.layer.borderWidth = 8
+    }
 
     func addDragDropMarkersObservers() {
         // Add observers
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
+    }
+    
+    func addBusesResultsMenuStatusObservers(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidExpand), name: BusesResultsMenuStatusNotification.Expanded.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidCollapse), name: BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
     }
 
     func addReachabilityObserver() {
@@ -132,6 +141,10 @@ class MainViewController: UIViewController {
         }
 
         alertNetworkNotReachable.addAction(settingsAction)
+    }
+    
+    func addAppBecameActiveObserver(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: "applicationDidBecomeActive", object: nil)
     }
 
     func setUpMapGestures() {
@@ -164,6 +177,9 @@ class MainViewController: UIViewController {
 
         self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
+        
+        self.tabBar.delegate = self
+
     }
 
     func reachabilityChanged(note: NSNotification) {
@@ -613,4 +629,23 @@ extension MainViewController {
     func addFavoritePlace(){
         self.favoriteViewController.addFavoritePlace()
     }
+    
+    func busesMenuDidExpand(notification:NSNotification){
+        UIView.animateWithDuration(0.4) {
+            self.hideTabBar()
+            self.toggleSearchViewContainer(false)
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func busesMenuDidCollapse(notification:NSNotification){
+        UIView.animateWithDuration(0.4) {
+            self.showTabBar()
+            self.toggleSearchViewContainer(true)
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
 }
