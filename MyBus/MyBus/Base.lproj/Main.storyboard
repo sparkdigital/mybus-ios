@@ -655,13 +655,13 @@
     </scenes>
     <resources>
         <image name="bus_small" width="21" height="21"/>
-        <image name="favorite" width="30" height="30"/>
+        <image name="favorite" width="22" height="20"/>
         <image name="location-icon" width="135" height="135"/>
         <image name="pricetag" width="21" height="21"/>
         <image name="recent" width="26" height="26"/>
         <image name="search" width="30" height="30"/>
-        <image name="tabbar_favourite_fill" width="30" height="30"/>
-        <image name="tabbar_favourite_line" width="30" height="30"/>
+        <image name="tabbar_favourite_fill" width="22" height="20"/>
+        <image name="tabbar_favourite_line" width="22" height="20"/>
         <image name="tabbar_pricetag_fill" width="30" height="30"/>
         <image name="tabbar_pricetag_line" width="30" height="30"/>
         <image name="tabbar_recharge_fill" width="30" height="30"/>
