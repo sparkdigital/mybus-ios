@@ -22,7 +22,6 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
     private var viewHeight:CGFloat = 135
     
     //Xib Outlets
-    @IBOutlet weak var lblBusLineNumber: UILabel!
     @IBOutlet weak var lblOriginAddress: UILabel!
     @IBOutlet weak var lblDestinationAddress: UILabel!
    
@@ -59,7 +58,6 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
             return
         }
         
-        lblBusLineNumber.text = busOption.busLineName
         lblOriginAddress.text = "\(busOption.startBusStopStreetName) \(busOption.startBusStopStreetNumber)"
         lblDestinationAddress.text = "\(busOption.destinationBusStopStreetName) \(busOption.destinationBusStopStreetNumber)"
        
