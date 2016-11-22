@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HHz-A5-EQO" customClass="MyBusMapView" customModule="MyBus" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="511"/>
+                                <rect key="frame" x="0.0" y="190" width="600" height="366"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="latitude">
@@ -36,7 +36,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bP3-cn-kav">
-                                <rect key="frame" x="15" y="451" width="30" height="30"/>
+                                <rect key="frame" x="15" y="491" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="jXP-dU-4ne"/>
                                     <constraint firstAttribute="width" constant="30" id="r4e-MR-eSK"/>
@@ -46,31 +46,6 @@
                                     <action selector="locateUserButtonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JVb-k9-LTN"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="45" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hBw-zP-7wM" userLabel="Bus Results Table View">
-                                <rect key="frame" x="0.0" y="511" width="600" height="45"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="xhU-Rf-c54"/>
-                                </constraints>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="BusIdentifier" id="agw-7U-ijB" userLabel="busIdentifier">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="45"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="agw-7U-ijB" id="AYr-iE-bsc">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <accessibilityTraits key="traits" staticText="YES"/>
-                                        </accessibility>
-                                    </tableViewCell>
-                                </prototypes>
-                                <sections/>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Dwd-aM-QxV"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="hHI-Lo-fwg"/>
-                                </connections>
-                            </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9vg-At-fCn">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="190"/>
                                 <constraints>
@@ -80,25 +55,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="HHz-A5-EQO" firstAttribute="leading" secondItem="9vg-At-fCn" secondAttribute="leading" id="4My-gW-UA3"/>
+                            <constraint firstItem="bP3-cn-kav" firstAttribute="bottom" secondItem="HHz-A5-EQO" secondAttribute="bottom" constant="-35" id="ABq-ng-yyJ"/>
                             <constraint firstItem="9vg-At-fCn" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="BsF-BQ-oCn"/>
-                            <constraint firstItem="HHz-A5-EQO" firstAttribute="bottom" secondItem="hBw-zP-7wM" secondAttribute="top" id="ExC-Cc-AmW"/>
-                            <constraint firstItem="HHz-A5-EQO" firstAttribute="leading" secondItem="hBw-zP-7wM" secondAttribute="leading" id="KLn-Wt-sVp"/>
                             <constraint firstAttribute="trailing" secondItem="9vg-At-fCn" secondAttribute="trailing" id="Kqt-tD-euu"/>
                             <constraint firstItem="bP3-cn-kav" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="OHd-8P-WUN"/>
-                            <constraint firstItem="hBw-zP-7wM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="Prh-Y0-SP5"/>
-                            <constraint firstItem="HHz-A5-EQO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="QSl-8G-BHX"/>
                             <constraint firstItem="9vg-At-fCn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="RW1-If-USE"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hBw-zP-7wM" secondAttribute="trailing" constant="-20" id="atB-2w-Qaq"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hBw-zP-7wM" secondAttribute="bottom" id="cNe-Ja-Yxs"/>
-                            <constraint firstItem="bP3-cn-kav" firstAttribute="bottom" secondItem="hBw-zP-7wM" secondAttribute="top" constant="-30" id="jlk-EA-QCJ"/>
+                            <constraint firstItem="HHz-A5-EQO" firstAttribute="trailing" secondItem="9vg-At-fCn" secondAttribute="trailing" id="Zhf-hk-d6N"/>
+                            <constraint firstItem="HHz-A5-EQO" firstAttribute="top" secondItem="9vg-At-fCn" secondAttribute="bottom" id="aDs-dc-mty"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="HHz-A5-EQO" secondAttribute="bottom" id="hOk-Z9-ciW"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sb0-Mq-jVX"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="busResultsTableView" destination="hBw-zP-7wM" id="vcj-gg-iB4"/>
-                        <outlet property="constraintTableViewHeight" destination="xhU-Rf-c54" id="aLI-bq-eeo"/>
                         <outlet property="mapView" destination="HHz-A5-EQO" id="duV-i3-dnI"/>
                         <outlet property="roadRouteContainerHeight" destination="yhz-Py-uDc" id="cRH-vj-iTR"/>
                         <outlet property="roadRouteContainerView" destination="9vg-At-fCn" id="8BG-Ws-YGZ"/>
