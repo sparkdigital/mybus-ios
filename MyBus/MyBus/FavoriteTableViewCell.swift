@@ -39,6 +39,7 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     func editFav() {
         self.address.userInteractionEnabled = false
+        self.name.userInteractionEnabled = false
         if let fav = favorite, let newAddress = self.address.text, let newName = self.name.text where (newAddress != fav.address || newName != fav.name) {
             ProgressHUD().showLoadingNotification(nil)
             if newAddress != fav.address {
