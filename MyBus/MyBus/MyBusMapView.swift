@@ -175,8 +175,13 @@ class MyBusMapView: MGLMapView{
     func centerMapWithGPSLocation(zoomLevel:Double? = nil) {
         
         self.currentGPSLocation { (location, error) in
-            
+            //App just works in Mar del Plata city, so if user location is outside region, we don't center map
+            let mdqRegion = CLCircularRegion(center: CLLocationCoordinate2D(latitude: -37.986422, longitude: -57.608185), radius: 25000, identifier: "Mar del Plata")
             if let gpsLocation = location {
+                guard mdqRegion.containsCoordinate(gpsLocation.coordinate) else {
+                    return
+                }
+            
                 self.showsUserLocation = true
                 self.centerCoordinate = gpsLocation.coordinate
                 self.setZoomLevel(zoomLevel ?? MyBusMapView.defaultZoomLevel, animated: false)
