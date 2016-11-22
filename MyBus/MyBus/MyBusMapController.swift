@@ -17,8 +17,15 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
     @IBOutlet var mapView: MyBusMapView!
     
+    @IBOutlet weak var roadRouteContainerHeight: NSLayoutConstraint!
     @IBOutlet var roadRouteContainerView:UIView!
     var busesSearchOptions:BusesResultsMenuViewController!
+    
+    var isMenuExpanded:Bool {
+        return (roadRouteContainerHeight.constant == roadRouteContainerHeightExpanded)
+    }
+    private let roadRouteContainerHeightCollapsed:CGFloat = 52.0
+    private let roadRouteContainerHeightExpanded:CGFloat = 190.0
 
     let busResultCellHeight: Int = 45
     let busResultTableHeightToHide: CGFloat = 0
@@ -216,7 +223,10 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.addChildViewController(self.busesSearchOptions)
         self.view.addAutoPinnedSubview(self.busesSearchOptions!.view, toView: self.roadRouteContainerView)
         
+        self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
+        
         self.busesSearchOptions.setOptionSelected(preselectedRouteIndex)
+        
         
         self.loadBusLineRoad(preselectedRouteIndex)
         /*
@@ -244,6 +254,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func resetMapSearch(){
         self.mapView.clearAllAnnotations()
         self.mapModel.clearModel()
+        self.collapseBusesResultsMenu()
         self.hideBusesResultsMenu()
         //self.resetHideResultsTable()
     }
@@ -436,12 +447,40 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     // MARK: BusesResultsMenuViewController protocol delegate methods and additional functions
     func didSelectBusRouteOption(busRouteSelected:BusRouteResult) {
         if let currentRoute = self.currentRouteDisplayed {
+            
+            if !isMenuExpanded {
+                expandBusesResultsMenu()
+                NSNotificationCenter.defaultCenter().postNotificationName(BusesResultsMenuStatusNotification.Expanded.rawValue, object: nil)
+            }else{
+                if currentRoute == busRouteSelected { //double tapping
+                    collapseBusesResultsMenu()
+                    NSNotificationCenter.defaultCenter().postNotificationName(BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
+
+                }
+            }
+            
             if currentRoute != busRouteSelected {
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(busRouteSelected)
             } else {
                 self.mapView.fitToAnnotationsInMap()
             }
+            
+            
+        }
+    }
+    
+    func collapseBusesResultsMenu(){
+        UIView.animateWithDuration(0.3) {
+            self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func expandBusesResultsMenu(){
+        UIView.animateWithDuration(0.3) {
+            self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightExpanded
+            self.view.layoutIfNeeded()
         }
     }
     
