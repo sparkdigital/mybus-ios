@@ -123,6 +123,9 @@ class MainViewController: UIViewController{
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidExpand), name: BusesResultsMenuStatusNotification.Expanded.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidCollapse), name: BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
 
         // Double tapping zooms the map, so ensure that can still happen
         let doubleTap = UITapGestureRecognizer(target: self, action: nil)
@@ -552,4 +555,23 @@ extension MainViewController {
     func addFavoritePlace(){
         self.favoriteViewController.addFavoritePlace()
     }
+    
+    func busesMenuDidExpand(notification:NSNotification){
+        UIView.animateWithDuration(0.4) {
+            self.hideTabBar()
+            self.toggleSearchViewContainer(false)
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func busesMenuDidCollapse(notification:NSNotification){
+        UIView.animateWithDuration(0.4) {
+            self.showTabBar()
+            self.toggleSearchViewContainer(true)
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
 }
