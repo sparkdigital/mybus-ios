@@ -11,10 +11,9 @@ import Mapbox
 import RealmSwift
 import MapKit
 
-class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDelegate, BusesResultsMenuDelegate {
+class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenuDelegate {
 
-    @IBOutlet weak var busResultsTableView: UITableView!
-    @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
+    
     @IBOutlet var mapView: MyBusMapView!
     
     @IBOutlet weak var roadRouteContainerHeight: NSLayoutConstraint!
@@ -26,14 +25,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     }
     private let roadRouteContainerHeightCollapsed:CGFloat = 52.0
     private let roadRouteContainerHeightExpanded:CGFloat = 190.0
-
-    let busResultCellHeight: Int = 45
-    let busResultTableHeightToHide: CGFloat = 0
+    
     let progressNotification = ProgressHUD()
 
     var destination: RoutePoint?
-
-    var bestMatches: [String] = []
+    
     var busResultsDetail: [BusRouteResult] = []
     var currentRouteDisplayed: BusRouteResult?
 
@@ -42,7 +38,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     // MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBusResultsTableViewHeight(busResultTableHeightToHide)
+
+        self.hideBusesResultsMenu()
 
         self.mapModel = MyBusMapModel()
 
@@ -235,21 +232,14 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         
         
         self.loadBusLineRoad(preselectedRouteIndex)
-        /*
-        self.bestMatches = busRouteOptions.map({ (route) -> String in
-            return route.emojiDescription()
-        })*/
+        
     }
 
     func loadBusLineRoad(indexRouteSelected: Int) {
         let bus = busResultsDetail[indexRouteSelected]
         
         getRoadForSelectedResult(bus)
-
-        /*self.busResultsTableView.reloadData()
-        self.constraintTableViewHeight.constant = CGFloat(busResultCellHeight)
-        self.busResultsTableView.layoutIfNeeded()
-        self.busResultsTableView.selectRowAtIndexPath(NSIndexPath(forRow: indexRouteSelected, inSection: 0), animated: true, scrollPosition: .Middle)*/
+        
     }
 
 
@@ -262,15 +252,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.mapModel.clearModel()
         self.collapseBusesResultsMenu()
         self.hideBusesResultsMenu()
-        //self.resetHideResultsTable()
     }
-
-    /*
-    func resetHideResultsTable() {
-        self.bestMatches = []
-        self.busResultsTableView.reloadData()
-        setBusResultsTableViewHeight(busResultTableHeightToHide)
-    }*/
 
     // MARK: - Pack Download
 
@@ -323,50 +305,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
             print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
         }
     }
-
-    // MARK: - UITableViewDataSource Methods
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("BusIdentifier", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel?.text = self.bestMatches[indexPath.row]
-        return cell
-    }
-
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bestMatches.count
-    }
-
-    // MARK: - UITableViewDelegate Methods
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        setBusResultsTableViewHeight(CGFloat(busResultCellHeight))
-        // Lisandro added the following line because if table expanded is more than 50% of view height zoom does not work as expected
-        self.mapView.layoutIfNeeded()
-        let selectedRoute = busResultsDetail[indexPath.row]
-        if let currentRoute = self.currentRouteDisplayed {
-            if currentRoute != selectedRoute {
-                progressNotification.showLoadingNotification(self.view)
-                getRoadForSelectedResult(selectedRoute)
-            } else {
-                self.mapView.fitToAnnotationsInMap()
-            }
-        }
-        self.busResultsTableView.scrollToNearestSelectedRowAtScrollPosition(.Middle, animated: false)
-    }
-
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        setBusResultsTableViewHeight(CGFloat(busResultCellHeight * self.bestMatches.count))
-    }
-
-    func setBusResultsTableViewHeight(height: CGFloat) {
-        self.constraintTableViewHeight.constant = CGFloat(height)
-        self.busResultsTableView.layoutIfNeeded()
-    }
-
+    
     func getRoadForSelectedResult(routeSelectedResult: BusRouteResult?) -> Void {
         progressNotification.showLoadingNotification(self.view)
         if let route = routeSelectedResult {
@@ -388,7 +327,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.mapView.clearExistingBusRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
         hideBusesResultsMenu()
-        //resetHideResultsTable()
         if let origin = newOrigin {
             let marker = MyBusMarkerFactory.createOriginPointMarker(origin)
             self.mapModel.originMarker = marker
@@ -406,7 +344,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     func updateDestination(newDestination: RoutePoint?){
         self.mapView.clearExistingBusRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
-        //resetHideResultsTable()
         hideBusesResultsMenu()
         if let destination = newDestination {
             let marker = MyBusMarkerFactory.createDestinationPointMarker(destination)
@@ -501,5 +438,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     private func toggleBusesResultsContainerView(show:Bool){
         self.roadRouteContainerView.alpha = (show) ? CGFloat(1) : CGFloat(0)
         self.roadRouteContainerView.userInteractionEnabled = show
+        self.roadRouteContainerHeight.constant = (show) ? self.roadRouteContainerHeightExpanded : 0
     }
 }
