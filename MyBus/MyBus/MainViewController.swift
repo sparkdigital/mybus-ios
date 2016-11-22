@@ -54,7 +54,7 @@ class MapViewModel {
 }
 
 
-class MainViewController: UIViewController{
+class MainViewController: UIViewController {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -89,12 +89,71 @@ class MainViewController: UIViewController{
     weak var currentViewController: UIViewController?
 
     let progressNotification = ProgressHUD()
-
+    var reachability: ReachabilityMyBus?
+    let alertNetworkNotReachable = UIAlertController.init(title: "Malas noticias", message: "No observamos conexión a Internet, por favor habilita el uso de datos moviles para MyBus", preferredStyle: .ActionSheet)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navRouter = NavRouter()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        initTabBarControllers()
+        setCurrentViewController()
+        setUpMapGestures()
+        initMapModel()
+        addDragDropMarkersObservers()
+        addReachabilityObserver()
+
+        self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
+        self.mapSearchViewContainer.layer.borderWidth = 8
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: "applicationDidBecomeActive", object: nil)
+
+        self.tabBar.delegate = self
+    }
+
+    func initMapModel() {
+        self.mapViewModel = MapViewModel()
+        self.mapViewModel.delegate = self
+    }
+
+    func addDragDropMarkersObservers() {
+        // Add observers
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
+    }
+
+    func addReachabilityObserver() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
+        let settingsAction = UIAlertAction(title: "Configuración", style: .Default) { (_) -> Void in
+            let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
+            if let url = settingsUrl {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+
+        alertNetworkNotReachable.addAction(settingsAction)
+    }
+
+    func setUpMapGestures() {
+        // Double tapping zooms the map, so ensure that can still happen
+        let doubleTap = UITapGestureRecognizer(target: self, action: nil)
+        doubleTap.numberOfTapsRequired = 2
+        self.mapViewController.mapView.addGestureRecognizer(doubleTap)
+
+        // Delay single tap recognition until it is clearly not a double
+        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
+        singleLongTap.requireGestureRecognizerToFail(doubleTap)
+        self.mapViewController.mapView.addGestureRecognizer(singleLongTap)
+    }
+
+    func setCurrentViewController() {
+        self.currentViewController = mapViewController
+        self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
+        self.addChildViewController(self.currentViewController!)
+        self.view.addAutoPinnedSubview(self.currentViewController!.view, toView: self.containerView)
+    }
+
+    func initTabBarControllers() {
         self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
         self.searchViewController = self.navRouter.searchController() as! SearchViewController
         self.favoriteViewController = self.navRouter.favoriteController() as! FavoriteViewController
@@ -105,35 +164,22 @@ class MainViewController: UIViewController{
 
         self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
+    }
 
-        self.currentViewController = mapViewController
-        self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(self.currentViewController!)
-        self.view.addAutoPinnedSubview(self.currentViewController!.view, toView: self.containerView)
-
-        self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
-        self.mapSearchViewContainer.layer.borderWidth = 8
-
-        self.tabBar.delegate = self
-        
-        self.mapViewModel = MapViewModel()
-        self.mapViewModel.delegate = self
-
-        // Add observers
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
-
-        // Double tapping zooms the map, so ensure that can still happen
-        let doubleTap = UITapGestureRecognizer(target: self, action: nil)
-        doubleTap.numberOfTapsRequired = 2
-        self.mapViewController.mapView.addGestureRecognizer(doubleTap)
-
-        // Delay single tap recognition until it is clearly not a double
-        let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
-        singleLongTap.requireGestureRecognizerToFail(doubleTap)
-        self.mapViewController.mapView.addGestureRecognizer(singleLongTap)
-
+    func reachabilityChanged(note: NSNotification) {
+        let reachability = note.object as! ReachabilityMyBus
+        if reachability.isReachable() {
+            if reachability.isReachableViaWiFi() {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }
+            alertNetworkNotReachable.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            print("Network not reachable")
+            alertNetworkNotReachable.dismissViewControllerAnimated(false, completion: nil)
+            self.presentViewController(alertNetworkNotReachable, animated: true, completion: nil)
+        }
     }
 
     func handleSingleLongTap(tap: UITapGestureRecognizer) {
@@ -158,7 +204,7 @@ class MainViewController: UIViewController{
                 self.progressNotification.stopLoadingNotification(self.view)
             }
         }
-        
+
     }
 
     private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
@@ -171,7 +217,7 @@ class MainViewController: UIViewController{
         let draggedOrigin: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedOrigin.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newOrigin = routePoint {
                 self.newOrigin(newOrigin)
@@ -189,7 +235,7 @@ class MainViewController: UIViewController{
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newDestination = routePoint {
                 self.newDestination(newDestination)
@@ -204,7 +250,22 @@ class MainViewController: UIViewController{
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        startReachablity(nil)
         homeNavigationBar(mapViewModel)
+    }
+
+    func startReachablity(note: NSNotification?) {
+        do {
+            reachability = try ReachabilityMyBus.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("could not start reachability notifier")
+        }
     }
 
     //This method receives the old view controller to be replaced with the new controller
@@ -380,7 +441,7 @@ extension MainViewController:UITabBarDelegate {
         if (item.tag == 2){
             self.clearActiveSearch()
             self.homeNavigationBar(self.mapViewModel)
-            self.tabBar.selectedItem = self.tabBar.items?[2]            
+            self.tabBar.selectedItem = self.tabBar.items?[2]
             if let userLocation = self.mapViewController.mapView.userLocation {
                 progressNotification.showLoadingNotification(self.view)
                 Connectivity.sharedInstance.getRechargeCardPoints(userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) {
@@ -464,7 +525,7 @@ extension MainViewController:MapBusRoadDelegate {
         self.clearActiveSearch()
         self.mapViewController.updateCompleteBusRoute(route)
     }
-    
+
 }
 
 // MARK: Custom Navigation bars extension
@@ -527,7 +588,7 @@ extension MainViewController {
     func addBackNavItem(title: String) {
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
-        
+
         let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
         backButton.tintColor = UIColor.whiteColor()
@@ -540,7 +601,7 @@ extension MainViewController {
         self.mapSearchViewContainer.hidden = !show
         mapSearchViewHeightConstraint.constant = !show ? 0 : mapSearchViewContainer.presenter.preferredHeight()
     }
-    
+
     func backTapped(){
         if(self.navigationItem.title == "Rutas encontradas"){
             self.mapViewModel.clearModel()
@@ -548,7 +609,7 @@ extension MainViewController {
         }
         self.homeNavigationBar(self.mapViewModel)
     }
-    
+
     func addFavoritePlace(){
         self.favoriteViewController.addFavoritePlace()
     }
