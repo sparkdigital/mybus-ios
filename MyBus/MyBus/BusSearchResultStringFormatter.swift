@@ -45,7 +45,7 @@ extension BusRouteResult {
         var 🚌 : String = ""
         for route in self.busRoutes {
             let busLineFormatted = route.busLineName.characters.count == 3 ? route.busLineName+"  " : route.busLineName
-            🚌 = "\(🚌) \(busLineFormatted) ➡"
+            🚌 = "\(🚌) \(busLineFormatted)➡"
         }
         🚌.removeAtIndex(🚌.endIndex.predecessor())
         return 🚌

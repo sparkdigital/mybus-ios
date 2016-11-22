@@ -15,7 +15,6 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
     private var viewHeight:CGFloat = 225
     
     //Xib Outlets
-    @IBOutlet weak var lblBusLineNumber: UILabel!
     @IBOutlet weak var lblOriginAddress: UILabel!
     @IBOutlet weak var lblDestinationAddress: UILabel!
     @IBOutlet weak var lblCombinationOriginAddress: UILabel!
@@ -52,9 +51,6 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
             NSLog("[CombinedRouteView] No options to display. Not reloading view")
             return
         }
-        
-        //Combination header
-        lblBusLineNumber.text = "\(firstOption.busLineName) → \(secondOption.busLineName)"
         
         //Start
         lblOriginAddress.text = "\(firstOption.startBusStopStreetName) \(firstOption.startBusStopStreetNumber)"
