@@ -47,9 +47,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
         self.mapModel = MyBusMapModel()
 
         initMapboxView()
-       
-    }
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.showCenterUserLocation(_:)), name: "applicationDidBecomeActive", object: nil)
 
+    }
+    
     func initMapboxView() {
         mapView.initialize(self)
 
@@ -64,12 +66,16 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, UITableViewDeleg
     // MARK: - Tapping Methods
 
     @IBAction func locateUserButtonTap(sender: AnyObject) {
-        self.showUserLocation()
+        self.mapView.centerMapWithGPSLocation()
     }
 
-    func showUserLocation() {
+    func showCenterUserLocation(notification: NSNotification) {
+        //Do not center if map already has a origin marker
+        guard mapModel.originMarker == nil else {
+            return
+        }
         if LocationManager.sharedInstance.isLocationAuthorized() {
-            self.mapView.centerMapWithGPSLocation()
+            self.mapView.centerMapWithGPSLocation(12)
         }else{
             GenerateMessageAlert.generateAlertToSetting(self)
         }
