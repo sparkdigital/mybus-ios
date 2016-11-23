@@ -78,13 +78,13 @@ class BusRouteSingleTest: XCTestCase
                 XCTAssertNotNil(subItem)
                 
                 XCTAssertGreaterThanOrEqual(subItem.idBusLine!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.busLineDirection!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.startBusStopNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.startBusStopStreetNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.startBusStopDistanceToOrigin!, 0.0)
-                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopStreetNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopDistanceToDestination!, 0.0)
+                XCTAssertGreaterThanOrEqual(subItem.busLineDirection, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopStreetNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopDistanceToOrigin, 0.0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopStreetNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopDistanceToDestination, 0.0)
                 
                 XCTAssertNotNil(subItem.busLineName)
                 XCTAssertNotNil(subItem.busLineColor)
@@ -98,7 +98,7 @@ class BusRouteSingleTest: XCTestCase
                 XCTAssertNotEqual(subItem.startBusStopLat, subItem.destinationBusStopLat)
                 XCTAssertNotEqual(subItem.startBusStopLng, subItem.destinationBusStopLng)
                 
-                let busRouteDescription = "Route: Bus \(subItem.busLineName!) from \(subItem.startBusStopStreetName!) \(subItem.startBusStopStreetNumber!) to \(subItem.destinationBusStopStreetName!) \(subItem.destinationBusStopStreetNumber!)"
+                let busRouteDescription = "Route: Bus \(subItem.busLineName) from \(subItem.startBusStopStreetName) \(subItem.startBusStopStreetNumber) to \(subItem.destinationBusStopStreetName) \(subItem.destinationBusStopStreetNumber)"
                 
                 print(busRouteDescription)
             }
@@ -117,13 +117,13 @@ class BusRouteSingleTest: XCTestCase
                 XCTAssertNotNil(subItem)
                 
                 XCTAssertGreaterThanOrEqual(subItem.idBusLine!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.busLineDirection!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.startBusStopNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.startBusStopStreetNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.startBusStopDistanceToOrigin!, 0.0)
-                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopStreetNumber!, 0)
-                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopDistanceToDestination!, 0.0)
+                XCTAssertGreaterThanOrEqual(subItem.busLineDirection, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopStreetNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.startBusStopDistanceToOrigin, 0.0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopStreetNumber, 0)
+                XCTAssertGreaterThanOrEqual(subItem.destinationBusStopDistanceToDestination, 0.0)
                 
                 XCTAssertNotNil(subItem.busLineName)
                 XCTAssertNotNil(subItem.busLineColor)
@@ -137,7 +137,7 @@ class BusRouteSingleTest: XCTestCase
                 XCTAssertNotEqual(subItem.startBusStopLat, subItem.destinationBusStopLat)
                 XCTAssertNotEqual(subItem.startBusStopLng, subItem.destinationBusStopLng)
                 
-                let busRouteDescription = "Route: Bus \(subItem.busLineName!) from \(subItem.startBusStopStreetName!) \(subItem.startBusStopStreetNumber!) to \(subItem.destinationBusStopStreetName!) \(subItem.destinationBusStopStreetNumber!)"
+                let busRouteDescription = "Route: Bus \(subItem.busLineName) from \(subItem.startBusStopStreetName) \(subItem.startBusStopStreetNumber) to \(subItem.destinationBusStopStreetName) \(subItem.destinationBusStopStreetNumber)"
                 
                 print(busRouteDescription)
             }

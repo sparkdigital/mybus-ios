@@ -53,12 +53,12 @@ class RoadSearchTest: XCTestCase
         
         let firstSingleBusRoute = firstRouteSingle.first?.busRoutes.first
         
-        singleRoadSearch = RoadSearch(singleRoad: firstSingleBusRoute!.idBusLine!, firstDirection: firstSingleBusRoute!.busLineDirection!, beginStopFirstLine: firstSingleBusRoute!.startBusStopNumber!, endStopFirstLine: firstSingleBusRoute!.destinationBusStopNumber!)
+        singleRoadSearch = RoadSearch(singleRoad: firstSingleBusRoute!.idBusLine!, firstDirection: firstSingleBusRoute!.busLineDirection, beginStopFirstLine: firstSingleBusRoute!.startBusStopNumber, endStopFirstLine: firstSingleBusRoute!.destinationBusStopNumber)
         
         let firstCombinedBusRoute = firstRouteCombined.first?.busRoutes.first
         let secondCombinedBusRoute = firstRouteCombined.first?.busRoutes.last
         
-        combinedRoadSearch = RoadSearch(combinedRoad: firstCombinedBusRoute!.idBusLine!, firstDirection: firstCombinedBusRoute!.busLineDirection!, beginStopFirstLine: firstCombinedBusRoute!.idBusLine!, endStopFirstLine: firstCombinedBusRoute!.destinationBusStopNumber!, idSecondLine: secondCombinedBusRoute!.idBusLine!, secondDirection: secondCombinedBusRoute!.busLineDirection!, beginStopSecondLine: secondCombinedBusRoute!.startBusStopNumber!, endStopSecondLine: secondCombinedBusRoute!.destinationBusStopNumber!)
+        combinedRoadSearch = RoadSearch(combinedRoad: firstCombinedBusRoute!.idBusLine!, firstDirection: firstCombinedBusRoute!.busLineDirection, beginStopFirstLine: firstCombinedBusRoute!.idBusLine!, endStopFirstLine: firstCombinedBusRoute!.destinationBusStopNumber, idSecondLine: secondCombinedBusRoute!.idBusLine!, secondDirection: secondCombinedBusRoute!.busLineDirection, beginStopSecondLine: secondCombinedBusRoute!.startBusStopNumber, endStopSecondLine: secondCombinedBusRoute!.destinationBusStopNumber)
     }
     
     override func tearDown()

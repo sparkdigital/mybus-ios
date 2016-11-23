@@ -59,7 +59,7 @@ class RechargePointTest: XCTestCase
             XCTAssertNotNil(item.openTime)
             XCTAssertNotNil(item.distance)
             
-            XCTAssertGreaterThanOrEqual(item.distance, 0.0)
+            XCTAssertGreaterThanOrEqual(item.distance!, 0.0)
         }
     }
 }
