@@ -103,6 +103,8 @@
 		08C886891DDE4D7600C7BEEA /* RoutePointSingle_1_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C886811DDE4D7600C7BEEA /* RoutePointSingle_1_2.json */; };
 		08C8868A1DDE4D7600C7BEEA /* RoutePointSingle_2_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C886821DDE4D7600C7BEEA /* RoutePointSingle_2_1.json */; };
 		08C8868B1DDE4D7600C7BEEA /* RoutePointSingle_2_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C886831DDE4D7600C7BEEA /* RoutePointSingle_2_2.json */; };
+		08C90A591DE61D5500EAC204 /* Route_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C90A571DE61D5500EAC204 /* Route_1.json */; };
+		08C90A5A1DE61D5500EAC204 /* Route_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C90A581DE61D5500EAC204 /* Route_2.json */; };
 		08E5F5301DD4B7A6004D0578 /* CompleteBusItineraryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F52F1DD4B7A6004D0578 /* CompleteBusItineraryTest.swift */; };
 		08E5F5321DD4B8D7004D0578 /* BusRouteResultSingleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F5311DD4B8D7004D0578 /* BusRouteResultSingleTest.swift */; };
 		08E5F5341DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F5331DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift */; };
@@ -249,6 +251,8 @@
 		08C886811DDE4D7600C7BEEA /* RoutePointSingle_1_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RoutePointSingle_1_2.json; path = Resources/Road/RoutePointSingle_1_2.json; sourceTree = "<group>"; };
 		08C886821DDE4D7600C7BEEA /* RoutePointSingle_2_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RoutePointSingle_2_1.json; path = Resources/Road/RoutePointSingle_2_1.json; sourceTree = "<group>"; };
 		08C886831DDE4D7600C7BEEA /* RoutePointSingle_2_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RoutePointSingle_2_2.json; path = Resources/Road/RoutePointSingle_2_2.json; sourceTree = "<group>"; };
+		08C90A571DE61D5500EAC204 /* Route_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Route_1.json; path = Resources/Road/Route_1.json; sourceTree = "<group>"; };
+		08C90A581DE61D5500EAC204 /* Route_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Route_2.json; path = Resources/Road/Route_2.json; sourceTree = "<group>"; };
 		08E5F52F1DD4B7A6004D0578 /* CompleteBusItineraryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompleteBusItineraryTest.swift; path = Model/Persistence/CompleteBusItineraryTest.swift; sourceTree = "<group>"; };
 		08E5F5311DD4B8D7004D0578 /* BusRouteResultSingleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResultSingleTest.swift; path = Model/Bus/BusRouteResultSingleTest.swift; sourceTree = "<group>"; };
 		08E5F5331DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResultCombinedTest.swift; path = Model/Bus/BusSearchResultCombinedTest.swift; sourceTree = "<group>"; };
@@ -494,6 +498,8 @@
 		08C886651DDE4A0B00C7BEEA /* Road */ = {
 			isa = PBXGroup;
 			children = (
+				08C90A571DE61D5500EAC204 /* Route_1.json */,
+				08C90A581DE61D5500EAC204 /* Route_2.json */,
 				08032E9F1DE4C1E800895C0A /* 511AGoingCompleteBusRoute.json */,
 				08032EA01DE4C1E800895C0A /* 511AReturningCompleteBusRoute.json */,
 				08032E9C1DE4C0EC00895C0A /* 571BGoingCompleteBusRoute.json */,
@@ -883,8 +889,10 @@
 				08C886871DDE4D7600C7BEEA /* RoutePointCombined_2_2.json in Resources */,
 				08C886751DDE4A5400C7BEEA /* BusRouteResultCombined_1.json in Resources */,
 				08032EA11DE4C1E800895C0A /* 511AGoingCompleteBusRoute.json in Resources */,
+				08C90A5A1DE61D5500EAC204 /* Route_2.json in Resources */,
 				08C886791DDE4A5400C7BEEA /* BusRouteSingle_1.json in Resources */,
 				08C886741DDE4A5400C7BEEA /* BusRouteCombined_4.json in Resources */,
+				08C90A591DE61D5500EAC204 /* Route_1.json in Resources */,
 				08032EA21DE4C1E800895C0A /* 511AReturningCompleteBusRoute.json in Resources */,
 				08C886721DDE4A5400C7BEEA /* BusRouteCombined_2.json in Resources */,
 				08C886761DDE4A5400C7BEEA /* BusRouteResultCombined_2.json in Resources */,

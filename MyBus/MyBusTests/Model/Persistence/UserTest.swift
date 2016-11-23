@@ -11,8 +11,10 @@ import SwiftyJSON
 
 class UserTest: XCTestCase
 {
-    favourites = List<RoutePoint> ()
-    var recents
+    var favourites:[RoutePoint] = []
+    var recents:[RoutePoint] = []
+    var user:User = User()
+    
     override func setUp()
     {
         super.setUp()
@@ -38,30 +40,83 @@ class UserTest: XCTestCase
         let thirdFavouriteDictionary = JSON(thirdFavouriteJSON)
         let fourthFavouriteDictionary = JSON(fourthFavouriteJSON)
         
+        let firstFavourite = RoutePoint.parse(firstFavouriteDictionary)
+        let secondFavourite = RoutePoint.parse(secondFavouriteDictionary)
+        let thirdFavourite = RoutePoint.parse(thirdFavouriteDictionary)
+        let fourthFavourite = RoutePoint.parse(fourthFavouriteDictionary)
+        
+        favourites = [firstFavourite, secondFavourite, thirdFavourite, fourthFavourite]
+        
         // Recents
         let firstRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_1_1", ofType: "json")
         let secondRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_1_2", ofType: "json")
         let thirdRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_2_1", ofType: "json")
         let fourthRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_2_2", ofType: "json")
         
-        let firstCombinedOriginRoutePointJSONData = try! NSData(contentsOfFile: firstRecentFilePath!, options:.DataReadingMappedIfSafe)
-        let firstCombinedDestinationRoutePointJSONData = try! NSData(contentsOfFile: secondRecentFilePath!, options:.DataReadingMappedIfSafe)
-        let secondCombinedOriginRoutePointJSONData = try! NSData(contentsOfFile: thirdRecentFilePath!, options:.DataReadingMappedIfSafe)
-        let secondCombinedDestinationRoutePointJSONData = try! NSData(contentsOfFile: fourthRecentFilePath!, options:.DataReadingMappedIfSafe)
+        let firstRecentJSONData = try! NSData(contentsOfFile: firstRecentFilePath!, options:.DataReadingMappedIfSafe)
+        let secondRecentJSONData = try! NSData(contentsOfFile: secondRecentFilePath!, options:.DataReadingMappedIfSafe)
+        let thirdRecentJSONData = try! NSData(contentsOfFile: thirdRecentFilePath!, options:.DataReadingMappedIfSafe)
+        let fourthRecentJSONData = try! NSData(contentsOfFile: fourthRecentFilePath!, options:.DataReadingMappedIfSafe)
 
-        let firstCombinedOriginRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(firstCombinedOriginRoutePointJSONData, options: .MutableContainers)
-        let firstCombinedDestinationRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(firstCombinedDestinationRoutePointJSONData, options: .MutableContainers)
-        let secondCombinedOriginRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(secondCombinedOriginRoutePointJSONData, options: .MutableContainers)
-        let secondCombinedDestinationRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(secondCombinedDestinationRoutePointJSONData, options: .MutableContainers)
+        let firstRecentJSON = try! NSJSONSerialization.JSONObjectWithData(firstRecentJSONData, options: .MutableContainers)
+        let secondRecentJSON = try! NSJSONSerialization.JSONObjectWithData(secondRecentJSONData, options: .MutableContainers)
+        let thirdRecentJSON = try! NSJSONSerialization.JSONObjectWithData(thirdRecentJSONData, options: .MutableContainers)
+        let fourthRecentJSON = try! NSJSONSerialization.JSONObjectWithData(fourthRecentJSONData, options: .MutableContainers)
         
-        let firstCombinedOriginRoutePointDictionary = JSON(firstCombinedOriginRoutePointJSON)
-        let firstCombinedDestinationRoutePointDictionary = JSON(firstCombinedDestinationRoutePointJSON)
-        let secondCombinedOriginRoutePointDictionary = JSON(secondCombinedOriginRoutePointJSON)
-        let secondCombinedDestinationRoutePointDictionary = JSON(secondCombinedDestinationRoutePointJSON)
+        let firstRecentDictionary = JSON(firstRecentJSON)
+        let secondRecentDictionary = JSON(secondRecentJSON)
+        let thirdRecentDictionary = JSON(thirdRecentJSON)
+        let fourthRecentDictionary = JSON(fourthRecentJSON)
+        
+        let firstRecent = RoutePoint.parse(firstRecentDictionary)
+        let secondRecent = RoutePoint.parse(secondRecentDictionary)
+        let thirdRecent = RoutePoint.parse(thirdRecentDictionary)
+        let fourthRecent = RoutePoint.parse(fourthRecentDictionary)
+        
+        recents = [firstRecent, secondRecent, thirdRecent, fourthRecent]
+        
+        user.favourites.appendContentsOf(favourites)
+        user.recents.appendContentsOf(recents)
     }
     
     override func tearDown()
     {
         super.tearDown()
+    }
+    
+    func testResultExistence()
+    {
+        XCTAssertNotNil(user)
+    }
+    
+    func testResultContents()
+    {
+        XCTAssertNotNil(user.name)
+        XCTAssertEqual(user.name, "DeviceiOS")
+        XCTAssert(user.favourites.count > 0)
+        XCTAssert(user.recents.count > 0)
+    }
+    
+    func testResultForValidContents()
+    {
+        for case let item:RoutePoint in user.favourites
+        {
+            XCTAssertNotNil(item.stopId)
+            XCTAssertNotNil(item.latitude)
+            XCTAssertNotNil(item.longitude)
+            XCTAssertNotNil(item.address)
+            XCTAssertNotNil(item.isWaypoint)
+            XCTAssertNotNil(item.name)
+        }
+        
+        for case let item:RoutePoint in user.recents
+        {
+            XCTAssertNotNil(item.stopId)
+            XCTAssertNotNil(item.latitude)
+            XCTAssertNotNil(item.longitude)
+            XCTAssertNotNil(item.address)
+            XCTAssertNotNil(item.isWaypoint)
+            XCTAssertNotNil(item.name)
+        }
     }
 }
