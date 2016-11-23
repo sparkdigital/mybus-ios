@@ -16,6 +16,13 @@
 		0826D1B31DD38F1500F9ED15 /* RouteTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0826D1B21DD38F1500F9ED15 /* RouteTest.swift */; };
 		0826D1B51DD38F3E00F9ED15 /* BusRouteSingleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0826D1B41DD38F3E00F9ED15 /* BusRouteSingleTest.swift */; };
 		0826D1B71DD38F5F00F9ED15 /* UserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0826D1B61DD38F5F00F9ED15 /* UserTest.swift */; };
+		082853311DE6291D005F38B4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11659A891DDF5D3F00C6D47B /* Reachability.swift */; };
+		082853321DE62931005F38B4 /* BusesResultsMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */; };
+		082853331DE62941005F38B4 /* BusResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44695721DDD66DA0073BC2C /* BusResultViewController.swift */; };
+		082853341DE62A12005F38B4 /* SearchFavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117E99651DDC8F96007C1216 /* SearchFavoriteTableViewCell.swift */; };
+		082853351DE62A26005F38B4 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C3FCE61DC93F1500D696FC /* LocationManager.swift */; };
+		082853361DE62AA8005F38B4 /* SingleRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A8E811DDE495000D6F9A4 /* SingleRouteView.swift */; };
+		082853371DE62ABD005F38B4 /* CombinedRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A8E831DDE49C400D6F9A4 /* CombinedRouteView.swift */; };
 		087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087E76EF1CBEA5D800FB6050 /* Connectivity.swift */; };
 		087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */; };
 		088214921DDCDD20003742E4 /* BusRouteCombinedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088214911DDCDD20003742E4 /* BusRouteCombinedTest.swift */; };
@@ -1109,6 +1116,7 @@
 				088214A31DDCE9CB003742E4 /* Route.swift in Sources */,
 				088214C01DDCEA69003742E4 /* MapSearchViewContainer.swift in Sources */,
 				088214B91DDCEA36003742E4 /* CompleteBusItineray.swift in Sources */,
+				082853321DE62931005F38B4 /* BusesResultsMenuViewController.swift in Sources */,
 				088214BD1DDCEA5A003742E4 /* MyBusPolyline.swift in Sources */,
 				08E5F5411DD4C3E7004D0578 /* RoadSearchTest.swift in Sources */,
 				08ECA94A1DE35D1900BE7B6F /* BusSearchResultSingleTest.swift in Sources */,
@@ -1122,9 +1130,11 @@
 				088214C21DDCEA71003742E4 /* MyBusMarkerFactory.swift in Sources */,
 				088214B01DDCEA05003742E4 /* BusesInformationViewController.swift in Sources */,
 				088214981DDCE082003742E4 /* MyBusService.swift in Sources */,
+				082853371DE62ABD005F38B4 /* CombinedRouteView.swift in Sources */,
 				088214971DDCE07F003742E4 /* Connectivity.swift in Sources */,
 				088214A51DDCE9D1003742E4 /* RoadSearch.swift in Sources */,
 				08E5F53D1DD4C39B004D0578 /* RoutePointTest.swift in Sources */,
+				082853341DE62A12005F38B4 /* SearchFavoriteTableViewCell.swift in Sources */,
 				088214A61DDCE9D4003742E4 /* CompleteBusRoute.swift in Sources */,
 				08E5F5431DD4C43C004D0578 /* CompleteBusRouteTest.swift in Sources */,
 				088214AF1DDCEA02003742E4 /* BusesRatesViewController.swift in Sources */,
@@ -1134,6 +1144,7 @@
 				088214AC1DDCE9F8003742E4 /* MyBusMapController.swift in Sources */,
 				088214AA1DDCE9F2003742E4 /* SearchSuggestionsViewController.swift in Sources */,
 				08E5F5341DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift in Sources */,
+				082853311DE6291D005F38B4 /* Reachability.swift in Sources */,
 				0882149A1DDCE089003742E4 /* GisService.swift in Sources */,
 				08E5F5391DD4C25D004D0578 /* RechargePointTest.swift in Sources */,
 				0826D1B71DD38F5F00F9ED15 /* UserTest.swift in Sources */,
@@ -1145,6 +1156,7 @@
 				088214AE1DDCE9FF003742E4 /* MainViewController.swift in Sources */,
 				088214941DDCDD47003742E4 /* BusRouteResultCombinedTest.swift in Sources */,
 				088214A71DDCE9E9003742E4 /* AppDelegate.swift in Sources */,
+				082853351DE62A26005F38B4 /* LocationManager.swift in Sources */,
 				088214BA1DDCEA3A003742E4 /* User.swift in Sources */,
 				088214D31DDCEB52003742E4 /* SearchView.swift in Sources */,
 				088214A91DDCE9EF003742E4 /* Configuration.swift in Sources */,
@@ -1166,8 +1178,10 @@
 				088214991DDCE085003742E4 /* MapBoxDirectionsService.swift in Sources */,
 				0882149C1DDCE091003742E4 /* BaseNetworkService.swift in Sources */,
 				088214D41DDCEB55003742E4 /* UIViewLayoutExtensions.swift in Sources */,
+				082853361DE62AA8005F38B4 /* SingleRouteView.swift in Sources */,
 				08E5F5301DD4B7A6004D0578 /* CompleteBusItineraryTest.swift in Sources */,
 				0882149D1DDCE095003742E4 /* BusRouteResult.swift in Sources */,
+				082853331DE62941005F38B4 /* BusResultViewController.swift in Sources */,
 				0826D1B51DD38F3E00F9ED15 /* BusRouteSingleTest.swift in Sources */,
 				0826D1B31DD38F1500F9ED15 /* RouteTest.swift in Sources */,
 				088214CC1DDCEB1D003742E4 /* CombinedResultTableViewCell.swift in Sources */,
