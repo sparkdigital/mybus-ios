@@ -58,6 +58,9 @@ public class SearchManager: NSObject {
                     (busRouteResult, error) in
 
                     if let result = busRouteResult {
+                        
+                        print("Origin: \(originPoint)| Destination: \(destinationPoint) | BusRoutes: \(result)")
+                        
                         self.currentSearch = BusSearchResult(origin: originPoint!, destination: destinationPoint!, busRoutes: result)
                         completionHandler(self.currentSearch, nil)
                     } else {
@@ -79,6 +82,9 @@ public class SearchManager: NSObject {
         self.getBusLines(origin.getLatLong(), destination: destination.getLatLong(), completionHandler: {
             (busRouteResult, error) in
             if let result = busRouteResult {
+                
+                print("Origin: \(origin)| Destination: \(destination) | BusRoutes: \(result)")
+                
                 self.currentSearch = BusSearchResult(origin: origin, destination: destination, busRoutes: result)
                 completionHandler(self.currentSearch, nil)
             } else {

@@ -7,29 +7,70 @@
 //
 
 import XCTest
+import SwiftyJSON
 
-class RoadResultTest: XCTestCase {
+class RoadResultTest: XCTestCase
+{
+    var roadResult:RoadResult = RoadResult()
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        let filePath = NSBundle(forClass: BusRouteSingleTest.self).pathForResource("RoadResult_1", ofType: "json")
+        
+        let jsonData = try! NSData(contentsOfFile: filePath!, options:.DataReadingMappedIfSafe)
+        
+        let json = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableContainers)
+        
+        let roadResultDictionary = JSON(json)
+        
+        roadResult = RoadResult.parse(roadResultDictionary)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown()
+    {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testResultExistence()
+    {
+        XCTAssertNotNil(roadResult)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+    func testResultContents()
+    {
+        XCTAssertNotNil(roadResult.roadResultType)
+        XCTAssertNotNil(roadResult.totalDistances)
+        XCTAssertNotNil(roadResult.travelTime)
+        XCTAssertNotNil(roadResult.arrivalTime)
+        XCTAssertNotNil(roadResult.idBusLine1)
+        XCTAssertNotNil(roadResult.idBusLine2)
+        
+        XCTAssert(roadResult.routeList.count > 0)
+        XCTAssert(roadResult.getPointList().count > 0)
+        
+        switch roadResult.busRouteResultType()
+        {
+        case .Single:
+            XCTAssertNotNil(roadResult.firstBusStop)
+            XCTAssertNotNil(roadResult.endBusStop)
+        case .Combined:
+            XCTAssertNotNil(roadResult.midStartStop)
+            XCTAssertNotNil(roadResult.midEndStop)
+        }
+        
+        XCTAssertNotEqual(roadResult.firstBusStop?.latitude, roadResult.midEndStop?.latitude)
+        XCTAssertNotEqual(roadResult.firstBusStop?.longitude, roadResult.midEndStop?.longitude)
+        
+        for case let item:RoutePoint in roadResult.getPointList()
+        {
+            XCTAssertNotNil(item.stopId)
+            XCTAssertNotNil(item.latitude)
+            XCTAssertNotNil(item.longitude)
+            XCTAssertNotNil(item.address)
+            XCTAssertNotNil(item.isWaypoint)
+            XCTAssertNotNil(item.name)
         }
     }
-    
 }
