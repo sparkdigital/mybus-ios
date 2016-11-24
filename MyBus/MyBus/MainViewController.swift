@@ -591,7 +591,9 @@ extension MainViewController {
         searchRouteButton.tintColor = UIColor.lightGrayColor()
 
         self.navigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.leftBarButtonItem!.tintColor = UIColor.whiteColor()
         self.navigationItem.rightBarButtonItem = searchRouteButton
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
 
         self.navigationItem.title = "Buscar Ruta"
     }
