@@ -342,7 +342,7 @@ class MainViewController: UIViewController {
                         GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
                     }
                 }else{
-                    GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
+                    GenerateMessageAlert.generateAlert(self, title: "Error", message: "No hay conexión. Por favor, intente nuevamente mas tarde.")
                 }
             })
         }else{
