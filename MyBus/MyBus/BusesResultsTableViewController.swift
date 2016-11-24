@@ -19,7 +19,6 @@ class BusesResultsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 190.0, 0.0)
     }
 
     func loadBuses(buses: BusSearchResult) {
