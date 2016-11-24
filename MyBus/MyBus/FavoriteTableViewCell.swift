@@ -48,7 +48,7 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
                         self.address.text = newFav.address
                         DBManager.sharedInstance.updateFavorite(fav, name: newName, newFavLocation: newFav)
                     } else {
-                        GenerateMessageAlert.generateAlert(nil, title: "Malas noticias ", message: "Lamentablemente no hemos podido localizar la dirección ingresada o ya hay un favorito con esa dirección")
+                        GenerateMessageAlert.generateAlert(nil, title: "Malas noticias ", message: "Lamentablemente no hemos podido localizar la dirección ingresada o ya existe un favorito con esa dirección")
                         self.address.text = fav.address
                         DBManager.sharedInstance.updateFavorite(fav, name: newName, newFavLocation: nil)
                     }
