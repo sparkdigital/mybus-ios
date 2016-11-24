@@ -294,7 +294,7 @@ class MainViewController: UIViewController {
 
         oldVC.willMoveToParentViewController(nil)
         self.addChildViewController(newVC)
-
+        newVC.view.translatesAutoresizingMaskIntoConstraints = false
         //Add new view to the container
         self.view.addAutoPinnedSubview(newVC.view, toView: self.containerView)
 
