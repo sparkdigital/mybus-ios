@@ -147,8 +147,6 @@ extension SearchContainerViewController:UISearchBarDelegate {
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let p = point {
-                    DBManager.sharedInstance.addRecent(p)
-
                     if self.searchType == SearchType.Origin {
                         self.busRoadDelegate?.newOrigin(p)
                     }else{
