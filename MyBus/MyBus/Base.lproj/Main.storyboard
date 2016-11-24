@@ -150,7 +150,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentTableViewCell" rowHeight="45" id="jcs-5u-idZ" customClass="RecenTableViewCell" customModule="MyBus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="105" width="600" height="45"/>
+                                        <rect key="frame" x="0.0" y="104.5" width="600" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jcs-5u-idZ" id="mIQ-XS-cNn">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
