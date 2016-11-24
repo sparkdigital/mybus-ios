@@ -42,13 +42,18 @@ extension BusRouteResult {
     }
     
     func toStringDescription() -> String{
-        var 🚌 : String = ""
-        for route in self.busRoutes {
-            let busLineFormatted = route.busLineName.characters.count == 3 ? route.busLineName+"  " : route.busLineName
-            🚌 = "\(🚌) \(busLineFormatted)➡"
+        
+        if self.busRouteType == MyBusRouteResultType.Single {
+            guard let busOption = self.busRoutes.first else {
+                return ""
+            }
+            return busOption.busLineName
+        }else{
+            guard let firstBusOfOption = self.busRoutes.first, let secondBusOfOption = self.busRoutes.last else {
+                return ""
+            }
+            return "\(firstBusOfOption.busLineName) → \(secondBusOfOption.busLineName)"
         }
-        🚌.removeAtIndex(🚌.endIndex.predecessor())
-        return 🚌
     }
 
 }
