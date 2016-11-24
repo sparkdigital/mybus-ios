@@ -61,6 +61,8 @@ class SuggestedPlaceTest: XCTestCase
             XCTAssertEqual(item.photoUrl, suggestedPlacesInConfiguration[indexOfSuggestedItem!].photoUrl)
             XCTAssertEqual(item.location.latitude, suggestedPlacesInConfiguration[indexOfSuggestedItem!].location.latitude)
             XCTAssertEqual(item.location.longitude, suggestedPlacesInConfiguration[indexOfSuggestedItem!].location.longitude)
+            
+            print("Suggested Place with Name:\(item.name) Description:\(item.description) Address:\(item.address) @ (LAT:\(item.location.latitude),LON:\(item.location.longitude))\n")
         }
     }
 }

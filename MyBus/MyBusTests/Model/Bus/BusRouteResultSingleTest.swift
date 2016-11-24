@@ -72,6 +72,10 @@ class BusRouteResultSingleTest: XCTestCase
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
             XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+            
+            let busRouteDescription = "BusRouteResult with Type:\(item.busRouteType) and Routes #:\(item.busRoutes.count)\n"
+            
+            print(busRouteDescription)
         }
         
         print("\nSecond Result Single:\n")
@@ -81,6 +85,10 @@ class BusRouteResultSingleTest: XCTestCase
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
             XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+            
+            let busRouteDescription = "BusRouteResult with Type:\(item.busRouteType) and Routes #:\(item.busRoutes.count)\n"
+            
+            print(busRouteDescription)
         }
     } 
 }
