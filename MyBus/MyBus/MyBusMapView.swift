@@ -183,8 +183,7 @@ class MyBusMapView: MGLMapView{
                 }
             
                 self.showsUserLocation = true
-                self.centerCoordinate = gpsLocation.coordinate
-                self.setZoomLevel(zoomLevel ?? MyBusMapView.defaultZoomLevel, animated: false)
+                self.setCenterCoordinate(gpsLocation.coordinate, zoomLevel: (zoomLevel ?? MyBusMapView.defaultZoomLevel), animated: true)
             }else{
                 NSLog("Location Error Ocurred: \(error!)")
             }
