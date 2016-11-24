@@ -29,10 +29,15 @@ public class Connectivity: NSObject
 
     override init() { }
 
-    // MARK: Municipality Endpoints
+    // MARK: - Municipality Endpoints
     func getStreetNames(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     {
         mgpGisService.getStreetNamesByFile(forName: address, completionHandler: completionHandler)
+    }
+    
+    func getAllStreetNames(completionHandler: ([String]?, NSError?) -> ())
+    {
+        mgpGisService.getAllStreetNamesByFile(completionHandler)
     }
 
     func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
@@ -40,13 +45,13 @@ public class Connectivity: NSObject
         mgpGisService.getAddressFromCoordinate(latitude, longitude : longitude, completionHandler : completionHandler)
     }
 
-    // MARK - Google Geocoding Endpoint
+    // MARK: - Google Geocoding Endpoint
     func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ())
     {
         googleGeocodingService.getCoordinateFromAddress(streetName, completionHandler : completionHandler)
     }
 
-    // MARK: MyBus Endpoints
+    // MARK: - MyBus Endpoints
     func getBusLinesFromOriginDestination(latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: ([BusRouteResult]?, NSError?) -> ())
     {
         myBusService.searchRoutes(latitudeOrigin, longitudeOrigin: longitudeOrigin, latitudeDestination: latitudeDestination, longitudeDestination: longitudeDestination, completionHandler: completionHandler)
@@ -74,7 +79,7 @@ public class Connectivity: NSObject
         myBusService.getRechargeCardPoints(latitude, longitude: longitude, completionHandler: completionHandler)
     }
 
-    // MARK - Directions Endpoints
+    // MARK: - Directions Endpoints
     func getWalkingDirections(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: (MBDirectionsResponse?, NSError?) -> ())
     {
         directionsService.getWalkingDirections(sourceCoordinate, destinationCoordinate : destinationCoordinate, completionHandler : completionHandler)
