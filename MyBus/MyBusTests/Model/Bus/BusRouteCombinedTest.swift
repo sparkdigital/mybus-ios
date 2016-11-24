@@ -137,7 +137,7 @@ class BusRouteCombinedTest: XCTestCase
                 XCTAssertNotEqual(subItem.startBusStopLat, subItem.destinationBusStopLat)
                 XCTAssertNotEqual(subItem.startBusStopLng, subItem.destinationBusStopLng)
                 
-                let busRouteDescription = "Route: Bus \(subItem.busLineName) from \(subItem.startBusStopStreetName) \(subItem.startBusStopStreetNumber) to \(subItem.destinationBusStopStreetName) \(subItem.destinationBusStopStreetNumber)"
+                let busRouteDescription = "Route: Bus \(subItem.busLineName) from \(subItem.startBusStopStreetName) \(subItem.startBusStopStreetNumber) to \(subItem.destinationBusStopStreetName) \(subItem.destinationBusStopStreetNumber)\n"
                 
                 print(busRouteDescription)
             }
