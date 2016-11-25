@@ -11,11 +11,12 @@ import UIKit
 
 class GenerateMessageAlert
 {
-    class func generateAlert(viewController: UIViewController, title: String, message: String){
+    class func generateAlert(viewController: UIViewController?, title: String, message: String){
         let alert = UIAlertController.init(title: title, message: message, preferredStyle: .Alert)
         let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+        let viewControllerToDisplay = (viewController != nil) ? viewController! : UIApplication.sharedApplication().keyWindow?.rootViewController!
         alert.addAction(action)
-        viewController.presentViewController(alert, animated: true, completion: nil)
+        viewControllerToDisplay!.presentViewController(alert, animated: true, completion: nil)
     }
     
     class func generateAlertToSetting(viewController: UIViewController){

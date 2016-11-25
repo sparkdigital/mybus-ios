@@ -44,10 +44,11 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
             ProgressHUD().showLoadingNotification(nil)
             if newAddress != fav.address {
                 Connectivity.sharedInstance.getCoordinateFromAddress(newAddress, completionHandler: { (point, error) in
-                    if let newFav = point {
+                    if let newFav = point where self.addressDoesNotAlreadyExist(newFav) {
                         self.address.text = newFav.address
                         DBManager.sharedInstance.updateFavorite(fav, name: newName, newFavLocation: newFav)
                     } else {
+                        GenerateMessageAlert.generateAlert(nil, title: "Malas noticias ", message: "Lamentablemente no hemos podido localizar la dirección ingresada o ya existe un favorito con esa dirección")
                         self.address.text = fav.address
                         DBManager.sharedInstance.updateFavorite(fav, name: newName, newFavLocation: nil)
                     }
@@ -60,6 +61,16 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
 
         }
     }
+
+    func addressDoesNotAlreadyExist(newFav: RoutePoint) -> Bool {
+        guard let favorites = DBManager.sharedInstance.getFavourites() else {
+            return false
+        }
+        return favorites.filter({ (fav) -> Bool in
+            return fav.latitude == newFav.latitude && fav.longitude == newFav.longitude
+        }).count == 0
+    }
+
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if (self.name == textField){
             self.address.becomeFirstResponder()
