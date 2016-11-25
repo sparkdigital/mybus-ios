@@ -138,6 +138,7 @@ class MyBusMapView: MGLMapView{
         clearExistingBusRoadAnnotations()
         addAnnotations(newRoad.walkingPath)
         addAnnotations(newRoad.roadMarkers)
+        addAnnotations(newRoad.roadIntermediateBusStopMarkers)
         addAnnotations(newRoad.roadPolyline)
         fitToAnnotationsInMap()
     }

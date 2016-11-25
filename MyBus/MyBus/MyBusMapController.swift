@@ -380,6 +380,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         let mapRoad = MyBusMapRoad()
         mapRoad.walkingPath = MyBusPolylineFactory.buildWalkingRoutePolylineList(newRoad)
         mapRoad.roadMarkers = MyBusMarkerFactory.buildBusRoadStopMarkers(newRoad)
+        mapRoad.roadIntermediateBusStopMarkers = MyBusMarkerFactory.buildIntermediateBusStopMarkers(newRoad)
         mapRoad.roadPolyline = MyBusPolylineFactory.buildBusRoutePolylineList(newRoad)
         self.mapModel.currentRoad = mapRoad
     }
