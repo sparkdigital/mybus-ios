@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MapKit
+import Crashlytics
 
 protocol Searchable {
     func initWithBasicSearch()
@@ -445,6 +446,7 @@ extension MainViewController:UITabBarDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
             self.mapViewController.toggleRechargePoints(nil)
+            CLSLogv("Switched to MapViewModel %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
         if (item.tag == 1){
             self.sectionNavigationBar("Favoritos")
@@ -453,6 +455,7 @@ extension MainViewController:UITabBarDelegate {
             let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
             add.tintColor = UIColor.whiteColor()
             self.navigationItem.rightBarButtonItem = add
+            CLSLogv("Switched to Favoritos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
         if (item.tag == 2){
             self.clearActiveSearch()
@@ -478,17 +481,20 @@ extension MainViewController:UITabBarDelegate {
             } else {
                 GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
             }
+            CLSLogv("Switched to ACtiveSearch %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
         if (item.tag == 3){
             self.sectionNavigationBar("Recorridos")
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
+            CLSLogv("Switched to Recorridos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
         if (item.tag == 4){
             self.sectionNavigationBar("Tarifas")
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
             self.currentViewController = busesRatesViewController
+            CLSLogv("Switched to Tarifas %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
     }
 }
