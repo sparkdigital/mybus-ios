@@ -7,29 +7,60 @@
 //
 
 import XCTest
+import MapKit
 
-class GeoCodingServiceTest: XCTestCase {
+class GeoCodingServiceTest: XCTestCase
+{
+    let googleGeocodingService = GeoCodingService()
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown()
+    {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+    func testResultContentsForCoordinateFromAddress()
+    {
+        let coordinateFromAddressExpectation = expectationWithDescription("GeoCodingServiceGatherCoordinateFromAddress")
+        
+        // El Gaucho Monument's LAT/LON coordinates
+        let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
+        let address = "Av. Juan B. Justo 6200"
+        
+        googleGeocodingService.getCoordinateFromAddress(address, completionHandler: { (routePoint, error) in
+            if let point = routePoint
+            {
+                // The amount of listed avenues is 596 (Five hundred ninety six)
+                XCTAssertNotNil(point)
+                XCTAssertNotNil(point.stopId)
+                XCTAssertNotNil(point.name)
+                XCTAssertNotNil(point.address)
+                XCTAssertNotNil(point.latitude)
+                XCTAssertNotNil(point.longitude)
+                
+                XCTAssertEqual(point.latitude, coordinate.latitude)
+                XCTAssertEqual(point.longitude, coordinate.longitude)
+                XCTAssertEqual(point.address, address)
+                
+                print("\nAddress: \(point.address) from coordinate (LAT:\(point.latitude),LON:\(point.longitude))")
+            }
+            
+            coordinateFromAddressExpectation.fulfill()
+        })
+        
+        waitForExpectationsWithTimeout(10)
+        { error in
+            
+            if let error = error
+            {
+                print("A 10 (Ten) seconds timeout ocurred waiting on coordinate from address with error: \(error.localizedDescription)")
+            }
+            
+            print("\nExpectation fulfilled!\n")
         }
     }
-    
 }

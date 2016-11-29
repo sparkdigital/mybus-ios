@@ -69,9 +69,9 @@ public class Connectivity: NSObject
         myBusService.searchRoads(.Combined, roadSearch: combinedRoadSearch, completionHandler: completionHandler)
     }
 
-    func getCompleteRoads(idLine: Int, direction: Int, completionHanlder: (CompleteBusRoute?, NSError?)->())
+    func getCompleteRoads(idLine: Int, direction: Int, completionHandler: (CompleteBusRoute?, NSError?)->())
     {
-        myBusService.getCompleteRoads(idLine, direction: direction, completionHandler: completionHanlder)
+        myBusService.getCompleteRoads(idLine, direction: direction, completionHandler: completionHandler)
     }
 
     func getRechargeCardPoints(latitude: Double, longitude: Double, completionHandler: ([RechargePoint]?, NSError?) -> ())
