@@ -26,6 +26,9 @@ class BusesResultsTableViewController: UITableViewController {
         self.buses = buses.busRouteOptions
         self.tableView.reloadData()
         self.tableView.layoutIfNeeded()
+        
+        let indexPath:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.None, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
