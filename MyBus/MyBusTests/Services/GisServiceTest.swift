@@ -69,6 +69,36 @@ class GisServiceTest: XCTestCase
         }
     }
     
+    func testPerformanceForAvenuesSearch()
+    {
+        searchText = "Av "
+        
+        self.measureBlock
+            {
+                self.mgpGISService.getStreetNamesByFile(forName: self.searchText)
+                { (streets, error) in
+                    if let streets = streets
+                    {
+                        for street in streets
+                        {
+                            self.bestMatches.append(SearchSuggestion(name: street))
+                        }
+                    }
+                    
+                    for case let item:SearchSuggestion in self.bestMatches
+                    {
+                        XCTAssertNotNil(item.name)
+                    }
+                    
+                    // The amount of listed avenues is 32 (Thirty two)
+                    XCTAssert(self.bestMatches.count > 0)
+                    XCTAssertEqual(self.bestMatches.count, 32)
+                    
+                    self.bestMatches.removeAll()
+                }
+        }
+    }
+    
     func testResultContentsForDiagonalsSearch()
     {
         searchText = "Diag "
@@ -109,6 +139,36 @@ class GisServiceTest: XCTestCase
             }
             
             print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    func testPerformanceForDiagonalsSearch()
+    {
+        searchText = "Diag "
+        
+        self.measureBlock
+            {
+                self.mgpGISService.getStreetNamesByFile(forName: self.searchText)
+                { (streets, error) in
+                    if let streets = streets
+                    {
+                        for street in streets
+                        {
+                            self.bestMatches.append(SearchSuggestion(name: street))
+                        }
+                    }
+                    
+                    for case let item:SearchSuggestion in self.bestMatches
+                    {
+                        XCTAssertNotNil(item.name)
+                    }
+                    
+                    // The amount of listed avenues is 9 (Nine)
+                    XCTAssert(self.bestMatches.count > 0)
+                    XCTAssertEqual(self.bestMatches.count, 9)
+                    
+                    self.bestMatches.removeAll()
+                }
         }
     }
     
@@ -153,6 +213,34 @@ class GisServiceTest: XCTestCase
         }
     }
     
+    func testPerformanceForAllStreetsSearch()
+    {
+        self.measureBlock
+            {
+                self.mgpGISService.getAllStreetNamesByFile()
+                    { (streets, error) in
+                        if let streets = streets
+                        {
+                            for street in streets
+                            {
+                                self.bestMatches.append(SearchSuggestion(name: street))
+                            }
+                        }
+                        
+                        for case let item:SearchSuggestion in self.bestMatches
+                        {
+                            XCTAssertNotNil(item.name)
+                        }
+                        
+                        // The amount of listed avenues is 596 (Five hundred ninety six)
+                        XCTAssert(self.bestMatches.count > 0)
+                        XCTAssertEqual(self.bestMatches.count, 596)
+                        
+                        self.bestMatches.removeAll()
+                }
+        }
+    }
+    
     func testResultContentsForAddressFromCoordinate()
     {
         let addressFromCoordinateExpectation = expectationWithDescription("GISServiceGatherAddressForCoordinate")
@@ -190,6 +278,32 @@ class GisServiceTest: XCTestCase
             }
             
             print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    func testPerformanceForAddressFromCoordinate()
+    {
+        // Spark Digital's Mar del Plata Office LAT/LON coordinates
+        let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.019984, longitude: -57.545083)
+        
+        self.measureBlock
+            {
+                self.mgpGISService.getAddressFromCoordinate(coordinate.latitude, longitude: coordinate.longitude, completionHandler: { (routePoint, error) in
+                    
+                    if let point = routePoint
+                    {
+                        // The amount of listed avenues is 596 (Five hundred ninety six)
+                        XCTAssertNotNil(point)
+                        XCTAssertNotNil(point.stopId)
+                        XCTAssertNotNil(point.name)
+                        XCTAssertNotNil(point.address)
+                        XCTAssertNotNil(point.latitude)
+                        XCTAssertNotNil(point.longitude)
+                        
+                        XCTAssertEqual(point.latitude, coordinate.latitude)
+                        XCTAssertEqual(point.longitude, coordinate.longitude)
+                    }
+                })
         }
     }
 }

@@ -63,4 +63,31 @@ class GeoCodingServiceTest: XCTestCase
             print("\nExpectation fulfilled!\n")
         }
     }
+    
+    func testPerformanceForCoordinateFromAddress()
+    {
+        // El Gaucho Monument's LAT/LON coordinates
+        let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
+        let address = "Av. Juan B. Justo 6200"
+        
+        self.measureBlock
+            {
+                self.googleGeocodingService.getCoordinateFromAddress(address, completionHandler: { (routePoint, error) in
+                    if let point = routePoint
+                    {
+                        // The amount of listed avenues is 596 (Five hundred ninety six)
+                        XCTAssertNotNil(point)
+                        XCTAssertNotNil(point.stopId)
+                        XCTAssertNotNil(point.name)
+                        XCTAssertNotNil(point.address)
+                        XCTAssertNotNil(point.latitude)
+                        XCTAssertNotNil(point.longitude)
+                        
+                        XCTAssertEqual(point.latitude, coordinate.latitude)
+                        XCTAssertEqual(point.longitude, coordinate.longitude)
+                        XCTAssertEqual(point.address, address)
+                    }
+                })
+        }
+    }
 }
