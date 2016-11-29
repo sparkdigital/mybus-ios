@@ -51,7 +51,7 @@ class SearchContainerViewController: UIViewController {
 
         //Navigation Item configuration
         let cancelButtonItem = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(goBackToMap))
-        cancelButtonItem.tintColor = UIColor.lightGrayColor()
+        cancelButtonItem.tintColor = UIColor.whiteColor()
 
         self.navigationItem.leftBarButtonItem = cancelButtonItem
         self.navigationItem.title = "Buscar \(self.searchType.rawValue)"
