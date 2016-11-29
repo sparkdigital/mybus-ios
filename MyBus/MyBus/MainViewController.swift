@@ -327,7 +327,9 @@ class MainViewController: UIViewController {
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
             SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
-
+                
+                DBManager.sharedInstance.addRecent(self.mapViewModel.origin!)
+                DBManager.sharedInstance.addRecent(self.mapViewModel.destiny!)
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let r: BusSearchResult = searchResult {
