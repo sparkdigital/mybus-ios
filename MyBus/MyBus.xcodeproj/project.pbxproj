@@ -17,7 +17,6 @@
 		0807F6DE1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6DD1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift */; };
 		0807F6E01DE74F5500ACDFED /* GisServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6DF1DE74F5500ACDFED /* GisServiceTest.swift */; };
 		0807F6E21DE74F6E00ACDFED /* GeoCodingServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6E11DE74F6E00ACDFED /* GeoCodingServiceTest.swift */; };
-		0807F6E41DE74F8300ACDFED /* BaseNetworkServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6E31DE74F8300ACDFED /* BaseNetworkServiceTest.swift */; };
 		081E1B821DE37B2C004D3F40 /* RechargePoints_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 081E1B811DE37B2C004D3F40 /* RechargePoints_1.json */; };
 		0826D1B31DD38F1500F9ED15 /* RouteTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0826D1B21DD38F1500F9ED15 /* RouteTest.swift */; };
 		0826D1B51DD38F3E00F9ED15 /* BusRouteSingleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0826D1B41DD38F3E00F9ED15 /* BusRouteSingleTest.swift */; };
@@ -242,7 +241,6 @@
 		0807F6DD1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBoxDirectionsServiceTest.swift; path = Services/MapBoxDirectionsServiceTest.swift; sourceTree = "<group>"; };
 		0807F6DF1DE74F5500ACDFED /* GisServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GisServiceTest.swift; path = Services/GisServiceTest.swift; sourceTree = "<group>"; };
 		0807F6E11DE74F6E00ACDFED /* GeoCodingServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingServiceTest.swift; path = Services/GeoCodingServiceTest.swift; sourceTree = "<group>"; };
-		0807F6E31DE74F8300ACDFED /* BaseNetworkServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseNetworkServiceTest.swift; path = Services/BaseNetworkServiceTest.swift; sourceTree = "<group>"; };
 		081E1B811DE37B2C004D3F40 /* RechargePoints_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RechargePoints_1.json; path = Resources/Places/RechargePoints_1.json; sourceTree = "<group>"; };
 		0826D1B21DD38F1500F9ED15 /* RouteTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RouteTest.swift; path = Model/Road/RouteTest.swift; sourceTree = "<group>"; };
 		0826D1B41DD38F3E00F9ED15 /* BusRouteSingleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteSingleTest.swift; path = Model/Bus/BusRouteSingleTest.swift; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 				0807F6DD1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift */,
 				0807F6DF1DE74F5500ACDFED /* GisServiceTest.swift */,
 				0807F6E11DE74F6E00ACDFED /* GeoCodingServiceTest.swift */,
-				0807F6E31DE74F8300ACDFED /* BaseNetworkServiceTest.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1204,7 +1201,6 @@
 				08E5F5301DD4B7A6004D0578 /* CompleteBusItineraryTest.swift in Sources */,
 				0882149D1DDCE095003742E4 /* BusRouteResult.swift in Sources */,
 				082853331DE62941005F38B4 /* BusResultViewController.swift in Sources */,
-				0807F6E41DE74F8300ACDFED /* BaseNetworkServiceTest.swift in Sources */,
 				0826D1B51DD38F3E00F9ED15 /* BusRouteSingleTest.swift in Sources */,
 				0826D1B31DD38F1500F9ED15 /* RouteTest.swift in Sources */,
 				088214CC1DDCEB1D003742E4 /* CombinedResultTableViewCell.swift in Sources */,

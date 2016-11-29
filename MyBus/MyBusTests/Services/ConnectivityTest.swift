@@ -8,6 +8,7 @@
 
 import XCTest
 import MapKit
+import MapboxDirections
 
 class ConnectivityTest: XCTestCase
 {
@@ -36,11 +37,13 @@ class ConnectivityTest: XCTestCase
         XCTAssertEqual(connectivityService, Connectivity.sharedInstance)
     }
     
+    // MARK: - Municipality Endpoints
+    
     func testResultContentsForAvenuesSearch()
     {
         searchText = "Av "
         
-        let avenuesExpectation = expectationWithDescription("GatherAllAvenuesNames")
+        let avenuesExpectation = expectationWithDescription("ConnectivityGatherAllAvenuesNames")
         
         Connectivity.sharedInstance.getStreetNames(forName: searchText)
         { (streets, error) in
@@ -83,7 +86,7 @@ class ConnectivityTest: XCTestCase
     {
         searchText = "Diag "
         
-        let diagonalsExpectation = expectationWithDescription("GatherAllDiagonalsNames")
+        let diagonalsExpectation = expectationWithDescription("ConnectivityGatherAllDiagonalsNames")
         
         Connectivity.sharedInstance.getStreetNames(forName: searchText)
         { (streets, error) in
@@ -124,7 +127,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForAllStreetsSearch()
     {
-        let allStreetsExpectation = expectationWithDescription("GatherAllStreetsNames")
+        let allStreetsExpectation = expectationWithDescription("ConnectivityGatherAllStreetsNames")
         
         Connectivity.sharedInstance.getAllStreetNames()
         { (streets, error) in
@@ -156,7 +159,7 @@ class ConnectivityTest: XCTestCase
             
             if let error = error
             {
-                print("A 5 (five) seconds timeout ocurred waiting on all streets names with error: \(error.localizedDescription)")
+                print("A 5 (Five) seconds timeout ocurred waiting on all streets names with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
@@ -165,7 +168,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForAddressFromCoordinate()
     {
-        let addressFromCoordinateExpectation = expectationWithDescription("GatherAddressForCoordinate")
+        let addressFromCoordinateExpectation = expectationWithDescription("ConnectivityGatherAddressForCoordinate")
         
         // Spark Digital's Mar del Plata Office LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.019984, longitude: -57.545083)
@@ -196,16 +199,18 @@ class ConnectivityTest: XCTestCase
             
             if let error = error
             {
-                print("A 10 (ten) seconds timeout ocurred waiting on address from coordinate with error: \(error.localizedDescription)")
+                print("A 10 (Ten) seconds timeout ocurred waiting on address from coordinate with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
         }
     }
     
+    // MARK: - Google Geocoding Endpoint
+    
     func testResultContentsForCoordinateFromAddress()
     {
-        let coordinateFromAddressExpectation = expectationWithDescription("GatherCoordinateFromAddress")
+        let coordinateFromAddressExpectation = expectationWithDescription("ConnectivityGatherCoordinateFromAddress")
         
         // El Gaucho Monument's LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -237,16 +242,18 @@ class ConnectivityTest: XCTestCase
             
             if let error = error
             {
-                print("A 10 (ten) seconds timeout ocurred waiting on coordinate from address with error: \(error.localizedDescription)")
+                print("A 10 (Ten) seconds timeout ocurred waiting on coordinate from address with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
         }
     }
     
+    // MARK: - MyBus Endpoints
+    
     func testResultContentsForBusLinesFromOriginDestinationSingle()
     {
-        let busLinesFromOriginDestinationSingleExpectation = expectationWithDescription("GatherBusLinesFromOriginDestinationSingle")
+        let busLinesFromOriginDestinationSingleExpectation = expectationWithDescription("ConnectivityGatherBusLinesFromOriginDestinationSingle")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -311,7 +318,7 @@ class ConnectivityTest: XCTestCase
             
             if let error = error
             {
-                print("A 10 (ten) seconds timeout ocurred waiting on BusLines for origin-destination(Single) with error: \(error.localizedDescription)")
+                print("A 10 (Ten) seconds timeout ocurred waiting on BusLines for origin-destination(Single) with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
@@ -320,7 +327,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForBusLinesFromOriginDestinationCombined()
     {
-        let busLinesFromOriginDestinationCombinedExpectation = expectationWithDescription("GatherBusLinesFromOriginDestinationCombined")
+        let busLinesFromOriginDestinationCombinedExpectation = expectationWithDescription("ConnectivityGatherBusLinesFromOriginDestinationCombined")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -386,6 +393,451 @@ class ConnectivityTest: XCTestCase
             if let error = error
             {
                 print("A 30 (Thirty) seconds timeout ocurred waiting on BusLines for origin-destination(combined) with error: \(error.localizedDescription)")
+            }
+            
+            print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    func testResultContentsForSingleRoadResult()
+    {
+        let singleRoadResultExpectation = expectationWithDescription("ConnectivityGatherSingleRoadResult")
+        
+        // Bus 522 | From Origin: "Rosales 3458" to Destination: "Brasil 316"
+        let busIDLine:Int = 9
+        let direction:Int = 1
+        let beginStopLine:Int = 50
+        let endStopLine:Int = 158
+        
+        Connectivity.sharedInstance.getSingleResultRoadApi(busIDLine, firstDirection: direction, beginStopFirstLine: beginStopLine, endStopFirstLine: endStopLine) { (roadResult, error) in
+            
+            if let singleRoadResult = roadResult
+            {
+                XCTAssertNotNil(singleRoadResult.roadResultType)
+                XCTAssertNotNil(singleRoadResult.totalDistances)
+                XCTAssertNotNil(singleRoadResult.travelTime)
+                XCTAssertNotNil(singleRoadResult.arrivalTime)
+                XCTAssertNotNil(singleRoadResult.idBusLine1)
+                XCTAssertNotNil(singleRoadResult.idBusLine2)
+                
+                XCTAssert(singleRoadResult.routeList.count > 0)
+                XCTAssert(singleRoadResult.getPointList().count > 0)
+                
+                switch singleRoadResult.busRouteResultType()
+                {
+                case .Single:
+                    XCTAssertNotNil(singleRoadResult.firstBusStop)
+                    XCTAssertNotNil(singleRoadResult.endBusStop)
+                case .Combined:
+                    XCTAssertNotNil(singleRoadResult.midStartStop)
+                    XCTAssertNotNil(singleRoadResult.midEndStop)
+                }
+                
+                XCTAssertNotEqual(singleRoadResult.firstBusStop?.latitude, singleRoadResult.midEndStop?.latitude)
+                XCTAssertNotEqual(singleRoadResult.firstBusStop?.longitude, singleRoadResult.midEndStop?.longitude)
+                
+                for case let item:RoutePoint in singleRoadResult.getPointList()
+                {
+                    XCTAssertNotNil(item.stopId)
+                    XCTAssertNotNil(item.latitude)
+                    XCTAssertNotNil(item.longitude)
+                    XCTAssertNotNil(item.address)
+                    XCTAssertNotNil(item.isWaypoint)
+                    XCTAssertNotNil(item.name)
+                }
+            }
+            
+            singleRoadResultExpectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(10)
+        { error in
+            
+            if let error = error
+            {
+                print("A 10 (Ten) seconds timeout ocurred waiting on single RoadResult with error: \(error.localizedDescription)")
+            }
+            
+            print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    func testResultContentsForCombinedRoadResult()
+    {
+        let combinedRoadResultExpectation = expectationWithDescription("ConnectivityGatherCombinedRoadResult")
+
+        // Buses 531 -> 511b | From Origin: "Luzuriaga 301" to Destination: "Velez Sarfield 257"
+        let firstBusIDLine:Int = 11
+        let firstDirection:Int = 0
+        let firstBeginStopLine:Int = 11
+        let firstEndStopLine:Int = 27
+        
+        let secondBusIDLine:Int = 28
+        let secondDirection:Int = 0
+        let secondBeginStopLine:Int = 38
+        let secondEndStopLine:Int = 131
+        
+        Connectivity.sharedInstance.getCombinedResultRoadApi(firstBusIDLine, idSecondLine: secondBusIDLine, firstDirection: firstDirection, secondDirection: secondDirection, beginStopFirstLine: firstBeginStopLine, endStopFirstLine: firstEndStopLine, beginStopSecondLine: secondBeginStopLine, endStopSecondLine: secondEndStopLine)
+        { (roadResult, error) in
+            
+            if let combinedRoadResult = roadResult
+            {
+                XCTAssertNotNil(combinedRoadResult.roadResultType)
+                XCTAssertNotNil(combinedRoadResult.totalDistances)
+                XCTAssertNotNil(combinedRoadResult.travelTime)
+                XCTAssertNotNil(combinedRoadResult.arrivalTime)
+                XCTAssertNotNil(combinedRoadResult.idBusLine1)
+                XCTAssertNotNil(combinedRoadResult.idBusLine2)
+                
+                XCTAssert(combinedRoadResult.routeList.count > 0)
+                XCTAssert(combinedRoadResult.getPointList().count > 0)
+                
+                switch combinedRoadResult.busRouteResultType()
+                {
+                case .Single:
+                    XCTAssertNotNil(combinedRoadResult.firstBusStop)
+                    XCTAssertNotNil(combinedRoadResult.endBusStop)
+                case .Combined:
+                    XCTAssertNotNil(combinedRoadResult.midStartStop)
+                    XCTAssertNotNil(combinedRoadResult.midEndStop)
+                }
+                
+                XCTAssertNotEqual(combinedRoadResult.firstBusStop?.latitude, combinedRoadResult.midEndStop?.latitude)
+                XCTAssertNotEqual(combinedRoadResult.firstBusStop?.longitude, combinedRoadResult.midEndStop?.longitude)
+                
+                for case let item:RoutePoint in combinedRoadResult.getPointList()
+                {
+                    XCTAssertNotNil(item.stopId)
+                    XCTAssertNotNil(item.latitude)
+                    XCTAssertNotNil(item.longitude)
+                    XCTAssertNotNil(item.address)
+                    XCTAssertNotNil(item.isWaypoint)
+                    XCTAssertNotNil(item.name)
+                }
+            }
+            
+            combinedRoadResultExpectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(30)
+        { error in
+            
+            if let error = error
+            {
+                print("A 30 (Thirty) seconds timeout ocurred waiting on combined RoadResult with error: \(error.localizedDescription)")
+            }
+            
+            print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    func testResultContentsForCompleteBusRoute531()
+    {
+        let completeBusRoute531Expectation = expectationWithDescription("ConnectivityGatherCompleteBusRouteFor531")
+        
+        // Bus 531
+        let busLineID:Int = 11
+        let goingDirection:Int = 0
+        let returningDirection:Int = 1
+        let busLineName:String = "531"
+        
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+            if let completeRoute = justGoingBusRoute
+            {
+                //Get route in returning way
+                Connectivity.sharedInstance.getCompleteRoads(busLineID, direction: returningDirection, completionHandler: { (returnBusRoute, error) in
+                    
+                    completeRoute.busLineName = busLineName
+                    
+                    if let fullCompleteRoute = returnBusRoute
+                    {
+                        //Another hack
+                        completeRoute.returnPointList = fullCompleteRoute.goingPointList
+                    }
+                    
+                    XCTAssert(completeRoute.goingPointList.count > 0)
+                    XCTAssert(completeRoute.returnPointList.count > 0)
+                    
+                    XCTAssertFalse(completeRoute.isEqualStartGoingEndReturn())
+                    XCTAssertFalse(completeRoute.isEqualStartReturnEndGoing())
+                    
+                    for case let item:RoutePoint in completeRoute.goingPointList
+                    {
+                        XCTAssertNotNil(item.stopId)
+                        XCTAssertNotNil(item.latitude)
+                        XCTAssertNotNil(item.longitude)
+                        XCTAssertNotNil(item.address)
+                        XCTAssertNotNil(item.isWaypoint)
+                        XCTAssertNotNil(item.name)
+                    }
+                    
+                    for case let item:RoutePoint in completeRoute.returnPointList
+                    {
+                        XCTAssertNotNil(item.stopId)
+                        XCTAssertNotNil(item.latitude)
+                        XCTAssertNotNil(item.longitude)
+                        XCTAssertNotNil(item.address)
+                        XCTAssertNotNil(item.isWaypoint)
+                        XCTAssertNotNil(item.name)
+                    }
+                    
+                    completeBusRoute531Expectation.fulfill()
+                })
+            }
+        }
+        
+        //Get route in going way
+        Connectivity.sharedInstance.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
+        
+        waitForExpectationsWithTimeout(30)
+        { error in
+            
+            if let error = error
+            {
+                print("A 30 (Thirty) seconds timeout ocurred waiting on complete road with error: \(error.localizedDescription)")
+            }
+            
+            print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    func testResultContentsForCompleteBusRoute542()
+    {
+        let completeBusRoute542Expectation = expectationWithDescription("ConnectivityGatherCompleteBusRouteFor542")
+        
+        // Bus 542
+        let busLineID:Int = 1
+        let goingDirection:Int = 0
+        let returningDirection:Int = 1
+        let busLineName:String = "542"
+        
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+            if let completeRoute = justGoingBusRoute
+            {
+                //Get route in returning way
+                Connectivity.sharedInstance.getCompleteRoads(busLineID, direction: returningDirection, completionHandler: { (returnBusRoute, error) in
+                    
+                    completeRoute.busLineName = busLineName
+                    
+                    if let fullCompleteRoute = returnBusRoute
+                    {
+                        //Another hack
+                        completeRoute.returnPointList = fullCompleteRoute.goingPointList
+                    }
+                    
+                    XCTAssert(completeRoute.goingPointList.count > 0)
+                    XCTAssert(completeRoute.returnPointList.count > 0)
+                    
+                    XCTAssertFalse(completeRoute.isEqualStartGoingEndReturn())
+                    XCTAssertFalse(completeRoute.isEqualStartReturnEndGoing())
+                    
+                    for case let item:RoutePoint in completeRoute.goingPointList
+                    {
+                        XCTAssertNotNil(item.stopId)
+                        XCTAssertNotNil(item.latitude)
+                        XCTAssertNotNil(item.longitude)
+                        XCTAssertNotNil(item.address)
+                        XCTAssertNotNil(item.isWaypoint)
+                        XCTAssertNotNil(item.name)
+                    }
+                    
+                    for case let item:RoutePoint in completeRoute.returnPointList
+                    {
+                        XCTAssertNotNil(item.stopId)
+                        XCTAssertNotNil(item.latitude)
+                        XCTAssertNotNil(item.longitude)
+                        XCTAssertNotNil(item.address)
+                        XCTAssertNotNil(item.isWaypoint)
+                        XCTAssertNotNil(item.name)
+                    }
+                    
+                    completeBusRoute542Expectation.fulfill()
+                })
+            }
+        }
+        
+        //Get route in going way
+        Connectivity.sharedInstance.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
+        
+        waitForExpectationsWithTimeout(30)
+        { error in
+            
+            if let error = error
+            {
+                print("A 30 (Thirty) seconds timeout ocurred waiting on complete road with error: \(error.localizedDescription)")
+            }
+            
+            print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    func testResultContentsForRechargePoints()
+    {
+        let rechargePointsExpectation = expectationWithDescription("ConnectivityGatherRechargePoints")
+        
+        // Avenida Pedro Luro y Avenida Independencia
+        
+        let userLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
+        
+        Connectivity.sharedInstance.getRechargeCardPoints(userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude)
+        {
+            points, error in
+            
+            if let rechargePoints = points
+            {
+                for case let item:RechargePoint in rechargePoints
+                {
+                    XCTAssertNotNil(item)
+                    
+                    XCTAssertNotNil(item.id)
+                    XCTAssertNotNil(item.name)
+                    XCTAssertNotNil(item.address)
+                    XCTAssertNotNil(item.location)
+                    XCTAssertNotNil(item.openTime)
+                    XCTAssertNotNil(item.distance)
+                    
+                    XCTAssertGreaterThanOrEqual(item.distance!, 0.0)
+                }
+            }
+            
+            rechargePointsExpectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(30)
+        { error in
+            
+            if let error = error
+            {
+                print("A 30 (Thirty) seconds timeout ocurred waiting on recharge points with error: \(error.localizedDescription)")
+            }
+            
+            print("\nExpectation fulfilled!\n")
+        }
+    }
+    
+    // MARK: - Directions Endpoints
+    
+    func testResultContentsForWalkingDirections()
+    {
+        let walkingDirectionsExpectation = expectationWithDescription("ConnectivityGatherWalkingDirections")
+        
+        // Avenida Pedro Luro and Avenida Independencia
+        // To
+        // Avenida Colón and Buenos Aires
+
+        let originLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
+        let destinationLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.005980, longitude: -57.545158)
+        
+        Connectivity.sharedInstance.getWalkingDirections(originLocationCoordinate, destinationCoordinate: destinationLocationCoordinate, completionHandler: { (directionResponse, error) in
+            
+            if let walkingDirection = directionResponse
+            {
+                let source: MBPoint = walkingDirection.source
+                let destination: MBPoint = walkingDirection.destination
+                let waypoints: [MBPoint] = walkingDirection.waypoints
+                let routes: [MBRoute] = walkingDirection.routes
+                
+                XCTAssertNotNil(source)
+                XCTAssertNotNil(source.name)
+                XCTAssertNotNil(source.coordinate)
+                XCTAssertNotNil(source.coordinate.latitude)
+                XCTAssertNotNil(source.coordinate.longitude)
+                
+                XCTAssertNotNil(destination)
+                XCTAssertNotNil(destination.name)
+                XCTAssertNotNil(destination.coordinate)
+                XCTAssertNotNil(destination.coordinate.latitude)
+                XCTAssertNotNil(destination.coordinate.longitude)
+                
+                for case let item:MBPoint in waypoints
+                {
+                    XCTAssertNotNil(item)
+                    
+                    XCTAssertNotNil(item.name)
+                    XCTAssertNotNil(item.coordinate)
+                    XCTAssertNotNil(item.coordinate.latitude)
+                    XCTAssertNotNil(item.coordinate.longitude)
+                }
+                
+                for case let item:MBRoute in routes
+                {
+                    XCTAssertNotNil(item)
+                    
+                    XCTAssertNotNil(item.legs)
+                    for case let subItem:MBRouteLeg in item.legs
+                    {
+                        XCTAssertNotNil(subItem.steps)
+                        for case let underSubItem:MBRouteStep in subItem.steps
+                        {
+                            XCTAssertNotNil(underSubItem.transportType)
+                            XCTAssertNotNil(underSubItem.maneuverType)
+                            XCTAssertNotNil(underSubItem.instructions)
+                            XCTAssertNotNil(underSubItem.distance)
+                            XCTAssertNotNil(underSubItem.profileIdentifier)
+                            
+                            XCTAssertNotNil(underSubItem.geometry)
+                            for case let ultimateItem:CLLocationCoordinate2D in underSubItem.geometry!
+                            {
+                                XCTAssertNotNil(ultimateItem.latitude)
+                                XCTAssertNotNil(ultimateItem.longitude)
+                            }
+                            
+                            XCTAssertNotNil(underSubItem.duration)
+                            XCTAssertNotNil(underSubItem.name)
+                            XCTAssertNotNil(underSubItem.initialHeading)
+                            XCTAssertNotNil(underSubItem.finalHeading)
+                            XCTAssertNotNil(underSubItem.maneuverLocation)
+                            XCTAssertNotNil(underSubItem.maneuverLocation.latitude)
+                            XCTAssertNotNil(underSubItem.maneuverLocation.longitude)
+                        }
+                        
+                        XCTAssertNotNil(subItem.name)
+                        XCTAssertNotNil(subItem.distance)
+                        XCTAssertNotNil(subItem.expectedTravelTime)
+                        XCTAssertGreaterThanOrEqual(subItem.expectedTravelTime, 0.0)
+                        XCTAssertNotNil(subItem.transportType)
+                        XCTAssertNotNil(subItem.profileIdentifier)
+                        XCTAssertNotNil(subItem.source)
+                        XCTAssertNotNil(subItem.destination)
+                    }
+                    
+                    XCTAssertNotNil(item.distance)
+                    XCTAssertGreaterThanOrEqual(item.distance, 0.0)
+                    XCTAssertNotNil(item.expectedTravelTime)
+                    XCTAssertGreaterThanOrEqual(item.expectedTravelTime, 0.0)
+                    XCTAssertNotNil(item.transportType)
+                    XCTAssertNotNil(item.profileIdentifier)
+                    
+                    XCTAssertNotNil(item.geometry)
+                    for case let subItem:CLLocationCoordinate2D in item.geometry
+                    {
+                        XCTAssertNotNil(subItem.latitude)
+                        XCTAssertNotNil(subItem.longitude)
+                    }
+                    
+                    XCTAssertNotNil(item.source)
+                    XCTAssertNotNil(item.destination)
+                    
+                    XCTAssertNotNil(item.waypoints)
+                    for case let subItem:MBPoint in item.waypoints
+                    {
+                        XCTAssertNotNil(subItem.name)
+                        XCTAssertNotNil(subItem.coordinate)
+                        XCTAssertNotNil(subItem.coordinate.latitude)
+                        XCTAssertNotNil(subItem.coordinate.longitude)
+                    }
+                }
+            }
+            
+            walkingDirectionsExpectation.fulfill()
+        })
+        
+        waitForExpectationsWithTimeout(30)
+        { error in
+            
+            if let error = error
+            {
+                print("A 30 (Thirty) seconds timeout ocurred waiting on walking directions with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
