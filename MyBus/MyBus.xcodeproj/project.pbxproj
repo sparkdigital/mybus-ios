@@ -117,6 +117,11 @@
 		08C8868B1DDE4D7600C7BEEA /* RoutePointSingle_2_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C886831DDE4D7600C7BEEA /* RoutePointSingle_2_2.json */; };
 		08C90A591DE61D5500EAC204 /* Route_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C90A571DE61D5500EAC204 /* Route_1.json */; };
 		08C90A5A1DE61D5500EAC204 /* Route_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 08C90A581DE61D5500EAC204 /* Route_2.json */; };
+		08D3931C1DEF3FCF009ABCA5 /* SearchSuggestionsDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D3931B1DEF3FCF009ABCA5 /* SearchSuggestionsDataSourceTest.swift */; };
+		08D3931E1DEF3FEA009ABCA5 /* BusesRatesDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D3931D1DEF3FEA009ABCA5 /* BusesRatesDataSourceTest.swift */; };
+		08D393201DEF4001009ABCA5 /* BusesInformationDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D3931F1DEF4001009ABCA5 /* BusesInformationDataSourceTest.swift */; };
+		08D393221DEF4020009ABCA5 /* SearchDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D393211DEF4020009ABCA5 /* SearchDataSourceTest.swift */; };
+		08D393241DEF4034009ABCA5 /* FavoriteDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D393231DEF4034009ABCA5 /* FavoriteDataSourceTest.swift */; };
 		08E5F5301DD4B7A6004D0578 /* CompleteBusItineraryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F52F1DD4B7A6004D0578 /* CompleteBusItineraryTest.swift */; };
 		08E5F5321DD4B8D7004D0578 /* BusRouteResultSingleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F5311DD4B8D7004D0578 /* BusRouteResultSingleTest.swift */; };
 		08E5F5341DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F5331DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift */; };
@@ -274,6 +279,11 @@
 		08C886831DDE4D7600C7BEEA /* RoutePointSingle_2_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = RoutePointSingle_2_2.json; path = Resources/Road/RoutePointSingle_2_2.json; sourceTree = "<group>"; };
 		08C90A571DE61D5500EAC204 /* Route_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Route_1.json; path = Resources/Road/Route_1.json; sourceTree = "<group>"; };
 		08C90A581DE61D5500EAC204 /* Route_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Route_2.json; path = Resources/Road/Route_2.json; sourceTree = "<group>"; };
+		08D3931B1DEF3FCF009ABCA5 /* SearchSuggestionsDataSourceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchSuggestionsDataSourceTest.swift; path = DataSources/SearchSuggestionsDataSourceTest.swift; sourceTree = "<group>"; };
+		08D3931D1DEF3FEA009ABCA5 /* BusesRatesDataSourceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusesRatesDataSourceTest.swift; path = DataSources/BusesRatesDataSourceTest.swift; sourceTree = "<group>"; };
+		08D3931F1DEF4001009ABCA5 /* BusesInformationDataSourceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusesInformationDataSourceTest.swift; path = DataSources/BusesInformationDataSourceTest.swift; sourceTree = "<group>"; };
+		08D393211DEF4020009ABCA5 /* SearchDataSourceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchDataSourceTest.swift; path = DataSources/SearchDataSourceTest.swift; sourceTree = "<group>"; };
+		08D393231DEF4034009ABCA5 /* FavoriteDataSourceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavoriteDataSourceTest.swift; path = DataSources/FavoriteDataSourceTest.swift; sourceTree = "<group>"; };
 		08E5F52F1DD4B7A6004D0578 /* CompleteBusItineraryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompleteBusItineraryTest.swift; path = Model/Persistence/CompleteBusItineraryTest.swift; sourceTree = "<group>"; };
 		08E5F5311DD4B8D7004D0578 /* BusRouteResultSingleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResultSingleTest.swift; path = Model/Bus/BusRouteResultSingleTest.swift; sourceTree = "<group>"; };
 		08E5F5331DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResultCombinedTest.swift; path = Model/Bus/BusSearchResultCombinedTest.swift; sourceTree = "<group>"; };
@@ -439,6 +449,11 @@
 		0826D1AC1DD38E9900F9ED15 /* DataSources */ = {
 			isa = PBXGroup;
 			children = (
+				08D3931B1DEF3FCF009ABCA5 /* SearchSuggestionsDataSourceTest.swift */,
+				08D3931D1DEF3FEA009ABCA5 /* BusesRatesDataSourceTest.swift */,
+				08D3931F1DEF4001009ABCA5 /* BusesInformationDataSourceTest.swift */,
+				08D393211DEF4020009ABCA5 /* SearchDataSourceTest.swift */,
+				08D393231DEF4034009ABCA5 /* FavoriteDataSourceTest.swift */,
 			);
 			name = DataSources;
 			sourceTree = "<group>";
@@ -1156,17 +1171,21 @@
 				088214B71DDCEA1B003742E4 /* SearchDataSource.swift in Sources */,
 				088214C91DDCEB15003742E4 /* FavoriteTableViewCell.swift in Sources */,
 				0882149E1DDCE099003742E4 /* BusSearchResult.swift in Sources */,
+				08D393221DEF4020009ABCA5 /* SearchDataSourceTest.swift in Sources */,
 				088214C21DDCEA71003742E4 /* MyBusMarkerFactory.swift in Sources */,
 				088214B01DDCEA05003742E4 /* BusesInformationViewController.swift in Sources */,
 				088214981DDCE082003742E4 /* MyBusService.swift in Sources */,
 				082853371DE62ABD005F38B4 /* CombinedRouteView.swift in Sources */,
 				088214971DDCE07F003742E4 /* Connectivity.swift in Sources */,
+				08D393201DEF4001009ABCA5 /* BusesInformationDataSourceTest.swift in Sources */,
+				08D393241DEF4034009ABCA5 /* FavoriteDataSourceTest.swift in Sources */,
 				088214A51DDCE9D1003742E4 /* RoadSearch.swift in Sources */,
 				08E5F53D1DD4C39B004D0578 /* RoutePointTest.swift in Sources */,
 				082853341DE62A12005F38B4 /* SearchFavoriteTableViewCell.swift in Sources */,
 				088214A61DDCE9D4003742E4 /* CompleteBusRoute.swift in Sources */,
 				08E5F5431DD4C43C004D0578 /* CompleteBusRouteTest.swift in Sources */,
 				088214AF1DDCEA02003742E4 /* BusesRatesViewController.swift in Sources */,
+				08D3931C1DEF3FCF009ABCA5 /* SearchSuggestionsDataSourceTest.swift in Sources */,
 				088214CF1DDCEB45003742E4 /* GenerateMessageAlert.swift in Sources */,
 				088214AB1DDCE9F5003742E4 /* SearchContainerViewController.swift in Sources */,
 				088214C71DDCEB0F003742E4 /* BusesRatesTableViewCell.swift in Sources */,
@@ -1231,6 +1250,7 @@
 				088214C81DDCEB12003742E4 /* BusesInformationTableViewCell.swift in Sources */,
 				088214BF1DDCEA62003742E4 /* Strings.swift in Sources */,
 				08E5F53B1DD4C271004D0578 /* SuggestedPlaceTest.swift in Sources */,
+				08D3931E1DEF3FEA009ABCA5 /* BusesRatesDataSourceTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
