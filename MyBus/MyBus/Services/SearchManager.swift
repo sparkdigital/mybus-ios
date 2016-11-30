@@ -180,7 +180,7 @@ public class SearchManager: NSObject {
         let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute {
                 //Get route in return way
-                Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 1, completionHanlder: { (returnBusRoute, error) in
+                Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 1, completionHandler: { (returnBusRoute, error) in
                     completeRoute.busLineName = busLineName
                     if let fullCompleteRoute = returnBusRoute {
                         //Another hack
@@ -206,7 +206,7 @@ public class SearchManager: NSObject {
 
             if secondsSavedSinceNow > secondsInADay  {
                 //Sync itineraries each one month
-                Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0, completionHanlder: connectivtyResultsCompletionHandler)
+                Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0, completionHandler: connectivtyResultsCompletionHandler)
             } else {
                 let route = CompleteBusRoute()
                 route.busLineName = busItinerary.busLineName
@@ -218,7 +218,7 @@ public class SearchManager: NSObject {
 
         } else {
             //Get route in going way of bus line
-            Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0, completionHanlder: connectivtyResultsCompletionHandler)
+            Connectivity.sharedInstance.getCompleteRoads(idBusLine, direction: 0, completionHandler: connectivtyResultsCompletionHandler)
         }
 
     }

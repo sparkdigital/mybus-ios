@@ -118,7 +118,10 @@ class BusSearchResultCombinedTest: XCTestCase
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
             XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
-            XCTAssertEqual(firstBusSearchResultCombined.roads(item), firstBusSearchResultCombined.roads(item))
+            
+            let busSearchDescription = "BusSearchResult with Type:\(item.busRouteType) and CombinationDistance:\(item.combinationDistance)\n"
+            
+            print(busSearchDescription)
         }
         
         print("\nSecond BusSearchResult Combined:\n")
@@ -128,7 +131,10 @@ class BusSearchResultCombinedTest: XCTestCase
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
             XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
-            XCTAssertEqual(secondBusSearchResultCombined.roads(item), secondBusSearchResultCombined.roads(item))
+            
+            let busSearchDescription = "BusSearchResult with Type:\(item.busRouteType) and CombinationDistance:\(item.combinationDistance)\n"
+            
+            print(busSearchDescription)
         }
     }
 }
