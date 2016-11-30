@@ -8,28 +8,55 @@
 
 import XCTest
 
-class SearchDataSourceTest: XCTestCase {
+class SearchDataSourceTest: XCTestCase
+{
+    let searchDataSource: SearchDataSource = SearchDataSource()
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown()
+    {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testResultExistence()
+    {
+        XCTAssertNotNil(searchDataSource.favourites)
+        XCTAssertNotNil(searchDataSource.recents)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
+    func testResultContents()
+    {
+        XCTAssert(searchDataSource.favourites.count > 0)
+        XCTAssert(searchDataSource.recents.count > 0)
+    }
+    
+    func testResultContentsForValidFavourites()
+    {
+        for case let item:RoutePoint in searchDataSource.favourites
+        {
+            XCTAssertNotNil(item.stopId)
+            XCTAssertNotNil(item.latitude)
+            XCTAssertNotNil(item.longitude)
+            XCTAssertNotNil(item.address)
+            XCTAssertNotNil(item.isWaypoint)
+            XCTAssertNotNil(item.name)
         }
     }
     
+    func testResultContentsForValidRecents()
+    {
+        for case let item:RoutePoint in searchDataSource.recents
+        {
+            XCTAssertNotNil(item.stopId)
+            XCTAssertNotNil(item.latitude)
+            XCTAssertNotNil(item.longitude)
+            XCTAssertNotNil(item.address)
+            XCTAssertNotNil(item.isWaypoint)
+            XCTAssertNotNil(item.name)
+        }
+    }
 }
