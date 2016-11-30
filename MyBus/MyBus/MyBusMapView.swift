@@ -247,7 +247,7 @@ class MyBusMapView: MGLMapView{
     
     func addIntermediateBusStopAnnotations(roadIntermediateBusStopMarkers:[MyBusMarkerIntermediateBusStopPoint]) {
         self.clearIntermediateBusStopAnnotations()
-        let candidateAnnotations = self.visibleBusStops(self.zoomLevel, minZoom: self.minZoomLevel, maxZoom: self.maxZoomLevel, busStopAnnotations: roadIntermediateBusStopMarkers)
+        let candidateAnnotations = self.visibleBusStops(self.zoomLevel, minZoom: self.minZoomLevel, busStopAnnotations: roadIntermediateBusStopMarkers)
         addAnnotations(candidateAnnotations)
     }
     
@@ -269,7 +269,7 @@ class MyBusMapView: MGLMapView{
 
     }
     
-    private func visibleBusStops(currentZoom:Double, minZoom:Double, maxZoom:Double, busStopAnnotations:[MGLAnnotation]) -> [MGLAnnotation] {
+    private func visibleBusStops(currentZoom:Double, minZoom:Double, busStopAnnotations:[MGLAnnotation]) -> [MGLAnnotation] {
         
         if !(busStopAnnotations.count > 0) { return []}
         
