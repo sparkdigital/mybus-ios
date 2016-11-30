@@ -119,7 +119,7 @@ class MyBusMarkerFactory {
         return roadStopsMarkerList
     }
     
-    class func buildIntermediateBusStopMarkers(roadResult:RoadResult)->[MyBusMarker] {
+    class func buildIntermediateBusStopMarkers(roadResult:RoadResult)->[MyBusMarkerIntermediateBusStopPoint] {
         
         //Get Points
         var busStopRoutePoints = roadResult.getPointList()
@@ -135,7 +135,7 @@ class MyBusMarkerFactory {
         }
         
         //Init markers array
-        var routeBusStops:[MyBusMarker] = busStopRoutePoints.map { (busStopPoint) -> MyBusMarker in
+        var routeBusStops:[MyBusMarkerIntermediateBusStopPoint] = busStopRoutePoints.map { (busStopPoint) -> MyBusMarkerIntermediateBusStopPoint in
             return MyBusMarkerFactory.createRoadBusStopMarker(busStopPoint)
         }
         
@@ -159,8 +159,8 @@ class MyBusMarkerFactory {
         return marker
     }
     
-    class func createRoadBusStopMarker(point:RoutePoint) -> MyBusMarkerBusStopPoint{
-        let marker = MyBusMarkerBusStopPoint(position: point.getLatLong(), title: MyBusTitle.BusStop.rawValue, subtitle: point.address, imageIdentifier: "stop_marker")
+    class func createRoadBusStopMarker(point:RoutePoint) -> MyBusMarkerIntermediateBusStopPoint{
+        let marker = MyBusMarkerIntermediateBusStopPoint(position: point.getLatLong(), title: MyBusTitle.BusStop.rawValue, subtitle: point.address, imageIdentifier: "stop_marker")
         return marker
     }
 
