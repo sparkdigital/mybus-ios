@@ -19,7 +19,7 @@ enum MyBusMapModelNotificationKey: String {
 
 class MyBusMapRoad {
     var roadMarkers:[MyBusMarker]!
-    var roadIntermediateBusStopMarkers:[MyBusMarker]!
+    var roadIntermediateBusStopMarkers:[MyBusMarkerIntermediateBusStopPoint]!
     var roadPolyline:[MyBusPolyline]!
     var walkingPath:[MyBusPolyline]!
 }

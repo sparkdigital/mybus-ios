@@ -213,25 +213,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
     
     func mapView(mapView: MGLMapView, regionDidChangeAnimated animated: Bool){
-        NSLog("Current Zoom Level = \(mapView.zoomLevel)")
+        //NSLog("Current Zoom Level = \(mapView.zoomLevel)")
+        if let myBusMapView = mapView as? MyBusMapView, let currentRoadBusStopMarkers = self.mapModel.currentRoad?.roadIntermediateBusStopMarkers {
+            myBusMapView.addIntermediateBusStopAnnotations(currentRoadBusStopMarkers)
+        }
     }
-    
-    /*
-    func mapViewRegionIsChanging(mapView: MGLMapView){
-        NSLog("wiii Current Zoom Level = \(mapView.zoomLevel)")
-    }
-    
-    func mapViewDidFinishRenderingFrame(mapView: MGLMapView, fullyRendered: Bool){
-        NSLog("lalala")
-    }
-    
-    func mapView(mapView: MGLMapView, regionWillChangeAnimated animated: Bool){
-        NSLog("Imprimi algo la puta que te pario")
-    }
-    
-    func mapViewDidFinishRenderingMap(mapView: MGLMapView, fullyRendered: Bool){
-        NSLog("Imprimi algo la puta que te pario, lo digo en serio")
-    }*/
     
     // MARK: - Mapview bus roads manipulation Methods
     func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){

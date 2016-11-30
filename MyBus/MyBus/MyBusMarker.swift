@@ -13,6 +13,7 @@ import UIKit
 class MyBusMarkerOriginPoint: MyBusMarker {}
 class MyBusMarkerDestinationPoint: MyBusMarker {}
 class MyBusMarkerBusStopPoint: MyBusMarker{}
+class MyBusMarkerIntermediateBusStopPoint: MyBusMarker{}
 class MyBusMarkerRechargePoint: MyBusMarker{}
 
 class MyBusMarkerCompleteRoutePoint: MyBusMarker{}
