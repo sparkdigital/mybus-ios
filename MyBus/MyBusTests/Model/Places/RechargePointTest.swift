@@ -60,6 +60,8 @@ class RechargePointTest: XCTestCase
             XCTAssertNotNil(item.distance)
             
             XCTAssertGreaterThanOrEqual(item.distance!, 0.0)
+            
+            print("Recharge Point: ID - \(item.id) @ Address: \(item.address)(LAT: \(item.getLatLong().latitude),LON: \(item.getLatLong().longitude))\n")
         }
     }
 }
