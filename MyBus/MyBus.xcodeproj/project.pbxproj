@@ -32,7 +32,6 @@
 		087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */; };
 		088214921DDCDD20003742E4 /* BusRouteCombinedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088214911DDCDD20003742E4 /* BusRouteCombinedTest.swift */; };
 		088214941DDCDD47003742E4 /* BusRouteResultCombinedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088214931DDCDD47003742E4 /* BusRouteResultCombinedTest.swift */; };
-		088214951DDCE079003742E4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153DF831DB6875B00B25A49 /* DBManager.swift */; };
 		088214961DDCE07C003742E4 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1131807D1D63749400425847 /* SearchManager.swift */; };
 		088214971DDCE07F003742E4 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087E76EF1CBEA5D800FB6050 /* Connectivity.swift */; };
 		088214981DDCE082003742E4 /* MyBusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AD4531CF7C0530088F592 /* MyBusService.swift */; };
@@ -122,6 +121,7 @@
 		08D393201DEF4001009ABCA5 /* BusesInformationDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D3931F1DEF4001009ABCA5 /* BusesInformationDataSourceTest.swift */; };
 		08D393221DEF4020009ABCA5 /* SearchDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D393211DEF4020009ABCA5 /* SearchDataSourceTest.swift */; };
 		08D393241DEF4034009ABCA5 /* FavoriteDataSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D393231DEF4034009ABCA5 /* FavoriteDataSourceTest.swift */; };
+		08D393251DEF6B95009ABCA5 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153DF831DB6875B00B25A49 /* DBManager.swift */; };
 		08E5F5301DD4B7A6004D0578 /* CompleteBusItineraryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F52F1DD4B7A6004D0578 /* CompleteBusItineraryTest.swift */; };
 		08E5F5321DD4B8D7004D0578 /* BusRouteResultSingleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F5311DD4B8D7004D0578 /* BusRouteResultSingleTest.swift */; };
 		08E5F5341DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5F5331DD4B8F3004D0578 /* BusSearchResultCombinedTest.swift */; };
@@ -1222,7 +1222,6 @@
 				088214C41DDCEA76003742E4 /* MyBusMapModel.swift in Sources */,
 				0807F6DC1DE74F2700ACDFED /* MyBusServiceTest.swift in Sources */,
 				088214C11DDCEA6C003742E4 /* SimpleSearchBarView.swift in Sources */,
-				088214951DDCE079003742E4 /* DBManager.swift in Sources */,
 				088214AD1DDCE9FB003742E4 /* SearchViewController.swift in Sources */,
 				088214C61DDCEB0C003742E4 /* BestMatchTableViewCell.swift in Sources */,
 				088214BE1DDCEA5D003742E4 /* MyBusMarker.swift in Sources */,
@@ -1251,6 +1250,7 @@
 				088214BF1DDCEA62003742E4 /* Strings.swift in Sources */,
 				08E5F53B1DD4C271004D0578 /* SuggestedPlaceTest.swift in Sources */,
 				08D3931E1DEF3FEA009ABCA5 /* BusesRatesDataSourceTest.swift in Sources */,
+				08D393251DEF6B95009ABCA5 /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
