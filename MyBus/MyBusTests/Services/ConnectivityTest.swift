@@ -158,7 +158,7 @@ class ConnectivityTest: XCTestCase
     func testPerformanceForDiagonalsSearch()
     {
         searchText = "Diag "
-
+        
         self.measureBlock
             {
                 self.connectivityService.getStreetNames(forName: self.searchText)
@@ -329,6 +329,7 @@ class ConnectivityTest: XCTestCase
         // El Gaucho Monument's LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
         let address = "Av. Juan B. Justo 6200"
+        let expectedAddress = "Av. Juan B. Justo 6200-6102"
         
         connectivityService.getCoordinateFromAddress(address, completionHandler: { (routePoint, error) in
             if let point = routePoint
@@ -343,7 +344,7 @@ class ConnectivityTest: XCTestCase
                 
                 XCTAssertEqual(point.latitude, coordinate.latitude)
                 XCTAssertEqual(point.longitude, coordinate.longitude)
-                XCTAssertEqual(point.address, address)
+                XCTAssertEqual(point.address, expectedAddress)
                 
                 print("\nAddress: \(point.address) from coordinate (LAT:\(point.latitude),LON:\(point.longitude))")
             }
@@ -351,12 +352,12 @@ class ConnectivityTest: XCTestCase
             coordinateFromAddressExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(10)
+        waitForExpectationsWithTimeout(60)
         { error in
             
             if let error = error
             {
-                print("A 10 (Ten) seconds timeout ocurred waiting on coordinate from address with error: \(error.localizedDescription)")
+                print("A 60 (Sixty) seconds timeout ocurred waiting on coordinate from address with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
@@ -454,12 +455,12 @@ class ConnectivityTest: XCTestCase
             busLinesFromOriginDestinationSingleExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(60)
+        waitForExpectationsWithTimeout(90)
         { error in
             
             if let error = error
             {
-                print("A 60 (Sixty) seconds timeout ocurred waiting on BusLines for origin-destination(Single) with error: \(error.localizedDescription)")
+                print("A 90 (Ninety) seconds timeout ocurred waiting on BusLines for origin-destination(Single) with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
@@ -582,12 +583,12 @@ class ConnectivityTest: XCTestCase
             busLinesFromOriginDestinationCombinedExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectationsWithTimeout(120)
         { error in
             
             if let error = error
             {
-                print("A 90 (Ninety) seconds timeout ocurred waiting on BusLines for origin-destination(combined) with error: \(error.localizedDescription)")
+                print("A 120 (Hundred and twenty) seconds timeout ocurred waiting on BusLines for origin-destination(combined) with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")

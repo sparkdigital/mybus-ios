@@ -30,6 +30,7 @@ class GeoCodingServiceTest: XCTestCase
         // El Gaucho Monument's LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
         let address = "Av. Juan B. Justo 6200"
+        let expectedAddress = "Av. Juan B. Justo 6200-6102"
         
         googleGeocodingService.getCoordinateFromAddress(address, completionHandler: { (routePoint, error) in
             if let point = routePoint
@@ -44,7 +45,7 @@ class GeoCodingServiceTest: XCTestCase
                 
                 XCTAssertEqual(point.latitude, coordinate.latitude)
                 XCTAssertEqual(point.longitude, coordinate.longitude)
-                XCTAssertEqual(point.address, address)
+                XCTAssertEqual(point.address, expectedAddress)
                 
                 print("\nAddress: \(point.address) from coordinate (LAT:\(point.latitude),LON:\(point.longitude))")
             }
