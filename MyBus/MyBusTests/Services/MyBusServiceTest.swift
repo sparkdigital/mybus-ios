@@ -87,12 +87,12 @@ class MyBusServiceTest: XCTestCase
             busLinesFromOriginDestinationSingleExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(60)
+        waitForExpectationsWithTimeout(90)
         { error in
             
             if let error = error
             {
-                print("A 60 (Sixty) seconds timeout ocurred waiting on BusLines for origin-destination(Single) with error: \(error.localizedDescription)")
+                print("A 90 (Ninety) seconds timeout ocurred waiting on BusLines for origin-destination(Single) with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
@@ -215,12 +215,12 @@ class MyBusServiceTest: XCTestCase
             busLinesFromOriginDestinationCombinedExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectationsWithTimeout(120)
         { error in
             
             if let error = error
             {
-                print("A 90 (Ninety) seconds timeout ocurred waiting on BusLines for origin-destination(combined) with error: \(error.localizedDescription)")
+                print("A 120 (Hundred and twenty) seconds timeout ocurred waiting on BusLines for origin-destination(combined) with error: \(error.localizedDescription)")
             }
             
             print("\nExpectation fulfilled!\n")
