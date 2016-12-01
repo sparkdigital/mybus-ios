@@ -41,4 +41,14 @@ public class RoadSearch {
         self.beginStopSecondLine = beginStopSecondLine
         self.endStopSecondLine = endStopSecondLine
     }
+    
+    convenience init?()
+    {
+        let idFirstLine = 0
+        let firstDirection = 0
+        let beginStopFirstLine = 0
+        let endStopFirstLine = 0
+        
+        self.init(singleRoad: idFirstLine, firstDirection: firstDirection, beginStopFirstLine: beginStopFirstLine, endStopFirstLine: endStopFirstLine)
+    }
 }

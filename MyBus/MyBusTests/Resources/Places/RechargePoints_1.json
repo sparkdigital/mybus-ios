@@ -1,0 +1,86 @@
+{
+  "Type" : 1,
+  "Results" : [
+    {
+      "Adress" : "MARTiN MIGUEL DE GÜEMES 3379  ",
+      "Id" : "1046",
+      "Lat" : "-38.019451",
+      "Lng" : "-57.544289",
+      "Name" : "MARTiN MIGUEL DE GÜEMES 3379 ",
+      "Distance" : "110",
+      "OpenTime" : "08:00 a 20:00 hs"
+    },
+    {
+      "Adress" : "MARTiN MIGUEL DE GÜEMES 3379  ",
+      "Id" : "1047",
+      "Lat" : "-38.019451",
+      "Lng" : "-57.544289",
+      "Name" : "MARTiN MIGUEL DE GÜEMES 3379 ",
+      "Distance" : "110",
+      "OpenTime" : "08:00 a 20:00 hs"
+    },
+    {
+      "Adress" : "ALBERTI 1254  ",
+      "Id" : "1146",
+      "Lat" : "-38.013531",
+      "Lng" : "-57.539249",
+      "Name" : "ALBERTI 1254 ",
+      "Distance" : "746",
+      "OpenTime" : "09:00 a 23:00 hs"
+    },
+    {
+      "Adress" : "ALBERTI 1550  ",
+      "Id" : "1236",
+      "Lat" : "-38.011921",
+      "Lng" : "-57.542259",
+      "Name" : "ALBERTI 1550 ",
+      "Distance" : "774",
+      "OpenTime" : "07:00 a 23:59 hs"
+    },
+    {
+      "Adress" : "ALBERTI 1550  ",
+      "Id" : "1235",
+      "Lat" : "-38.011921",
+      "Lng" : "-57.542259",
+      "Name" : "ALBERTI 1550 ",
+      "Distance" : "774",
+      "OpenTime" : "07:00 a 23:59 hs"
+    },
+    {
+      "Adress" : "ALBERTI 1718  ",
+      "Id" : "1231",
+      "Lat" : "-38.011139",
+      "Lng" : "-57.543991",
+      "Name" : "ALBERTI 1718 ",
+      "Distance" : "830",
+      "OpenTime" : "08:00 a 23:00 hs"
+    },
+    {
+      "Adress" : "LAS HARAS 2558  ",
+      "Id" : "1246",
+      "Lat" : "-38.010929",
+      "Lng" : "-57.543442",
+      "Name" : "LAS HARAS 2558 ",
+      "Distance" : "859",
+      "OpenTime" : "00:00 a 23:59 hs"
+    },
+    {
+      "Adress" : "ALBERTI 1854  ",
+      "Id" : "1061",
+      "Lat" : "-38.010502",
+      "Lng" : "-57.545212",
+      "Name" : "ALBERTI 1854 ",
+      "Distance" : "898",
+      "OpenTime" : "09:00 a 20:00 hs"
+    },
+    {
+      "Adress" : "ALBERTI 1996  ",
+      "Id" : "1043",
+      "Lat" : "-38.009762",
+      "Lng" : "-57.546730",
+      "Name" : "ALBERTI 1996 ",
+      "Distance" : "993",
+      "OpenTime" : "09:00 a 20:00 hs"
+    }
+  ]
+}

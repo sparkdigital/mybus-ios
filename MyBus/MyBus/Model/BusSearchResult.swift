@@ -29,6 +29,14 @@ class BusSearchResult
         }
     }
 
+    convenience init?()
+    {
+        let originPoint: RoutePoint = RoutePoint()
+        let destinationPoint: RoutePoint = RoutePoint()
+        let busRoutesResults: [BusRouteResult] = []
+        
+        self.init(origin: originPoint, destination: destinationPoint, busRoutes: busRoutesResults)
+    }
 
     /**
     Look for RoadResult for a BusRouteResult

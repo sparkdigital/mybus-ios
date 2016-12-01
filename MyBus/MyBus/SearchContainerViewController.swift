@@ -51,7 +51,7 @@ class SearchContainerViewController: UIViewController {
 
         //Navigation Item configuration
         let cancelButtonItem = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(goBackToMap))
-        cancelButtonItem.tintColor = UIColor.lightGrayColor()
+        cancelButtonItem.tintColor = UIColor.whiteColor()
 
         self.navigationItem.leftBarButtonItem = cancelButtonItem
         self.navigationItem.title = "Buscar \(self.searchType.rawValue)"
@@ -147,8 +147,6 @@ extension SearchContainerViewController:UISearchBarDelegate {
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let p = point {
-                    DBManager.sharedInstance.addRecent(p)
-
                     if self.searchType == SearchType.Origin {
                         self.busRoadDelegate?.newOrigin(p)
                     }else{

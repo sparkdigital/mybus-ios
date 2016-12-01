@@ -20,7 +20,6 @@ class BusesRatesViewController: UIViewController, UITableViewDelegate
         self.busesRatesDataSource = BusesRatesDataSource()
         self.ratesTableView.delegate = self
         self.ratesTableView.dataSource = busesRatesDataSource
-        self.ratesTableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 140.0, 0.0)
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
