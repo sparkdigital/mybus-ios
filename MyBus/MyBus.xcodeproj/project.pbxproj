@@ -41,6 +41,10 @@
 		11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */; };
 		11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2CFEC1D63785900862324 /* BusSearchResult.swift */; };
 		1442CDF06BAB610AD4C299F5 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */; };
+		663DF14A1DEF2B2F00F9C56A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 663DF14D1DEF2B2F00F9C56A /* Localizable.strings */; };
+		663DF14B1DEF2B2F00F9C56A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 663DF14D1DEF2B2F00F9C56A /* Localizable.strings */; };
+		663DF1501DEF462F00F9C56A /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663DF14F1DEF462F00F9C56A /* Localization.swift */; };
+		663DF1511DEF462F00F9C56A /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663DF14F1DEF462F00F9C56A /* Localization.swift */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
 		A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AD4531CF7C0530088F592 /* MyBusService.swift */; };
@@ -150,6 +154,11 @@
 		11F2CFEC1D63785900862324 /* BusSearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResult.swift; path = Model/BusSearchResult.swift; sourceTree = "<group>"; };
 		35B17308F4E983AF65D44E22 /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F26287CB2EB914B53E722F9 /* Pods-MyBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.debug.xcconfig"; sourceTree = "<group>"; };
+		663DF1451DEF2AFB00F9C56A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		663DF1461DEF2AFB00F9C56A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		663DF14C1DEF2B2F00F9C56A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		663DF14E1DEF2B3600F9C56A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		663DF14F1DEF462F00F9C56A /* Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9982576D1CC532ED00909F1B /* Street.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Street.swift; path = Model/Street.swift; sourceTree = "<group>"; };
 		998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BestMatchTableViewCell.swift; path = Cells/BestMatchTableViewCell.swift; sourceTree = "<group>"; };
@@ -233,6 +242,7 @@
 		08EC58441CBD482400E8410A = {
 			isa = PBXGroup;
 			children = (
+				663DF14D1DEF2B2F00F9C56A /* Localizable.strings */,
 				08EC584F1CBD482400E8410A /* MyBus */,
 				08EC58671CBD482400E8410A /* MyBusTests */,
 				08EC584E1CBD482400E8410A /* Products */,
@@ -321,6 +331,7 @@
 				A0926D121CFA44FE00246534 /* GisService.swift */,
 				A0926D161CFA540F00246534 /* GeoCodingService.swift */,
 				A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */,
+				663DF14F1DEF462F00F9C56A /* Localization.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -521,7 +532,7 @@
 				TargetAttributes = {
 					08EC584C1CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = VXBU7JZRFH;
+						DevelopmentTeam = 3Q9KR8F2KT;
 					};
 					08EC58631CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
@@ -566,6 +577,7 @@
 				115BE4DC1DAD7A3800E429D2 /* Buses.storyboard in Resources */,
 				B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */,
 				B47299471DA80D7D00D8D6D7 /* SimpleSearchBarView.xib in Resources */,
+				663DF14A1DEF2B2F00F9C56A /* Localizable.strings in Resources */,
 				C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */,
 				B47A8E801DDE167600D6F9A4 /* CombinedRouteView.xib in Resources */,
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
@@ -577,6 +589,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				663DF14B1DEF2B2F00F9C56A /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,6 +758,7 @@
 				C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */,
 				C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */,
 				B47A8E841DDE49C400D6F9A4 /* CombinedRouteView.swift in Sources */,
+				663DF1501DEF462F00F9C56A /* Localization.swift in Sources */,
 				11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */,
 				114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */,
 				115BE4D21DAD616B00E429D2 /* CombinedResultTableViewCell.swift in Sources */,
@@ -802,6 +816,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				663DF1511DEF462F00F9C56A /* Localization.swift in Sources */,
 				08EC58691CBD482400E8410A /* MyBusTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -821,6 +836,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				08EC58551CBD482400E8410A /* Base */,
+				663DF1451DEF2AFB00F9C56A /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -829,8 +845,19 @@
 			isa = PBXVariantGroup;
 			children = (
 				08EC585D1CBD482400E8410A /* Base */,
+				663DF1461DEF2AFB00F9C56A /* es */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		663DF14D1DEF2B2F00F9C56A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				663DF14C1DEF2B2F00F9C56A /* Base */,
+				663DF14E1DEF2B3600F9C56A /* es */,
+			);
+			name = Localizable.strings;
+			path = MyBus;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -854,7 +881,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -876,6 +904,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "2820dc69-93f8-4966-9973-21ec58f5e03e";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -899,7 +928,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -914,6 +944,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "2820dc69-93f8-4966-9973-21ec58f5e03e";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -925,12 +956,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aa1eb020-a234-4838-ac4d-df41de0502a4";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -939,13 +971,14 @@
 			baseConfigurationReference = B0190B8013FA6C0160E3C31B /* Pods-MyBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Roberto Claudio Martinez (VXBU7JZRFH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aa1eb020-a234-4838-ac4d-df41de0502a4";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

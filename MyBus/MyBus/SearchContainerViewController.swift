@@ -50,7 +50,7 @@ class SearchContainerViewController: UIViewController {
         self.addressLocationSearchBar.delegate = self
 
         //Navigation Item configuration
-        let cancelButtonItem = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(goBackToMap))
+        let cancelButtonItem = UIBarButtonItem(title: Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(goBackToMap))
         cancelButtonItem.tintColor = UIColor.lightGrayColor()
 
         self.navigationItem.leftBarButtonItem = cancelButtonItem
@@ -58,9 +58,9 @@ class SearchContainerViewController: UIViewController {
 
         var barPlaceholder: String = ""
         if searchType == SearchType.Origin {
-            barPlaceholder = "Desde: Buscar dirección de origen"
+            barPlaceholder = Localization.getLocalizedString("Desde_Buscar")
         }else {
-            barPlaceholder = "Hacia: Buscar dirección de destino"
+            barPlaceholder = Localization.getLocalizedString("Hacia_Buscar")
         }
 
         self.addressLocationSearchBar.placeholder = barPlaceholder
@@ -156,9 +156,8 @@ extension SearchContainerViewController:UISearchBarDelegate {
                     }
                     self.goBackToMap()
                 }else{
-
-                    let title = "No sabemos donde es el \(self.searchType.rawValue)"
-                    let message = "No pudimos resolver la dirección de \(self.searchType.rawValue) ingresada"
+                    let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
+                    let message = Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Pudimos_Resolver") , self.searchType.rawValue))
 
                     GenerateMessageAlert.generateAlert(self, title: title, message: message)
 
@@ -167,8 +166,8 @@ extension SearchContainerViewController:UISearchBarDelegate {
             })
 
         }else {
-            let message = "El campo \(self.searchType.rawValue) no esta indicado"
-            GenerateMessageAlert.generateAlert(self, title: "No sabemos que buscar", message: message)
+            let message = Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("El_Campo", comment: "El campo") , self.searchType.rawValue))
+            GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("No_Sabemos_Que"), message: message)
         }
     }
 }
@@ -182,8 +181,8 @@ extension SearchContainerViewController:MainViewDelegate{
         LocationManager.sharedInstance.startUpdatingWithCompletionHandler { (location, error) in
             
             if let _ = error {
-                let title = "No sabemos donde es el lugar"
-                let message = "No pudimos resolver la dirección de ubicación actual"
+                let title = Localization.getLocalizedString("No_Sabemos")
+                let message = Localization.getLocalizedString("No_Pudimos")
                 GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 return
             }
@@ -207,8 +206,8 @@ extension SearchContainerViewController:MainViewDelegate{
                     return self.goBackToMap()
                     
                 }else{
-                    let title = "No sabemos donde es el lugar"
-                    let message = "No pudimos resolver la dirección de ubicación actual"
+                    let title = Localization.getLocalizedString("No_Sabemos")
+                    let message = Localization.getLocalizedString("No_Pudimos")
                     GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 }
             }
