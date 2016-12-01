@@ -1,0 +1,124 @@
+{
+  "Route1" :
+  [
+    {
+      "Address" : "Beruti 7730",
+      "isWaypoint" : false,
+      "Lng" : "-57.588795",
+      "Lat" : "-37.961262",
+      "StopId" : "1494"
+    },
+    {
+      "Address" : "Beruti 7530",
+      "isWaypoint" : false,
+      "Lng" : "-57.586800",
+      "Lat" : "-37.962242",
+      "StopId" : "1495"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.585484",
+      "Lat" : "-37.962879",
+      "StopId" : "1496"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 270",
+      "isWaypoint" : false,
+      "Lng" : "-57.585915",
+      "Lat" : "-37.963402",
+      "StopId" : "1497"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 470",
+      "isWaypoint" : false,
+      "Lng" : "-57.587151",
+      "Lat" : "-37.964985",
+      "StopId" : "1498"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 670",
+      "isWaypoint" : false,
+      "Lng" : "-57.588428",
+      "Lat" : "-37.966606",
+      "StopId" : "1499"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 870",
+      "isWaypoint" : false,
+      "Lng" : "-57.589703",
+      "Lat" : "-37.968163",
+      "StopId" : "1500"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.590618",
+      "Lat" : "-37.969284",
+      "StopId" : "1501"
+    },
+    {
+      "Address" : "Av Libertad 7360",
+      "isWaypoint" : false,
+      "Lng" : "-57.590168",
+      "Lat" : "-37.969509",
+      "StopId" : "1502"
+    },
+    {
+      "Address" : "Av Libertad 7160",
+      "isWaypoint" : false,
+      "Lng" : "-57.588097",
+      "Lat" : "-37.970497",
+      "StopId" : "1503"
+    },
+    {
+      "Address" : "Av Libertad 6960",
+      "isWaypoint" : false,
+      "Lng" : "-57.586121",
+      "Lat" : "-37.971466",
+      "StopId" : "1504"
+    },
+    {
+      "Address" : "Av Libertad 6760",
+      "isWaypoint" : false,
+      "Lng" : "-57.584118",
+      "Lat" : "-37.972538",
+      "StopId" : "1505"
+    },
+    {
+      "Address" : "Av Libertad 6560",
+      "isWaypoint" : false,
+      "Lng" : "-57.582146",
+      "Lat" : "-37.973595",
+      "StopId" : "1506"
+    },
+    {
+      "Address" : "Av Libertad 6360",
+      "isWaypoint" : false,
+      "Lng" : "-57.580181",
+      "Lat" : "-37.974606",
+      "StopId" : "1507"
+    },
+    {
+      "Address" : "Av Libertad 6070",
+      "isWaypoint" : false,
+      "Lng" : "-57.577271",
+      "Lat" : "-37.976154",
+      "StopId" : "1508"
+    },
+    {
+      "Address" : "Av Libertad 5870",
+      "isWaypoint" : false,
+      "Lng" : "-57.575275",
+      "Lat" : "-37.977131",
+      "StopId" : "1509"
+    },
+    {
+      "Address" : "Av Libertad 5670",
+      "isWaypoint" : false,
+      "Lng" : "-57.573345",
+      "Lat" : "-37.978130",
+      "StopId" : "1510"
+    }
+  ]
+}

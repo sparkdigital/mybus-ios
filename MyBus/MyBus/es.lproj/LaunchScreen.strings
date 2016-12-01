@@ -1,3 +1,6 @@
 
-/* Class = "UILabel"; text = "Made in MDQ & TDL Powered by Spark Digital 👑"; ObjectID = "SJ3-RU-HrZ"; */
-"SJ3-RU-HrZ.text" = "Made in MDQ & TDL Powered by Spark Digital 👑";
+/* Class = "UILabel"; text = "Powered by"; ObjectID = "G9l-Og-Am0"; */
+"G9l-Og-Am0.text" = "Powered by";
+
+/* Class = "UILabel"; text = "Made in MDQ & TDL"; ObjectID = "SJ3-RU-HrZ"; */
+"SJ3-RU-HrZ.text" = "Made in MDQ & TDL";

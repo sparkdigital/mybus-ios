@@ -295,7 +295,7 @@ class MainViewController: UIViewController {
 
         oldVC.willMoveToParentViewController(nil)
         self.addChildViewController(newVC)
-
+        newVC.view.translatesAutoresizingMaskIntoConstraints = false
         //Add new view to the container
         self.view.addAutoPinnedSubview(newVC.view, toView: self.containerView)
 
@@ -328,7 +328,9 @@ class MainViewController: UIViewController {
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
             SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
-
+                
+                DBManager.sharedInstance.addRecent(self.mapViewModel.origin!)
+                DBManager.sharedInstance.addRecent(self.mapViewModel.destiny!)
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let r: BusSearchResult = searchResult {
@@ -592,7 +594,9 @@ extension MainViewController {
         searchRouteButton.tintColor = UIColor.lightGrayColor()
 
         self.navigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.leftBarButtonItem!.tintColor = UIColor.whiteColor()
         self.navigationItem.rightBarButtonItem = searchRouteButton
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
 
         self.navigationItem.title = Localization.getLocalizedString("Buscar_Ruta")
     }

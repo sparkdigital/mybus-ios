@@ -28,6 +28,18 @@ public class GisService: NSObject, GisServiceDelegate {
         let streetsFiltered = streets.filter{($0.lowercaseString).containsString(address.lowercaseString)}
         completionHandler(streetsFiltered, nil)
     }
+    
+    func getAllStreetNamesByFile(completionHandler: ([String]?, NSError?) -> ())
+    {
+        let streets = Configuration.streetsName()
+        
+        guard streets.count > 0 else {
+            let error: NSError = NSError(domain:"street plist", code:2, userInfo:nil)
+            return completionHandler(nil, error)
+        }
+        
+        completionHandler(streets, nil)
+    }
 
     func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
     {
