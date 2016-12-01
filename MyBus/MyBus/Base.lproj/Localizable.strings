@@ -7,7 +7,7 @@
 */
 
 "Malas_Noticias" = "Malas noticias.";
-"No_Observamos" = "No observamos conexión a Internet, por favor habilita el uso de datos moviles para myBus.";
+"No_Observamos" = "No observamos conexión a Internet, por favor habilita el uso de datos moviles para MyBus.";
 "Malas_Noticias" = "Malas noticias 😿.";
 "Rutas_Encontradas" = "Rutas encontradas.";
 "Lamentablemente_Consulta" = "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas.";
@@ -33,9 +33,14 @@
 "El_Campo" = "El campo %@ no esta indicado.";
 "No_Sabemos" = "No sabemos donde es el %@ .";
 "No_Pudimos_Resolver" = "No pudimos resolver la dirección de %@ ingresada.";
-
 "Eliminando" = "Eliminando un lugar favorito";
 "Esta_seguro" = "Está seguro que quiere borrar esta ubicación de su lista de Favoritos?";
 "Ok" = "OK";
 "Agregando" = "Agregando un lugar favorito";
 "Por_Favor" = "Por favor ingrese un nombre para el lugar Favorito";
+"No_Location" = "No location found for given address";
+"Aun_No" = "Aun no ha determinado los permisos de geolocalización de esta aplicación.";
+"Esta_Aplicacion" = "Esta aplicación no esta autorizada a utilizar servicios de geolocalización.";
+"You_have" = "You have explicitly denied authorization for this application, or location services are disabled in Settings.";
+"La_Aplicacion_Esta" = "La aplicación esta autorizada a utilizar servicios de ubicación.";
+"Ud_Ha_Permitido" = "Ud ha permitido el uso de su ubicación solo cuando la aplicación esté siendo utilizada.";
