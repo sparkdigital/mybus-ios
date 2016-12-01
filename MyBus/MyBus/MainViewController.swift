@@ -564,6 +564,7 @@ extension MainViewController {
         self.currentViewController = self.mapViewController
 
         self.tabBar.selectedItem = self.tabBar.items?[0]
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     func verifySearchStatus(mapModel: MapViewModel){
