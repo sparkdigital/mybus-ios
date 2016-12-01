@@ -337,6 +337,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         if let origin = newOrigin {
             let marker = MyBusMarkerFactory.createOriginPointMarker(origin)
             self.mapModel.originMarker = marker
+            self.mapModel.currentRoad = nil
         }else{
             self.mapView.removeOriginPoint()
             self.mapModel.originMarker = nil
@@ -355,6 +356,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         if let destination = newDestination {
             let marker = MyBusMarkerFactory.createDestinationPointMarker(destination)
             self.mapModel.destinationMarker = marker
+            self.mapModel.currentRoad = nil
         }else{
             self.mapView.removeDestinationPoint()
             self.mapModel.destinationMarker = nil
