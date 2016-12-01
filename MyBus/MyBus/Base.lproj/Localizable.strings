@@ -1,0 +1,41 @@
+/* 
+  Localizable.strings
+  MyBus
+
+  Created by Nacho on 11/30/16.
+  Copyright © 2016 Spark Digital. All rights reserved.
+*/
+
+"Malas_Noticias" = "Malas noticias.";
+"No_Observamos" = "No observamos conexión a Internet, por favor habilita el uso de datos moviles para myBus.";
+"Malas_Noticias" = "Malas noticias 😿.";
+"Rutas_Encontradas" = "Rutas encontradas.";
+"Lamentablemente_Consulta" = "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas.";
+"Error" = "Error.";
+"No_Conexion" = "No hay conexión. Por favor, intente nuevamente mas tarde.";
+"Campos_Requeridos" = "Campos requeridos.";
+"Se_Requiere" = "Se requiere un origen y un destino para calcular la ruta.";
+"No_Encontramos" = "No encontramos puntos de carga cercanos a tu ubicación.";
+"Tuvimos_Problema" = "Tuvimos un problema 😿.";
+"No_Pudimos" = "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos.";
+"Recorridos" = "Recorridos.";
+"Tarifas" = "Tarifas.";
+"Rutas_Encontradas" = "Rutas encontradas.";
+"Buscar_Ruta" = "Buscar Ruta.";
+"Cancelar" = "Cancelar.";
+"Buscar" = "Buscar.";
+"Desde_Buscar" = "Desde: Buscar dirección de origen.";
+"Hacia_Buscar" = "Hacia: Buscar dirección de destino.";
+"No_Sabemos" = "No sabemos donde es el lugar.";
+"No_Pudimos"= "No pudimos resolver la dirección de ubicación actual.";
+"No_Sabemos_Que" = "No sabemos que buscar.";
+"Test" = "My name is %@. I am %d years old.";
+"El_Campo" = "El campo %@ no esta indicado.";
+"No_Sabemos" = "No sabemos donde es el %@ .";
+"No_Pudimos_Resolver" = "No pudimos resolver la dirección de %@ ingresada.";
+
+"Eliminando" = "Eliminando un lugar favorito";
+"Esta_seguro" = "Está seguro que quiere borrar esta ubicación de su lista de Favoritos?";
+"Ok" = "OK";
+"Agregando" = "Agregando un lugar favorito";
+"Por_Favor" = "Por favor ingrese un nombre para el lugar Favorito";
