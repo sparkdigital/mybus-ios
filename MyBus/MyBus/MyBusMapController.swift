@@ -211,7 +211,14 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             return myBusMarker.markerView
         }
     }
-        
+    
+    func mapView(mapView: MGLMapView, regionDidChangeAnimated animated: Bool){
+        //NSLog("Current Zoom Level = \(mapView.zoomLevel)")
+        if let myBusMapView = mapView as? MyBusMapView, let currentRoadBusStopMarkers = self.mapModel.currentRoad?.roadIntermediateBusStopMarkers {
+            myBusMapView.addIntermediateBusStopAnnotations(currentRoadBusStopMarkers)
+        }
+    }
+    
     // MARK: - Mapview bus roads manipulation Methods
     func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
         
@@ -359,6 +366,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         let mapRoad = MyBusMapRoad()
         mapRoad.walkingPath = MyBusPolylineFactory.buildWalkingRoutePolylineList(newRoad)
         mapRoad.roadMarkers = MyBusMarkerFactory.buildBusRoadStopMarkers(newRoad)
+        mapRoad.roadIntermediateBusStopMarkers = MyBusMarkerFactory.buildIntermediateBusStopMarkers(newRoad)
         mapRoad.roadPolyline = MyBusPolylineFactory.buildBusRoutePolylineList(newRoad)
         self.mapModel.currentRoad = mapRoad
     }
