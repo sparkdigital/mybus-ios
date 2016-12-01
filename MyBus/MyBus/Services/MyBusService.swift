@@ -34,6 +34,8 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
             let type = response["Type"].intValue
             let results = response["Results"]
             let busResults: [BusRouteResult]
+            
+            //print("BusRouteResult: \(json)")
 
             busResults = BusRouteResult.parseResults(results, type: type)
             completionHandler(busResults, nil)
@@ -68,6 +70,9 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
+                
+                //print("SearchRoads: \(json)")
+                
                 completionHandler(RoadResult.parse(json), nil)
             } else {
                 completionHandler(nil, error)
@@ -81,6 +86,9 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
+                
+                print("Bus Line: \(idLine) \nCompleteRoute:\n  \(json)")
+                
                 completionHandler(CompleteBusRoute().parseOneWayBusRoute(json, busLineName: ""), nil)
             } else {
                 completionHandler(nil, error)
@@ -94,6 +102,9 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
+                
+                print("RechargePoints: \(json)")
+                
                 var points: [RechargePoint] = []
                 for case let point in json["Results"].arrayValue {
                     if let rechargePoint = RechargePoint(json: point) {

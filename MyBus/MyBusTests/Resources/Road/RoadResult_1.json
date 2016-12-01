@@ -1,0 +1,789 @@
+{
+  "ArrivalTime" : null,
+  "Route2" : [
+    {
+      "Address" : "Av Pedro Luro 5530",
+      "isWaypoint" : false,
+      "Lng" : "-57.575722",
+      "Lat" : "-37.983585",
+      "StopId" : "6908"
+    },
+    {
+      "Address" : "Av Pedro Luro 5330",
+      "isWaypoint" : false,
+      "Lng" : "-57.573803",
+      "Lat" : "-37.984566",
+      "StopId" : "6909"
+    },
+    {
+      "Address" : "Av Pedro Luro 5130",
+      "isWaypoint" : false,
+      "Lng" : "-57.571743",
+      "Lat" : "-37.985603",
+      "StopId" : "6910"
+    },
+    {
+      "Address" : "Av Pedro Luro 4930",
+      "isWaypoint" : false,
+      "Lng" : "-57.569653",
+      "Lat" : "-37.986710",
+      "StopId" : "6911"
+    },
+    {
+      "Address" : "Av Pedro Luro 4740",
+      "isWaypoint" : false,
+      "Lng" : "-57.567673",
+      "Lat" : "-37.987694",
+      "StopId" : "6912"
+    },
+    {
+      "Address" : "Av Pedro Luro 4540",
+      "isWaypoint" : false,
+      "Lng" : "-57.565609",
+      "Lat" : "-37.988693",
+      "StopId" : "6913"
+    },
+    {
+      "Address" : "Av Pedro Luro 4340",
+      "isWaypoint" : false,
+      "Lng" : "-57.563686",
+      "Lat" : "-37.989677",
+      "StopId" : "6914"
+    },
+    {
+      "Address" : "Av Pedro Luro 4140",
+      "isWaypoint" : false,
+      "Lng" : "-57.561680",
+      "Lat" : "-37.990711",
+      "StopId" : "6915"
+    },
+    {
+      "Address" : "Av Pedro Luro 3940",
+      "isWaypoint" : false,
+      "Lng" : "-57.559685",
+      "Lat" : "-37.991737",
+      "StopId" : "6916"
+    },
+    {
+      "Address" : "Av Pedro Luro 3740",
+      "isWaypoint" : false,
+      "Lng" : "-57.557693",
+      "Lat" : "-37.992764",
+      "StopId" : "6917"
+    },
+    {
+      "Address" : "Av Pedro Luro 3540",
+      "isWaypoint" : false,
+      "Lng" : "-57.555679",
+      "Lat" : "-37.993797",
+      "StopId" : "6918"
+    },
+    {
+      "Address" : "Av Pedro Luro 3340",
+      "isWaypoint" : false,
+      "Lng" : "-57.553741",
+      "Lat" : "-37.994801",
+      "StopId" : "6919"
+    },
+    {
+      "Address" : "Av Pedro Luro 3140",
+      "isWaypoint" : false,
+      "Lng" : "-57.551579",
+      "Lat" : "-37.995892",
+      "StopId" : "6920"
+    },
+    {
+      "Address" : "Av Pedro Luro 2940",
+      "isWaypoint" : false,
+      "Lng" : "-57.549564",
+      "Lat" : "-37.996906",
+      "StopId" : "6921"
+    },
+    {
+      "Address" : "Av Pedro Luro 2740",
+      "isWaypoint" : false,
+      "Lng" : "-57.547546",
+      "Lat" : "-37.997971",
+      "StopId" : "6922"
+    },
+    {
+      "Address" : "Av Pedro Luro 2540",
+      "isWaypoint" : false,
+      "Lng" : "-57.545582",
+      "Lat" : "-37.998943",
+      "StopId" : "6923"
+    },
+    {
+      "Address" : "Av Pedro Luro 2340",
+      "isWaypoint" : false,
+      "Lng" : "-57.543591",
+      "Lat" : "-37.999931",
+      "StopId" : "6924"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.541458",
+      "Lat" : "-38.000984",
+      "StopId" : "6925"
+    },
+    {
+      "Address" : "Buenos Aires 1680",
+      "isWaypoint" : false,
+      "Lng" : "-57.541664",
+      "Lat" : "-38.001831",
+      "StopId" : "6926"
+    },
+    {
+      "Address" : "Buenos Aires 1880",
+      "isWaypoint" : false,
+      "Lng" : "-57.542927",
+      "Lat" : "-38.003437",
+      "StopId" : "6927"
+    },
+    {
+      "Address" : "Buenos Aires 2080",
+      "isWaypoint" : false,
+      "Lng" : "-57.544209",
+      "Lat" : "-38.005043",
+      "StopId" : "6928"
+    },
+    {
+      "Address" : "Buenos Aires 2280",
+      "isWaypoint" : false,
+      "Lng" : "-57.545563",
+      "Lat" : "-38.006718",
+      "StopId" : "6929"
+    },
+    {
+      "Address" : "Buenos Aires 2480",
+      "isWaypoint" : false,
+      "Lng" : "-57.546906",
+      "Lat" : "-38.008301",
+      "StopId" : "6930"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.547676",
+      "Lat" : "-38.009235",
+      "StopId" : "6931"
+    },
+    {
+      "Address" : "Alberti 2050",
+      "isWaypoint" : false,
+      "Lng" : "-57.547169",
+      "Lat" : "-38.009506",
+      "StopId" : "6932"
+    },
+    {
+      "Address" : "Alberti 1850",
+      "isWaypoint" : false,
+      "Lng" : "-57.545177",
+      "Lat" : "-38.010525",
+      "StopId" : "6933"
+    },
+    {
+      "Address" : "Alberti 1650",
+      "isWaypoint" : false,
+      "Lng" : "-57.543221",
+      "Lat" : "-38.011524",
+      "StopId" : "6934"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.541683",
+      "Lat" : "-38.012306",
+      "StopId" : "6935"
+    },
+    {
+      "Address" : "Alsina 2650",
+      "isWaypoint" : false,
+      "Lng" : "-57.542000",
+      "Lat" : "-38.012680",
+      "StopId" : "6936"
+    },
+    {
+      "Address" : "Alsina 2850",
+      "isWaypoint" : false,
+      "Lng" : "-57.543270",
+      "Lat" : "-38.014244",
+      "StopId" : "6937"
+    },
+    {
+      "Address" : "Alsina 3050",
+      "isWaypoint" : false,
+      "Lng" : "-57.544537",
+      "Lat" : "-38.015812",
+      "StopId" : "6938"
+    },
+    {
+      "Address" : "Alsina 3250",
+      "isWaypoint" : false,
+      "Lng" : "-57.545856",
+      "Lat" : "-38.017384",
+      "StopId" : "6939"
+    },
+    {
+      "Address" : "Alsina 3450",
+      "isWaypoint" : false,
+      "Lng" : "-57.547138",
+      "Lat" : "-38.018951",
+      "StopId" : "6940"
+    },
+    {
+      "Address" : "Alsina 3650",
+      "isWaypoint" : false,
+      "Lng" : "-57.548393",
+      "Lat" : "-38.020493",
+      "StopId" : "6941"
+    },
+    {
+      "Address" : "Alsina 3850",
+      "isWaypoint" : false,
+      "Lng" : "-57.549690",
+      "Lat" : "-38.022095",
+      "StopId" : "6942"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.550644",
+      "Lat" : "-38.023266",
+      "StopId" : "6943"
+    },
+    {
+      "Address" : "Almafuerte 1450",
+      "isWaypoint" : false,
+      "Lng" : "-57.550121",
+      "Lat" : "-38.023548",
+      "StopId" : "6944"
+    },
+    {
+      "Address" : "Almafuerte 1250",
+      "isWaypoint" : false,
+      "Lng" : "-57.548130",
+      "Lat" : "-38.024578",
+      "StopId" : "6945"
+    },
+    {
+      "Address" : "Almafuerte 1050",
+      "isWaypoint" : false,
+      "Lng" : "-57.546124",
+      "Lat" : "-38.025616",
+      "StopId" : "6946"
+    },
+    {
+      "Address" : "Almafuerte 850",
+      "isWaypoint" : false,
+      "Lng" : "-57.544098",
+      "Lat" : "-38.026615",
+      "StopId" : "6947"
+    },
+    {
+      "Address" : "Almafuerte 650",
+      "isWaypoint" : false,
+      "Lng" : "-57.542103",
+      "Lat" : "-38.027596",
+      "StopId" : "6948"
+    },
+    {
+      "Address" : "Almafuerte 450",
+      "isWaypoint" : false,
+      "Lng" : "-57.540070",
+      "Lat" : "-38.028603",
+      "StopId" : "6949"
+    },
+    {
+      "Address" : "Almafuerte 250",
+      "isWaypoint" : false,
+      "Lng" : "-57.538155",
+      "Lat" : "-38.029594",
+      "StopId" : "6950"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.537659",
+      "Lat" : "-38.029858",
+      "StopId" : "6951"
+    },
+    {
+      "Address" : "Leandro N Alem 4150",
+      "isWaypoint" : false,
+      "Lng" : "-57.538654",
+      "Lat" : "-38.031071",
+      "StopId" : "6952"
+    },
+    {
+      "Address" : "Leandro N Alem 4350",
+      "isWaypoint" : false,
+      "Lng" : "-57.540024",
+      "Lat" : "-38.032745",
+      "StopId" : "6953"
+    },
+    {
+      "Address" : "Leandro N Alem 4550",
+      "isWaypoint" : false,
+      "Lng" : "-57.541313",
+      "Lat" : "-38.034344",
+      "StopId" : "6954"
+    },
+    {
+      "Address" : "Leandro N Alem 4750",
+      "isWaypoint" : false,
+      "Lng" : "-57.542633",
+      "Lat" : "-38.035957",
+      "StopId" : "6955"
+    },
+    {
+      "Address" : "Leandro N Alem 5080",
+      "isWaypoint" : false,
+      "Lng" : "-57.544739",
+      "Lat" : "-38.038597",
+      "StopId" : "6956"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.544876",
+      "Lat" : "-38.038788",
+      "StopId" : "11111"
+    },
+    {
+      "Address" : "Av Juan B Justo 90",
+      "isWaypoint" : false,
+      "Lng" : "-57.543278",
+      "Lat" : "-38.039906",
+      "StopId" : "11110"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.542999",
+      "Lat" : "-38.040127",
+      "StopId" : "11109"
+    },
+    {
+      "Address" : "Bermejo 140",
+      "isWaypoint" : false,
+      "Lng" : "-57.544262",
+      "Lat" : "-38.041168",
+      "StopId" : "11108"
+    },
+    {
+      "Address" : "Bermejo 340",
+      "isWaypoint" : false,
+      "Lng" : "-57.545872",
+      "Lat" : "-38.042519",
+      "StopId" : "11107"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.547138",
+      "Lat" : "-38.043579",
+      "StopId" : "11106"
+    },
+    {
+      "Address" : "Magallanes 3250",
+      "isWaypoint" : false,
+      "Lng" : "-57.546719",
+      "Lat" : "-38.043915",
+      "StopId" : "6961"
+    },
+    {
+      "Address" : "Magallanes 3020",
+      "isWaypoint" : false,
+      "Lng" : "-57.544479",
+      "Lat" : "-38.045609",
+      "StopId" : "6962"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.542992",
+      "Lat" : "-38.045563",
+      "StopId" : "6963"
+    },
+    {
+      "Address" : "Calle A 1",
+      "isWaypoint" : false,
+      "Lng" : "-57.542393",
+      "Lat" : "-38.045883",
+      "StopId" : "6964"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.541748",
+      "Lat" : "-38.046391",
+      "StopId" : "6965"
+    },
+    {
+      "Address" : "Calle A 2",
+      "isWaypoint" : false,
+      "Lng" : "-57.541512",
+      "Lat" : "-38.047642",
+      "StopId" : "6966"
+    },
+    {
+      "Address" : "Calle A 3",
+      "isWaypoint" : false,
+      "Lng" : "-57.541168",
+      "Lat" : "-38.049164",
+      "StopId" : "6967"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.540718",
+      "Lat" : "-38.049992",
+      "StopId" : "6968"
+    },
+    {
+      "Address" : "Calle A 4",
+      "isWaypoint" : false,
+      "Lng" : "-57.539474",
+      "Lat" : "-38.050125",
+      "StopId" : "6969"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.539345",
+      "Lat" : "-38.049347",
+      "StopId" : "6970"
+    },
+    {
+      "Address" : "Calle A 5",
+      "isWaypoint" : false,
+      "Lng" : "-57.540848",
+      "Lat" : "-38.049381",
+      "StopId" : "6971"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.543636",
+      "Lat" : "-38.049603",
+      "StopId" : "6972"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.544815",
+      "Lat" : "-38.051544",
+      "StopId" : "6973"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 1050",
+      "isWaypoint" : false,
+      "Lng" : "-57.545631",
+      "Lat" : "-38.052120",
+      "StopId" : "6974"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 1250",
+      "isWaypoint" : false,
+      "Lng" : "-57.546726",
+      "Lat" : "-38.053589",
+      "StopId" : "6975"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 1450",
+      "isWaypoint" : false,
+      "Lng" : "-57.547218",
+      "Lat" : "-38.055412",
+      "StopId" : "6976"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 1650",
+      "isWaypoint" : false,
+      "Lng" : "-57.546253",
+      "Lat" : "-38.056919",
+      "StopId" : "6977"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 1850",
+      "isWaypoint" : false,
+      "Lng" : "-57.544689",
+      "Lat" : "-38.058811",
+      "StopId" : "6978"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.544643",
+      "Lat" : "-38.059486",
+      "StopId" : "6979"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 2050",
+      "isWaypoint" : false,
+      "Lng" : "-57.545441",
+      "Lat" : "-38.060684",
+      "StopId" : "6980"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 2250",
+      "isWaypoint" : false,
+      "Lng" : "-57.546276",
+      "Lat" : "-38.062748",
+      "StopId" : "6981"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 2450",
+      "isWaypoint" : false,
+      "Lng" : "-57.547218",
+      "Lat" : "-38.065498",
+      "StopId" : "6982"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 2640",
+      "isWaypoint" : false,
+      "Lng" : "-57.547562",
+      "Lat" : "-38.067188",
+      "StopId" : "6983"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 2850",
+      "isWaypoint" : false,
+      "Lng" : "-57.547626",
+      "Lat" : "-38.068996",
+      "StopId" : "6984"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 3050",
+      "isWaypoint" : false,
+      "Lng" : "-57.547520",
+      "Lat" : "-38.071125",
+      "StopId" : "6985"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 3250",
+      "isWaypoint" : false,
+      "Lng" : "-57.546703",
+      "Lat" : "-38.073524",
+      "StopId" : "6986"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 3450",
+      "isWaypoint" : false,
+      "Lng" : "-57.545418",
+      "Lat" : "-38.075417",
+      "StopId" : "6987"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 3650",
+      "isWaypoint" : false,
+      "Lng" : "-57.544128",
+      "Lat" : "-38.077023",
+      "StopId" : "6988"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 3850",
+      "isWaypoint" : false,
+      "Lng" : "-57.542690",
+      "Lat" : "-38.078541",
+      "StopId" : "6989"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 4050",
+      "isWaypoint" : false,
+      "Lng" : "-57.540695",
+      "Lat" : "-38.079742",
+      "StopId" : "6990"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 4250",
+      "isWaypoint" : false,
+      "Lng" : "-57.539196",
+      "Lat" : "-38.081245",
+      "StopId" : "6991"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.538570",
+      "Lat" : "-38.082104",
+      "StopId" : "6992"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 4450",
+      "isWaypoint" : false,
+      "Lng" : "-57.538918",
+      "Lat" : "-38.082783",
+      "StopId" : "6993"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 4650",
+      "isWaypoint" : false,
+      "Lng" : "-57.540417",
+      "Lat" : "-38.083744",
+      "StopId" : "6994"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 4850",
+      "isWaypoint" : false,
+      "Lng" : "-57.541660",
+      "Lat" : "-38.084759",
+      "StopId" : "6995"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 5050",
+      "isWaypoint" : false,
+      "Lng" : "-57.542500",
+      "Lat" : "-38.086262",
+      "StopId" : "6996"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 5250",
+      "isWaypoint" : false,
+      "Lng" : "-57.543251",
+      "Lat" : "-38.087681",
+      "StopId" : "6997"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 5450",
+      "isWaypoint" : false,
+      "Lng" : "-57.544731",
+      "Lat" : "-38.089096",
+      "StopId" : "6998"
+    },
+    {
+      "Address" : "Av Martinez de Hoz 5650",
+      "isWaypoint" : false,
+      "Lng" : "-57.546448",
+      "Lat" : "-38.090702",
+      "StopId" : "6999"
+    }
+  ],
+  "Route1" : [
+    {
+      "Address" : "Beruti 7730",
+      "isWaypoint" : false,
+      "Lng" : "-57.588795",
+      "Lat" : "-37.961262",
+      "StopId" : "1494"
+    },
+    {
+      "Address" : "Beruti 7530",
+      "isWaypoint" : false,
+      "Lng" : "-57.586800",
+      "Lat" : "-37.962242",
+      "StopId" : "1495"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.585484",
+      "Lat" : "-37.962879",
+      "StopId" : "1496"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 270",
+      "isWaypoint" : false,
+      "Lng" : "-57.585915",
+      "Lat" : "-37.963402",
+      "StopId" : "1497"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 470",
+      "isWaypoint" : false,
+      "Lng" : "-57.587151",
+      "Lat" : "-37.964985",
+      "StopId" : "1498"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 670",
+      "isWaypoint" : false,
+      "Lng" : "-57.588428",
+      "Lat" : "-37.966606",
+      "StopId" : "1499"
+    },
+    {
+      "Address" : "Av Dr Arturo Alio 870",
+      "isWaypoint" : false,
+      "Lng" : "-57.589703",
+      "Lat" : "-37.968163",
+      "StopId" : "1500"
+    },
+    {
+      "Address" : "",
+      "isWaypoint" : true,
+      "Lng" : "-57.590618",
+      "Lat" : "-37.969284",
+      "StopId" : "1501"
+    },
+    {
+      "Address" : "Av Libertad 7360",
+      "isWaypoint" : false,
+      "Lng" : "-57.590168",
+      "Lat" : "-37.969509",
+      "StopId" : "1502"
+    },
+    {
+      "Address" : "Av Libertad 7160",
+      "isWaypoint" : false,
+      "Lng" : "-57.588097",
+      "Lat" : "-37.970497",
+      "StopId" : "1503"
+    },
+    {
+      "Address" : "Av Libertad 6960",
+      "isWaypoint" : false,
+      "Lng" : "-57.586121",
+      "Lat" : "-37.971466",
+      "StopId" : "1504"
+    },
+    {
+      "Address" : "Av Libertad 6760",
+      "isWaypoint" : false,
+      "Lng" : "-57.584118",
+      "Lat" : "-37.972538",
+      "StopId" : "1505"
+    },
+    {
+      "Address" : "Av Libertad 6560",
+      "isWaypoint" : false,
+      "Lng" : "-57.582146",
+      "Lat" : "-37.973595",
+      "StopId" : "1506"
+    },
+    {
+      "Address" : "Av Libertad 6360",
+      "isWaypoint" : false,
+      "Lng" : "-57.580181",
+      "Lat" : "-37.974606",
+      "StopId" : "1507"
+    },
+    {
+      "Address" : "Av Libertad 6070",
+      "isWaypoint" : false,
+      "Lng" : "-57.577271",
+      "Lat" : "-37.976154",
+      "StopId" : "1508"
+    },
+    {
+      "Address" : "Av Libertad 5870",
+      "isWaypoint" : false,
+      "Lng" : "-57.575275",
+      "Lat" : "-37.977131",
+      "StopId" : "1509"
+    },
+    {
+      "Address" : "Av Libertad 5670",
+      "isWaypoint" : false,
+      "Lng" : "-57.573345",
+      "Lat" : "-37.978130",
+      "StopId" : "1510"
+    }
+  ],
+  "TotalDistance" : 19.85,
+  "Type" : 1,
+  "IdBusLine1" : "11",
+  "TravelTime" : 76,
+  "IdBusLine2" : "28"
+}
