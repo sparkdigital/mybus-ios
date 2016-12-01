@@ -68,7 +68,7 @@ public class DBManager: NSObject {
             do {
                 try db.write({
                     let recentsEqualNew = user.recents.filter({ (recent) -> Bool in
-                        return recent.latitude == newRecentPoint.latitude && recent.longitude == newRecentPoint.longitude
+                        return recent.latitude == newRecentPoint.latitude && recent.longitude == newRecentPoint.longitude && newRecentPoint.address == recent.address
                     })
                     guard recentsEqualNew.count == 0 else {
                         return
