@@ -36,8 +36,13 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Borrar") { (action, indexPath ) -> Void in
             self.editing = false
-            self.favoriteDataSource.removeFavorite(indexPath)
-            self.favoriteTableView.reloadData()
+            let alert = UIAlertController(title: "Eliminando un lugar favorito", message: "Está seguro que quiere borrar esta ubicación de su lista de Favoritos?", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+                self.favoriteDataSource.removeFavorite(indexPath)
+                self.favoriteTableView.reloadData()})
+            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (_) -> Void in
+                self.favoriteTableView.setEditing(false, animated: true)})
+            self.presentViewController(alert, animated: true, completion: nil)
         }
 
         let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Editar") { (action, indexPath ) -> Void in

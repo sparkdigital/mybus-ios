@@ -39,25 +39,8 @@ class MyBusRoadResultPolyline: MyBusPolyline {
             guard let idBusIndex = busLineIdentifier else {
                 return defaultLineColor
             }
-            if var idBusIndex = Int(idBusIndex) {
-                //Hacking the index
-                if idBusIndex < 10 {
-                    idBusIndex = idBusIndex - 1
-                } else if idBusIndex < 41 {
-                    idBusIndex = idBusIndex - 2
-                } else {
-                    idBusIndex = idBusIndex - 3
-                }
-
-                if let path = NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist"), dict = (NSArray(contentsOfFile: path))!.objectAtIndex(idBusIndex) as? [String: String] {
-                    if let color = dict["color"] {
-                        return UIColor(hexString: color)
-                    } else {
-                        return defaultLineColor
-                    }
-                }
-            }
-            return defaultLineColor
+            let busColor = Configuration.bussesInformation().filter{ $0.0 == idBusIndex }.first!.2
+            return UIColor(hexString: busColor)
         }
         set {}
     }
