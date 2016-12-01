@@ -279,24 +279,25 @@ class MyBusMapView: MGLMapView{
             case first = 1.2
             case second = 1.8
             case third = 2.8
-            case fourth = 3.5
+            case fourth = 4.0 //previous: 3.5
             case fifth = 4.5
         }
         
-        let firstZoomLevel = minZoom + weightLevels.first.rawValue
-        let secondZoomLevel = minZoom + weightLevels.second.rawValue
-        let thirdZoomLevel = minZoom + weightLevels.third.rawValue
+        //let firstZoomLevel = minZoom + weightLevels.first.rawValue
+        //let secondZoomLevel = minZoom + weightLevels.second.rawValue
+        //let thirdZoomLevel = minZoom + weightLevels.third.rawValue
         let fourthZoomLevel = minZoom + weightLevels.fourth.rawValue
-        let fifthZoomLevel = minZoom + weightLevels.fifth.rawValue
+        //let fifthZoomLevel = minZoom + weightLevels.fifth.rawValue
         
         switch currentZoom {
-            case let x where x >= minZoom && x < firstZoomLevel:
+            case let x where x >= minZoom && x < fourthZoomLevel:
                 //Don't show annotations
                 return []
-            case let x where x >= firstZoomLevel && x < secondZoomLevel:
+            /*case let x where x >= firstZoomLevel && x < secondZoomLevel:
                 //Show the middle annotation
                 return [busStopAnnotations[busStopAnnotations.count/2]]
-            case let x where x >= secondZoomLevel && x < thirdZoomLevel:
+            */
+            /*case let x where x >= secondZoomLevel && x < thirdZoomLevel:
                 modN = 8
                 break
             case let x where x >= thirdZoomLevel && x < fourthZoomLevel:
@@ -305,6 +306,7 @@ class MyBusMapView: MGLMapView{
             case let x where x >= fourthZoomLevel && x < fifthZoomLevel:
                 modN = 2
                 break
+            */
             default:
                 modN = 1
         }
