@@ -62,6 +62,7 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     
     private func setupLocationManager(){
         coreLocationManager = CLLocationManager()
+        coreLocationManager.distanceFilter = 200
         coreLocationManager.delegate = self
         coreLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         
@@ -117,7 +118,6 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
         
         if let handler = currentLocationHandler {
             handler(location: bestLocation, error: nil)
-            stopUpdating()            
             currentLocationHandler = nil
         }
         
@@ -127,7 +127,6 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     
     internal func locationManager(manager: CLLocationManager, didFailWithError error: NSError){
         
-        stopUpdating()
         resetLocation()
         
         //send a nsnotification?
