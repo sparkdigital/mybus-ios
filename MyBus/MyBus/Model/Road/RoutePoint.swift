@@ -46,7 +46,7 @@ class RoutePoint: Object {
     }
 
     static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
-        let validTypes = ["street_address", "intersection", "natural_feature", "airport", "park", "point_of_interest", "establishment", "bus_station"]
+        let validTypes = ["street_address", "intersection", "natural_feature", "airport", "park", "point_of_interest", "establishment", "bus_station", "route"]
         let successCode: String = "OK"
         let geoPoint = RoutePoint()
         let firstResultJson = geoPointJson["results"][0]
