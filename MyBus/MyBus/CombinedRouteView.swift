@@ -77,6 +77,15 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
     }
     
     func updateViewWithRoadInfo(){
+        guard let roadModel = roadResultModel else {
+            NSLog("[CombinedRouteView] RoadResult is nil. Not updating view")
+            return
+        }
+        
+        lblTravelDistance.text = String(format: "%.2f", roadModel.totalDistances)
+        lblTravelDistance.alpha = 1.0
+        lblTravelTime.text = "\(roadModel.travelTime)"
+        lblTravelTime.alpha = 1.0
     }
     
     func preferredHeight() -> CGFloat {
