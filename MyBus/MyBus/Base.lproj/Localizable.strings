@@ -10,7 +10,7 @@
 "No_Observamos" = "No observamos conexión a Internet, por favor habilita el uso de datos moviles para MyBus.";
 "Malas_Noticias" = "Malas noticias 😿.";
 "Rutas_Encontradas" = "Rutas encontradas.";
-"Lamentablemente_Consulta" = "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas.";
+"Lamentablemente_Consulta" = "Lamentablemente no pudimos resolver tu consulta.";
 "Error" = "Error.";
 "No_Conexion" = "No hay conexión. Por favor, intente nuevamente mas tarde.";
 "Campos_Requeridos" = "Campos requeridos.";
