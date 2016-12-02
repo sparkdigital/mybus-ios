@@ -10,7 +10,9 @@ import UIKit
 
 protocol RoutePresenterDelegate {
     var routeResultModel:BusRouteResult? { get set }
+    var roadResultModel: RoadResult? { get set }
     func reloadData()
+    func updateViewWithRoadInfo()
     func preferredHeight()->CGFloat
 }
 
@@ -24,12 +26,23 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
     //Xib Outlets
     @IBOutlet weak var lblOriginAddress: UILabel!
     @IBOutlet weak var lblDestinationAddress: UILabel!
+    @IBOutlet weak var lblTravelDistance:UILabel!
+    @IBOutlet weak var lblTravelTime:UILabel!
+    @IBOutlet weak var lblWalkDistanceToOrigin:UILabel!
+    @IBOutlet weak var lblWalkDistanceToDestination:UILabel!
+    @IBOutlet weak var destinationToOriginHeightConstraint:NSLayoutConstraint!
    
     
     //Xib attributes
     var routeResultModel: BusRouteResult? {
         didSet{
             reloadData()
+        }
+    }
+    
+    var roadResultModel: RoadResult? {
+        didSet{
+            updateViewWithRoadInfo()
         }
     }
     
@@ -61,6 +74,9 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
         lblOriginAddress.text = "\(busOption.startBusStopStreetName) \(busOption.startBusStopStreetNumber)"
         lblDestinationAddress.text = "\(busOption.destinationBusStopStreetName) \(busOption.destinationBusStopStreetNumber)"
        
+    }
+    
+    func updateViewWithRoadInfo(){
     }
     
     func preferredHeight() -> CGFloat {

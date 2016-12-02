@@ -12,18 +12,31 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
 
     //Constants
     private var nibId:String = "CombinedRouteView"
-    private var viewHeight:CGFloat = 225
+    private var viewHeight:CGFloat = 250
     
     //Xib Outlets
     @IBOutlet weak var lblOriginAddress: UILabel!
     @IBOutlet weak var lblDestinationAddress: UILabel!
     @IBOutlet weak var lblCombinationOriginAddress: UILabel!
     @IBOutlet weak var lblCombinationDestinationAddress: UILabel!
+    @IBOutlet weak var lblTravelDistance:UILabel!
+    @IBOutlet weak var lblTravelTime:UILabel!
+    @IBOutlet weak var lblWalkDistanceToOrigin:UILabel!
+    @IBOutlet weak var lblWalkDistanceToIntermediateStop:UILabel!
+    @IBOutlet weak var lblWalkDistanceToDestination:UILabel!
+    @IBOutlet weak var firstDestinationToOriginHeightConstraint:NSLayoutConstraint!
+    @IBOutlet weak var destinationToIntermediateStopHeightConstraint:NSLayoutConstraint!
     
     //Xib Attributes
     var routeResultModel: BusRouteResult? {
         didSet {
             reloadData()
+        }
+    }
+    
+    var roadResultModel: RoadResult? {
+        didSet{
+            updateViewWithRoadInfo()
         }
     }
     
@@ -61,6 +74,9 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
         lblCombinationDestinationAddress.text = "\(secondOption.destinationBusStopStreetName) \(secondOption.destinationBusStopStreetNumber)"
         
        
+    }
+    
+    func updateViewWithRoadInfo(){
     }
     
     func preferredHeight() -> CGFloat {
