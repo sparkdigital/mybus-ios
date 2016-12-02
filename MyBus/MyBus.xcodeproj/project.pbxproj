@@ -159,6 +159,10 @@
 		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
 		11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */; };
 		11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2CFEC1D63785900862324 /* BusSearchResult.swift */; };
+		663DF1501DEF462F00F9C56A /* (null) in Sources */ = {isa = PBXBuildFile; };
+		66EDF97A1DF0847B00092C29 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66EDF9781DF0847B00092C29 /* Localizable.strings */; };
+		66EFFE401DF083C300E2F9F0 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EFFE3F1DF083C300E2F9F0 /* Localization.swift */; };
+		66EFFE411DF083C300E2F9F0 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EFFE3F1DF083C300E2F9F0 /* Localization.swift */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
 		A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AD4531CF7C0530088F592 /* MyBusService.swift */; };
@@ -316,6 +320,10 @@
 		11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsDataSource.swift; sourceTree = "<group>"; };
 		11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSearchResultStringFormatter.swift; sourceTree = "<group>"; };
 		11F2CFEC1D63785900862324 /* BusSearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResult.swift; path = Model/BusSearchResult.swift; sourceTree = "<group>"; };
+		66EDF9761DF0843D00092C29 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		66EDF9771DF0843D00092C29 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		66EDF9791DF0847B00092C29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = MyBus/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		66EFFE3F1DF083C300E2F9F0 /* Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		876237F742A9AC32124E70DC /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9982576D1CC532ED00909F1B /* Street.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Street.swift; path = Model/Street.swift; sourceTree = "<group>"; };
@@ -551,6 +559,7 @@
 		08EC58441CBD482400E8410A = {
 			isa = PBXGroup;
 			children = (
+				66EDF9781DF0847B00092C29 /* Localizable.strings */,
 				08EC584F1CBD482400E8410A /* MyBus */,
 				08EC58671CBD482400E8410A /* MyBusTests */,
 				08EC584E1CBD482400E8410A /* Products */,
@@ -645,6 +654,7 @@
 				A0926D121CFA44FE00246534 /* GisService.swift */,
 				A0926D161CFA540F00246534 /* GeoCodingService.swift */,
 				A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */,
+				66EFFE3F1DF083C300E2F9F0 /* Localization.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -891,6 +901,7 @@
 				115BE4DC1DAD7A3800E429D2 /* Buses.storyboard in Resources */,
 				B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */,
 				B47299471DA80D7D00D8D6D7 /* SimpleSearchBarView.xib in Resources */,
+				66EDF97A1DF0847B00092C29 /* Localizable.strings in Resources */,
 				C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */,
 				B47A8E801DDE167600D6F9A4 /* CombinedRouteView.xib in Resources */,
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
@@ -1067,6 +1078,7 @@
 				C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */,
 				C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */,
 				B47A8E841DDE49C400D6F9A4 /* CombinedRouteView.swift in Sources */,
+				663DF1501DEF462F00F9C56A /* (null) in Sources */,
 				11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */,
 				114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */,
 				115BE4D21DAD616B00E429D2 /* CombinedResultTableViewCell.swift in Sources */,
@@ -1086,6 +1098,7 @@
 				B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */,
 				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
 				110795771D9C4C4A00D63CE4 /* RegExOperator.swift in Sources */,
+				66EFFE401DF083C300E2F9F0 /* Localization.swift in Sources */,
 				A0926D0F1CFA13B600246534 /* RoadSearch.swift in Sources */,
 				C57886FB1D7DC59F0056A5E1 /* BusesRatesDataSource.swift in Sources */,
 				A03514E91CCEF38C009443AF /* Route.swift in Sources */,
@@ -1206,6 +1219,7 @@
 				088214CC1DDCEB1D003742E4 /* CombinedResultTableViewCell.swift in Sources */,
 				0807F6E01DE74F5500ACDFED /* GisServiceTest.swift in Sources */,
 				088214B31DDCEA0F003742E4 /* FavoriteViewController.swift in Sources */,
+				66EFFE411DF083C300E2F9F0 /* Localization.swift in Sources */,
 				088214B11DDCEA09003742E4 /* SuggestionSearchViewController.swift in Sources */,
 				088214CE1DDCEB42003742E4 /* ProgressHUD.swift in Sources */,
 				088214A11DDCE0A2003742E4 /* SuggestedPlace.swift in Sources */,
@@ -1235,6 +1249,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				08EC58551CBD482400E8410A /* Base */,
+				66EDF9761DF0843D00092C29 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1243,8 +1258,17 @@
 			isa = PBXVariantGroup;
 			children = (
 				08EC585D1CBD482400E8410A /* Base */,
+				66EDF9771DF0843D00092C29 /* es */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		66EDF9781DF0847B00092C29 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66EDF9791DF0847B00092C29 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1268,7 +1292,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1290,6 +1315,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "2820dc69-93f8-4966-9973-21ec58f5e03e";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1313,7 +1339,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1328,6 +1355,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "2820dc69-93f8-4966-9973-21ec58f5e03e";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1339,6 +1367,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1353,7 +1382,8 @@
 			baseConfigurationReference = FBE1A843F7FE9298651FC643 /* Pods-MyBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Roberto Claudio Martinez (VXBU7JZRFH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

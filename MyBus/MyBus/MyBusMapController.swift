@@ -153,21 +153,21 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         switch control.tag {
         case 0:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: "Eliminando un lugar favorito", message: "Está seguro que quiere borrar esta ubicación de su lista de Favoritos?", preferredStyle: UIAlertControllerStyle.ActionSheet)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando") , message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.ActionSheet)
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: annotation.title!!)
             DBManager.sharedInstance.removeFavorite(location)})
-            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
 
         case 1:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: "Agregando un lugar favorito", message: "Por favor ingrese un nombre para el lugar Favorito", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Por_Favor"), preferredStyle: UIAlertControllerStyle.Alert)
             alert.addTextFieldWithConfigurationHandler({ (textField) in textField.placeholder = "Name" })
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: alert.textFields![0].text!)
             DBManager.sharedInstance.addFavorite(location)})
-            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title:  Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         default: break
         }
@@ -323,7 +323,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
                 if let routeRoad = road {
                     self.updateRoad(routeRoad)
                 } else {
-                    GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos resolver el detalle de la opción seleccionada")
+                    GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("NO_Pudimos"))
                 }
             }
         }

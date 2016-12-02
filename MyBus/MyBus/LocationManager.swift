@@ -30,11 +30,11 @@ private let _sharedInstance = LocationManager()
 
 class LocationManager:NSObject, CLLocationManagerDelegate {
     
-    let verboseMessageDictionary = [CLAuthorizationStatus.NotDetermined:"Aun no ha determinado los permisos de geolocalización de esta aplicación.",
-                                    CLAuthorizationStatus.Restricted:"Esta aplicación no esta autorizada a utilizar servicios de geolocalización.",
-                                    CLAuthorizationStatus.Denied:"You have explicitly denied authorization for this application, or location services are disabled in Settings.",
-                                    CLAuthorizationStatus.AuthorizedAlways:"La aplicación esta autorizada a utilizar servicios de ubicación.",
-                                    CLAuthorizationStatus.AuthorizedWhenInUse:"Ud ha permitido el uso de su ubicación solo cuando la aplicación esté siendo utilizada."]
+    let verboseMessageDictionary = [CLAuthorizationStatus.NotDetermined:Localization.getLocalizedString("Aun_No"),
+                                    CLAuthorizationStatus.Restricted:Localization.getLocalizedString("Esta_Aplicacion"),
+                                    CLAuthorizationStatus.Denied:Localization.getLocalizedString("You_have"),
+                                    CLAuthorizationStatus.AuthorizedAlways:Localization.getLocalizedString("La_Aplicacion_Esta"),
+                                    CLAuthorizationStatus.AuthorizedWhenInUse:Localization.getLocalizedString("Ud_Ha_Permitido")]
 
     
     

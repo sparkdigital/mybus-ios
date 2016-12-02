@@ -91,7 +91,8 @@ class MainViewController: UIViewController {
 
     let progressNotification = ProgressHUD()
     var reachability: ReachabilityMyBus?
-    let alertNetworkNotReachable = UIAlertController.init(title: "Malas noticias", message: "No observamos conexión a Internet, por favor habilita el uso de datos moviles para MyBus", preferredStyle: .ActionSheet)
+    
+    let alertNetworkNotReachable = UIAlertController.init(title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Observamos"), preferredStyle: .ActionSheet)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -336,21 +337,21 @@ class MainViewController: UIViewController {
                 if let r: BusSearchResult = searchResult {
                     if r.hasRouteOptions {
                         self.hideTabBar()
-                        self.addBackNavItem("Rutas encontradas")
+                        self.addBackNavItem(Localization.getLocalizedString("Rutas_Encontradas"))
 
                         self.busesResultsTableViewController.loadBuses(r)
                         self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
                         self.currentViewController = self.busesResultsTableViewController
                     }else{
-                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+                        GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("Lamentablemente_Consulta"))
                     }
                 }else{
-                    GenerateMessageAlert.generateAlert(self, title: "Error", message: "No hay conexión. Por favor, intente nuevamente mas tarde.")
+                    GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Error"), message: Localization.getLocalizedString("No_Conexion"))
                 }
             })
         }else{
-            let title = "Campos requeridos"
-            let message = "Se requiere un origen y un destino para calcular la ruta"
+            let title = Localization.getLocalizedString("Campos_Requeridos")
+            let message = Localization.getLocalizedString("Se_Requiere")
 
             GenerateMessageAlert.generateAlert(self, title: title, message: message)
 
@@ -451,7 +452,7 @@ extension MainViewController:UITabBarDelegate {
             CLSLogv("Switched to MapViewModel %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
         if (item.tag == 1){
-            self.sectionNavigationBar("Favoritos")
+            self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
             self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
             self.currentViewController = favoriteViewController
             let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
@@ -471,7 +472,7 @@ extension MainViewController:UITabBarDelegate {
                     if let chargePoints = points {
                         self.mapViewController.toggleRechargePoints(chargePoints)
                     } else {
-                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
+                        GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Encontramos"))
                     }
                     self.progressNotification.stopLoadingNotification(self.view)
 
@@ -481,19 +482,19 @@ extension MainViewController:UITabBarDelegate {
                     self.currentViewController = mapViewController
                 }
             } else {
-                GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
+                GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
             CLSLogv("Switched to ACtiveSearch %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
         if (item.tag == 3){
-            self.sectionNavigationBar("Recorridos")
+            self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
             CLSLogv("Switched to Recorridos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
         }
         if (item.tag == 4){
-            self.sectionNavigationBar("Tarifas")
+            self.sectionNavigationBar(Localization.getLocalizedString("Tarifas"))
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
             self.currentViewController = busesRatesViewController
             CLSLogv("Switched to Tarifas %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
@@ -527,7 +528,7 @@ extension MainViewController:MapBusRoadDelegate {
         if busSearchResult.hasRouteOptions {
             self.mapViewController.addBusLinesResults(busSearchResult.busRouteOptions, preselectedRouteIndex: busSearchResult.indexSelected!)
         }else{
-            GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+            GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Malas_Noticias"), message:Localization.getLocalizedString("Lamentablemente_Consulta"))
         }
 
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -593,10 +594,10 @@ extension MainViewController {
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
 
-        let cancelButton = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
+        let cancelButton = UIBarButtonItem(title: Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
         cancelButton.tintColor = UIColor.lightGrayColor()
 
-        let searchRouteButton = UIBarButtonItem(title: "Buscar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
+        let searchRouteButton = UIBarButtonItem(title: Localization.getLocalizedString("Buscar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
         searchRouteButton.tintColor = UIColor.lightGrayColor()
 
         self.navigationItem.leftBarButtonItem = cancelButton
@@ -604,7 +605,7 @@ extension MainViewController {
         self.navigationItem.rightBarButtonItem = searchRouteButton
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
 
-        self.navigationItem.title = "Buscar Ruta"
+        self.navigationItem.title = Localization.getLocalizedString("Buscar_Ruta")
     }
 
     func sectionNavigationBar(title: String){
@@ -630,7 +631,7 @@ extension MainViewController {
     }
 
     func backTapped(){
-        if(self.navigationItem.title == "Rutas encontradas"){
+        if(self.navigationItem.title == Localization.getLocalizedString("Rutas_Encontradas")){
             self.mapViewModel.clearModel()
             self.mapViewController.resetMapSearch()
         }
