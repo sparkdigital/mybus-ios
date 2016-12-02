@@ -77,6 +77,15 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
     }
     
     func updateViewWithRoadInfo(){
+        guard let roadModel = roadResultModel else {
+            NSLog("[SingleRouteView] RoadResult is nil. Not updating view")
+            return
+        }
+        
+        lblTravelDistance.text = "\(String(format: "%.2f", roadModel.totalDistances)) Km"
+        lblTravelDistance.alpha = 1.0
+        lblTravelTime.text = "\(roadModel.travelTime) min"
+        lblTravelTime.alpha = 1.0
     }
     
     func preferredHeight() -> CGFloat {
