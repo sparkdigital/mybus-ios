@@ -35,7 +35,6 @@ class RoadResult: NSObject {
             singleRoad.totalDistances = roadResultResponse["TotalDistance"].doubleValue
             singleRoad.travelTime = roadResultResponse["TravelTime"].intValue
             singleRoad.arrivalTime = roadResultResponse["ArrivalTime"].intValue
-            singleRoad.totalDistances = roadResultResponse["TotalDistance"].doubleValue
             let route = Route.parse(roadResultResponse["Route1"].array!)
 
             singleRoad.firstBusStop = route.getFirstLatLng()
