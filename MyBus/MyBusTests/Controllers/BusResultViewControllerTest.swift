@@ -7,29 +7,47 @@
 //
 
 import XCTest
+import SwiftyJSON
 
-class BusResultViewControllerTest: XCTestCase {
+class BusResultViewControllerTest: XCTestCase
+{    
+    let busResultController:BusResultViewController = BusResultViewController()
+    var busRouteResultSingle: [BusRouteResult] = []
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        let filePath = NSBundle(forClass: BusesResultsMenuViewControllerTest.self).pathForResource("BusRouteResultSingle_1", ofType: "json")
+        
+        let jsonData = try! NSData(contentsOfFile: filePath!, options:.DataReadingMappedIfSafe)
+        
+        let json = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableContainers)
+        
+        var firstRouteDictionary = JSON(json)
+        
+        let firstType = firstRouteDictionary["Type"].intValue
+        let firstResults = firstRouteDictionary["Results"]
+        
+        busRouteResultSingle = BusRouteResult.parseResults(firstResults, type: firstType)
+        
+        busResultController.routeResult = busRouteResultSingle.first
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown()
+    {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testResultExistence()
+    {
+        XCTAssertNotNil(busResultController)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
+    func testResultContents()
+    {
+        XCTAssertNotNil(busResultController.busResultScrollView)
+        XCTAssertNotNil(busResultController.routeResult)
     }
     
 }
