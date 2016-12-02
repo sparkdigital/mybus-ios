@@ -257,7 +257,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func resetMapSearch(){
         self.mapView.clearAllAnnotations()
         self.mapModel.clearModel()
-        self.collapseBusesResultsMenu()
         self.hideBusesResultsMenu()
     }
 
