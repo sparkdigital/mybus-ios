@@ -82,10 +82,14 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
             return
         }
         
-        lblTravelDistance.text = "\(String(format: "%.2f", roadModel.totalDistances)) Km"
+        lblTravelDistance.text = roadModel.formattedTravelDistance()
         lblTravelDistance.alpha = 1.0
-        lblTravelTime.text = "\(roadModel.travelTime) min"
+        lblTravelTime.text = roadModel.formattedTravelTime()
         lblTravelTime.alpha = 1.0
+        
+        
+        lblWalkDistanceToOrigin.text = "Distancia desde el origen: \(roadModel.formattedWalkingDistance(roadModel.walkingRoutes.first?.distance ?? 0.0))"
+        lblWalkDistanceToDestination.text = "Distancia hasta el destino: \(roadModel.formattedWalkingDistance(roadModel.walkingRoutes.last?.distance ?? 0.0))"
     }
     
     func preferredHeight() -> CGFloat {

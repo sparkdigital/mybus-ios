@@ -97,4 +97,19 @@ class RoadResult: NSObject {
             }
         }
     }
+    
+    func formattedTravelDistance()->String{
+        return "\(String(format: "%.1f", self.totalDistances)) Km"
+    }
+    
+    func formattedTravelTime()->String {
+        return "\(self.travelTime) min"
+    }
+    
+    func formattedWalkingDistance(walkRouteDistance:Double) -> String {
+        let distanceInBlocks = Int(round(walkRouteDistance / 100))
+        let suffix = distanceInBlocks == 1 ? "cuadra" : "cuadras"
+        return "\(distanceInBlocks) \(suffix)"
+    }
+    
 }
