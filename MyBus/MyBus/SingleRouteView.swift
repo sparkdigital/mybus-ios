@@ -10,7 +10,9 @@ import UIKit
 
 protocol RoutePresenterDelegate {
     var routeResultModel:BusRouteResult? { get set }
+    var roadResultModel: RoadResult? { get set }
     func reloadData()
+    func updateViewWithRoadInfo()
     func preferredHeight()->CGFloat
 }
 
@@ -24,12 +26,23 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
     //Xib Outlets
     @IBOutlet weak var lblOriginAddress: UILabel!
     @IBOutlet weak var lblDestinationAddress: UILabel!
+    @IBOutlet weak var lblTravelDistance:UILabel!
+    @IBOutlet weak var lblTravelTime:UILabel!
+    @IBOutlet weak var lblWalkDistanceToOrigin:UILabel!
+    @IBOutlet weak var lblWalkDistanceToDestination:UILabel!
+    @IBOutlet weak var destinationToOriginHeightConstraint:NSLayoutConstraint!
    
     
     //Xib attributes
     var routeResultModel: BusRouteResult? {
         didSet{
             reloadData()
+        }
+    }
+    
+    var roadResultModel: RoadResult? {
+        didSet{
+            updateViewWithRoadInfo()
         }
     }
     
@@ -44,7 +57,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
         super.init(coder: aDecoder)
         xibSetup(nibId)
     }
-       
+    
     // MARK: RouterPresenterDelegate methods
     func reloadData() {
         
@@ -61,6 +74,47 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
         lblOriginAddress.text = "\(busOption.startBusStopStreetName) \(busOption.startBusStopStreetNumber)"
         lblDestinationAddress.text = "\(busOption.destinationBusStopStreetName) \(busOption.destinationBusStopStreetNumber)"
        
+    }
+    
+    func updateViewWithRoadInfo(){
+        guard let roadModel = roadResultModel else {
+            NSLog("[SingleRouteView] RoadResult is nil. Not updating view")
+            return
+        }
+        
+        lblTravelDistance.text = roadModel.formattedTravelDistance()
+        lblTravelDistance.alpha = 1.0
+        lblTravelTime.text = roadModel.formattedTravelTime()
+        lblTravelTime.alpha = 1.0
+        
+        
+        let walkDistanceToOrigin:Double = roadModel.walkingRoutes.first?.distance ?? 0.0
+        let walkDistanceToDestination:Double = roadModel.walkingRoutes.last?.distance ?? 0.0
+        
+        
+        UIView.animateWithDuration(0.2) {
+            if walkDistanceToOrigin < 100.0 {
+                self.lblWalkDistanceToOrigin.alpha = 0
+                self.lblWalkDistanceToOrigin.text = ""
+                self.destinationToOriginHeightConstraint.constant = 13
+            }else{
+                self.lblWalkDistanceToOrigin.alpha = 1
+                self.lblWalkDistanceToOrigin.text = "Distancia desde el origen: \(roadModel.formattedWalkingDistance(walkDistanceToOrigin))"
+                self.destinationToOriginHeightConstraint.constant = 23
+            }
+            
+            if walkDistanceToDestination < 100.0 {
+                self.lblWalkDistanceToDestination.alpha = 0
+                self.lblWalkDistanceToDestination.text = ""
+            }else{
+                self.lblWalkDistanceToDestination.alpha = 1
+                self.lblWalkDistanceToDestination.text = "Distancia hasta el destino: \(roadModel.formattedWalkingDistance(walkDistanceToDestination))"
+            }
+            
+            self.layoutIfNeeded()
+        }
+       
+        
     }
     
     func preferredHeight() -> CGFloat {
