@@ -450,6 +450,7 @@ extension MainViewController:UITabBarDelegate {
             self.currentViewController = mapViewController
             self.mapViewController.toggleRechargePoints(nil)
             CLSLogv("Switched to MapViewModel %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            Flurry.logEvent("Switched to MapViewModel")
         }
         if (item.tag == 1){
             self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
@@ -459,6 +460,7 @@ extension MainViewController:UITabBarDelegate {
             add.tintColor = UIColor.whiteColor()
             self.navigationItem.rightBarButtonItem = add
             CLSLogv("Switched to Favoritos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            Flurry.logEvent("Switched to Favoritos")
         }
         if (item.tag == 2){
             self.clearActiveSearch()
@@ -485,6 +487,7 @@ extension MainViewController:UITabBarDelegate {
                 GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
             CLSLogv("Switched to ACtiveSearch %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            Flurry.logEvent("Switched to ACtiveSearch")
         }
         if (item.tag == 3){
             self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
@@ -492,12 +495,14 @@ extension MainViewController:UITabBarDelegate {
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
             CLSLogv("Switched to Recorridos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            Flurry.logEvent("Switched to Recorridos")
         }
         if (item.tag == 4){
             self.sectionNavigationBar(Localization.getLocalizedString("Tarifas"))
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
             self.currentViewController = busesRatesViewController
             CLSLogv("Switched to Tarifas %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            Flurry.logEvent("Switched to Tarifas")
         }
     }
 }
