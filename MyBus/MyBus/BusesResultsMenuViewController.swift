@@ -86,6 +86,7 @@ class BusesResultsMenuViewController: UIViewController {
     
     func setOptionSelected(preselectedIndex:Int){
         if let _ = busRouteOptions?[preselectedIndex] {
+            self.currentRouteSelectedViewController = controllerArray[preselectedIndex]
             self.pageMenu?.moveToPage(preselectedIndex)
         }
         return
