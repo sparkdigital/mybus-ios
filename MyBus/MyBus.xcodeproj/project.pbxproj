@@ -159,7 +159,7 @@
 		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
 		11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */; };
 		11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2CFEC1D63785900862324 /* BusSearchResult.swift */; };
-		663DF1501DEF462F00F9C56A /* (null) in Sources */ = {isa = PBXBuildFile; };
+		663DF1501DEF462F00F9C56A /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		66EDF97A1DF0847B00092C29 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66EDF9781DF0847B00092C29 /* Localizable.strings */; };
 		66EFFE401DF083C300E2F9F0 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EFFE3F1DF083C300E2F9F0 /* Localization.swift */; };
 		66EFFE411DF083C300E2F9F0 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EFFE3F1DF083C300E2F9F0 /* Localization.swift */; };
@@ -986,7 +986,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		DECA832982E25EBD30268990 /* [CP] Embed Pods Frameworks */ = {
@@ -1016,7 +1016,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		F316D8059FA80151A0BAB274 /* [CP] Copy Pods Resources */ = {
@@ -1078,7 +1078,7 @@
 				C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */,
 				C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */,
 				B47A8E841DDE49C400D6F9A4 /* CombinedRouteView.swift in Sources */,
-				663DF1501DEF462F00F9C56A /* (null) in Sources */,
+				663DF1501DEF462F00F9C56A /* BuildFile in Sources */,
 				11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */,
 				114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */,
 				115BE4D21DAD616B00E429D2 /* CombinedResultTableViewCell.swift in Sources */,
