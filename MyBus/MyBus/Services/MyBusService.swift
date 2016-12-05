@@ -77,6 +77,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 completionHandler(RoadResult.parse(json), nil)
             } else {
                 CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                Flurry.logEvent("searchRoads error %@", error!.description)
                 completionHandler(nil, error)
             }
         }
@@ -93,7 +94,8 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 
                 completionHandler(CompleteBusRoute().parseOneWayBusRoute(json, busLineName: ""), nil)
             } else {
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                CLSLogv("getCompleteRoads error %@", getVaList([error!.description]))
+                Flurry.logEvent("getCompleteRoads error %@", error!.description)
                 completionHandler(nil, error)
             }
         }
@@ -115,13 +117,15 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                     }
                 }
                 if points.count == 0 {
-                    CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                    CLSLogv("getRechargeCardPoints error %@", getVaList([error!.description]))
+                    Flurry.logEvent("getRechargeCardPoints error %@", error!.description)
                     completionHandler(nil, error)
                 } else {
                     completionHandler(points, error)
                 }
             } else {
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                CLSLogv("getRechargeCardPoints error %@", getVaList([error!.description]))
+                Flurry.logEvent("getRechargeCardPoints error %@", error!.description)
                 completionHandler(nil, error)
             }
         }
