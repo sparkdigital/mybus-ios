@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import DZNEmptyDataSet
 
-class FavoriteViewController: UIViewController, UITableViewDelegate
+class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
 
     var favoriteDataSource: FavoriteDataSource!
@@ -21,6 +22,11 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
         self.favoriteDataSource = FavoriteDataSource()
         self.favoriteTableView.delegate = self
         self.favoriteTableView.dataSource = favoriteDataSource
+        
+        self.favoriteTableView.emptyDataSetSource = self
+        self.favoriteTableView.emptyDataSetDelegate = self
+        // A little trick for removing the cell separators
+        self.favoriteTableView.tableFooterView = UIView()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -28,7 +34,7 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
         self.favoriteDataSource.loadFav()
         self.favoriteTableView.reloadData()
     }
-
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     }
 
@@ -86,6 +92,27 @@ class FavoriteViewController: UIViewController, UITableViewDelegate
 
         alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: DZNEmptyDataSet setup methods
+    
+    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "No hay favoritos")
+    }
+    
+    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        let attributes: [String : AnyObject] = [
+            NSForegroundColorAttributeName: UIColor.lightGrayColor()
+        ]
+        return NSAttributedString(string: "Agregá tu primer ubicación favorita para buscar más rápido", attributes: attributes)
+    }
+    
+    func emptyDataSetShouldDisplay(scrollView: UIScrollView!) -> Bool {
+        return true
+    }
+    
+    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "empty_fav")
     }
 
 }
