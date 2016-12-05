@@ -57,7 +57,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
         super.init(coder: aDecoder)
         xibSetup(nibId)
     }
-       
+    
     // MARK: RouterPresenterDelegate methods
     func reloadData() {
         
@@ -88,8 +88,33 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
         lblTravelTime.alpha = 1.0
         
         
-        lblWalkDistanceToOrigin.text = "Distancia desde el origen: \(roadModel.formattedWalkingDistance(roadModel.walkingRoutes.first?.distance ?? 0.0))"
-        lblWalkDistanceToDestination.text = "Distancia hasta el destino: \(roadModel.formattedWalkingDistance(roadModel.walkingRoutes.last?.distance ?? 0.0))"
+        let walkDistanceToOrigin:Double = roadModel.walkingRoutes.first?.distance ?? 0.0
+        let walkDistanceToDestination:Double = roadModel.walkingRoutes.last?.distance ?? 0.0
+        
+        
+        UIView.animateWithDuration(0.2) {
+            if walkDistanceToOrigin < 100.0 {
+                self.lblWalkDistanceToOrigin.alpha = 0
+                self.lblWalkDistanceToOrigin.text = ""
+                self.destinationToOriginHeightConstraint.constant = 13
+            }else{
+                self.lblWalkDistanceToOrigin.alpha = 1
+                self.lblWalkDistanceToOrigin.text = "Distancia desde el origen: \(roadModel.formattedWalkingDistance(walkDistanceToOrigin))"
+                self.destinationToOriginHeightConstraint.constant = 23
+            }
+            
+            if walkDistanceToDestination < 100.0 {
+                self.lblWalkDistanceToDestination.alpha = 0
+                self.lblWalkDistanceToDestination.text = ""
+            }else{
+                self.lblWalkDistanceToDestination.alpha = 1
+                self.lblWalkDistanceToDestination.text = "Distancia hasta el destino: \(roadModel.formattedWalkingDistance(walkDistanceToDestination))"
+            }
+            
+            self.layoutIfNeeded()
+        }
+       
+        
     }
     
     func preferredHeight() -> CGFloat {
