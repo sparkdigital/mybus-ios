@@ -207,22 +207,40 @@ class MainViewController: UIViewController {
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-
+            
             progressNotification.showLoadingNotification(self.view)
-
-            Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
-                if let destination = routePoint {
-                    if let _ = self.mapViewModel.origin {
-                        self.newDestination(destination)
-                    } else {
-                        self.newOrigin(destination)
-                    }
-                    self.homeNavigationBar(self.mapViewModel)
+            
+            if let annotations = self.mapViewController.mapView.annotations {
+                if( annotations.count > 1 ){
+                    self.progressNotification.stopLoadingNotification(self.view)
+                    let alert = UIAlertController(title: "Borrando busqueda actual", message: "Está seguro que quiere borrar la busqueda actual?", preferredStyle: UIAlertControllerStyle.ActionSheet)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+                        self.progressNotification.showLoadingNotification(self.view)
+                        self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)})
+                    alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (_) -> Void in})
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }else{
+                    self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
                 }
-                self.progressNotification.stopLoadingNotification(self.view)
+            }
+            else{
+                self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
             }
         }
-
+    }
+    
+    private func defineOriginDestination(latitude : Double, longitude: Double){
+        Connectivity.sharedInstance.getAddressFromCoordinate(latitude, longitude: longitude) { (routePoint, error) in
+            if let destination = routePoint {
+                if let _ = self.mapViewModel.origin {
+                    self.newDestination(destination)
+                } else {
+                    self.newOrigin(destination)
+                }
+                self.homeNavigationBar(self.mapViewModel)
+            }
+            self.progressNotification.stopLoadingNotification(self.view)
+        }
     }
 
     private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
