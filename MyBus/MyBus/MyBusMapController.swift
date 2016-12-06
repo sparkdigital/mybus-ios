@@ -257,7 +257,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func resetMapSearch(){
         self.mapView.clearAllAnnotations()
         self.mapModel.clearModel()
-        self.collapseBusesResultsMenu()
         self.hideBusesResultsMenu()
     }
 
@@ -321,6 +320,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
                 road, error in
                 self.progressNotification.stopLoadingNotification(self.view)
                 if let routeRoad = road {
+                    self.busesSearchOptions.updateCurrentOptionWithFetchedRoad(routeRoad)
                     self.updateRoad(routeRoad)
                 } else {
                     GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("NO_Pudimos"))

@@ -12,9 +12,17 @@ class BusResultViewController: UIViewController {
     
     var busResultScrollView:UIScrollView!
     
+    private var routeResultView:RoutePresenterDelegate?
+    
     var routeResult:BusRouteResult! {
         didSet {
             self.reloadData()
+        }
+    }
+    
+    var roadResult:RoadResult! {
+        didSet{
+            self.updateRouteWithRoadInfo()
         }
     }
     
@@ -32,7 +40,7 @@ class BusResultViewController: UIViewController {
     }
     
     
-    func reloadData(){
+    private func reloadData(){
         
         guard let result = self.routeResult else {
             return
@@ -41,7 +49,7 @@ class BusResultViewController: UIViewController {
         //clean up views
         self.view.clearViewSubviews()
         
-        var routeResultView:RoutePresenterDelegate? = nil
+        self.routeResultView = nil
         
         if result.busRouteType == MyBusRouteResultType.Single {
             //Build simple cell
@@ -70,6 +78,10 @@ class BusResultViewController: UIViewController {
         
         //Add ScrollView to viewController's view
         self.view.addAutoPinnedSubview(busResultScrollView, toView: self.view)
+    }
+    
+    private func updateRouteWithRoadInfo(){
+        self.routeResultView?.roadResultModel = self.roadResult
     }
     
     
