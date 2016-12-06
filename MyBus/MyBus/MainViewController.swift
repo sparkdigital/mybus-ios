@@ -487,8 +487,8 @@ extension MainViewController:UITabBarDelegate {
             } else {
                 GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
-            CLSLogv("Switched to ACtiveSearch %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
-            Flurry.logEvent("Switched to ACtiveSearch")
+            CLSLogv("Switched to Puntos de Recarga %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            Flurry.logEvent("Switched to Puntos de Recarga")
         }
         if (item.tag == 3){
             self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
