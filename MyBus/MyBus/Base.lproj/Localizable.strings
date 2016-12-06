@@ -26,6 +26,8 @@
 "Buscar" = "Buscar";
 "Desde_Buscar" = "Desde: Buscar dirección de origen";
 "Hacia_Buscar" = "Hacia: Buscar dirección de destino";
+"Borrar_Busqueda" = "Borrando busqueda actual";
+"Confirmar_Borrado_Busqueda"= "Está seguro que quiere borrar la busqueda actual?";
 "No_Sabemos" = "No sabemos donde es el lugar";
 "No_Pudimos"= "No pudimos resolver la dirección de ubicación actual";
 "No_Sabemos_Que" = "No sabemos que buscar";
