@@ -12,18 +12,31 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
 
     //Constants
     private var nibId:String = "CombinedRouteView"
-    private var viewHeight:CGFloat = 225
+    private var viewHeight:CGFloat = 250
     
     //Xib Outlets
     @IBOutlet weak var lblOriginAddress: UILabel!
     @IBOutlet weak var lblDestinationAddress: UILabel!
     @IBOutlet weak var lblCombinationOriginAddress: UILabel!
     @IBOutlet weak var lblCombinationDestinationAddress: UILabel!
+    @IBOutlet weak var lblTravelDistance:UILabel!
+    @IBOutlet weak var lblTravelTime:UILabel!
+    @IBOutlet weak var lblWalkDistanceToOrigin:UILabel!
+    @IBOutlet weak var lblWalkDistanceToIntermediateStop:UILabel!
+    @IBOutlet weak var lblWalkDistanceToDestination:UILabel!
+    @IBOutlet weak var firstDestinationToOriginHeightConstraint:NSLayoutConstraint!
+    @IBOutlet weak var destinationToIntermediateStopHeightConstraint:NSLayoutConstraint!
     
     //Xib Attributes
     var routeResultModel: BusRouteResult? {
         didSet {
             reloadData()
+        }
+    }
+    
+    var roadResultModel: RoadResult? {
+        didSet{
+            updateViewWithRoadInfo()
         }
     }
     
@@ -60,6 +73,57 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
         lblCombinationOriginAddress.text = "\(secondOption.startBusStopStreetName) \(secondOption.startBusStopStreetNumber)"
         lblCombinationDestinationAddress.text = "\(secondOption.destinationBusStopStreetName) \(secondOption.destinationBusStopStreetNumber)"
         
+       
+    }
+    
+    func updateViewWithRoadInfo(){
+        guard let roadModel = roadResultModel else {
+            NSLog("[CombinedRouteView] RoadResult is nil. Not updating view")
+            return
+        }
+        
+        lblTravelDistance.text = roadModel.formattedTravelDistance()
+        lblTravelDistance.alpha = 1.0
+        lblTravelTime.text = roadModel.formattedTravelTime()
+        lblTravelTime.alpha = 1.0
+        
+        
+        let walkDistanceToOrigin:Double = roadModel.walkingRoutes.first?.distance ?? 0.0
+        let walkDistanceCombination:Double = self.routeResultModel?.combinationDistance ?? 0.0
+        let walkDistanceToDestination:Double = roadModel.walkingRoutes.last?.distance ?? 0.0
+        
+        
+        UIView.animateWithDuration(0.2) {
+            if walkDistanceToOrigin < 100.0 {
+                self.lblWalkDistanceToOrigin.alpha = 0
+                self.lblWalkDistanceToOrigin.text = ""
+                self.firstDestinationToOriginHeightConstraint.constant = 13
+            }else{
+                self.lblWalkDistanceToOrigin.alpha = 1
+                self.lblWalkDistanceToOrigin.text = "Distancia desde el origen: \(roadModel.formattedWalkingDistance(walkDistanceToOrigin))"
+                self.firstDestinationToOriginHeightConstraint.constant = 23
+            }
+            
+            if walkDistanceCombination < 100.0 {
+                self.lblWalkDistanceToIntermediateStop.alpha = 0
+                self.lblWalkDistanceToIntermediateStop.text = ""
+                self.destinationToIntermediateStopHeightConstraint.constant = 13
+            }else{
+                self.lblWalkDistanceToIntermediateStop.alpha = 1
+                self.lblWalkDistanceToIntermediateStop.text = "Distancia hasta la parada: \(roadModel.formattedWalkingDistance(walkDistanceCombination))"
+                self.destinationToIntermediateStopHeightConstraint.constant = 23
+            }
+            
+            if walkDistanceToDestination < 100.0 {
+                self.lblWalkDistanceToDestination.alpha = 0
+                self.lblWalkDistanceToDestination.text = ""
+            }else{
+                self.lblWalkDistanceToDestination.alpha = 1
+                self.lblWalkDistanceToDestination.text = "Distancia hasta el destino: \(roadModel.formattedWalkingDistance(walkDistanceToDestination))"
+            }
+            
+            self.layoutIfNeeded()
+        }
        
     }
     

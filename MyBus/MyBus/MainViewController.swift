@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 import Crashlytics
+import Flurry_iOS_SDK
 
 protocol Searchable {
     func initWithBasicSearch()

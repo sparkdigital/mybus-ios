@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 import Crashlytics
+import Flurry_iOS_SDK
 
 public enum MyBusRouteResultType {
     case Combined, Single
@@ -77,7 +78,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 completionHandler(RoadResult.parse(json), nil)
             } else {
                 CLSLogv("searchRoads error %@", getVaList([error!.description]))
-                Flurry.logEvent("searchRoads error %@", error!.description)
+                Flurry.logEvent("searchRoads error \(error!.description)")
                 completionHandler(nil, error)
             }
         }
@@ -95,7 +96,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 completionHandler(CompleteBusRoute().parseOneWayBusRoute(json, busLineName: ""), nil)
             } else {
                 CLSLogv("getCompleteRoads error %@", getVaList([error!.description]))
-                Flurry.logEvent("getCompleteRoads error %@", error!.description)
+                Flurry.logEvent("getCompleteRoads error \(error!.description)")
                 completionHandler(nil, error)
             }
         }
@@ -118,14 +119,14 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 }
                 if points.count == 0 {
                     CLSLogv("getRechargeCardPoints error %@", getVaList([error!.description]))
-                    Flurry.logEvent("getRechargeCardPoints error %@", error!.description)
+                    Flurry.logEvent("getRechargeCardPoints error \(error!.description)")
                     completionHandler(nil, error)
                 } else {
                     completionHandler(points, error)
                 }
             } else {
-                CLSLogv("getRechargeCardPoints error %@", getVaList([error!.description]))
-                Flurry.logEvent("getRechargeCardPoints error %@", error!.description)
+                CLSLogv("getRechargeCardPoints error %@", getVaList([error!.description]))                
+                Flurry.logEvent("getRechargeCardPoints error \(error!.description)")
                 completionHandler(nil, error)
             }
         }
