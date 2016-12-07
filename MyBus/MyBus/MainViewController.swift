@@ -54,7 +54,7 @@ class MapViewModel {
 }
 
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UIPopoverPresentationControllerDelegate {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
@@ -84,7 +84,8 @@ class MainViewController: UIViewController {
     var busesResultsTableViewController: BusesResultsTableViewController!
 
     var navRouter: NavRouter!
-
+    let aboutUsAlertController = UIAlertController (title: "", message: "\n \n \n \n \n \n \n \n \n \n \n \n \n \n", preferredStyle: .Alert)
+    
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
@@ -573,7 +574,7 @@ extension MainViewController:MapBusRoadDelegate {
 
 // MARK: Custom Navigation bars extension
 extension MainViewController {
-
+    
     func homeNavigationBar(mapModel: MapViewModel){
 
         self.verifySearchStatus(mapModel)
@@ -606,9 +607,38 @@ extension MainViewController {
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = nil
+        let aboutUsButton = UIButton(type: UIButtonType(rawValue: 4)!)
+        aboutUsButton.tintColor = UIColor.whiteColor()
+        let aboutUsButtonItem = UIBarButtonItem(customView: aboutUsButton)
+        aboutUsButton.addTarget(self, action: #selector(self.showAboutUs(_:)), forControlEvents: .TouchUpInside)
+        self.navigationItem.rightBarButtonItem = aboutUsButtonItem
     }
 
+    func showAboutUs(sender: UIButton) {
+        
+
+        let x = aboutUsAlertController.view.frame.origin.x
+        let y = aboutUsAlertController.view.frame.origin.y
+        
+        let stepsView = UINib(nibName: "AboutUs", bundle: nil).instantiateWithOwner(self, options: nil)[0] as!
+        UIView
+        aboutUsAlertController.view.frame=CGRectMake(x, y, stepsView.frame.width, 265)
+        
+        aboutUsAlertController.view.addSubview(stepsView)
+
+        self.presentViewController(aboutUsAlertController, animated: false, completion: nil)
+        
+    }
+    
+    @IBAction func dismissAboutUs(sender: AnyObject) {
+        print("hello")
+        aboutUsAlertController.dismissViewControllerAnimated(false, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+    
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
 
