@@ -13,6 +13,7 @@ import Fabric
 import Crashlytics
 import Mapbox
 import RealmSwift
+import Flurry_iOS_SDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -39,6 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Realm will automatically detect new properties and removed properties
                     // And will update the schema on disk automatically
                 }
+                
+                Flurry.setDebugLogEnabled(true);
+                Flurry.setCrashReportingEnabled(true);
+                Flurry.startSession("75KB8D2BW66PV5M9QSGW");
         })
 
         // Tell Realm to use this new configuration object for the default Realm
@@ -46,6 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Override point for customization after application launch.
         CLSLogv("Application started %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+        Flurry.logEvent("App Started")
+
+        
     
         return true
     }
