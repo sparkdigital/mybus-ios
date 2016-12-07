@@ -234,6 +234,8 @@
 		B47A8E801DDE167600D6F9A4 /* CombinedRouteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47A8E7F1DDE167600D6F9A4 /* CombinedRouteView.xib */; };
 		B47A8E821DDE495000D6F9A4 /* SingleRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A8E811DDE495000D6F9A4 /* SingleRouteView.swift */; };
 		B47A8E841DDE49C400D6F9A4 /* CombinedRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A8E831DDE49C400D6F9A4 /* CombinedRouteView.swift */; };
+		B4BD87AC1DF8777C0095A61C /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */; };
+		B4BD87AD1DF8777C0095A61C /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */; };
 		B4C3FCE71DC93F1500D696FC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C3FCE61DC93F1500D696FC /* LocationManager.swift */; };
 		B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */; };
 		C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50CC65C1D7A17130039C316 /* BusesRates.plist */; };
@@ -416,6 +418,7 @@
 		B47A8E7F1DDE167600D6F9A4 /* CombinedRouteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CombinedRouteView.xib; sourceTree = "<group>"; };
 		B47A8E811DDE495000D6F9A4 /* SingleRouteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleRouteView.swift; sourceTree = "<group>"; };
 		B47A8E831DDE49C400D6F9A4 /* CombinedRouteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedRouteView.swift; sourceTree = "<group>"; };
+		B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
 		B4C3FCE61DC93F1500D696FC /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapView.swift; sourceTree = "<group>"; };
 		C50CC65C1D7A17130039C316 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
@@ -815,6 +818,7 @@
 				1131807D1D63749400425847 /* SearchManager.swift */,
 				1153DF831DB6875B00B25A49 /* DBManager.swift */,
 				B4C3FCE61DC93F1500D696FC /* LocationManager.swift */,
+				B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -1183,6 +1187,7 @@
 				B4C3FCE71DC93F1500D696FC /* LocationManager.swift in Sources */,
 				087E76F21CBEF1CC00FB6050 /* SearchViewController.swift in Sources */,
 				A03514EA1CCEF38C009443AF /* RoutePoint.swift in Sources */,
+				B4BD87AC1DF8777C0095A61C /* LoggingManager.swift in Sources */,
 				B47299451DA80D5F00D8D6D7 /* SimpleSearchBarView.swift in Sources */,
 				C57317621DB7BD3900689F00 /* FavoriteDataSource.swift in Sources */,
 				087E76F01CBEA5D800FB6050 /* Connectivity.swift in Sources */,
@@ -1255,6 +1260,7 @@
 				08953C6C1DF1FE0B00242AFB /* User.swift in Sources */,
 				08953C561DF1FE0B00242AFB /* BusesResultsMenuViewController.swift in Sources */,
 				08E5F53D1DD4C39B004D0578 /* RoutePointTest.swift in Sources */,
+				B4BD87AD1DF8777C0095A61C /* LoggingManager.swift in Sources */,
 				08953C641DF1FE0B00242AFB /* GeoCodingService.swift in Sources */,
 				08953C6A1DF1FE0B00242AFB /* CompleteBusRoute.swift in Sources */,
 				08953C801DF1FE0B00242AFB /* FavoriteTableViewCell.swift in Sources */,
