@@ -38,6 +38,25 @@ extension UIView {
             options: [], metrics: nil, views: viewBindingsDict))
     }
     
+    func addPinnedSubviewWithHandleToParent(subView:UIView, handleView:UIView, toView parentView:UIView){
+        parentView.addSubview(subView)
+        parentView.addSubview(handleView)
+        
+        var viewBindingsDict = [String:AnyObject]()
+        viewBindingsDict["subView"] = subView
+        viewBindingsDict["handleView"] = handleView
+        
+        parentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[subView]|",
+            options: [], metrics: nil, views: viewBindingsDict))
+        parentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[subView]|",
+            options: [], metrics: nil, views: viewBindingsDict))
+        parentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-100-[handleView]-100-|",
+            options: [], metrics: nil, views: viewBindingsDict))
+        parentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[subView]-0-[handleView]-0-|",
+            options: [], metrics: nil, views: viewBindingsDict))
+        
+    }
+    
     func clearViewSubviews(){
         let subViews = self.subviews
         for v in subViews {
