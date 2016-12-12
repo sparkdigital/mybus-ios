@@ -1,10 +1,10 @@
-/* 
-  Localizable.strings
-  MyBus
-
-  Created by Nacho on 11/30/16.
-  Copyright © 2016 Spark Digital. All rights reserved.
-*/
+/*
+ Localizable.strings
+ MyBus
+ 
+ Created by Nacho on 11/30/16.
+ Copyright © 2016 Spark Digital. All rights reserved.
+ */
 
 "Malas_Noticias" = "Malas noticias";
 "No_Observamos" = "No observamos conexión a Internet, por favor habilita el uso de datos moviles para MyBus";
@@ -14,7 +14,7 @@
 "Error" = "Error";
 "No_Conexion" = "No hay conexión Por favor, intente nuevamente mas tarde";
 "Campos_Requeridos" = "Campos requeridos";
-"Se_Requiere" = "Se requiere un origen y un destino para calcular la ruta";
+"Se_Requiere" = "Debes ingresar tu origen y destino para obtener resultados";
 "No_Encontramos" = "No encontramos puntos de carga cercanos a tu ubicación";
 "Tuvimos_Problema" = "Tuvimos un problema 😿";
 "No_Pudimos" = "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos";
