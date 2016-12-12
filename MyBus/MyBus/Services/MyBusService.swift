@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import Crashlytics
 
 public enum MyBusRouteResultType {
     case Combined, Single
@@ -76,7 +75,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 
                 completionHandler(RoadResult.parse(json), nil)
             } else {
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                LoggingManager.sharedInstance.logError("Road Result Search", error: error)
                 completionHandler(nil, error)
             }
         }
@@ -93,7 +92,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 
                 completionHandler(CompleteBusRoute().parseOneWayBusRoute(json, busLineName: ""), nil)
             } else {
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                LoggingManager.sharedInstance.logError("Complete Bus Route Search", error: error)
                 completionHandler(nil, error)
             }
         }
@@ -115,13 +114,13 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                     }
                 }
                 if points.count == 0 {
-                    CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                    LoggingManager.sharedInstance.logError("Recharge Points, No Points", error: error)
                     completionHandler(nil, error)
                 } else {
                     completionHandler(points, error)
                 }
             } else {
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
+                LoggingManager.sharedInstance.logError("Recharge Points", error: error)
                 completionHandler(nil, error)
             }
         }

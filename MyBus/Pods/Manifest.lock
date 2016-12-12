@@ -2,7 +2,9 @@ PODS:
   - Alamofire (3.3.1)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
+  - DZNEmptyDataSet (1.8.1)
   - Fabric (1.6.7)
+  - Flurry-iOS-SDK/FlurrySDK (7.8.2)
   - Mapbox-iOS-SDK (3.3.4)
   - MapboxDirections.swift (0.4.0):
     - NBNRequestKit
@@ -21,7 +23,9 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 3.3.1)
   - Crashlytics (~> 3.7.0)
+  - DZNEmptyDataSet (~> 1.8)
   - Fabric (~> 1.6.7)
+  - Flurry-iOS-SDK/FlurrySDK (~> 7.8.2)
   - Mapbox-iOS-SDK (~> 3.3.4)
   - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, tag `v0.5.0`)
   - MBProgressHUD (~> 0.9.2)
@@ -49,7 +53,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  Flurry-iOS-SDK: 8ed76252016d0162a893363c108a010ab97d424c
   Mapbox-iOS-SDK: b22da0d9703fcfb0a8b592b6a7f6a21264fe44b0
   MapboxDirections.swift: baa69039463d0853ec7cca2370ed686f507695bf
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
@@ -60,6 +66,6 @@ SPEC CHECKSUMS:
   RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: d0abdcfbd1d826df1038e4b6760706e38eb0471b
+PODFILE CHECKSUM: 1b732ab32d78945aceaa66ac8006afba72ed587b
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1
