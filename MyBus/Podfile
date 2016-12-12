@@ -18,7 +18,7 @@ target 'MyBus' do
     pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.5.0'
     pod 'PageMenu', '~> 1.2.9'
     pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.8.2'    
-    pod ' ', '~> 1.8'
+    pod 'DZNEmptyDataSet', '~> 1.8'
 end
 
 target 'MyBusTests' do
@@ -32,4 +32,6 @@ target 'MyBusTests' do
     pod 'NBNRequestKit', :git => 'https://github.com/1ec5/RequestKit.git', :branch => 'mapbox-podspec' # temporarily until nerdishbynature/RequestKit#14 is merged
     pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.5.0'
     pod 'PageMenu', '~> 1.2.9'
+    pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.8.2'
+    pod 'DZNEmptyDataSet', '~> 1.8'
 end

@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 import MapKit
-import Crashlytics
-import Flurry_iOS_SDK
 
 protocol Searchable {
     func initWithBasicSearch()
@@ -469,8 +467,7 @@ extension MainViewController:UITabBarDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
             self.mapViewController.toggleRechargePoints(nil)
-            CLSLogv("Switched to MapViewModel %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
-            Flurry.logEvent("Switched to MapViewModel")
+            LoggingManager.sharedInstance.logSection("Search and Map Visualization")
         }
         if (item.tag == 1){
             self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
@@ -479,8 +476,7 @@ extension MainViewController:UITabBarDelegate {
             let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
             add.tintColor = UIColor.whiteColor()
             self.navigationItem.rightBarButtonItem = add
-            CLSLogv("Switched to Favoritos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
-            Flurry.logEvent("Switched to Favoritos")
+            LoggingManager.sharedInstance.logSection("Favourites")
         }
         if (item.tag == 2){
             self.clearActiveSearch()
@@ -506,23 +502,20 @@ extension MainViewController:UITabBarDelegate {
             } else {
                 GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
-            CLSLogv("Switched to Puntos de Recarga %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
-            Flurry.logEvent("Switched to Puntos de Recarga")
+            LoggingManager.sharedInstance.logSection("Recharge Points")
         }
         if (item.tag == 3){
             self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
-            CLSLogv("Switched to Recorridos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
-            Flurry.logEvent("Switched to Recorridos")
+            LoggingManager.sharedInstance.logSection("Bus Routes")
         }
         if (item.tag == 4){
             self.sectionNavigationBar(Localization.getLocalizedString("Tarifas"))
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
-            self.currentViewController = busesRatesViewController
-            CLSLogv("Switched to Tarifas %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
-            Flurry.logEvent("Switched to Tarifas")
+            self.currentViewController = busesRatesViewController            
+            LoggingManager.sharedInstance.logSection("Bus Fares")
         }
     }
 }
