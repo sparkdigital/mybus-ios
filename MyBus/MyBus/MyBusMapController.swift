@@ -153,21 +153,21 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         switch control.tag {
         case 0:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: "Eliminando un lugar favorito", message: "Está seguro que quiere borrar esta ubicación de su lista de Favoritos?", preferredStyle: UIAlertControllerStyle.ActionSheet)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando") , message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.ActionSheet)
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: annotation.title!!)
             DBManager.sharedInstance.removeFavorite(location)})
-            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
 
         case 1:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: "Agregando un lugar favorito", message: "Por favor ingrese un nombre para el lugar Favorito", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Por_Favor"), preferredStyle: UIAlertControllerStyle.Alert)
             alert.addTextFieldWithConfigurationHandler({ (textField) in textField.placeholder = "Name" })
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: alert.textFields![0].text!)
             DBManager.sharedInstance.addFavorite(location)})
-            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title:  Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         default: break
         }
@@ -211,7 +211,14 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             return myBusMarker.markerView
         }
     }
-        
+    
+    func mapView(mapView: MGLMapView, regionDidChangeAnimated animated: Bool){
+        //NSLog("Current Zoom Level = \(mapView.zoomLevel)")
+        if let myBusMapView = mapView as? MyBusMapView, let currentRoadBusStopMarkers = self.mapModel.currentRoad?.roadIntermediateBusStopMarkers {
+            myBusMapView.addIntermediateBusStopAnnotations(currentRoadBusStopMarkers)
+        }
+    }
+    
     // MARK: - Mapview bus roads manipulation Methods
     func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
         
@@ -250,7 +257,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func resetMapSearch(){
         self.mapView.clearAllAnnotations()
         self.mapModel.clearModel()
-        self.collapseBusesResultsMenu()
         self.hideBusesResultsMenu()
     }
 
@@ -314,9 +320,10 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
                 road, error in
                 self.progressNotification.stopLoadingNotification(self.view)
                 if let routeRoad = road {
+                    self.busesSearchOptions.updateCurrentOptionWithFetchedRoad(routeRoad)
                     self.updateRoad(routeRoad)
                 } else {
-                    GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos resolver el detalle de la opción seleccionada")
+                    GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("NO_Pudimos"))
                 }
             }
         }
@@ -330,6 +337,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         if let origin = newOrigin {
             let marker = MyBusMarkerFactory.createOriginPointMarker(origin)
             self.mapModel.originMarker = marker
+            self.mapModel.currentRoad = nil
         }else{
             self.mapView.removeOriginPoint()
             self.mapModel.originMarker = nil
@@ -348,6 +356,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         if let destination = newDestination {
             let marker = MyBusMarkerFactory.createDestinationPointMarker(destination)
             self.mapModel.destinationMarker = marker
+            self.mapModel.currentRoad = nil
         }else{
             self.mapView.removeDestinationPoint()
             self.mapModel.destinationMarker = nil
@@ -359,6 +368,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         let mapRoad = MyBusMapRoad()
         mapRoad.walkingPath = MyBusPolylineFactory.buildWalkingRoutePolylineList(newRoad)
         mapRoad.roadMarkers = MyBusMarkerFactory.buildBusRoadStopMarkers(newRoad)
+        mapRoad.roadIntermediateBusStopMarkers = MyBusMarkerFactory.buildIntermediateBusStopMarkers(newRoad)
         mapRoad.roadPolyline = MyBusPolylineFactory.buildBusRoutePolylineList(newRoad)
         self.mapModel.currentRoad = mapRoad
     }

@@ -19,7 +19,6 @@ class BusesResultsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 190.0, 0.0)
     }
 
     func loadBuses(buses: BusSearchResult) {
@@ -27,6 +26,9 @@ class BusesResultsTableViewController: UITableViewController {
         self.buses = buses.busRouteOptions
         self.tableView.reloadData()
         self.tableView.layoutIfNeeded()
+        
+        let indexPath:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.None, animated: true)
     }
 
     override func didReceiveMemoryWarning() {

@@ -34,7 +34,9 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
             let type = response["Type"].intValue
             let results = response["Results"]
             let busResults: [BusRouteResult]
-
+            
+            //print("BusRouteResult: \(json)")
+            
             busResults = BusRouteResult.parseResults(results, type: type)
             completionHandler(busResults, nil)
         }
@@ -68,8 +70,12 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
+                
+                //print("SearchRoads: \(json)")
+                
                 completionHandler(RoadResult.parse(json), nil)
             } else {
+                LoggingManager.sharedInstance.logError("Road Result Search", error: error)
                 completionHandler(nil, error)
             }
         }
@@ -81,8 +87,12 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
+                
+                print("Bus Line: \(idLine) \nCompleteRoute:\n  \(json)")
+                
                 completionHandler(CompleteBusRoute().parseOneWayBusRoute(json, busLineName: ""), nil)
             } else {
+                LoggingManager.sharedInstance.logError("Complete Bus Route Search", error: error)
                 completionHandler(nil, error)
             }
         }
@@ -94,6 +104,9 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
+                
+                print("RechargePoints: \(json)")
+                
                 var points: [RechargePoint] = []
                 for case let point in json["Results"].arrayValue {
                     if let rechargePoint = RechargePoint(json: point) {
@@ -101,11 +114,13 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                     }
                 }
                 if points.count == 0 {
+                    LoggingManager.sharedInstance.logError("Recharge Points, No Points", error: error)
                     completionHandler(nil, error)
                 } else {
                     completionHandler(points, error)
                 }
             } else {
+                LoggingManager.sharedInstance.logError("Recharge Points", error: error)
                 completionHandler(nil, error)
             }
         }
