@@ -8,8 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import Crashlytics
-import Flurry_iOS_SDK
 
 public enum MyBusRouteResultType {
     case Combined, Single
@@ -77,9 +75,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 
                 completionHandler(RoadResult.parse(json), nil)
             } else {
-                let errorDesc = error?.description ?? "No description available"
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
-                Flurry.logEvent("searchRoads error \(errorDesc)")
+                LoggingManager.sharedInstance.logError("Road Result Search", error: error)
                 completionHandler(nil, error)
             }
         }
@@ -96,9 +92,7 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                 
                 completionHandler(CompleteBusRoute().parseOneWayBusRoute(json, busLineName: ""), nil)
             } else {
-                let errorDesc = error?.description ?? "No description available"
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
-                Flurry.logEvent("searchRoads error \(errorDesc)")
+                LoggingManager.sharedInstance.logError("Complete Bus Route Search", error: error)
                 completionHandler(nil, error)
             }
         }
@@ -120,17 +114,13 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
                     }
                 }
                 if points.count == 0 {
-                    let errorDesc = error?.description ?? "No description available"
-                    CLSLogv("searchRoads error %@", getVaList([error!.description]))
-                    Flurry.logEvent("searchRoads error \(errorDesc)")
+                    LoggingManager.sharedInstance.logError("Recharge Points, No Points", error: error)
                     completionHandler(nil, error)
                 } else {
                     completionHandler(points, error)
                 }
             } else {
-                let errorDesc = error?.description ?? "No description available"
-                CLSLogv("searchRoads error %@", getVaList([error!.description]))
-                Flurry.logEvent("searchRoads error \(errorDesc)")
+                LoggingManager.sharedInstance.logError("Recharge Points", error: error)
                 completionHandler(nil, error)
             }
         }
