@@ -54,7 +54,7 @@ class MapViewModel {
 }
 
 
-class MainViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+class MainViewController: UIViewController {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
