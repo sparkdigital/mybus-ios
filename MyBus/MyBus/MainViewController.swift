@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import MapKit
-import Crashlytics
 
 protocol Searchable {
     func initWithBasicSearch()
@@ -85,7 +84,8 @@ class MainViewController: UIViewController {
     var busesResultsTableViewController: BusesResultsTableViewController!
 
     var navRouter: NavRouter!
-
+    let aboutUsAlertController = UIAlertController (title: "", message: "\n \n \n \n \n \n \n \n \n \n \n \n \n \n", preferredStyle: .Alert)
+    
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
@@ -207,22 +207,41 @@ class MainViewController: UIViewController {
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-
+            
             progressNotification.showLoadingNotification(self.view)
+            
+            if let annotations = self.mapViewController.mapView.annotations {
+                if( annotations.count > 1 ){
+                    self.progressNotification.stopLoadingNotification(self.view)
+                    let alert = UIAlertController(title: Localization.getLocalizedString("Borrar_Busqueda"), message: Localization.getLocalizedString("Confirmar_Borrado_Busqueda"), preferredStyle: UIAlertControllerStyle.ActionSheet)
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
 
-            Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
-                if let destination = routePoint {
-                    if let _ = self.mapViewModel.origin {
-                        self.newDestination(destination)
-                    } else {
-                        self.newOrigin(destination)
-                    }
-                    self.homeNavigationBar(self.mapViewModel)
+                        self.progressNotification.showLoadingNotification(self.view)
+                        self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)})
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel) { (_) -> Void in})
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }else{
+                    self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
                 }
-                self.progressNotification.stopLoadingNotification(self.view)
+            }
+            else{
+                self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
             }
         }
-
+    }
+    
+    private func defineOriginDestination(latitude : Double, longitude: Double){
+        Connectivity.sharedInstance.getAddressFromCoordinate(latitude, longitude: longitude) { (routePoint, error) in
+            if let destination = routePoint {
+                if let _ = self.mapViewModel.origin {
+                    self.newDestination(destination)
+                } else {
+                    self.newOrigin(destination)
+                }
+                self.homeNavigationBar(self.mapViewModel)
+            }
+            self.progressNotification.stopLoadingNotification(self.view)
+        }
     }
 
     private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
@@ -449,7 +468,7 @@ extension MainViewController:UITabBarDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
             self.mapViewController.toggleRechargePoints(nil)
-            CLSLogv("Switched to MapViewModel %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            LoggingManager.sharedInstance.logSection("Search and Map Visualization")
         }
         if (item.tag == 1){
             self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
@@ -458,7 +477,7 @@ extension MainViewController:UITabBarDelegate {
             let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
             add.tintColor = UIColor.whiteColor()
             self.navigationItem.rightBarButtonItem = add
-            CLSLogv("Switched to Favoritos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            LoggingManager.sharedInstance.logSection("Favourites")
         }
         if (item.tag == 2){
             self.clearActiveSearch()
@@ -484,20 +503,20 @@ extension MainViewController:UITabBarDelegate {
             } else {
                 GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
-            CLSLogv("Switched to ACtiveSearch %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            LoggingManager.sharedInstance.logSection("Recharge Points")
         }
         if (item.tag == 3){
             self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
-            CLSLogv("Switched to Recorridos %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            LoggingManager.sharedInstance.logSection("Bus Routes")
         }
         if (item.tag == 4){
             self.sectionNavigationBar(Localization.getLocalizedString("Tarifas"))
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
-            self.currentViewController = busesRatesViewController
-            CLSLogv("Switched to Tarifas %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
+            self.currentViewController = busesRatesViewController            
+            LoggingManager.sharedInstance.logSection("Bus Fares")
         }
     }
 }
@@ -555,7 +574,7 @@ extension MainViewController:MapBusRoadDelegate {
 
 // MARK: Custom Navigation bars extension
 extension MainViewController {
-
+    
     func homeNavigationBar(mapModel: MapViewModel){
 
         self.verifySearchStatus(mapModel)
@@ -588,9 +607,38 @@ extension MainViewController {
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = nil
+        let aboutUsButton = UIButton(type: UIButtonType(rawValue: 4)!)
+        aboutUsButton.tintColor = UIColor.whiteColor()
+        let aboutUsButtonItem = UIBarButtonItem(customView: aboutUsButton)
+        aboutUsButton.addTarget(self, action: #selector(self.showAboutUs(_:)), forControlEvents: .TouchUpInside)
+        self.navigationItem.rightBarButtonItem = aboutUsButtonItem
     }
 
+    func showAboutUs(sender: UIButton) {
+        
+
+        let x = aboutUsAlertController.view.frame.origin.x
+        let y = aboutUsAlertController.view.frame.origin.y
+        
+        let stepsView = UINib(nibName: "AboutUs", bundle: nil).instantiateWithOwner(self, options: nil)[0] as!
+        UIView
+        aboutUsAlertController.view.frame=CGRectMake(x, y, stepsView.frame.width, 265)
+        
+        aboutUsAlertController.view.addSubview(stepsView)
+
+        self.presentViewController(aboutUsAlertController, animated: false, completion: nil)
+        
+    }
+    
+    @IBAction func dismissAboutUs(sender: AnyObject) {
+        print("hello")
+        aboutUsAlertController.dismissViewControllerAnimated(false, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+    
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
 

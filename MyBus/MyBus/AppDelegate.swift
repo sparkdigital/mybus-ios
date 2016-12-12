@@ -8,9 +8,7 @@
 
 import UIKit
 import CoreData
-
 import Fabric
-import Crashlytics
 import Mapbox
 import RealmSwift
 
@@ -19,11 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
-        Fabric.with([Crashlytics.self, MGLAccountManager.self])
-
+        
+        Fabric.with([LoggingManager.sharedInstance.crashlyticsClassInstance, MGLAccountManager.self])
+        
+        LoggingManager.sharedInstance.setup()
         //MGLAccountManager.setAccessToken("pk.eyJ1Ijoibm9zb3VsODgiLCJhIjoiY2lteGt2dHhsMDNrNXZxbHU0M29mcHZnZiJ9.MMbmK9GfcdhpDw2siu0wuA")
         let config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used
@@ -44,9 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Tell Realm to use this new configuration object for the default Realm
         Realm.Configuration.defaultConfiguration = config
         
-        // Override point for customization after application launch.
-        CLSLogv("Application started %d", getVaList([NSDate().timeIntervalSince1970 * 1000]))
-    
+        // Override point for customization after application launch.        
+        LoggingManager.sharedInstance.startAppLogging()
+        
         return true
     }
 
@@ -82,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1]
     }()
-
+    
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
         let modelURL = NSBundle.mainBundle().URLForResource("MyBus", withExtension: "momd")!
