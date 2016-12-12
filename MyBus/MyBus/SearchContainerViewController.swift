@@ -179,7 +179,7 @@ extension SearchContainerViewController:MainViewDelegate{
         LocationManager.sharedInstance.startUpdatingWithCompletionHandler { (location, error) in
             
             if let _ = error {
-                let title = Localization.getLocalizedString("No_Sabemos")
+                let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
                 let message = Localization.getLocalizedString("No_Pudimos")
                 GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 return
@@ -204,7 +204,7 @@ extension SearchContainerViewController:MainViewDelegate{
                     return self.goBackToMap()
                     
                 }else{
-                    let title = Localization.getLocalizedString("No_Sabemos")
+                    let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
                     let message = Localization.getLocalizedString("No_Pudimos")
                     GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 }
