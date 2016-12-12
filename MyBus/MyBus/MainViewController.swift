@@ -90,7 +90,8 @@ class MainViewController: UIViewController {
 
     let progressNotification = ProgressHUD()
     var reachability: ReachabilityMyBus?
-    let alertNetworkNotReachable = UIAlertController.init(title: "Malas noticias", message: "No observamos conexión a Internet, por favor habilita el uso de datos moviles para MyBus", preferredStyle: .ActionSheet)
+    
+    let alertNetworkNotReachable = UIAlertController.init(title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Observamos"), preferredStyle: .ActionSheet)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,7 +107,7 @@ class MainViewController: UIViewController {
         addDragDropMarkersObservers()
         addBusesResultsMenuStatusObservers()
         addReachabilityObserver()
-        addAppBecameActiveObserver()
+        addAppBecameActiveObserver()        
     }
 
     func initMapModel() {
@@ -205,22 +206,41 @@ class MainViewController: UIViewController {
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-
+            
             progressNotification.showLoadingNotification(self.view)
+            
+            if let annotations = self.mapViewController.mapView.annotations {
+                if( annotations.count > 1 ){
+                    self.progressNotification.stopLoadingNotification(self.view)
+                    let alert = UIAlertController(title: Localization.getLocalizedString("Borrar_Busqueda"), message: Localization.getLocalizedString("Confirmar_Borrado_Busqueda"), preferredStyle: UIAlertControllerStyle.ActionSheet)
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
 
-            Connectivity.sharedInstance.getAddressFromCoordinate(tappedLocation.latitude, longitude: tappedLocation.longitude) { (routePoint, error) in
-                if let destination = routePoint {
-                    if let _ = self.mapViewModel.origin {
-                        self.newDestination(destination)
-                    } else {
-                        self.newOrigin(destination)
-                    }
-                    self.homeNavigationBar(self.mapViewModel)
+                        self.progressNotification.showLoadingNotification(self.view)
+                        self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)})
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel) { (_) -> Void in})
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }else{
+                    self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
                 }
-                self.progressNotification.stopLoadingNotification(self.view)
+            }
+            else{
+                self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
             }
         }
-
+    }
+    
+    private func defineOriginDestination(latitude : Double, longitude: Double){
+        Connectivity.sharedInstance.getAddressFromCoordinate(latitude, longitude: longitude) { (routePoint, error) in
+            if let destination = routePoint {
+                if let _ = self.mapViewModel.origin {
+                    self.newDestination(destination)
+                } else {
+                    self.newOrigin(destination)
+                }
+                self.homeNavigationBar(self.mapViewModel)
+            }
+            self.progressNotification.stopLoadingNotification(self.view)
+        }
     }
 
     private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
@@ -294,7 +314,7 @@ class MainViewController: UIViewController {
 
         oldVC.willMoveToParentViewController(nil)
         self.addChildViewController(newVC)
-
+        newVC.view.translatesAutoresizingMaskIntoConstraints = false
         //Add new view to the container
         self.view.addAutoPinnedSubview(newVC.view, toView: self.containerView)
 
@@ -327,27 +347,29 @@ class MainViewController: UIViewController {
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
             SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
-
+                
+                DBManager.sharedInstance.addRecent(self.mapViewModel.origin!)
+                DBManager.sharedInstance.addRecent(self.mapViewModel.destiny!)
                 self.progressNotification.stopLoadingNotification(self.view)
 
                 if let r: BusSearchResult = searchResult {
                     if r.hasRouteOptions {
                         self.hideTabBar()
-                        self.addBackNavItem("Rutas encontradas")
+                        self.addBackNavItem(Localization.getLocalizedString("Rutas_Encontradas"))
 
                         self.busesResultsTableViewController.loadBuses(r)
                         self.cycleViewController(self.currentViewController!, toViewController: self.busesResultsTableViewController)
                         self.currentViewController = self.busesResultsTableViewController
                     }else{
-                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+                        GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("Lamentablemente_Consulta"))
                     }
                 }else{
-                    GenerateMessageAlert.generateAlert(self, title: "Error", message: error!.description)
+                    GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Error"), message: Localization.getLocalizedString("No_Conexion"))
                 }
             })
         }else{
-            let title = "Campos requeridos"
-            let message = "Se requiere un origen y un destino para calcular la ruta"
+            let title = Localization.getLocalizedString("Campos_Requeridos")
+            let message = Localization.getLocalizedString("Se_Requiere")
 
             GenerateMessageAlert.generateAlert(self, title: title, message: message)
 
@@ -445,14 +467,16 @@ extension MainViewController:UITabBarDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
             self.mapViewController.toggleRechargePoints(nil)
+            LoggingManager.sharedInstance.logSection("Search and Map Visualization")
         }
         if (item.tag == 1){
-            self.sectionNavigationBar("Favoritos")
+            self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
             self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
             self.currentViewController = favoriteViewController
             let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
             add.tintColor = UIColor.whiteColor()
             self.navigationItem.rightBarButtonItem = add
+            LoggingManager.sharedInstance.logSection("Favourites")
         }
         if (item.tag == 2){
             self.clearActiveSearch()
@@ -466,7 +490,7 @@ extension MainViewController:UITabBarDelegate {
                     if let chargePoints = points {
                         self.mapViewController.toggleRechargePoints(chargePoints)
                     } else {
-                        GenerateMessageAlert.generateAlert(self, title: "Malas noticias", message: "No encontramos puntos de carga cercanos a tu ubicación")
+                        GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Encontramos"))
                     }
                     self.progressNotification.stopLoadingNotification(self.view)
 
@@ -476,19 +500,22 @@ extension MainViewController:UITabBarDelegate {
                     self.currentViewController = mapViewController
                 }
             } else {
-                GenerateMessageAlert.generateAlert(self, title: "Tuvimos un problema 😿", message: "No pudimos obtener tu ubicación para buscar los puntos de carga cercanos")
+                GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
+            LoggingManager.sharedInstance.logSection("Recharge Points")
         }
         if (item.tag == 3){
-            self.sectionNavigationBar("Recorridos")
+            self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
+            LoggingManager.sharedInstance.logSection("Bus Routes")
         }
         if (item.tag == 4){
-            self.sectionNavigationBar("Tarifas")
+            self.sectionNavigationBar(Localization.getLocalizedString("Tarifas"))
             self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
-            self.currentViewController = busesRatesViewController
+            self.currentViewController = busesRatesViewController            
+            LoggingManager.sharedInstance.logSection("Bus Fares")
         }
     }
 }
@@ -519,7 +546,7 @@ extension MainViewController:MapBusRoadDelegate {
         if busSearchResult.hasRouteOptions {
             self.mapViewController.addBusLinesResults(busSearchResult.busRouteOptions, preselectedRouteIndex: busSearchResult.indexSelected!)
         }else{
-            GenerateMessageAlert.generateAlert(self, title: "Malas noticias 😿", message: "Lamentablemente no pudimos resolver tu consulta. Al parecer las ubicaciones son muy cercanas ")
+            GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Malas_Noticias"), message:Localization.getLocalizedString("Lamentablemente_Consulta"))
         }
 
         self.mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -562,6 +589,7 @@ extension MainViewController {
         self.currentViewController = self.mapViewController
 
         self.tabBar.selectedItem = self.tabBar.items?[0]
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     func verifySearchStatus(mapModel: MapViewModel){
@@ -584,16 +612,18 @@ extension MainViewController {
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
 
-        let cancelButton = UIBarButtonItem(title: "Cancelar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
+        let cancelButton = UIBarButtonItem(title: Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
         cancelButton.tintColor = UIColor.lightGrayColor()
 
-        let searchRouteButton = UIBarButtonItem(title: "Buscar", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
+        let searchRouteButton = UIBarButtonItem(title: Localization.getLocalizedString("Buscar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
         searchRouteButton.tintColor = UIColor.lightGrayColor()
 
         self.navigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.leftBarButtonItem!.tintColor = UIColor.whiteColor()
         self.navigationItem.rightBarButtonItem = searchRouteButton
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
 
-        self.navigationItem.title = "Buscar Ruta"
+        self.navigationItem.title = Localization.getLocalizedString("Buscar_Ruta")
     }
 
     func sectionNavigationBar(title: String){
@@ -619,7 +649,7 @@ extension MainViewController {
     }
 
     func backTapped(){
-        if(self.navigationItem.title == "Rutas encontradas"){
+        if(self.navigationItem.title == Localization.getLocalizedString("Rutas_Encontradas")){
             self.mapViewModel.clearModel()
             self.mapViewController.resetMapSearch()
         }

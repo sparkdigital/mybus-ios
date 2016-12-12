@@ -44,7 +44,7 @@ class MyBusMapView: MGLMapView{
 
     //Closure to determine if annotation is part of road
     var annotationPartOfMyBusResultClosure: (MGLAnnotation)->Bool = { annotation in
-        return (annotation is MyBusRoadResultPolyline || annotation is MyBusMarkerBusStopPoint || annotation is MyBusWalkingPolyline)
+        return (annotation is MyBusRoadResultPolyline || annotation is MyBusMarkerBusStopPoint || annotation is MyBusWalkingPolyline || annotation is MyBusMarkerIntermediateBusStopPoint)
     }
 
     //Closure to determine if annotation is part of route
@@ -67,6 +67,10 @@ class MyBusMapView: MGLMapView{
     
     var annotationIsDestination: (MGLAnnotation) -> Bool = { annotation in
         return annotation is MyBusMarkerDestinationPoint
+    }
+    
+    var annotationIsBusStop:(MGLAnnotation) -> Bool = { annotation in
+        return annotation is MyBusMarkerIntermediateBusStopPoint
     }
 
     //Constructor
@@ -138,6 +142,8 @@ class MyBusMapView: MGLMapView{
         clearExistingBusRoadAnnotations()
         addAnnotations(newRoad.walkingPath)
         addAnnotations(newRoad.roadMarkers)
+        //addAnnotations(newRoad.roadIntermediateBusStopMarkers)
+        addIntermediateBusStopAnnotations(newRoad.roadIntermediateBusStopMarkers)
         addAnnotations(newRoad.roadPolyline)
         fitToAnnotationsInMap()
     }
@@ -183,8 +189,7 @@ class MyBusMapView: MGLMapView{
                 }
             
                 self.showsUserLocation = true
-                self.centerCoordinate = gpsLocation.coordinate
-                self.setZoomLevel(zoomLevel ?? MyBusMapView.defaultZoomLevel, animated: false)
+                self.setCenterCoordinate(gpsLocation.coordinate, zoomLevel: (zoomLevel ?? MyBusMapView.defaultZoomLevel), animated: true)
             }else{
                 NSLog("Location Error Ocurred: \(error!)")
             }
@@ -234,7 +239,18 @@ class MyBusMapView: MGLMapView{
     func clearRechargePointAnnotations(){
         self.clearAnnotations(annotationIsRechargePointClosure)
     }
+    
+    func clearIntermediateBusStopAnnotations(){
+        self.clearAnnotations(annotationIsBusStop)
+    }
 
+    
+    func addIntermediateBusStopAnnotations(roadIntermediateBusStopMarkers:[MyBusMarkerIntermediateBusStopPoint]) {
+        self.clearIntermediateBusStopAnnotations()
+        let candidateAnnotations = self.visibleBusStops(self.zoomLevel, minZoom: self.minZoomLevel, busStopAnnotations: roadIntermediateBusStopMarkers)
+        addAnnotations(candidateAnnotations)
+    }
+    
     private func clearAnnotations(criteriaClosure: ((MGLAnnotation)->Bool)? = nil){
         guard let annotations = self.annotations else {
             NSLog("No Road annotations were found")
@@ -252,5 +268,43 @@ class MyBusMapView: MGLMapView{
         }
 
     }
+    
+    private func visibleBusStops(currentZoom:Double, minZoom:Double, busStopAnnotations:[MGLAnnotation]) -> [MGLAnnotation] {
+        
+        if !(busStopAnnotations.count > 0) { return []}
+        
+        var modN:Int = 0
+        
+        enum weightLevels:Double {
+            case first = 1.2
+            case second = 1.8
+            case third = 2.8
+            case fourth = 4.0 //previous: 3.5
+            case fifth = 4.5
+        }
+        
+        let fourthZoomLevel = minZoom + weightLevels.fourth.rawValue
+        
+        switch currentZoom {
+            case let x where x >= minZoom && x < fourthZoomLevel:
+                //Don't show annotations
+                return []
+            default:
+                modN = 1
+        }
+        
+        var indexes:[Int] = [Int]()
+        indexes += 0...(busStopAnnotations.count - 1)
+        
+        let candidates = indexes.filter { (index) -> Bool in
+            return (index % modN) == 0
+            }.map { (i) -> MGLAnnotation in
+                return busStopAnnotations[i]
+        }
+        
+        return candidates
+        
+    }
+
 
 }

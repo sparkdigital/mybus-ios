@@ -25,6 +25,8 @@ class BusesResultsMenuViewController: UIViewController {
     var controllerArray:[BusResultViewController] = []
     var busResultDelegate:BusesResultsMenuDelegate?
     
+    var currentRouteSelectedViewController:BusResultViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -36,6 +38,10 @@ class BusesResultsMenuViewController: UIViewController {
         
         if let options = busRouteOptions {
             controllerArray = buildControllers(options)
+        }
+        
+        if controllerArray.count > 0 {
+            currentRouteSelectedViewController = controllerArray.first
         }
         
         let parameters: [CAPSPageMenuOption] = [
@@ -80,9 +86,16 @@ class BusesResultsMenuViewController: UIViewController {
     
     func setOptionSelected(preselectedIndex:Int){
         if let _ = busRouteOptions?[preselectedIndex] {
+            self.currentRouteSelectedViewController = controllerArray[preselectedIndex]
             self.pageMenu?.moveToPage(preselectedIndex)
         }
         return
+    }
+    
+    func updateCurrentOptionWithFetchedRoad(roadResult:RoadResult){
+        if let current = self.currentRouteSelectedViewController {
+            current.roadResult = roadResult
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -106,7 +119,8 @@ extension BusesResultsMenuViewController:CAPSPageMenuDelegate {
             NSLog("Couldn't cast ")
             return
         }
+        self.currentRouteSelectedViewController = currentOption
         
-        self.busResultDelegate?.didSelectBusRouteOption(currentOption.routeResult)
+        self.busResultDelegate?.didSelectBusRouteOption(currentRouteSelectedViewController!.routeResult)
     }
 }

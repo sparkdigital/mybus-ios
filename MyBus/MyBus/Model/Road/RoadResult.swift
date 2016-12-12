@@ -35,7 +35,6 @@ class RoadResult: NSObject {
             singleRoad.totalDistances = roadResultResponse["TotalDistance"].doubleValue
             singleRoad.travelTime = roadResultResponse["TravelTime"].intValue
             singleRoad.arrivalTime = roadResultResponse["ArrivalTime"].intValue
-            singleRoad.totalDistances = roadResultResponse["TotalDistance"].doubleValue
             let route = Route.parse(roadResultResponse["Route1"].array!)
 
             singleRoad.firstBusStop = route.getFirstLatLng()
@@ -98,4 +97,19 @@ class RoadResult: NSObject {
             }
         }
     }
+    
+    func formattedTravelDistance()->String{
+        return "\(String(format: "%.1f", self.totalDistances)) Km"
+    }
+    
+    func formattedTravelTime()->String {
+        return "\(self.travelTime) min"
+    }
+    
+    func formattedWalkingDistance(walkRouteDistance:Double) -> String {
+        let distanceInBlocks = Int(round(walkRouteDistance / 100))
+        let suffix = distanceInBlocks == 1 ? "cuadra" : "cuadras"
+        return "\(distanceInBlocks) \(suffix)"
+    }
+    
 }
