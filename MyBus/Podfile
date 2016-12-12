@@ -7,13 +7,31 @@ use_frameworks!
 
 #Pods
 target 'MyBus' do
-    pod 'Alamofire', '~> 3.3'
+    pod 'Alamofire', '~> 3.3.1'
     pod 'MBProgressHUD', '~> 0.9.2'
     pod 'SwiftyJSON', '~> 2.3.2'
-    pod 'Fabric'
-    pod 'Crashlytics'
-    pod 'Mapbox-iOS-SDK'
-    pod 'RealmSwift'
+    pod 'Fabric' , '~> 1.6.7'
+    pod 'Crashlytics' , '~> 3.7.0'
+    pod 'Mapbox-iOS-SDK' , '~> 3.3.4'
+    pod 'RealmSwift' , '~> 1.1.0'
     pod 'NBNRequestKit', :git => 'https://github.com/1ec5/RequestKit.git', :branch => 'mapbox-podspec' # temporarily until nerdishbynature/RequestKit#14 is merged
     pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.5.0'
+    pod 'PageMenu', '~> 1.2.9'
+    pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.8.2'    
+    pod 'DZNEmptyDataSet', '~> 1.8'
+end
+
+target 'MyBusTests' do
+    pod 'Alamofire', '~> 3.3.1'
+    pod 'MBProgressHUD', '~> 0.9.2'
+    pod 'SwiftyJSON', '~> 2.3.2'
+    pod 'Fabric' , '~> 1.6.7'
+    pod 'Crashlytics' , '~> 3.7.0'
+    pod 'Mapbox-iOS-SDK' , '~> 3.3.4'
+    pod 'RealmSwift' , '~> 1.1.0'
+    pod 'NBNRequestKit', :git => 'https://github.com/1ec5/RequestKit.git', :branch => 'mapbox-podspec' # temporarily until nerdishbynature/RequestKit#14 is merged
+    pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.5.0'
+    pod 'PageMenu', '~> 1.2.9'
+    pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.8.2'
+    pod 'DZNEmptyDataSet', '~> 1.8'
 end

@@ -8,24 +8,44 @@
 
 import UIKit
 import CoreData
-
 import Fabric
-import Crashlytics
 import Mapbox
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
-        Fabric.with([Crashlytics.self, MGLAccountManager.self])
-
+        
+        Fabric.with([LoggingManager.sharedInstance.crashlyticsClassInstance, MGLAccountManager.self])
+        
+        LoggingManager.sharedInstance.setup()
         //MGLAccountManager.setAccessToken("pk.eyJ1Ijoibm9zb3VsODgiLCJhIjoiY2lteGt2dHhsMDNrNXZxbHU0M29mcHZnZiJ9.MMbmK9GfcdhpDw2siu0wuA")
+        let config = Realm.Configuration(
+            // Set the new schema version. This must be greater than the previously used
+            // version (if you've never set a schema version before, the version is 0).
+            schemaVersion: 3,
 
-        // Override point for customization after application launch.
+            // Set the block which will be called automatically when opening a Realm with
+            // a schema version lower than the one set above
+            migrationBlock: { migration, oldSchemaVersion in
+                // We haven’t migrated anything yet, so oldSchemaVersion == 0
+                if (oldSchemaVersion < 3) {
+                    // Nothing to do!
+                    // Realm will automatically detect new properties and removed properties
+                    // And will update the schema on disk automatically
+                }
+        })
+
+        // Tell Realm to use this new configuration object for the default Realm
+        Realm.Configuration.defaultConfiguration = config
+        
+        // Override point for customization after application launch.        
+        LoggingManager.sharedInstance.startAppLogging()
+        
         return true
     }
 
@@ -44,7 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application wa    s previously in the background, optionally refresh the user interface.
+        NSNotificationCenter.defaultCenter().postNotificationName("applicationDidBecomeActive", object: nil, userInfo: nil)
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -60,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1]
     }()
-
+    
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
         let modelURL = NSBundle.mainBundle().URLForResource("MyBus", withExtension: "momd")!

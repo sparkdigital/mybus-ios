@@ -1,6 +1,0 @@
-framework module Pods_MyBus {
-  umbrella header "Pods-MyBus-umbrella.h"
-
-  export *
-  module * { export * }
-}

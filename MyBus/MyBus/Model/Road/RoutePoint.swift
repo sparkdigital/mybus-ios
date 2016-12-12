@@ -9,13 +9,15 @@
 import Foundation
 import SwiftyJSON
 import Mapbox
+import RealmSwift
 
-class RoutePoint: NSObject {
-    var stopId: String = " "
-    var latitude: String = " "
-    var longitude: String = " "
-    var address: String = " "
-    var isWaypoint: Bool = false
+class RoutePoint: Object {
+    dynamic var stopId: String = " "
+    dynamic var latitude: Double = 0.0
+    dynamic var longitude: Double = 0.0
+    dynamic var address: String = " "
+    dynamic var isWaypoint: Bool = false
+    dynamic var name: String = ""
 
     static func parse(routePointJson: JSON) -> RoutePoint
     {
@@ -23,10 +25,10 @@ class RoutePoint: NSObject {
         if let stopId = routePointJson["StopId"].string
         {
             point.stopId = stopId
-            point.latitude = routePointJson["Lat"].stringValue
-            point.longitude = routePointJson["Lng"].stringValue
+            point.latitude = routePointJson["Lat"].doubleValue
+            point.longitude = routePointJson["Lng"].doubleValue
             point.address = routePointJson["Address"].stringValue
-            point.isWaypoint = routePointJson["StopId"].boolValue
+            point.isWaypoint = routePointJson["isWaypoint"].boolValue
 
             return point
         } else {
@@ -34,7 +36,48 @@ class RoutePoint: NSObject {
         }
     }
 
-    func getLatLng() -> CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
+    static func parse(latitude: Double, longitude: Double) -> RoutePoint
+    {
+        let point = RoutePoint()
+        point.latitude = latitude
+        point.longitude = longitude
+        point.address = ""
+        return point
+    }
+
+    static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
+        let validTypes = ["street_address", "intersection", "natural_feature", "airport", "park", "point_of_interest", "establishment", "bus_station", "route"]
+        let successCode: String = "OK"
+        let geoPoint = RoutePoint()
+        let firstResultJson = geoPointJson["results"][0]
+        let setValidTypes = Set(validTypes)
+        let responseTypes = firstResultJson["types"].arrayObject as! [String]
+        let isValid = !(setValidTypes.intersect(responseTypes).isEmpty)
+
+        let jsonStatus = geoPointJson["status"].stringValue
+
+        guard isValid else {
+            return nil
+        }
+
+        switch jsonStatus {
+        case successCode:
+            let originLocation = firstResultJson["geometry"]["location"]
+
+            var address = firstResultJson["formatted_address"].stringValue.componentsSeparatedByString(",").first
+            address = address?.stringByReplacingOccurrencesOfString("&", withString: "Y")
+
+            geoPoint.latitude = originLocation["lat"].doubleValue
+            geoPoint.longitude = originLocation["lng"].doubleValue
+            geoPoint.address = address ?? "Ubicación sin nombre"
+
+            return geoPoint
+        default:
+            return nil
+        }
+    }
+
+    func getLatLong() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }

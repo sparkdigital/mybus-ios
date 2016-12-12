@@ -1,0 +1,54 @@
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "6w6-Wq-6S1"; */
+"6w6-Wq-6S1.text" = "Label";
+
+/* Class = "UIViewController"; title = "Map View Controller Scene"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "Map View Controller Scene";
+
+/* Class = "UIViewController"; title = "Main View Controller Scene"; ObjectID = "EHy-as-RaF"; */
+"EHy-as-RaF.title" = "Main View Controller Scene";
+
+/* Class = "UITabBarItem"; title = "Recorridos"; ObjectID = "ELx-eM-AxO"; */
+"ELx-eM-AxO.title" = "Recorridos";
+
+/* Class = "UITextField"; text = "Tittle"; ObjectID = "IBf-gD-vA3"; */
+"IBf-gD-vA3.text" = "Tittle";
+
+/* Class = "UILabel"; text = "BusPrice"; ObjectID = "Iue-am-A31"; */
+"Iue-am-A31.text" = "BusPrice";
+
+/* Class = "UILabel"; text = "BusLine"; ObjectID = "Q7q-zw-cQe"; */
+"Q7q-zw-cQe.text" = "BusLine";
+
+/* Class = "UIViewController"; title = "Locations"; ObjectID = "Uw6-eA-Nyo"; */
+"Uw6-eA-Nyo.title" = "Locations";
+
+/* Class = "UILabel"; text = "direccion"; ObjectID = "Z8y-MT-VeM"; */
+"Z8y-MT-VeM.text" = "direccion";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "bP3-cn-kav"; */
+"bP3-cn-kav.normalTitle" = "Button";
+
+/* Class = "UITextField"; text = "Description"; ObjectID = "eqN-Bg-HzC"; */
+"eqN-Bg-HzC.text" = "Description";
+
+/* Class = "UITabBarItem"; title = "Buscar"; ObjectID = "jdY-c7-xhJ"; */
+"jdY-c7-xhJ.title" = "Buscar";
+
+/* Class = "UILabel"; text = "direccion"; ObjectID = "lvE-KO-yof"; */
+"lvE-KO-yof.text" = "direccion";
+
+/* Class = "UITabBarItem"; title = "Tarifas"; ObjectID = "oZA-dI-kZs"; */
+"oZA-dI-kZs.title" = "Tarifas";
+
+/* Class = "UITabBarItem"; title = "Recarga"; ObjectID = "rb4-EF-VfM"; */
+"rb4-EF-VfM.title" = "Recarga";
+
+/* Class = "UITabBarItem"; title = "Favoritos"; ObjectID = "rhQ-4V-CCJ"; */
+"rhQ-4V-CCJ.title" = "Favoritos";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "tss-Hn-sNV"; */
+"tss-Hn-sNV.text" = "Name";
+
+/* Class = "UILabel"; text = "direccion"; ObjectID = "zgv-JC-eaf"; */
+"zgv-JC-eaf.text" = "direccion";
