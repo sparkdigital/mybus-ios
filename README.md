@@ -1,13 +1,14 @@
 # MyBus iOS
+![](https://cloud.githubusercontent.com/assets/4897773/21144523/c2381716-c129-11e6-8566-bd780307e928.png)
 =====================================================================================================================
 MyBus iOS is an application for http://www.mybus.com.ar
 
 ## Project Contributors
-Julián Astrada `jastrada@devspark.com`
-Natalia Stele `nstele@devspark.com`
-Lisandro Falconi `lfalconi@devspark.com`
-Marcos Vivar `mvivar@devspark.com`
-Sebastián Fink `sfink@sparkdigital.com`
+* Lisandro Falconi `lfalconi@sparkdigital.com`
+* Marcos Vivar `mvivar@sparkdigital.com`
+* Sebastián Fink `sfink@sparkdigital.com`
+* Julieta Poume `jpoume@sparkdigital.com`
+* Ignacio Oroná `iorona@sparkdigital.com`
 
 ## git Workflow Guidelines
 
