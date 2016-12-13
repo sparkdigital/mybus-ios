@@ -73,6 +73,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     
     func handleBusesResultMenuClose(recognizer:UIGestureRecognizer){
         self.collapseBusesResultsMenu()
+        NSNotificationCenter.defaultCenter().postNotificationName(BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
     }
 
     func showCenterUserLocation(notification: NSNotification) {
