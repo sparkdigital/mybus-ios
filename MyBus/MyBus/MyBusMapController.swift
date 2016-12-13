@@ -18,6 +18,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     
     @IBOutlet weak var roadRouteContainerHeight: NSLayoutConstraint!
     @IBOutlet var roadRouteContainerView:UIView!
+    @IBOutlet weak var busesResultsCloseHandleViewContainer:UIView!
     var busesSearchOptions:BusesResultsMenuViewController!
     
     var isMenuExpanded:Bool {
@@ -40,7 +41,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         super.viewDidLoad()
 
         self.hideBusesResultsMenu()
-
+        self.toggleClosingHandleContainerView(false)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
+        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(tapGesture)
+        
         self.mapModel = MyBusMapModel()
 
         initMapboxView()
@@ -64,6 +69,10 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
     @IBAction func locateUserButtonTap(sender: AnyObject) {
         self.mapView.centerMapWithGPSLocation()
+    }
+    
+    func handleBusesResultMenuClose(recognizer:UIGestureRecognizer){
+        self.collapseBusesResultsMenu()
     }
 
     func showCenterUserLocation(notification: NSNotification) {
@@ -426,6 +435,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func collapseBusesResultsMenu(){
         UIView.animateWithDuration(0.3) {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
+            self.toggleClosingHandleContainerView(false)
             self.view.layoutIfNeeded()
         }
     }
@@ -433,6 +443,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func expandBusesResultsMenu(){
         UIView.animateWithDuration(0.3) {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightExpanded
+            self.toggleClosingHandleContainerView(true)
             self.view.layoutIfNeeded()
         }
     }
@@ -449,5 +460,10 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.roadRouteContainerView.alpha = (show) ? CGFloat(1) : CGFloat(0)
         self.roadRouteContainerView.userInteractionEnabled = show
         self.roadRouteContainerHeight.constant = (show) ? self.roadRouteContainerHeightExpanded : 0
+    }
+    
+    private func toggleClosingHandleContainerView(show:Bool){
+        self.busesResultsCloseHandleViewContainer.alpha = (show) ? CGFloat(1) : CGFloat(0)
+        self.busesResultsCloseHandleViewContainer.userInteractionEnabled = show
     }
 }
