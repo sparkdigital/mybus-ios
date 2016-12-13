@@ -99,7 +99,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
                 self.destinationToOriginHeightConstraint.constant = 13
             }else{
                 self.lblWalkDistanceToOrigin.alpha = 1
-                self.lblWalkDistanceToOrigin.text = "Distancia desde el origen: \(roadModel.formattedWalkingDistance(walkDistanceToOrigin))"
+                self.lblWalkDistanceToOrigin.text = "Desde origen: \(roadModel.formattedWalkingDistance(walkDistanceToOrigin))"
                 self.destinationToOriginHeightConstraint.constant = 23
             }
             
@@ -108,7 +108,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
                 self.lblWalkDistanceToDestination.text = ""
             }else{
                 self.lblWalkDistanceToDestination.alpha = 1
-                self.lblWalkDistanceToDestination.text = "Distancia hasta el destino: \(roadModel.formattedWalkingDistance(walkDistanceToDestination))"
+                self.lblWalkDistanceToDestination.text = "Hasta destino: \(roadModel.formattedWalkingDistance(walkDistanceToDestination))"
             }
             
             self.layoutIfNeeded()
