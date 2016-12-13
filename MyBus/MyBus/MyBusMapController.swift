@@ -42,9 +42,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
         self.hideBusesResultsMenu()
         self.toggleClosingHandleContainerView(false)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
-        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(tapGesture)
+        self.addClosingHandleRecognizers()
         
         self.mapModel = MyBusMapModel()
 
@@ -63,6 +61,18 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         
+    }
+    
+    
+    func addClosingHandleRecognizers(){
+        let tapHandleGesture = UITapGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
+        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(tapHandleGesture)
+        
+        let swipeHandleGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
+        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(swipeHandleGesture)
+        
+        let panHandleGesture = UIPanGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
+        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(panHandleGesture)
     }
 
     // MARK: - Tapping Methods

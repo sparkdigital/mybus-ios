@@ -237,6 +237,8 @@
 		B47A8E841DDE49C400D6F9A4 /* CombinedRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47A8E831DDE49C400D6F9A4 /* CombinedRouteView.swift */; };
 		B4BD87AC1DF8777C0095A61C /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */; };
 		B4BD87AD1DF8777C0095A61C /* LoggingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */; };
+		B4BFEB091E00AAFE005992BF /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFEB081E00AAFE005992BF /* ArrowView.swift */; };
+		B4BFEB0A1E00AAFE005992BF /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFEB081E00AAFE005992BF /* ArrowView.swift */; };
 		B4C3FCE71DC93F1500D696FC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C3FCE61DC93F1500D696FC /* LocationManager.swift */; };
 		B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */; };
 		B9F1EDC0E6462FB614561F20 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D9D2B423B1576EA6A24F2C /* Pods_MyBus.framework */; };
@@ -422,6 +424,7 @@
 		B47A8E811DDE495000D6F9A4 /* SingleRouteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleRouteView.swift; sourceTree = "<group>"; };
 		B47A8E831DDE49C400D6F9A4 /* CombinedRouteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedRouteView.swift; sourceTree = "<group>"; };
 		B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingManager.swift; sourceTree = "<group>"; };
+		B4BFEB081E00AAFE005992BF /* ArrowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
 		B4C3FCE61DC93F1500D696FC /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapView.swift; sourceTree = "<group>"; };
 		BEDB14F654962D4683958CAE /* Pods-MyBusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBusTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -864,6 +867,7 @@
 				110795761D9C4C4A00D63CE4 /* RegExOperator.swift */,
 				C58F8DAC1DA3FF4E009AA176 /* SearchView.swift */,
 				B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */,
+				B4BFEB081E00AAFE005992BF /* ArrowView.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1172,6 +1176,7 @@
 				A06C061D1D908F39000023FC /* CompleteBusItineray.swift in Sources */,
 				C58F8DAD1DA3FF4E009AA176 /* SearchView.swift in Sources */,
 				998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */,
+				B4BFEB091E00AAFE005992BF /* ArrowView.swift in Sources */,
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
 				C57317641DB7BDCC00689F00 /* FavoriteViewController.swift in Sources */,
 				1131807E1D63749400425847 /* SearchManager.swift in Sources */,
@@ -1314,6 +1319,7 @@
 				0882149C1DDCE091003742E4 /* BaseNetworkService.swift in Sources */,
 				08953C751DF1FE0B00242AFB /* BusSearchResultStringFormatter.swift in Sources */,
 				08953C611DF1FE0B00242AFB /* MyBusService.swift in Sources */,
+				B4BFEB0A1E00AAFE005992BF /* ArrowView.swift in Sources */,
 				08E5F5301DD4B7A6004D0578 /* CompleteBusItineraryTest.swift in Sources */,
 				08953C6D1DF1FE0B00242AFB /* Street.swift in Sources */,
 				08953C841DF1FE0B00242AFB /* SimpleResultTableViewCell.swift in Sources */,

@@ -53,20 +53,20 @@
                                 </constraints>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mqf-Jm-JrU" userLabel="HandleViewContainer">
-                                <rect key="frame" x="0.0" y="190" width="600" height="10"/>
+                                <rect key="frame" x="0.0" y="190" width="600" height="15"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmX-xH-WcT" userLabel="HandleView">
-                                        <rect key="frame" x="275" y="3" width="50" height="5"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmX-xH-WcT" userLabel="HandleView" customClass="ArrowView" customModule="MyBus" customModuleProvider="target">
+                                        <rect key="frame" x="285" y="3" width="30" height="10"/>
                                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="KhB-Wd-Pih"/>
-                                            <constraint firstAttribute="height" constant="5" id="Xem-Dj-wmE"/>
+                                            <constraint firstAttribute="width" constant="30" id="KhB-Wd-Pih"/>
+                                            <constraint firstAttribute="height" constant="10" id="Xem-Dj-wmE"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="10" id="MMt-bm-MXf"/>
+                                    <constraint firstAttribute="height" constant="15" id="MMt-bm-MXf"/>
                                     <constraint firstItem="kmX-xH-WcT" firstAttribute="centerX" secondItem="Mqf-Jm-JrU" secondAttribute="centerX" id="OQF-yz-dbv"/>
                                     <constraint firstItem="kmX-xH-WcT" firstAttribute="centerY" secondItem="Mqf-Jm-JrU" secondAttribute="centerY" id="jWj-0F-uV8"/>
                                 </constraints>
