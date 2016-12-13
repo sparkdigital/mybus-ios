@@ -76,17 +76,9 @@ class BusResultViewController: UIViewController {
         //Add RouteResultView to scrollview
         self.view.addAutoPinnedSubview(routeResultView as! UIView, toView: self.busResultScrollView)
         
-        //Add Handle
-        let handleView = UIView(frame: CGRectMake(0, 0, 40.0, 2.0))
-        handleView.backgroundColor = UIColor.orangeColor()
-        
-        self.view.addPinnedSubviewWithHandleToParent(busResultScrollView, handleView: handleView, toView: self.view)
         //Add ScrollView to viewController's view
-        //self.view.addAutoPinnedSubview(busResultScrollView, toView: self.view)
-        
-        
-        
-        
+        self.view.addAutoPinnedSubview(busResultScrollView, toView: self.view)
+       
     }
     
     private func updateRouteWithRoadInfo(){
