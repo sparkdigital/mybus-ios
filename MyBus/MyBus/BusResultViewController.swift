@@ -78,6 +78,7 @@ class BusResultViewController: UIViewController {
         
         //Add ScrollView to viewController's view
         self.view.addAutoPinnedSubview(busResultScrollView, toView: self.view)
+       
     }
     
     private func updateRouteWithRoadInfo(){

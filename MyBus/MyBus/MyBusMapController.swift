@@ -18,6 +18,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     
     @IBOutlet weak var roadRouteContainerHeight: NSLayoutConstraint!
     @IBOutlet var roadRouteContainerView:UIView!
+    @IBOutlet weak var busesResultsCloseHandleViewContainer:UIView!
     var busesSearchOptions:BusesResultsMenuViewController!
     
     var isMenuExpanded:Bool {
@@ -40,7 +41,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         super.viewDidLoad()
 
         self.hideBusesResultsMenu()
-
+        self.toggleClosingHandleContainerView(false)
+        self.addClosingHandleRecognizers()
+        
         self.mapModel = MyBusMapModel()
 
         initMapboxView()
@@ -59,11 +62,28 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         
     }
+    
+    
+    func addClosingHandleRecognizers(){
+        let tapHandleGesture = UITapGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
+        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(tapHandleGesture)
+        
+        let swipeHandleGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
+        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(swipeHandleGesture)
+        
+        let panHandleGesture = UIPanGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
+        self.busesResultsCloseHandleViewContainer.addGestureRecognizer(panHandleGesture)
+    }
 
     // MARK: - Tapping Methods
 
     @IBAction func locateUserButtonTap(sender: AnyObject) {
         self.mapView.centerMapWithGPSLocation()
+    }
+    
+    func handleBusesResultMenuClose(recognizer:UIGestureRecognizer){
+        self.collapseBusesResultsMenu()
+        NSNotificationCenter.defaultCenter().postNotificationName(BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
     }
 
     func showCenterUserLocation(notification: NSNotification) {
@@ -426,6 +446,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func collapseBusesResultsMenu(){
         UIView.animateWithDuration(0.3) {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
+            self.toggleClosingHandleContainerView(false)
             self.view.layoutIfNeeded()
         }
     }
@@ -433,6 +454,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func expandBusesResultsMenu(){
         UIView.animateWithDuration(0.3) {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightExpanded
+            self.toggleClosingHandleContainerView(true)
             self.view.layoutIfNeeded()
         }
     }
@@ -443,11 +465,17 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     
     func hideBusesResultsMenu(){
        self.toggleBusesResultsContainerView(false)
+       self.toggleClosingHandleContainerView(false)
     }
     
     private func toggleBusesResultsContainerView(show:Bool){
         self.roadRouteContainerView.alpha = (show) ? CGFloat(1) : CGFloat(0)
         self.roadRouteContainerView.userInteractionEnabled = show
         self.roadRouteContainerHeight.constant = (show) ? self.roadRouteContainerHeightExpanded : 0
+    }
+    
+    private func toggleClosingHandleContainerView(show:Bool){
+        self.busesResultsCloseHandleViewContainer.alpha = (show) ? CGFloat(1) : CGFloat(0)
+        self.busesResultsCloseHandleViewContainer.userInteractionEnabled = show
     }
 }
