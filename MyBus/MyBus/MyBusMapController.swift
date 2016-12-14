@@ -465,6 +465,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     
     func hideBusesResultsMenu(){
        self.toggleBusesResultsContainerView(false)
+       self.toggleClosingHandleContainerView(false)
     }
     
     private func toggleBusesResultsContainerView(show:Bool){
