@@ -9,12 +9,12 @@
 import UIKit
 import Mapbox
 import MapKit
-
+import BetterSegmentedControl
 class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenuDelegate {
 
-    
     @IBOutlet var mapView: MyBusMapView!
-    
+    @IBOutlet weak var waySwitcher: BetterSegmentedControl!
+
     @IBOutlet weak var roadRouteContainerHeight: NSLayoutConstraint!
     @IBOutlet var roadRouteContainerView:UIView!
     @IBOutlet weak var busesResultsCloseHandleViewContainer:UIView!
@@ -39,6 +39,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.waySwitcher.titles = ["Ida", "Vuelta"]
+
         self.hideBusesResultsMenu()
         self.toggleClosingHandleContainerView(false)
         self.addClosingHandleRecognizers()
@@ -48,7 +50,6 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         initMapboxView()
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.showCenterUserLocation(_:)), name: "applicationDidBecomeActive", object: nil)
-
     }
     
     func initMapboxView() {
@@ -76,6 +77,19 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
     // MARK: - Tapping Methods
 
+    @IBAction func switchRouteVisibleWay(sender: BetterSegmentedControl) {
+        guard let completeBusRoute = self.mapModel.completeBusRoute else {
+            return
+        }
+        if sender.index == 0 {
+            self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "0288D1")
+            self.mapView.addGoingRoute(completeBusRoute)
+        } else {
+            self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "EE236F")
+            self.mapView.addReturnRoute(completeBusRoute)
+        }
+    }
+    
     @IBAction func locateUserButtonTap(sender: AnyObject) {
         self.mapView.centerMapWithGPSLocation()
     }
@@ -271,14 +285,20 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
     func clearRouteAnnotations(){
         self.mapView.clearExistingBusRouteAnnotations()
+        self.hideWaySwitcher()
     }
 
     func resetMapSearch(){
         self.mapView.clearAllAnnotations()
         self.mapModel.clearModel()
         self.hideBusesResultsMenu()
+        self.hideWaySwitcher()
     }
 
+    func hideWaySwitcher() {
+        self.waySwitcher.alpha = 0
+    }
+    
     // MARK: - Pack Download
 
     func startOfflinePackDownload() {
@@ -350,7 +370,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
     //Newest implementation
     func updateOrigin(newOrigin: RoutePoint?){
-        self.mapView.clearExistingBusRouteAnnotations()
+        self.clearRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
         hideBusesResultsMenu()
         if let origin = newOrigin {
@@ -369,7 +389,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
 
     func updateDestination(newDestination: RoutePoint?){
-        self.mapView.clearExistingBusRouteAnnotations()
+        self.clearRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
         hideBusesResultsMenu()
         if let destination = newDestination {
@@ -383,7 +403,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
 
     func updateRoad(newRoad: RoadResult){
-        self.mapView.clearExistingBusRouteAnnotations()
+        self.clearRouteAnnotations()
         let mapRoad = MyBusMapRoad()
         mapRoad.walkingPath = MyBusPolylineFactory.buildWalkingRoutePolylineList(newRoad)
         mapRoad.roadMarkers = MyBusMarkerFactory.buildBusRoadStopMarkers(newRoad)
@@ -411,9 +431,24 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.mapView.clearAllAnnotations()
 
         let mapRoute = MyBusMapRoute()
+        
         mapRoute.markers = MyBusMarkerFactory.buildCompleteBusRoadStopMarkers(newRoute)
         mapRoute.polyline = MyBusPolylineFactory.buildCompleteBusRoutePolylineList(newRoute)
+        
+        mapRoute.goingRouteMarkers = MyBusMarkerFactory.buildGoingBusRouteStopMarkers(newRoute)
+        mapRoute.goingRoute = mapRoute.polyline.first
+        
+        mapRoute.returnRouteMarkers = MyBusMarkerFactory.buildReturnBusRouteStopMarkers(newRoute)
+        mapRoute.returnRoute = mapRoute.polyline.last
+        
         self.mapModel.completeBusRoute = mapRoute
+        
+        self.waySwitcher.alpha = 1
+        do {
+            try self.waySwitcher.setIndex(0)
+        } catch {
+            NSLog("Error initializing complete bus route switcher at index O")
+        }
     }
     
     // MARK: BusesResultsMenuViewController protocol delegate methods and additional functions

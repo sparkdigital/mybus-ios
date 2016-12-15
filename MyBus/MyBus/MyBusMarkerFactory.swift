@@ -11,6 +11,37 @@ import Mapbox
 
 class MyBusMarkerFactory {
 
+    class func buildGoingBusRouteStopMarkers(busRoute: CompleteBusRoute) -> [MyBusMarker] {
+        let goingPointList = busRoute.goingPointList
+        var markers: [MyBusMarker] = []
+        
+        guard let startGoingPoint = goingPointList.first, let endGoingPoint = goingPointList.last else {
+            return markers
+        }
+        
+        let startGoingMarker = MyBusMarkerFactory.createStartCompleteBusRouteMarker(startGoingPoint.getLatLong(), address: startGoingPoint.address, busLineName: busRoute.busLineName)
+        markers.append(startGoingMarker)
+        //Add END of GOING route
+        let endGoingMarker = MyBusMarkerFactory.createEndCompleteBusRouteMarker(endGoingPoint.getLatLong(), address: endGoingPoint.address, busLineName: busRoute.busLineName)
+        markers.append(endGoingMarker)
+        return markers
+    }
+    
+    class func buildReturnBusRouteStopMarkers(busRoute: CompleteBusRoute) -> [MyBusMarker] {
+        let returnPointList = busRoute.returnPointList
+        var markers: [MyBusMarker] = []
+        
+        guard let startReturnPoint = returnPointList.first, let endReturnPoint = returnPointList.last else {
+            return markers
+        }
+        let startReturnMarker = MyBusMarkerFactory.createStartCompleteBusRouteMarker(startReturnPoint.getLatLong(), address: startReturnPoint.address, busLineName: busRoute.busLineName)
+        markers.append(startReturnMarker)
+        //Add END of RETURN route
+        let endReturnMarker = MyBusMarkerFactory.createEndCompleteBusRouteMarker(endReturnPoint.getLatLong(), address: endReturnPoint.address, busLineName: busRoute.busLineName)
+        markers.append(endReturnMarker)
+        return markers
+    }
+    
     class func buildCompleteBusRoadStopMarkers(completeBusRoute: CompleteBusRoute) -> [MyBusMarker] {
         var markers: [MyBusMarker] = []
         let goingPointList = completeBusRoute.goingPointList
