@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (3.3.1)
+  - BetterSegmentedControl (0.4)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - DZNEmptyDataSet (1.8.1)
@@ -22,6 +23,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 3.3.1)
+  - BetterSegmentedControl (= 0.4)
   - Crashlytics (~> 3.7.0)
   - DZNEmptyDataSet (~> 1.8)
   - Fabric (~> 1.6.7)
@@ -52,6 +54,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
+  BetterSegmentedControl: 982368e9cae749f28b7a2e969a37dcb73c375400
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
@@ -66,6 +69,6 @@ SPEC CHECKSUMS:
   RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 1b732ab32d78945aceaa66ac8006afba72ed587b
+PODFILE CHECKSUM: fc00ee203c356634f87878fc366492e24fa7cf90
 
 COCOAPODS: 1.0.1
