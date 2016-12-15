@@ -9,6 +9,7 @@
 import XCTest
 import PageMenu
 import SwiftyJSON
+@testable import MyBus
 
 class BusesResultsMenuViewControllerTest: XCTestCase
 {

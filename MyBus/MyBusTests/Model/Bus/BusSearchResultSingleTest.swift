@@ -8,6 +8,7 @@
 
 import XCTest
 import SwiftyJSON
+@testable import MyBus
 
 class BusSearchResultSingleTest: XCTestCase
 {

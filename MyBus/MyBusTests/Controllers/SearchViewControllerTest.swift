@@ -7,8 +7,7 @@
 //
 
 import XCTest
-import RealmSwift
-import MyBus
+@testable import MyBus
 
 class SearchViewControllerTest: XCTestCase {
     

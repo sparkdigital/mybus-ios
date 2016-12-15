@@ -9,6 +9,7 @@
 import XCTest
 import MapKit
 import MapboxDirections
+@testable import MyBus
 
 class MapBoxDirectionsServiceTest: XCTestCase
 {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Localization: NSObject {
+public class Localization: NSObject {
 
     class func getLocalizedString(key : String) -> String{        
         return NSLocalizedString(key, tableName: nil, bundle: NSBundle.mainBundle(), value: "", comment: "")
