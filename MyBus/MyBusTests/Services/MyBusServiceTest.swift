@@ -8,6 +8,7 @@
 
 import XCTest
 import MapKit
+@testable import MyBus
 
 class MyBusServiceTest: XCTestCase
 {

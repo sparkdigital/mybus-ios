@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import MyBus
 
 class SuggestionSearchViewControllerTest: XCTestCase
 {
