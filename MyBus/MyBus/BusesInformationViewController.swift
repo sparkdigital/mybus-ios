@@ -6,7 +6,6 @@
 //  Copyright © 2016 Spark Digital. All rights reserved.
 //
 import UIKit
-import RealmSwift
 
 class BusesInformationViewController: UIViewController, UITableViewDelegate
 {
