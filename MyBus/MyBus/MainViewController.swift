@@ -631,7 +631,6 @@ extension MainViewController {
     }
     
     @IBAction func dismissAboutUs(sender: AnyObject) {
-        print("hello")
         aboutUsAlertController.dismissViewControllerAnimated(false, completion: nil)
     }
     
