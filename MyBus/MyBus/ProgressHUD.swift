@@ -10,7 +10,7 @@ import Foundation
 import MBProgressHUD
 
 
-class ProgressHUD
+public class ProgressHUD
 {
     func showLoadingNotification(view:UIView?)
     {

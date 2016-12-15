@@ -36,7 +36,7 @@ class MyBusMapRoute {
 }
 
 
-class MyBusMapModel: NSObject {
+public class MyBusMapModel: NSObject {
     
     static let kPropertyChangedDescriptor:String = "MapPropertyChanged"
     

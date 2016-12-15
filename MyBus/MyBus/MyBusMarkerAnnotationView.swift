@@ -13,7 +13,7 @@ enum MyBusEndpointNotificationKey: String {
     case destinationChanged = "markerDestinationEndDragged"
 }
 
-class MyBusMarkerAnnotationView: MGLAnnotationView {
+public class MyBusMarkerAnnotationView: MGLAnnotationView {
 
     static let kPropertyChangedDescriptor: String = "MapPropertyChanged"
 
@@ -35,12 +35,12 @@ class MyBusMarkerAnnotationView: MGLAnnotationView {
         super.init(frame: frame)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // Custom handler for changes in the annotation’s drag state.
-    override func setDragState(dragState: MGLAnnotationViewDragState, animated: Bool) {
+    override public func setDragState(dragState: MGLAnnotationViewDragState, animated: Bool) {
         super.setDragState(dragState, animated: animated)
 
         switch dragState {

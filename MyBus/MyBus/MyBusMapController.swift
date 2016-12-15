@@ -8,7 +8,6 @@
 
 import UIKit
 import Mapbox
-import RealmSwift
 import MapKit
 import BetterSegmentedControl
 class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenuDelegate {
