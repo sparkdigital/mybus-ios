@@ -153,9 +153,20 @@ class MyBusMapView: MGLMapView{
         NSLog("New Route detected")
         let newRoute:MyBusMapRoute = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoute
         
+        self.addGoingRoute(newRoute)
+    }
+    
+    func addReturnRoute(route: MyBusMapRoute) {
         clearAnnotations()
-        addAnnotations(newRoute.markers)
-        addAnnotations(newRoute.polyline)
+        addAnnotations(route.returnRouteMarkers)
+        addAnnotation(route.returnRoute)
+        fitToAnnotationsInMap()
+    }
+    
+    func addGoingRoute(route: MyBusMapRoute) {
+        clearAnnotations()
+        addAnnotations(route.goingRouteMarkers)
+        addAnnotation(route.goingRoute)
         fitToAnnotationsInMap()
     }
     
