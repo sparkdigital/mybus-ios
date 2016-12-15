@@ -8,7 +8,6 @@
 
 import UIKit
 import Mapbox
-import RealmSwift
 import MapKit
 
 class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenuDelegate {
