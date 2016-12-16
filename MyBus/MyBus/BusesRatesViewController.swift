@@ -20,10 +20,21 @@ class BusesRatesViewController: UIViewController, UITableViewDelegate
         self.busesRatesDataSource = BusesRatesDataSource()
         self.ratesTableView.delegate = self
         self.ratesTableView.dataSource = busesRatesDataSource
+        
+        
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
+        backButton.image = UIImage(named:"arrow_back")
+        backButton.tintColor = UIColor.whiteColor()
+        
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.title = Localization.getLocalizedString("Tarifas")
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {}
+    
+    func backTapped(){
+        self.navigationController?.popViewControllerAnimated(true)
     }
   
 }
