@@ -294,9 +294,7 @@
                                     <tabBarItem tag="1" title="Favoritos" image="tabbar_favourite_line" selectedImage="tabbar_favourite_fill" id="rhQ-4V-CCJ"/>
                                     <tabBarItem tag="2" title="Recarga" image="tabbar_recharge_line" selectedImage="tabbar_recharge_fill" id="rb4-EF-VfM"/>
                                     <tabBarItem tag="3" title="Recorridos" image="tabbar_route_line" selectedImage="tabbar_route_fill" id="ELx-eM-AxO"/>
-                                    <tabBarItem tag="4" title="Mas" image="tab_more" selectedImage="tab_more_active" id="oZA-dI-kZs">
-                                        <inset key="imageInsets" minX="2" minY="1" maxX="2" maxY="0.0"/>
-                                    </tabBarItem>
+                                    <tabBarItem tag="4" title="Mas" image="tab_more" selectedImage="tab_more_active" id="oZA-dI-kZs"/>
                                 </items>
                             </tabBar>
                         </subviews>
