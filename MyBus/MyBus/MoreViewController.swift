@@ -94,7 +94,7 @@ extension MoreViewController:UITableViewDataSource {
 extension MoreViewController {
     func showBusFares(sender:AnyObject){
         LoggingManager.sharedInstance.logSection("Bus Fares")
-        let busesRatesViewController:BusesRatesViewController = NavRouter().busesRatesController() as! BusesRatesViewController
+        let busesRatesViewController = NavRouter().busesRatesController()
         sender.navigationController??.pushViewController(busesRatesViewController, animated: true)        
     }
 }
@@ -102,7 +102,9 @@ extension MoreViewController {
 //Terms and Conditions
 extension MoreViewController {
     func showTerms(sender:AnyObject){
-        NSLog("Show terms and conditions")
+        let termsViewController = NavRouter().termsViewController()
+        let navTermsViewController: UINavigationController = UINavigationController(rootViewController: termsViewController)
+        self.presentViewController(navTermsViewController, animated: true, completion: nil)
     }
 }
 

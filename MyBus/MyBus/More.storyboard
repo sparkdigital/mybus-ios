@@ -77,6 +77,40 @@
             </objects>
             <point key="canvasLocation" x="1320" y="375"/>
         </scene>
+        <!--Terms View Controller-->
+        <scene sceneID="saI-S7-lUd">
+            <objects>
+                <viewController restorationIdentifier="TermsViewController" storyboardIdentifier="TermsViewController" id="Cmk-2t-fGO" customClass="TermsViewController" customModule="MyBus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yFh-4o-nXu"/>
+                        <viewControllerLayoutGuide type="bottom" id="Bdq-FD-xbg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cqU-NT-QmW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JP3-D0-1A5">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="JP3-D0-1A5" firstAttribute="top" secondItem="cqU-NT-QmW" secondAttribute="top" id="U0h-Qj-ZOD"/>
+                            <constraint firstItem="JP3-D0-1A5" firstAttribute="leading" secondItem="cqU-NT-QmW" secondAttribute="leading" id="Xd8-O8-AA4"/>
+                            <constraint firstItem="Bdq-FD-xbg" firstAttribute="top" secondItem="JP3-D0-1A5" secondAttribute="bottom" id="eXx-y3-XC2"/>
+                            <constraint firstAttribute="trailing" secondItem="JP3-D0-1A5" secondAttribute="trailing" id="r6t-K0-PsN"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="lCJ-Wb-FTY"/>
+                    <connections>
+                        <outlet property="webView" destination="JP3-D0-1A5" id="toK-3Q-7TA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qbZ-bA-rMw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2132" y="1053"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Gb1-T2-b41">
             <objects>
@@ -94,6 +128,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5cU-LS-xQ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="508" y="375"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="buY-wX-ZYU">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6YJ-XT-8FG" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lO9-oC-stY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Cmk-2t-fGO" kind="relationship" relationship="rootViewController" id="NPt-m6-xJT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zSV-l3-su9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1320" y="1053"/>
         </scene>
     </scenes>
 </document>

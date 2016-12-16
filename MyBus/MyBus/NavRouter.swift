@@ -29,6 +29,7 @@ class NavRouter {
     private let favoriteViewIdentifier: String = "FavoriteViewController"
     private let aboutUsViewIdentifier: String = "AboutUsViewController"
     private let moreViewIdentifier:String = "MoreViewController"
+    private let termsViewIdentfier:String = "TermsViewController"
 
     //Method that receives a storyboard string identifier and returns a view controller object
     private func buildComponentVC(identifier: String, storyBoard: String) -> UIViewController {
@@ -78,6 +79,10 @@ class NavRouter {
     
     func moreViewController()->UIViewController {
         return self.buildComponentVC(self.moreViewIdentifier, storyBoard: self.more)
+    }
+    
+    func termsViewController()->UIViewController {
+        return self.buildComponentVC(self.termsViewIdentfier, storyBoard: self.more)
     }
 
 }
