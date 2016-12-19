@@ -104,7 +104,12 @@ extension MoreViewController {
     func showTerms(sender:AnyObject){
         let termsViewController = NavRouter().termsViewController()
         let navTermsViewController: UINavigationController = UINavigationController(rootViewController: termsViewController)
-        self.presentViewController(navTermsViewController, animated: true, completion: nil)
+        
+        if let vc = sender as? UIViewController {
+            vc.applyTransitionAnimation(withDuration: 0.4, transitionType: TransitionType.MoveIn, transitionSubType: TransitionSubtype.FromBottom)
+        }
+        
+        sender.presentViewController(navTermsViewController, animated: false, completion: nil)
     }
 }
 
@@ -119,13 +124,17 @@ extension MoreViewController {
         let stepsView = UINib(nibName: "AboutUs", bundle: nil).instantiateWithOwner(sender, options: nil)[0] as!
         UIView
         aboutUsAlertController.view.frame=CGRectMake(x, y, stepsView.frame.width, 265)
-        
         aboutUsAlertController.view.addSubview(stepsView)
+        
+        if let vc = sender as? UIViewController {
+            vc.applyTransitionAnimation(withDuration: 0.6, transitionType: TransitionType.Fade, transitionSubType: nil)
+        }
         
         sender.presentViewController(aboutUsAlertController, animated: false, completion: nil)
     }
     
-    @IBAction func dismissAboutUs(sender: AnyObject) {
+    @IBAction func dismissAboutUs(sender: AnyObject) {        
+        aboutUsAlertController.applyTransitionAnimation(withDuration: 0.6, transitionType: TransitionType.Fade, transitionSubType: nil)
         aboutUsAlertController.dismissViewControllerAnimated(false, completion: nil)
     }
     
