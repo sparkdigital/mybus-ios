@@ -79,12 +79,12 @@ class MainViewController: UIViewController {
 
     var searchContainerViewController: SearchContainerViewController!
     var favoriteViewController: FavoriteViewController!
-    var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
     var busesResultsTableViewController: BusesResultsTableViewController!
+    var moreViewController: MoreViewController!
 
     var navRouter: NavRouter!
-    let aboutUsAlertController = UIAlertController (title: "", message: "\n \n \n \n \n \n \n \n \n \n \n \n \n \n", preferredStyle: .Alert)
+    
     
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
@@ -176,9 +176,8 @@ class MainViewController: UIViewController {
         self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
         self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
         self.busesResultsTableViewController.mainViewDelegate = self
-
-        self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
+        self.moreViewController = self.navRouter.moreViewController() as! MoreViewController
         
         self.tabBar.delegate = self
 
@@ -513,10 +512,10 @@ extension MainViewController:UITabBarDelegate {
             LoggingManager.sharedInstance.logSection("Bus Routes")
         }
         if (item.tag == 4){
-            self.sectionNavigationBar(Localization.getLocalizedString("Tarifas"))
-            self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
-            self.currentViewController = busesRatesViewController            
-            LoggingManager.sharedInstance.logSection("Bus Fares")
+            self.logoNavigationBar()
+            self.toggleSearchViewContainer(false)
+            self.cycleViewController(self.currentViewController!, toViewController: moreViewController)
+            self.currentViewController = moreViewController
         }
     }
 }
@@ -578,19 +577,31 @@ extension MainViewController {
     func homeNavigationBar(mapModel: MapViewModel){
 
         self.verifySearchStatus(mapModel)
-
-        if mapViewModel.isEmpty() {
+        
+        let moreSelected:Bool = (self.tabBar.items?.last == self.tabBar.selectedItem) ?? false
+        
+        if moreSelected {
             self.logoNavigationBar()
+            self.toggleSearchViewContainer(false)
+            self.showTabBar()
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
         }else{
-            self.searchNavigationBar()
+            
+            if mapViewModel.isEmpty() {
+                self.logoNavigationBar()
+            }else{
+                self.searchNavigationBar()
+            }
+            self.showTabBar()
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            
+            self.toggleSearchViewContainer(true)
+            self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+            self.currentViewController = self.mapViewController
+            
+            self.tabBar.selectedItem = self.tabBar.items?[0]
         }
-        self.showTabBar()
-        self.toggleSearchViewContainer(true)
-        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-        self.currentViewController = self.mapViewController
-
-        self.tabBar.selectedItem = self.tabBar.items?[0]
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+       
     }
 
     func verifySearchStatus(mapModel: MapViewModel){
@@ -607,31 +618,7 @@ extension MainViewController {
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
-        let aboutUsButton = UIButton(type: UIButtonType(rawValue: 4)!)
-        aboutUsButton.tintColor = UIColor.whiteColor()
-        let aboutUsButtonItem = UIBarButtonItem(customView: aboutUsButton)
-        aboutUsButton.addTarget(self, action: #selector(self.showAboutUs(_:)), forControlEvents: .TouchUpInside)
-        self.navigationItem.rightBarButtonItem = aboutUsButtonItem
-    }
-
-    func showAboutUs(sender: UIButton) {
-        
-
-        let x = aboutUsAlertController.view.frame.origin.x
-        let y = aboutUsAlertController.view.frame.origin.y
-        
-        let stepsView = UINib(nibName: "AboutUs", bundle: nil).instantiateWithOwner(self, options: nil)[0] as!
-        UIView
-        aboutUsAlertController.view.frame=CGRectMake(x, y, stepsView.frame.width, 265)
-        
-        aboutUsAlertController.view.addSubview(stepsView)
-
-        self.presentViewController(aboutUsAlertController, animated: false, completion: nil)
-        
-    }
-    
-    @IBAction func dismissAboutUs(sender: AnyObject) {
-        aboutUsAlertController.dismissViewControllerAnimated(false, completion: nil)
+        self.navigationItem.rightBarButtonItem = nil
     }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
