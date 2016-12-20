@@ -13,7 +13,7 @@ protocol MapBoxDirectionsDelegate {
     func getWalkingDirections(sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: (MBDirectionsResponse?, NSError?) -> ())
 }
 
-private let mapboxAccessToken = "pk.eyJ1Ijoibm9zb3VsODgiLCJhIjoiY2lteGt2dHhsMDNrNXZxbHU0M29mcHZnZiJ9.MMbmK9GfcdhpDw2siu0wuA"
+private let mapboxAccessToken = Configuration.mapBoxAPIKey()
 
 public class MapBoxDirectionsService: NSObject, MapBoxDirectionsDelegate {
 
