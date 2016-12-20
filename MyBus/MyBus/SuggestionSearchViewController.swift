@@ -9,7 +9,7 @@
 import UIKit
 import Mapbox
 import RealmSwift
-
+import DZNEmptyDataSet
 protocol SuggestionProtocol {
     var name: String { get }
     func getImage() -> UIImage
@@ -68,7 +68,7 @@ class RecentSuggestion: SuggestionProtocol {
     }
 }
 
-class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
+class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
     @IBOutlet weak var searchSuggestionTableView: UITableView!
 
@@ -86,6 +86,12 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.suggestionsDataSource = SearchSuggestionsDataSource()
         self.searchSuggestionTableView.delegate = self
         self.searchSuggestionTableView.dataSource = suggestionsDataSource
+        
+        
+        self.searchSuggestionTableView.emptyDataSetSource = self
+        self.searchSuggestionTableView.emptyDataSetDelegate = self
+        // A little trick for removing the cell separators
+        self.searchSuggestionTableView.tableFooterView = UIView()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -161,5 +167,24 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
                 self.searchBar?.text = "\(result.name) "
             }
         }
+    }
+    
+    
+    
+    //MARK: DZNEmptyDataSet setup methods
+    
+    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados_Titulo"))
+    }
+    
+    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        let attributes: [String : AnyObject] = [
+            NSForegroundColorAttributeName: UIColor.lightGrayColor()
+        ]
+        return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados"), attributes: attributes)
+    }
+    
+    func emptyDataSetShouldDisplay(scrollView: UIScrollView!) -> Bool {
+        return true
     }
 }

@@ -50,3 +50,5 @@
 "No_favoritos_Mensaje" = "Agregá tu primer ubicación favorita para buscar más rápido";
 "Nuevo_Favorito_Mensaje" = "Por favor ingresa los datos necesarios para el lugar favorito";
 "Nuevo_Favorito_Error" = "Nos encontramos que un dato no esta indicado, por favor completa todos los campos";
+"Sin_Resultados" = "No encontramos resultados para tu búsqueda, de todas formas busca y le consultaremos a Google Maps \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n";
+"Sin_Resultados_Titulo" = "No hay coincidencias";
