@@ -150,6 +150,7 @@
 		B4C575911E049D5D00DBB977 /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C575901E049D5D00DBB977 /* TermsViewController.swift */; };
 		B4C575951E049EC500DBB977 /* MyBus_Terms_And_Conditions.html in Resources */ = {isa = PBXBuildFile; fileRef = B4C575941E049EC500DBB977 /* MyBus_Terms_And_Conditions.html */; };
 		B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */; };
+		B4F0B99D1E0885C900444EED /* UIViewController+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F0B99C1E0885C900444EED /* UIViewController+Animation.swift */; };
 		B9F1EDC0E6462FB614561F20 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D9D2B423B1576EA6A24F2C /* Pods_MyBus.framework */; };
 		C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50CC65C1D7A17130039C316 /* BusesRates.plist */; };
 		C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */ = {isa = PBXBuildFile; fileRef = C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */; };
@@ -341,6 +342,7 @@
 		B4C575901E049D5D00DBB977 /* TermsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		B4C575941E049EC500DBB977 /* MyBus_Terms_And_Conditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MyBus_Terms_And_Conditions.html; sourceTree = "<group>"; };
 		B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapView.swift; sourceTree = "<group>"; };
+		B4F0B99C1E0885C900444EED /* UIViewController+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Animation.swift"; sourceTree = "<group>"; };
 		BEDB14F654962D4683958CAE /* Pods-MyBusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBusTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C50CC65C1D7A17130039C316 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
 		C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepActivateLocate.xib; sourceTree = "<group>"; };
@@ -787,6 +789,7 @@
 				C58F8DAC1DA3FF4E009AA176 /* SearchView.swift */,
 				B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */,
 				B4BFEB081E00AAFE005992BF /* ArrowView.swift */,
+				B4F0B99C1E0885C900444EED /* UIViewController+Animation.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1084,6 +1087,7 @@
 				C55620DF1D8AD5CB0011E427 /* FavoriteTableViewCell.swift in Sources */,
 				C5619D611DA5915E001CE3BA /* SuggestionSearchViewController.swift in Sources */,
 				B47A8E841DDE49C400D6F9A4 /* CombinedRouteView.swift in Sources */,
+				B4F0B99D1E0885C900444EED /* UIViewController+Animation.swift in Sources */,
 				11A552851DA6B70A00CF4C95 /* MyBusPolylineFactory.swift in Sources */,
 				114E670C1D7A1A9C00D8F746 /* HexToUIColorConverter.swift in Sources */,
 				B4C5758D1E047E1600DBB977 /* MoreTableViewCell.swift in Sources */,
