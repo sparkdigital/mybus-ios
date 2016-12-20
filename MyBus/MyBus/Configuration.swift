@@ -82,4 +82,13 @@ class Configuration {
         return Configuration.thirdServicesConfiguration["ThirdServices"]!["GoogleGeocoding"]!!["ApiKey"] as! String
     }
 
+    // MARK: Flurry SDK Service Configuration
+    class func flurryAPIKey()->String{
+        return Configuration.thirdServicesConfiguration["ThirdServices"]!["FlurryApiKey"]! as! String
+    }
+
+    // MARK: MapBox SDK Service Configuration
+    class func mapBoxAPIKey()->String{
+        return Configuration.thirdServicesConfiguration["ThirdServices"]!["MapboxAPIKey"]! as! String
+    }
 }

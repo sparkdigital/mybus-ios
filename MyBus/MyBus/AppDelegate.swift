@@ -21,11 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
-        
+
         Fabric.with([LoggingManager.sharedInstance.crashlyticsClassInstance, MGLAccountManager.self])
-        
+        MGLAccountManager.setAccessToken(Configuration.mapBoxAPIKey())
         LoggingManager.sharedInstance.setup()
-        //MGLAccountManager.setAccessToken("pk.eyJ1Ijoibm9zb3VsODgiLCJhIjoiY2lteGt2dHhsMDNrNXZxbHU0M29mcHZnZiJ9.MMbmK9GfcdhpDw2siu0wuA")
         let config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
@@ -44,34 +43,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Tell Realm to use this new configuration object for the default Realm
         Realm.Configuration.defaultConfiguration = config
-        
+
         //Initialize Firebase
         FIRApp.configure()
-        
+
         //iOS 10 config??
-        
+
         //iOS 9
         let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
-        
-        
-        // Override point for customization after application launch.        
+        // Override point for customization after application launch.
         LoggingManager.sharedInstance.startAppLogging()
-        
+
         // MARK: Global App configuration for navigation bar and status bar
-        
+
         //This setting removes border lines and shadow colors of navigation bars
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        
+
         //Ensure that for every controller (pushed or presented modally) uses the light content (letters in white)
         application.statusBarStyle = UIStatusBarStyle.LightContent
-
-        
         return true
     }
-    
+
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -96,22 +91,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-    
-    
+
+
     // MARK: - Push Notifications
-    
+
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         //print("DEVICE TOKEN = \(deviceToken)")
     }
-    
+
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         //print(userInfo)
     }
-    
+
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         //print(error)
     }
-    
+
 
     // MARK: - Core Data stack
 
@@ -120,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1]
     }()
-    
+
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
         let modelURL = NSBundle.mainBundle().URLForResource("MyBus", withExtension: "momd")!
