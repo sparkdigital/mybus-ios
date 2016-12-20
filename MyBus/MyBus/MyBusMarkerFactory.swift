@@ -237,7 +237,7 @@ class MyBusMarkerFactory {
     }
 
     class func createRechargePointMarker(point: RechargePoint)-> MyBusMarkerRechargePoint{
-        let marker = MyBusMarkerRechargePoint(position: point.getLatLong(), title: point.address, subtitle: point.openTime, imageIdentifier: "map_charge")
+        let marker = MyBusMarkerRechargePoint(position: point.getLatLong(), title: point.address, subtitle: point.openTime, imageIdentifier: point.isOpen ? "map_charge" : "map_charge_close")
         return marker
     }
 }
