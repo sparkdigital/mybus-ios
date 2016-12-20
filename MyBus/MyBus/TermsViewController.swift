@@ -58,6 +58,7 @@ class TermsViewController: UIViewController, UIWebViewDelegate  {
     }
     
     func dismissTerms(){
+        self.applyTransitionAnimation(withDuration: 0.4, transitionType: TransitionType.MoveIn, transitionSubType: TransitionSubtype.FromTop)
         self.dismissViewControllerAnimated(false, completion: nil)
     }
 
@@ -80,7 +81,5 @@ class TermsViewController: UIViewController, UIWebViewDelegate  {
             NSLog("Something was tapped. Not Link")
             return true
         }
-        
     }
-
 }
