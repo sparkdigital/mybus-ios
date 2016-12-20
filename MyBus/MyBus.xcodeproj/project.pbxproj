@@ -130,6 +130,8 @@
 		B44695711DDD040A0073BC2C /* BusesResultsMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */; };
 		B44695731DDD66DA0073BC2C /* BusResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44695721DDD66DA0073BC2C /* BusResultViewController.swift */; };
 		B455FA9C1DB1803500069F22 /* MyBusMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B455FA9B1DB1803500069F22 /* MyBusMapModel.swift */; };
+		B45D77791E097CE200C0D3AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B45D77781E097CE200C0D3AC /* GoogleService-Info.plist */; };
+		B45D777A1E097CF800C0D3AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B45D77781E097CE200C0D3AC /* GoogleService-Info.plist */; };
 		B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B47299081DA2C73300D8D6D7 /* Search.storyboard */; };
 		B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */; };
 		B472990D1DA2C74300D8D6D7 /* SearchContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */; };
@@ -322,6 +324,7 @@
 		B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesResultsMenuViewController.swift; sourceTree = "<group>"; };
 		B44695721DDD66DA0073BC2C /* BusResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusResultViewController.swift; sourceTree = "<group>"; };
 		B455FA9B1DB1803500069F22 /* MyBusMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapModel.swift; sourceTree = "<group>"; };
+		B45D77781E097CE200C0D3AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B47299081DA2C73300D8D6D7 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewController.swift; sourceTree = "<group>"; };
 		B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContainerViewController.swift; sourceTree = "<group>"; };
@@ -693,6 +696,7 @@
 		08EC58771CBD488900E8410A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B45D77781E097CE200C0D3AC /* GoogleService-Info.plist */,
 				B4C575941E049EC500DBB977 /* MyBus_Terms_And_Conditions.html */,
 				C542E36B1D48EF0F009FF442 /* Streets.plist */,
 				08EC585A1CBD482400E8410A /* Assets.xcassets */,
@@ -862,6 +866,14 @@
 					08EC584C1CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = VXBU7JZRFH;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					08EC58631CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
@@ -912,6 +924,7 @@
 				C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */,
 				B47A8E801DDE167600D6F9A4 /* CombinedRouteView.xib in Resources */,
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
+				B45D77791E097CE200C0D3AC /* GoogleService-Info.plist in Resources */,
 				C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */,
 				70DC86E81DFF2B9B0005AADC /* AboutUs.xib in Resources */,
 			);
@@ -934,6 +947,7 @@
 				08C886721DDE4A5400C7BEEA /* BusRouteCombined_2.json in Resources */,
 				08C886761DDE4A5400C7BEEA /* BusRouteResultCombined_2.json in Resources */,
 				081E1B821DE37B2C004D3F40 /* RechargePoints_1.json in Resources */,
+				B45D777A1E097CF800C0D3AC /* GoogleService-Info.plist in Resources */,
 				08C886891DDE4D7600C7BEEA /* RoutePointSingle_1_2.json in Resources */,
 				08C8868A1DDE4D7600C7BEEA /* RoutePointSingle_2_1.json in Resources */,
 				08C886841DDE4D7600C7BEEA /* RoutePointCombined_1_1.json in Resources */,
@@ -1347,7 +1361,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "21400b2d-fe35-46e7-bd1b-bb5e8dab59f9";
+				PROVISIONING_PROFILE = "acdeb20f-eb76-4224-9b7f-a1bfab68fd69";
 			};
 			name = Release;
 		};
