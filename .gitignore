@@ -64,3 +64,4 @@ fastlane/report.xml
 fastlane/screenshots
 
 MyBus/MyBus/AppConfiguration.plist
+MyBus/MyBus/GoogleService-Info.plist

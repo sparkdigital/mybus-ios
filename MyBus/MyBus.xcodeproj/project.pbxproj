@@ -133,7 +133,6 @@
 		B45D77791E097CE200C0D3AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B45D77781E097CE200C0D3AC /* GoogleService-Info.plist */; };
 		B45D777A1E097CF800C0D3AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B45D77781E097CE200C0D3AC /* GoogleService-Info.plist */; };
 		B47299091DA2C73300D8D6D7 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B47299081DA2C73300D8D6D7 /* Search.storyboard */; };
-		B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */; };
 		B472990D1DA2C74300D8D6D7 /* SearchContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */; };
 		B47299411DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */; };
 		B47299431DA80B9B00D8D6D7 /* MapSearchViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */; };
@@ -326,7 +325,6 @@
 		B455FA9B1DB1803500069F22 /* MyBusMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapModel.swift; sourceTree = "<group>"; };
 		B45D77781E097CE200C0D3AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B47299081DA2C73300D8D6D7 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
-		B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewController.swift; sourceTree = "<group>"; };
 		B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContainerViewController.swift; sourceTree = "<group>"; };
 		B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewLayoutExtensions.swift; sourceTree = "<group>"; };
 		B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSearchViewContainer.swift; sourceTree = "<group>"; };
@@ -613,18 +611,11 @@
 		08EC58731CBD486000E8410A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B472990A1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift */,
-				B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */,
+				70985C121E0ACE40000997CE /* BusesControllers */,
+				70985C111E0ACE07000997CE /* SearchControllers */,
 				08EC58521CBD482400E8410A /* MyBusMapController.swift */,
-				087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */,
 				11D4BEE41D343B51005E0031 /* MainViewController.swift */,
-				C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */,
-				C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */,
-				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
-				115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */,
 				C57317631DB7BDCC00689F00 /* FavoriteViewController.swift */,
-				B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */,
-				B44695721DDD66DA0073BC2C /* BusResultViewController.swift */,
 				B4C5758E1E04826700DBB977 /* MoreViewController.swift */,
 				B4C575901E049D5D00DBB977 /* TermsViewController.swift */,
 			);
@@ -663,32 +654,12 @@
 		08EC58761CBD487200E8410A /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				70DC86E71DFF2B9B0005AADC /* AboutUs.xib */,
-				B47299081DA2C73300D8D6D7 /* Search.storyboard */,
-				115BE4DB1DAD7A3800E429D2 /* Buses.storyboard */,
-				B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */,
-				11DF62511DA2EF3800E21320 /* MyBusPolyline.swift */,
-				11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */,
+				70985C101E0AC580000997CE /* SearchView */,
+				70985C0D1E0AC52E000997CE /* MyBusAnnotations */,
+				70985C0C1E0AC4CB000997CE /* XIBs */,
+				70985C0B1E0AC4AF000997CE /* Storyboards */,
 				9982576F1CC5520E00909F1B /* Cells */,
-				08EC58541CBD482400E8410A /* Main.storyboard */,
-				08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */,
-				112A11081CE5194A00D00709 /* Strings.swift */,
-				B4C5758A1E04790800DBB977 /* More.storyboard */,
-				C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */,
-				C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */,
-				C5348A301D9070C1004EADEC /* TitleMainView.xib */,
-				C58F8DAE1DA40046009AA176 /* SearchView.xib */,
-				B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */,
-				B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */,
-				B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */,
-				11A552821DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift */,
-				11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */,
 				B455FA9B1DB1803500069F22 /* MyBusMapModel.swift */,
-				11C84AFC1DC1200400ACE925 /* MyBusMarkerAnnotationView.swift */,
-				B47A8E7D1DDE15E800D6F9A4 /* SingleRouteView.xib */,
-				B47A8E7F1DDE167600D6F9A4 /* CombinedRouteView.xib */,
-				B47A8E811DDE495000D6F9A4 /* SingleRouteView.swift */,
-				B47A8E831DDE49C400D6F9A4 /* CombinedRouteView.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -740,6 +711,95 @@
 				B4BD87AB1DF8777C0095A61C /* LoggingManager.swift */,
 			);
 			name = Managers;
+			sourceTree = "<group>";
+		};
+		70985C0B1E0AC4AF000997CE /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				B47299081DA2C73300D8D6D7 /* Search.storyboard */,
+				115BE4DB1DAD7A3800E429D2 /* Buses.storyboard */,
+				08EC58541CBD482400E8410A /* Main.storyboard */,
+				08EC585C1CBD482400E8410A /* LaunchScreen.storyboard */,
+				B4C5758A1E04790800DBB977 /* More.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		70985C0C1E0AC4CB000997CE /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				70DC86E71DFF2B9B0005AADC /* AboutUs.xib */,
+				C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */,
+				C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */,
+				C5348A301D9070C1004EADEC /* TitleMainView.xib */,
+				C58F8DAE1DA40046009AA176 /* SearchView.xib */,
+				B47299461DA80D7D00D8D6D7 /* SimpleSearchBarView.xib */,
+				B47A8E7D1DDE15E800D6F9A4 /* SingleRouteView.xib */,
+				B47A8E7F1DDE167600D6F9A4 /* CombinedRouteView.xib */,
+			);
+			name = XIBs;
+			sourceTree = "<group>";
+		};
+		70985C0D1E0AC52E000997CE /* MyBusAnnotations */ = {
+			isa = PBXGroup;
+			children = (
+				70985C0F1E0AC557000997CE /* Factories */,
+				70985C0E1E0AC54D000997CE /* Views */,
+			);
+			name = MyBusAnnotations;
+			sourceTree = "<group>";
+		};
+		70985C0E1E0AC54D000997CE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */,
+				11DF62511DA2EF3800E21320 /* MyBusPolyline.swift */,
+				11A552801DA6B48F00CF4C95 /* MyBusMarker.swift */,
+				11C84AFC1DC1200400ACE925 /* MyBusMarkerAnnotationView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		70985C0F1E0AC557000997CE /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				11A552821DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift */,
+				11A552841DA6B70A00CF4C95 /* MyBusPolylineFactory.swift */,
+			);
+			name = Factories;
+			sourceTree = "<group>";
+		};
+		70985C101E0AC580000997CE /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				B47299421DA80B9B00D8D6D7 /* MapSearchViewContainer.swift */,
+				B47299441DA80D5F00D8D6D7 /* SimpleSearchBarView.swift */,
+				B47A8E811DDE495000D6F9A4 /* SingleRouteView.swift */,
+				B47A8E831DDE49C400D6F9A4 /* CombinedRouteView.swift */,
+			);
+			name = SearchView;
+			sourceTree = "<group>";
+		};
+		70985C111E0ACE07000997CE /* SearchControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B472990B1DA2C74300D8D6D7 /* SearchContainerViewController.swift */,
+				087E76F11CBEF1CC00FB6050 /* SearchViewController.swift */,
+				C5619D601DA5915E001CE3BA /* SuggestionSearchViewController.swift */,
+			);
+			name = SearchControllers;
+			sourceTree = "<group>";
+		};
+		70985C121E0ACE40000997CE /* BusesControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */,
+				B44695721DDD66DA0073BC2C /* BusResultViewController.swift */,
+				C57886F81D7DC2050056A5E1 /* BusesRatesViewController.swift */,
+				C5B96F0B1D834C8F0073B990 /* BusesInformationViewController.swift */,
+				115BE4D71DAD660700E429D2 /* BusesResultsTableViewController.swift */,
+			);
+			name = BusesControllers;
 			sourceTree = "<group>";
 		};
 		9005941DFA73E0EE32E8AA78 /* Pods */ = {
@@ -794,6 +854,7 @@
 				B47299401DA8075E00D8D6D7 /* UIViewLayoutExtensions.swift */,
 				B4BFEB081E00AAFE005992BF /* ArrowView.swift */,
 				B4F0B99C1E0885C900444EED /* UIViewController+Animation.swift */,
+				112A11081CE5194A00D00709 /* Strings.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1120,7 +1181,6 @@
 				A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */,
 				C57317641DB7BDCC00689F00 /* FavoriteViewController.swift in Sources */,
 				1131807E1D63749400425847 /* SearchManager.swift in Sources */,
-				B472990C1DA2C74300D8D6D7 /* SearchSuggestionsViewController.swift in Sources */,
 				A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */,
 				110795771D9C4C4A00D63CE4 /* RegExOperator.swift in Sources */,
 				66EFFE401DF083C300E2F9F0 /* Localization.swift in Sources */,
