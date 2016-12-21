@@ -27,7 +27,7 @@ class SearchContainerViewController: UIViewController {
     weak var currentViewController: UIViewController!
     var searchType: SearchType = SearchType.Origin
     let progressNotification = ProgressHUD()
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,9 +45,9 @@ class SearchContainerViewController: UIViewController {
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController)
         self.view.addAutoPinnedSubview(currentViewController!.view, toView: searchContainerView)
-
-
+        
         self.addressLocationSearchBar.delegate = self
+        self.addressLocationSearchBar.backgroundImage = UIImage()
 
         //Navigation Item configuration
         let cancelButtonItem = UIBarButtonItem(title:  Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(goBackToMap))
