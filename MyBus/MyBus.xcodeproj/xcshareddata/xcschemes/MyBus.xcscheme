@@ -96,6 +96,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "MyBus"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

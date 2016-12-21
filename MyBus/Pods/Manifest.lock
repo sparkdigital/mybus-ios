@@ -5,7 +5,37 @@ PODS:
     - Fabric (~> 1.6.3)
   - DZNEmptyDataSet (1.8.1)
   - Fabric (1.6.7)
+  - Firebase/Core (3.10.0):
+    - FirebaseAnalytics (= 3.6.0)
+    - FirebaseCore (= 3.4.5)
+  - Firebase/Messaging (3.10.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 1.2.1)
+  - FirebaseAnalytics (3.6.0):
+    - FirebaseCore (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.4.5):
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.8)
+  - FirebaseMessaging (1.2.1):
+    - FirebaseAnalytics (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/Logger (~> 2.1)
   - Flurry-iOS-SDK/FlurrySDK (7.8.2)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/Logger (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
   - Mapbox-iOS-SDK (3.3.4)
   - MapboxDirections.swift (0.4.0):
     - NBNRequestKit
@@ -27,6 +57,8 @@ DEPENDENCIES:
   - Crashlytics (~> 3.7.0)
   - DZNEmptyDataSet (~> 1.8)
   - Fabric (~> 1.6.7)
+  - Firebase/Core
+  - Firebase/Messaging
   - Flurry-iOS-SDK/FlurrySDK (~> 7.8.2)
   - Mapbox-iOS-SDK (~> 3.3.4)
   - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, tag `v0.5.0`)
@@ -58,7 +90,15 @@ SPEC CHECKSUMS:
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  Firebase: 387f37c7dca894a02708da9ff35ba147040eae9e
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
   Flurry-iOS-SDK: 8ed76252016d0162a893363c108a010ab97d424c
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   Mapbox-iOS-SDK: b22da0d9703fcfb0a8b592b6a7f6a21264fe44b0
   MapboxDirections.swift: baa69039463d0853ec7cca2370ed686f507695bf
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
@@ -69,6 +109,6 @@ SPEC CHECKSUMS:
   RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: fc00ee203c356634f87878fc366492e24fa7cf90
+PODFILE CHECKSUM: 53c40bee34ec7c9003c30246a84689c6db073bd2
 
 COCOAPODS: 1.0.1

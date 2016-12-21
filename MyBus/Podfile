@@ -20,6 +20,8 @@ target 'MyBus' do
     pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.8.2'
     pod 'DZNEmptyDataSet', '~> 1.8'
     pod 'BetterSegmentedControl', '0.4'
+    pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
 end
 
 target 'MyBusTests' do
@@ -36,4 +38,6 @@ target 'MyBusTests' do
     pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.8.2'
     pod 'DZNEmptyDataSet', '~> 1.8'
     pod 'BetterSegmentedControl', '0.4'
+    pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
 end
