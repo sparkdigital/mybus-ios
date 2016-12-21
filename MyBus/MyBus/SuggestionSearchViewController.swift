@@ -10,6 +10,7 @@ import UIKit
 import Mapbox
 import RealmSwift
 import DZNEmptyDataSet
+
 protocol SuggestionProtocol {
     var name: String { get }
     func getImage() -> UIImage
@@ -71,7 +72,9 @@ class RecentSuggestion: SuggestionProtocol {
 class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
     @IBOutlet weak var searchSuggestionTableView: UITableView!
-
+    
+    //Boolean variable that keeps track when a user taps on a suggestion to give more control on displaying the EmptyDataset legend
+    var aSuggestionWasSelected:Bool = false
     var bestMatches: [SuggestionProtocol] = []
     var suggestionsDataSource: SearchSuggestionsDataSource!
     var searchBarController: UISearchController!
@@ -150,6 +153,7 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.bestMatches = []
         self.suggestionsDataSource.bestMatches = self.bestMatches
         self.searchSuggestionTableView.reloadData()
+        self.aSuggestionWasSelected = false
     }
 
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -167,9 +171,9 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
                 self.searchBar?.text = "\(result.name) "
             }
         }
+        
+        self.aSuggestionWasSelected = true
     }
-    
-    
     
     //MARK: DZNEmptyDataSet setup methods
     
@@ -185,6 +189,6 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     }
     
     func emptyDataSetShouldDisplay(scrollView: UIScrollView!) -> Bool {
-        return true
+        return !aSuggestionWasSelected
     }
 }
