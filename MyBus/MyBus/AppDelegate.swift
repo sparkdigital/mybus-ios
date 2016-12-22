@@ -59,6 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.        
         LoggingManager.sharedInstance.startAppLogging()
         
+        // MARK: Global App configuration for navigation bar and status bar
+        
+        //This setting removes border lines and shadow colors of navigation bars
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        
+        //Ensure that for every controller (pushed or presented modally) uses the light content (letters in white)
+        application.statusBarStyle = UIStatusBarStyle.LightContent
+
+        
         return true
     }
     
