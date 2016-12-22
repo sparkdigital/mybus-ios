@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>1087521531819-olljg3kq8a41hnqug1g4q3q6tds5dlan.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1087521531819-olljg3kq8a41hnqug1g4q3q6tds5dlan</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC2jOqTPyCI0s-rRk9on80UEKs6_6r02yY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1087521531819</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.SparkDigital.MyBus</string>
+	<key>PROJECT_ID</key>
+	<string>mybus-3c031</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mybus-3c031.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1087521531819:ios:b4d1bf21a6c7c006</string>
+	<key>DATABASE_URL</key>
+	<string>https://mybus-3c031.firebaseio.com</string>
+</dict>
+</plist>

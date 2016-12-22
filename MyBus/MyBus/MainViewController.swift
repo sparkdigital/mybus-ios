@@ -58,16 +58,12 @@ class MainViewController: UIViewController {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var locateUserButton: UIBarButtonItem!
-
-    @IBOutlet weak var searchToolbar: UIToolbar!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var mapSearchViewContainer: MapSearchViewContainer!
     @IBOutlet weak var mapSearchViewHeightConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var menuTabBar: UITabBar!
     @IBOutlet weak var menuTabBarHeightConstraint: NSLayoutConstraint!
+
     let defaultTabBarHeight: CGFloat = 49
 
     //Temporary model
@@ -84,20 +80,20 @@ class MainViewController: UIViewController {
     var moreViewController: MoreViewController!
 
     var navRouter: NavRouter!
-    
-    
+
+
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
     let progressNotification = ProgressHUD()
     var reachability: ReachabilityMyBus?
-    
+
     let alertNetworkNotReachable = UIAlertController.init(title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Observamos"), preferredStyle: .ActionSheet)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navRouter = NavRouter()
-        
+
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
         initMapModel()
@@ -108,14 +104,14 @@ class MainViewController: UIViewController {
         addDragDropMarkersObservers()
         addBusesResultsMenuStatusObservers()
         addReachabilityObserver()
-        addAppBecameActiveObserver()        
+        addAppBecameActiveObserver()
     }
 
     func initMapModel() {
         self.mapViewModel = MapViewModel()
         self.mapViewModel.delegate = self
     }
-    
+
     func setupSearchViewContainer(){
         self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.mapSearchViewContainer.layer.borderWidth = 8
@@ -127,7 +123,7 @@ class MainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
     }
-    
+
     func addBusesResultsMenuStatusObservers(){
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidExpand), name: BusesResultsMenuStatusNotification.Expanded.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidCollapse), name: BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
@@ -144,7 +140,7 @@ class MainViewController: UIViewController {
 
         alertNetworkNotReachable.addAction(settingsAction)
     }
-    
+
     func addAppBecameActiveObserver(){
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: "applicationDidBecomeActive", object: nil)
     }
@@ -178,7 +174,7 @@ class MainViewController: UIViewController {
         self.busesResultsTableViewController.mainViewDelegate = self
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
         self.moreViewController = self.navRouter.moreViewController() as! MoreViewController
-        
+
         self.tabBar.delegate = self
 
     }
@@ -206,9 +202,9 @@ class MainViewController: UIViewController {
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-            
+
             progressNotification.showLoadingNotification(self.view)
-            
+
             if let annotations = self.mapViewController.mapView.annotations {
                 if( annotations.count > 1 ){
                     self.progressNotification.stopLoadingNotification(self.view)
@@ -228,8 +224,8 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
-    private func defineOriginDestination(latitude : Double, longitude: Double){
+
+    private func defineOriginDestination(latitude: Double, longitude: Double){
         Connectivity.sharedInstance.getAddressFromCoordinate(latitude, longitude: longitude) { (routePoint, error) in
             if let destination = routePoint {
                 if let _ = self.mapViewModel.origin {
@@ -321,10 +317,10 @@ class MainViewController: UIViewController {
 
         newVC.view.alpha = 0
         newVC.view.layoutIfNeeded()
-        
+
         newVC.view.alpha = 1.0
         oldVC.view.alpha = 0.0
-        
+
         oldVC.view.removeFromSuperview()
         oldVC.removeFromParentViewController()
         newVC.didMoveToParentViewController(self)
@@ -347,7 +343,7 @@ class MainViewController: UIViewController {
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
             SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
-                
+
                 DBManager.sharedInstance.addRecent(self.mapViewModel.origin!)
                 DBManager.sharedInstance.addRecent(self.mapViewModel.destiny!)
                 self.progressNotification.stopLoadingNotification(self.view)
@@ -573,20 +569,20 @@ extension MainViewController:MapBusRoadDelegate {
 
 // MARK: Custom Navigation bars extension
 extension MainViewController {
-    
+
     func homeNavigationBar(mapModel: MapViewModel){
 
         self.verifySearchStatus(mapModel)
-        
-        let moreSelected:Bool = (self.tabBar.items?.last == self.tabBar.selectedItem) ?? false
-        
+
+        let moreSelected: Bool = (self.tabBar.items?.last == self.tabBar.selectedItem) ?? false
+
         if moreSelected {
             self.logoNavigationBar()
             self.toggleSearchViewContainer(false)
             self.showTabBar()
             self.navigationController?.setNavigationBarHidden(false, animated: false)
         }else{
-            
+
             if mapViewModel.isEmpty() {
                 self.logoNavigationBar()
             }else{
@@ -594,14 +590,14 @@ extension MainViewController {
             }
             self.showTabBar()
             self.navigationController?.setNavigationBarHidden(false, animated: false)
-            
+
             self.toggleSearchViewContainer(true)
             self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
             self.currentViewController = self.mapViewController
-            
+
             self.tabBar.selectedItem = self.tabBar.items?[0]
         }
-       
+
     }
 
     func verifySearchStatus(mapModel: MapViewModel){
@@ -620,11 +616,11 @@ extension MainViewController {
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = nil
     }
-    
+
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.None
     }
-    
+
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
 
@@ -675,8 +671,8 @@ extension MainViewController {
     func addFavoritePlace(){
         self.favoriteViewController.addFavoritePlace()
     }
-    
-    func busesMenuDidExpand(notification:NSNotification){
+
+    func busesMenuDidExpand(notification: NSNotification){
         UIView.animateWithDuration(0.4) {
             self.hideTabBar()
             self.toggleSearchViewContainer(false)
@@ -684,8 +680,8 @@ extension MainViewController {
             self.view.layoutIfNeeded()
         }
     }
-    
-    func busesMenuDidCollapse(notification:NSNotification){
+
+    func busesMenuDidCollapse(notification: NSNotification){
         UIView.animateWithDuration(0.4) {
             self.showTabBar()
             self.toggleSearchViewContainer(true)
@@ -693,5 +689,5 @@ extension MainViewController {
             self.view.layoutIfNeeded()
         }
     }
-    
+
 }
