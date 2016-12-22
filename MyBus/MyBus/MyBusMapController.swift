@@ -264,6 +264,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.busesSearchOptions.busResultDelegate = self
         self.busesSearchOptions.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.busesSearchOptions)
+        
+        self.roadRouteContainerView.clearViewSubviews()
+                
         self.view.addAutoPinnedSubview(self.busesSearchOptions!.view, toView: self.roadRouteContainerView)
         
         self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
