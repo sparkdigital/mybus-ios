@@ -11,8 +11,6 @@ import CoreData
 import Fabric
 import Mapbox
 import RealmSwift
-import Firebase
-import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,11 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Tell Realm to use this new configuration object for the default Realm
         Realm.Configuration.defaultConfiguration = config
-
-        //Initialize Firebase
-        FIRApp.configure()
-
-        //iOS 10 config??
 
         //iOS 9
         let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
