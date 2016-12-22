@@ -93,7 +93,7 @@ extension MoreViewController:UITableViewDataSource {
 //Bus Fares
 extension MoreViewController {
     func showBusFares(sender:AnyObject){
-        LoggingManager.sharedInstance.logSection("Bus Fares")
+        LoggingManager.sharedInstance.logSection(LoggableAppSection.FARES)
         let busesRatesViewController = NavRouter().busesRatesController()
         sender.navigationController??.pushViewController(busesRatesViewController, animated: true)        
     }
@@ -102,6 +102,7 @@ extension MoreViewController {
 //Terms and Conditions
 extension MoreViewController {
     func showTerms(sender:AnyObject){
+        LoggingManager.sharedInstance.logSection(LoggableAppSection.TERMS)
         let termsViewController = NavRouter().termsViewController()
         let navTermsViewController: UINavigationController = UINavigationController(rootViewController: termsViewController)
         
@@ -110,6 +111,7 @@ extension MoreViewController {
         }
         
         sender.presentViewController(navTermsViewController, animated: false, completion: nil)
+        
     }
 }
 
@@ -117,6 +119,8 @@ extension MoreViewController {
 extension MoreViewController {
     
     func showAboutUs(sender:AnyObject){
+        
+        LoggingManager.sharedInstance.logSection(LoggableAppSection.ABOUT)
         
         let x = aboutUsAlertController.view.frame.origin.x
         let y = aboutUsAlertController.view.frame.origin.y

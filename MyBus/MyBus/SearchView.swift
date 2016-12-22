@@ -42,6 +42,7 @@ class SearchView:UIView{
     }
     
     func invertEndpoints(){
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.INVERT_TAPPED)
         self.searchDelegate?.invertSearch()
     }
    

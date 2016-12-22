@@ -45,6 +45,7 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDat
             let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando"), message: Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.ActionSheet)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (_) -> Void in
                 self.favoriteDataSource.removeFavorite(indexPath)
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_DEL_LIST)
                 self.favoriteTableView.reloadData()})
             alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (_) -> Void in
                 self.favoriteTableView.setEditing(false, animated: true)})
@@ -84,6 +85,7 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDat
                     if let p = point {
                         p.name = name
                         self.favoriteDataSource.addFavorite(p)
+                        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_NEW_PLUS)
                         self.favoriteTableView.reloadData()
                     }else{
                         GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos"), "lugar")), message: "No pudimos resolver la dirección de \(streetName+" "+houseNumber) ingresada")
