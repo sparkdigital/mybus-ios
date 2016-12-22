@@ -162,10 +162,12 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
         if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
             if let recentSelected = result as? RecentSuggestion {
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_RECENTS)
                 self.mainViewDelegate?.loadPositionFromFavsRecents(recentSelected.getPoint())
             } else if let placeSelected = result as? SuggestedPlace {
                 self.mainViewDelegate?.loadPositionFromFavsRecents(placeSelected.getPoint())
             } else if let favSelected = result as? FavoriteSuggestion {
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_FAVORITES)
                 self.mainViewDelegate?.loadPositionFromFavsRecents(favSelected.getPoint())
             } else {
                 self.searchBar?.text = "\(result.name) "

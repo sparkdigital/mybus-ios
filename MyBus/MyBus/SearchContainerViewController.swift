@@ -140,8 +140,13 @@ extension SearchContainerViewController:UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         if let searchTerm: String = searchBar.text, let count: Int = searchTerm.characters.count where count > 0 {
-
+            
             self.progressNotification.showLoadingNotification(self.view)
+            
+            if self.suggestionViewController.aSuggestionWasSelected {
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_SUGGESTION)
+            }
+            
             Connectivity.sharedInstance.getCoordinateFromAddress(searchTerm, completionHandler: { (point, error) in
 
                 self.progressNotification.stopLoadingNotification(self.view)

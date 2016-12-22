@@ -226,6 +226,7 @@ class MainViewController: UIViewController {
     }
 
     private func defineOriginDestination(latitude: Double, longitude: Double){
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_LONGPRESS)
         Connectivity.sharedInstance.getAddressFromCoordinate(latitude, longitude: longitude) { (routePoint, error) in
             if let destination = routePoint {
                 if let _ = self.mapViewModel.origin {
@@ -250,6 +251,8 @@ class MainViewController: UIViewController {
         let location = draggedOrigin.coordinate
         progressNotification.showLoadingNotification(self.view)
 
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
+        
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newOrigin = routePoint {
                 self.newOrigin(newOrigin)
@@ -267,6 +270,8 @@ class MainViewController: UIViewController {
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
         progressNotification.showLoadingNotification(self.view)
+        
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
 
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newDestination = routePoint {
@@ -463,7 +468,7 @@ extension MainViewController:UITabBarDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
             self.mapViewController.toggleRechargePoints(nil)
-            LoggingManager.sharedInstance.logSection("Search and Map Visualization")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.MAP)
         }
         if (item.tag == 1){
             self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
@@ -472,7 +477,7 @@ extension MainViewController:UITabBarDelegate {
             let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
             add.tintColor = UIColor.whiteColor()
             self.navigationItem.rightBarButtonItem = add
-            LoggingManager.sharedInstance.logSection("Favourites")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.FAVOURITES)
         }
         if (item.tag == 2){
             self.clearActiveSearch()
@@ -498,14 +503,14 @@ extension MainViewController:UITabBarDelegate {
             } else {
                 GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
-            LoggingManager.sharedInstance.logSection("Recharge Points")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.RECHARGE)
         }
         if (item.tag == 3){
             self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
-            LoggingManager.sharedInstance.logSection("Bus Routes")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.ROUTES)
         }
         if (item.tag == 4){
             self.logoNavigationBar()

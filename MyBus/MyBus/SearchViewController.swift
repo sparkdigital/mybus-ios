@@ -72,6 +72,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
     }
 
     func tappedCurrentLocation(){
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_GPS_SEARCH)
         self.mainViewDelegate?.loadPositionMainView()
     }
 
@@ -86,9 +87,11 @@ class SearchViewController: UIViewController, UITableViewDelegate
 
         switch indexPath.section {
         case 0:
+            LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_RECENTS)
             let selectedRecent = self.streetSuggestionsDataSource.recents[indexPath.row]
             self.mainViewDelegate?.loadPositionFromFavsRecents(selectedRecent)
         case 1:
+            LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_FAVORITES)
             let selectedFavourite = self.streetSuggestionsDataSource.favourites[indexPath.row]
             self.mainViewDelegate?.loadPositionFromFavsRecents(selectedFavourite)
         default:
