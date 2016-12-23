@@ -83,14 +83,17 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         }
         if sender.index == 0 {
             self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "0288D1")
+            LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_GOING_TAPPED)
             self.mapView.addGoingRoute(completeBusRoute)
         } else {
             self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "EE236F")
+            LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_RETURN_TAPPED)
             self.mapView.addReturnRoute(completeBusRoute)
         }
     }
     
     @IBAction func locateUserButtonTap(sender: AnyObject) {
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_GPS_MAP)
         self.mapView.centerMapWithGPSLocation()
     }
     
@@ -189,7 +192,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando") , message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.ActionSheet)
             alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: annotation.title!!)
-            DBManager.sharedInstance.removeFavorite(location)})
+            DBManager.sharedInstance.removeFavorite(location)
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_DEL_MARKER)
+                })
             alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
 
@@ -199,7 +204,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             alert.addTextFieldWithConfigurationHandler({ (textField) in textField.placeholder = "Name" })
             alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: alert.textFields![0].text!)
-            DBManager.sharedInstance.addFavorite(location)})
+            DBManager.sharedInstance.addFavorite(location)
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_NEW_MARKER)
+                })
             alert.addAction(UIAlertAction(title:  Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         default: break
@@ -264,6 +271,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.busesSearchOptions.busResultDelegate = self
         self.busesSearchOptions.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.busesSearchOptions)
+        
+        self.roadRouteContainerView.clearViewSubviews()
+                
         self.view.addAutoPinnedSubview(self.busesSearchOptions!.view, toView: self.roadRouteContainerView)
         
         self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed

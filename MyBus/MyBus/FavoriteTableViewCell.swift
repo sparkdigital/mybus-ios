@@ -51,11 +51,13 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
                         GenerateMessageAlert.generateAlert(nil, title: "Malas noticias ", message: "Lamentablemente no hemos podido localizar la dirección ingresada o ya existe un favorito con esa dirección")
                         self.address.text = fav.address
                         DBManager.sharedInstance.updateFavorite(fav, name: newName, newFavLocation: nil)
+                        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_EDIT_LIST)
                     }
                     ProgressHUD().stopLoadingNotification(nil)
                 })
             } else if newName != fav.name {
                 DBManager.sharedInstance.updateFavorite(fav, name: newName, newFavLocation: nil)
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_EDIT_LIST)
                 ProgressHUD().stopLoadingNotification(nil)
             }
 
