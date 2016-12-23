@@ -254,7 +254,7 @@
 		08E5F53E1DD4C3BA004D0578 /* RoadResultTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResultTest.swift; path = Model/Road/RoadResultTest.swift; sourceTree = "<group>"; };
 		08E5F5401DD4C3E7004D0578 /* RoadSearchTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadSearchTest.swift; path = Model/Road/RoadSearchTest.swift; sourceTree = "<group>"; };
 		08E5F5421DD4C43C004D0578 /* CompleteBusRouteTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompleteBusRouteTest.swift; path = Model/Road/CompleteBusRouteTest.swift; sourceTree = "<group>"; };
-		08EC584D1CBD482400E8410A /* MyBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08EC584D1CBD482400E8410A /* MYBUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MYBUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EC58501CBD482400E8410A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08EC58521CBD482400E8410A /* MyBusMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBusMapController.swift; sourceTree = "<group>"; };
 		08EC58551CBD482400E8410A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -567,7 +567,7 @@
 		08EC584E1CBD482400E8410A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				08EC584D1CBD482400E8410A /* MyBus.app */,
+				08EC584D1CBD482400E8410A /* MYBUS.app */,
 				08EC58641CBD482400E8410A /* MyBusTests.xctest */,
 			);
 			name = Products;
@@ -871,9 +871,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		08EC584C1CBD482400E8410A /* MyBus */ = {
+		08EC584C1CBD482400E8410A /* MYBUS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MyBus" */;
+			buildConfigurationList = 08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MYBUS" */;
 			buildPhases = (
 				DDF201DCC37DEE666EE31C6E /* [CP] Check Pods Manifest.lock */,
 				08EC58491CBD482400E8410A /* Sources */,
@@ -887,9 +887,9 @@
 			);
 			dependencies = (
 			);
-			name = MyBus;
+			name = MYBUS;
 			productName = MyBus;
-			productReference = 08EC584D1CBD482400E8410A /* MyBus.app */;
+			productReference = 08EC584D1CBD482400E8410A /* MYBUS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		08EC58631CBD482400E8410A /* MyBusTests */ = {
@@ -925,7 +925,7 @@
 				TargetAttributes = {
 					08EC584C1CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = VXBU7JZRFH;
+						DevelopmentTeam = S3HBAFMNTV;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -954,7 +954,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				08EC584C1CBD482400E8410A /* MyBus */,
+				08EC584C1CBD482400E8410A /* MYBUS */,
 				08EC58631CBD482400E8410A /* MyBusTests */,
 			);
 		};
@@ -1052,7 +1052,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A6C58A4CF81EC885DE19D94B /* [CP] Copy Pods Resources */ = {
@@ -1112,7 +1112,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E153B35A66E434378C25D819 /* [CP] Copy Pods Resources */ = {
@@ -1269,7 +1269,7 @@
 /* Begin PBXTargetDependency section */
 		08EC58661CBD482400E8410A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 08EC584C1CBD482400E8410A /* MyBus */;
+			target = 08EC584C1CBD482400E8410A /* MYBUS */;
 			targetProxy = 08EC58651CBD482400E8410A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1398,12 +1398,12 @@
 			baseConfigurationReference = AEA4DB90A81953AC2EA7322C /* Pods-MyBus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mario Lucchelli (H3HPJYDJJ4)";
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mybus.mdq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1414,14 +1414,14 @@
 			baseConfigurationReference = 7717A1B83A0E9990CCE0D7D0 /* Pods-MyBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Roberto Claudio Martinez (VXBU7JZRFH)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Mario Lucchelli (S3HBAFMNTV)";
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mybus.mdq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "acdeb20f-eb76-4224-9b7f-a1bfab68fd69";
+				PROVISIONING_PROFILE = "e025cf37-b9cf-4a73-bb9f-a90343b45424";
 			};
 			name = Release;
 		};
@@ -1463,7 +1463,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MyBus" */ = {
+		08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MYBUS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				08EC586E1CBD482400E8410A /* Debug */,
