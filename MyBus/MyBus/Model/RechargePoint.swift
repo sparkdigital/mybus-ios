@@ -68,7 +68,7 @@ extension RechargePoint {
             let minutesDiffClose = NSCalendar.currentCalendar().components(.Minute, fromDate: pointCloseDate, toDate: now, options: []).minute
             var isOpen = minutesDiffOpen >= 0 && minutesDiffClose < 0
 
-            if results.count == 6 {
+            if results.count == 8 {
                 //Hace horario cortado
                 guard let openHour = Int(resultsFiltered[4]), openMinutes = Int(resultsFiltered[5]), closeHour = Int(resultsFiltered[6]), closeMinutes = Int(resultsFiltered[7]) else {
                     self.isOpen = isOpen

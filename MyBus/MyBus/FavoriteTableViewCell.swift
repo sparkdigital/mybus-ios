@@ -69,7 +69,7 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
             return false
         }
         return favorites.filter({ (fav) -> Bool in
-            return fav.latitude == newFav.latitude && fav.longitude == newFav.longitude
+            return ((fav.latitude == newFav.latitude && fav.longitude == newFav.longitude) || fav.address == newFav.address)
         }).count == 0
     }
 

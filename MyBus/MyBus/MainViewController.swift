@@ -138,6 +138,7 @@ class MainViewController: UIViewController {
             let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
             if let url = settingsUrl {
                 UIApplication.sharedApplication().openURL(url)
+                self.alertPresented = false
             }
         }
 
