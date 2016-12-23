@@ -80,6 +80,9 @@ class MainViewController: UIViewController {
     var moreViewController: MoreViewController!
 
     var navRouter: NavRouter!
+    
+    //Control variable for some Reachability flows
+    var alertPresented:Bool = false
 
 
     //Reference to the currentViewController being shown
@@ -188,10 +191,13 @@ class MainViewController: UIViewController {
                 print("Reachable via Cellular")
             }
             alertNetworkNotReachable.dismissViewControllerAnimated(true, completion: nil)
+            alertPresented = false
         } else {
             print("Network not reachable")
-            alertNetworkNotReachable.dismissViewControllerAnimated(false, completion: nil)
-            self.presentViewController(alertNetworkNotReachable, animated: true, completion: nil)
+            if alertNetworkNotReachable.view.window == nil && !alertPresented {
+                self.presentViewController(alertNetworkNotReachable, animated: true, completion: nil)
+                alertPresented = true
+            }
         }
     }
 
