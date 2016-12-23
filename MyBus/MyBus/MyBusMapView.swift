@@ -119,6 +119,7 @@ class MyBusMapView: MGLMapView{
         NSLog("New Origin detected")
         let newOrigin:MyBusMarkerOriginPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerOriginPoint
         
+        clearRechargePointAnnotations()
         removeOriginPoint()
         addAnnotation(newOrigin)
         setCenterCoordinate(newOrigin.coordinate, animated: true)
@@ -152,10 +153,21 @@ class MyBusMapView: MGLMapView{
     func addRoute(notification:NSNotification){
         NSLog("New Route detected")
         let newRoute:MyBusMapRoute = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoute
-        
+        clearRechargePointAnnotations()
+        self.addGoingRoute(newRoute)
+    }
+    
+    func addReturnRoute(route: MyBusMapRoute) {
         clearAnnotations()
-        addAnnotations(newRoute.markers)
-        addAnnotations(newRoute.polyline)
+        addAnnotations(route.returnRouteMarkers)
+        addAnnotation(route.returnRoute)
+        fitToAnnotationsInMap()
+    }
+    
+    func addGoingRoute(route: MyBusMapRoute) {
+        clearAnnotations()
+        addAnnotations(route.goingRouteMarkers)
+        addAnnotation(route.goingRoute)
         fitToAnnotationsInMap()
     }
     

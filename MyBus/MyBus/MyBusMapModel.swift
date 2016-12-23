@@ -25,12 +25,18 @@ class MyBusMapRoad {
 }
 
 class MyBusMapRoute {
+    var goingRouteMarkers: [MyBusMarker]!
+    var goingRoute: MyBusPolyline!
+    
+    var returnRouteMarkers: [MyBusMarker]!
+    var returnRoute: MyBusPolyline!
+    
     var markers:[MyBusMarker]!
     var polyline:[MyBusPolyline]!
 }
 
 
-class MyBusMapModel: NSObject {
+public class MyBusMapModel: NSObject {
     
     static let kPropertyChangedDescriptor:String = "MapPropertyChanged"
     

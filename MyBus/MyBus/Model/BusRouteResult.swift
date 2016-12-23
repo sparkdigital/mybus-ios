@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-class BusRouteResult: NSObject {
+public class BusRouteResult: NSObject {
     var busRouteType: MyBusRouteResultType
     var busRoutes: [BusRoute] = [BusRoute]()
     var combinationDistance: Double = 0.0 //Only used when type is 1

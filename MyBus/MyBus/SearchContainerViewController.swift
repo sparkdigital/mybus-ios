@@ -27,7 +27,7 @@ class SearchContainerViewController: UIViewController {
     weak var currentViewController: UIViewController!
     var searchType: SearchType = SearchType.Origin
     let progressNotification = ProgressHUD()
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,9 +45,9 @@ class SearchContainerViewController: UIViewController {
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController)
         self.view.addAutoPinnedSubview(currentViewController!.view, toView: searchContainerView)
-
-
+        
         self.addressLocationSearchBar.delegate = self
+        self.addressLocationSearchBar.backgroundImage = UIImage()
 
         //Navigation Item configuration
         let cancelButtonItem = UIBarButtonItem(title:  Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(goBackToMap))
@@ -140,8 +140,13 @@ extension SearchContainerViewController:UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         if let searchTerm: String = searchBar.text, let count: Int = searchTerm.characters.count where count > 0 {
-
+            
             self.progressNotification.showLoadingNotification(self.view)
+            
+            if self.suggestionViewController.aSuggestionWasSelected {
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_SUGGESTION)
+            }
+            
             Connectivity.sharedInstance.getCoordinateFromAddress(searchTerm, completionHandler: { (point, error) in
 
                 self.progressNotification.stopLoadingNotification(self.view)
@@ -179,7 +184,7 @@ extension SearchContainerViewController:MainViewDelegate{
         LocationManager.sharedInstance.startUpdatingWithCompletionHandler { (location, error) in
             
             if let _ = error {
-                let title = Localization.getLocalizedString("No_Sabemos")
+                let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
                 let message = Localization.getLocalizedString("No_Pudimos")
                 GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 return
@@ -204,7 +209,7 @@ extension SearchContainerViewController:MainViewDelegate{
                     return self.goBackToMap()
                     
                 }else{
-                    let title = Localization.getLocalizedString("No_Sabemos")
+                    let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
                     let message = Localization.getLocalizedString("No_Pudimos")
                     GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 }

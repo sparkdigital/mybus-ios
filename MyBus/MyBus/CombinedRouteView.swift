@@ -100,7 +100,7 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
                 self.firstDestinationToOriginHeightConstraint.constant = 13
             }else{
                 self.lblWalkDistanceToOrigin.alpha = 1
-                self.lblWalkDistanceToOrigin.text = "Distancia desde el origen: \(roadModel.formattedWalkingDistance(walkDistanceToOrigin))"
+                self.lblWalkDistanceToOrigin.text = "Desde origen: \(roadModel.formattedWalkingDistance(walkDistanceToOrigin))"
                 self.firstDestinationToOriginHeightConstraint.constant = 23
             }
             
@@ -110,7 +110,7 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
                 self.destinationToIntermediateStopHeightConstraint.constant = 13
             }else{
                 self.lblWalkDistanceToIntermediateStop.alpha = 1
-                self.lblWalkDistanceToIntermediateStop.text = "Distancia hasta la parada: \(roadModel.formattedWalkingDistance(walkDistanceCombination))"
+                self.lblWalkDistanceToIntermediateStop.text = "Distancia a parada: \(roadModel.formattedWalkingDistance(walkDistanceCombination))"
                 self.destinationToIntermediateStopHeightConstraint.constant = 23
             }
             
@@ -119,7 +119,7 @@ class CombinedRouteView: UIView, RoutePresenterDelegate {
                 self.lblWalkDistanceToDestination.text = ""
             }else{
                 self.lblWalkDistanceToDestination.alpha = 1
-                self.lblWalkDistanceToDestination.text = "Distancia hasta el destino: \(roadModel.formattedWalkingDistance(walkDistanceToDestination))"
+                self.lblWalkDistanceToDestination.text = "Hasta destino: \(roadModel.formattedWalkingDistance(walkDistanceToDestination))"
             }
             
             self.layoutIfNeeded()

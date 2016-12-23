@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 import Mapbox
 
-class CompleteBusRoute {
+public class CompleteBusRoute {
     var busLineName: String = ""
     var goingPointList: [RoutePoint] = []
     var returnPointList: [RoutePoint] = []

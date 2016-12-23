@@ -9,6 +9,7 @@
 import UIKit
 import Mapbox
 import RealmSwift
+import DZNEmptyDataSet
 
 protocol SuggestionProtocol {
     var name: String { get }
@@ -68,10 +69,12 @@ class RecentSuggestion: SuggestionProtocol {
     }
 }
 
-class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate
+class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
     @IBOutlet weak var searchSuggestionTableView: UITableView!
-
+    
+    //Boolean variable that keeps track when a user taps on a suggestion to give more control on displaying the EmptyDataset legend
+    var aSuggestionWasSelected:Bool = false
     var bestMatches: [SuggestionProtocol] = []
     var suggestionsDataSource: SearchSuggestionsDataSource!
     var searchBarController: UISearchController!
@@ -86,6 +89,12 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.suggestionsDataSource = SearchSuggestionsDataSource()
         self.searchSuggestionTableView.delegate = self
         self.searchSuggestionTableView.dataSource = suggestionsDataSource
+        
+        
+        self.searchSuggestionTableView.emptyDataSetSource = self
+        self.searchSuggestionTableView.emptyDataSetDelegate = self
+        // A little trick for removing the cell separators
+        self.searchSuggestionTableView.tableFooterView = UIView()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -144,6 +153,7 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.bestMatches = []
         self.suggestionsDataSource.bestMatches = self.bestMatches
         self.searchSuggestionTableView.reloadData()
+        self.aSuggestionWasSelected = false
     }
 
     func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -152,14 +162,35 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
         if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
             if let recentSelected = result as? RecentSuggestion {
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_RECENTS)
                 self.mainViewDelegate?.loadPositionFromFavsRecents(recentSelected.getPoint())
             } else if let placeSelected = result as? SuggestedPlace {
                 self.mainViewDelegate?.loadPositionFromFavsRecents(placeSelected.getPoint())
             } else if let favSelected = result as? FavoriteSuggestion {
+                LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_FAVORITES)
                 self.mainViewDelegate?.loadPositionFromFavsRecents(favSelected.getPoint())
             } else {
                 self.searchBar?.text = "\(result.name) "
             }
         }
+        
+        self.aSuggestionWasSelected = true
+    }
+    
+    //MARK: DZNEmptyDataSet setup methods
+    
+    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados_Titulo"))
+    }
+    
+    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        let attributes: [String : AnyObject] = [
+            NSForegroundColorAttributeName: UIColor.lightGrayColor()
+        ]
+        return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados"), attributes: attributes)
+    }
+    
+    func emptyDataSetShouldDisplay(scrollView: UIScrollView!) -> Bool {
+        return !aSuggestionWasSelected
     }
 }

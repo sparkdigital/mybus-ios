@@ -58,16 +58,12 @@ class MainViewController: UIViewController {
 
     //Reference to the container view
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var locateUserButton: UIBarButtonItem!
-
-    @IBOutlet weak var searchToolbar: UIToolbar!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var mapSearchViewContainer: MapSearchViewContainer!
     @IBOutlet weak var mapSearchViewHeightConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var menuTabBar: UITabBar!
     @IBOutlet weak var menuTabBarHeightConstraint: NSLayoutConstraint!
+
     let defaultTabBarHeight: CGFloat = 49
 
     //Temporary model
@@ -79,24 +75,28 @@ class MainViewController: UIViewController {
 
     var searchContainerViewController: SearchContainerViewController!
     var favoriteViewController: FavoriteViewController!
-    var busesRatesViewController: BusesRatesViewController!
     var busesInformationViewController: BusesInformationViewController!
     var busesResultsTableViewController: BusesResultsTableViewController!
+    var moreViewController: MoreViewController!
 
     var navRouter: NavRouter!
+    
+    //Control variable for some Reachability flows
+    var alertPresented:Bool = false
+
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
     let progressNotification = ProgressHUD()
     var reachability: ReachabilityMyBus?
-    
+
     let alertNetworkNotReachable = UIAlertController.init(title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Observamos"), preferredStyle: .ActionSheet)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navRouter = NavRouter()
-        
+
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
         initMapModel()
@@ -107,14 +107,14 @@ class MainViewController: UIViewController {
         addDragDropMarkersObservers()
         addBusesResultsMenuStatusObservers()
         addReachabilityObserver()
-        addAppBecameActiveObserver()        
+        addAppBecameActiveObserver()
     }
 
     func initMapModel() {
         self.mapViewModel = MapViewModel()
         self.mapViewModel.delegate = self
     }
-    
+
     func setupSearchViewContainer(){
         self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
         self.mapSearchViewContainer.layer.borderWidth = 8
@@ -126,7 +126,7 @@ class MainViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
     }
-    
+
     func addBusesResultsMenuStatusObservers(){
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidExpand), name: BusesResultsMenuStatusNotification.Expanded.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidCollapse), name: BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
@@ -143,7 +143,7 @@ class MainViewController: UIViewController {
 
         alertNetworkNotReachable.addAction(settingsAction)
     }
-    
+
     func addAppBecameActiveObserver(){
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: "applicationDidBecomeActive", object: nil)
     }
@@ -175,10 +175,9 @@ class MainViewController: UIViewController {
         self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
         self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
         self.busesResultsTableViewController.mainViewDelegate = self
-
-        self.busesRatesViewController = self.navRouter.busesRatesController() as! BusesRatesViewController
         self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
-        
+        self.moreViewController = self.navRouter.moreViewController() as! MoreViewController
+
         self.tabBar.delegate = self
 
     }
@@ -192,10 +191,13 @@ class MainViewController: UIViewController {
                 print("Reachable via Cellular")
             }
             alertNetworkNotReachable.dismissViewControllerAnimated(true, completion: nil)
+            alertPresented = false
         } else {
             print("Network not reachable")
-            alertNetworkNotReachable.dismissViewControllerAnimated(false, completion: nil)
-            self.presentViewController(alertNetworkNotReachable, animated: true, completion: nil)
+            if alertNetworkNotReachable.view.window == nil && !alertPresented {
+                self.presentViewController(alertNetworkNotReachable, animated: true, completion: nil)
+                alertPresented = true
+            }
         }
     }
 
@@ -206,9 +208,9 @@ class MainViewController: UIViewController {
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
             let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
-            
+
             progressNotification.showLoadingNotification(self.view)
-            
+
             if let annotations = self.mapViewController.mapView.annotations {
                 if( annotations.count > 1 ){
                     self.progressNotification.stopLoadingNotification(self.view)
@@ -228,8 +230,9 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
-    private func defineOriginDestination(latitude : Double, longitude: Double){
+
+    private func defineOriginDestination(latitude: Double, longitude: Double){
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_LONGPRESS)
         Connectivity.sharedInstance.getAddressFromCoordinate(latitude, longitude: longitude) { (routePoint, error) in
             if let destination = routePoint {
                 if let _ = self.mapViewModel.origin {
@@ -254,6 +257,8 @@ class MainViewController: UIViewController {
         let location = draggedOrigin.coordinate
         progressNotification.showLoadingNotification(self.view)
 
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
+        
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newOrigin = routePoint {
                 self.newOrigin(newOrigin)
@@ -271,6 +276,8 @@ class MainViewController: UIViewController {
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
         progressNotification.showLoadingNotification(self.view)
+        
+        LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
 
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newDestination = routePoint {
@@ -321,10 +328,10 @@ class MainViewController: UIViewController {
 
         newVC.view.alpha = 0
         newVC.view.layoutIfNeeded()
-        
+
         newVC.view.alpha = 1.0
         oldVC.view.alpha = 0.0
-        
+
         oldVC.view.removeFromSuperview()
         oldVC.removeFromParentViewController()
         newVC.didMoveToParentViewController(self)
@@ -347,7 +354,7 @@ class MainViewController: UIViewController {
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
             SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
-                
+
                 DBManager.sharedInstance.addRecent(self.mapViewModel.origin!)
                 DBManager.sharedInstance.addRecent(self.mapViewModel.destiny!)
                 self.progressNotification.stopLoadingNotification(self.view)
@@ -467,7 +474,7 @@ extension MainViewController:UITabBarDelegate {
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
             self.currentViewController = mapViewController
             self.mapViewController.toggleRechargePoints(nil)
-            LoggingManager.sharedInstance.logSection("Search and Map Visualization")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.MAP)
         }
         if (item.tag == 1){
             self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
@@ -476,7 +483,7 @@ extension MainViewController:UITabBarDelegate {
             let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
             add.tintColor = UIColor.whiteColor()
             self.navigationItem.rightBarButtonItem = add
-            LoggingManager.sharedInstance.logSection("Favourites")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.FAVOURITES)
         }
         if (item.tag == 2){
             self.clearActiveSearch()
@@ -502,20 +509,20 @@ extension MainViewController:UITabBarDelegate {
             } else {
                 GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("Tuvimos_Problema"), message: Localization.getLocalizedString("No_Pudimos"))
             }
-            LoggingManager.sharedInstance.logSection("Recharge Points")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.RECHARGE)
         }
         if (item.tag == 3){
             self.sectionNavigationBar(Localization.getLocalizedString("Recorridos"))
             self.cycleViewController(self.currentViewController!, toViewController: busesInformationViewController)
             self.currentViewController = busesInformationViewController
             self.busesInformationViewController.searchViewProtocol = self
-            LoggingManager.sharedInstance.logSection("Bus Routes")
+            LoggingManager.sharedInstance.logSection(LoggableAppSection.ROUTES)
         }
         if (item.tag == 4){
-            self.sectionNavigationBar(Localization.getLocalizedString("Tarifas"))
-            self.cycleViewController(self.currentViewController!, toViewController: busesRatesViewController)
-            self.currentViewController = busesRatesViewController            
-            LoggingManager.sharedInstance.logSection("Bus Fares")
+            self.logoNavigationBar()
+            self.toggleSearchViewContainer(false)
+            self.cycleViewController(self.currentViewController!, toViewController: moreViewController)
+            self.currentViewController = moreViewController
         }
     }
 }
@@ -578,18 +585,30 @@ extension MainViewController {
 
         self.verifySearchStatus(mapModel)
 
-        if mapViewModel.isEmpty() {
-            self.logoNavigationBar()
-        }else{
-            self.searchNavigationBar()
-        }
-        self.showTabBar()
-        self.toggleSearchViewContainer(true)
-        self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
-        self.currentViewController = self.mapViewController
+        let moreSelected: Bool = (self.tabBar.items?.last == self.tabBar.selectedItem) ?? false
 
-        self.tabBar.selectedItem = self.tabBar.items?[0]
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        if moreSelected {
+            self.logoNavigationBar()
+            self.toggleSearchViewContainer(false)
+            self.showTabBar()
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+        }else{
+
+            if mapViewModel.isEmpty() {
+                self.logoNavigationBar()
+            }else{
+                self.searchNavigationBar()
+            }
+            self.showTabBar()
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+
+            self.toggleSearchViewContainer(true)
+            self.cycleViewController(self.currentViewController!, toViewController: self.mapViewController)
+            self.currentViewController = self.mapViewController
+
+            self.tabBar.selectedItem = self.tabBar.items?[0]
+        }
+
     }
 
     func verifySearchStatus(mapModel: MapViewModel){
@@ -607,6 +626,10 @@ extension MainViewController {
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = nil
+    }
+
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
     }
 
     func searchNavigationBar(){
@@ -659,8 +682,8 @@ extension MainViewController {
     func addFavoritePlace(){
         self.favoriteViewController.addFavoritePlace()
     }
-    
-    func busesMenuDidExpand(notification:NSNotification){
+
+    func busesMenuDidExpand(notification: NSNotification){
         UIView.animateWithDuration(0.4) {
             self.hideTabBar()
             self.toggleSearchViewContainer(false)
@@ -668,8 +691,8 @@ extension MainViewController {
             self.view.layoutIfNeeded()
         }
     }
-    
-    func busesMenuDidCollapse(notification:NSNotification){
+
+    func busesMenuDidCollapse(notification: NSNotification){
         UIView.animateWithDuration(0.4) {
             self.showTabBar()
             self.toggleSearchViewContainer(true)
@@ -677,5 +700,5 @@ extension MainViewController {
             self.view.layoutIfNeeded()
         }
     }
-    
+
 }
