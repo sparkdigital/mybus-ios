@@ -7,7 +7,7 @@ use_frameworks!
 
 #Pods
 target 'MYBUS' do
-    pod 'Alamofire', '~> 3.3.1'
+    pod 'Alamofire', '~> 4.2'
     pod 'MBProgressHUD', '~> 0.9.2'
     pod 'SwiftyJSON', '~> 2.3.2'
     pod 'Fabric' , '~> 1.6.7'
@@ -25,7 +25,7 @@ target 'MYBUS' do
 end
 
 target 'MyBusTests' do
-    pod 'Alamofire', '~> 3.3.1'
+    pod 'Alamofire', '~> 4.2'
     pod 'MBProgressHUD', '~> 0.9.2'
     pod 'SwiftyJSON', '~> 2.3.2'
     pod 'Fabric' , '~> 1.6.7'

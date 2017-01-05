@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (3.3.1)
+  - Alamofire (4.2.0)
   - BetterSegmentedControl (0.4)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
@@ -52,7 +52,7 @@ PODS:
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.3.1)
+  - Alamofire (~> 4.2)
   - BetterSegmentedControl (= 0.4)
   - Crashlytics (~> 3.7.0)
   - DZNEmptyDataSet (~> 1.8)
@@ -85,7 +85,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/1ec5/RequestKit.git
 
 SPEC CHECKSUMS:
-  Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   BetterSegmentedControl: 982368e9cae749f28b7a2e969a37dcb73c375400
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
@@ -109,6 +109,6 @@ SPEC CHECKSUMS:
   RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 33490915546e120668fb35e634f894f79758c8ae
+PODFILE CHECKSUM: '09f7c0863b5bd3b1b9d3d178bd930f87e6868f46'
 
 COCOAPODS: 1.1.1
