@@ -12,34 +12,34 @@ import UIKit
 extension UIViewController {
     
     enum TransitionType {
-        case Fade, MoveIn, Push, Reveal
+        case fade, moveIn, push, reveal
         
         func localizedDescription() -> String {
             switch self {
-            case .Fade:
+            case .fade:
                 return kCATransitionFade
-            case .MoveIn:
+            case .moveIn:
                 return kCATransitionMoveIn
-            case .Push:
+            case .push:
                 return kCATransitionPush
-            case .Reveal:
+            case .reveal:
                 return kCATransitionReveal
             }
         }
     }
     
     enum TransitionSubtype {
-        case FromLeft, FromRight, FromTop, FromBottom
+        case fromLeft, fromRight, fromTop, fromBottom
         
         func localizedDescription() -> String {
             switch self {
-            case .FromBottom:
+            case .fromBottom:
                 return kCATransitionFromBottom
-            case .FromTop:
+            case .fromTop:
                 return kCATransitionFromTop
-            case .FromLeft:
+            case .fromLeft:
                 return kCATransitionFromLeft
-            case .FromRight:
+            case .fromRight:
                 return kCATransitionFromRight
             }
         }
@@ -56,7 +56,7 @@ extension UIViewController {
             transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             transition.type = transitionType.localizedDescription()
             transition.subtype = transitionSubType?.localizedDescription()
-            target.layer.addAnimation(transition, forKey: kCATransition)
+            target.layer.add(transition, forKey: kCATransition)
             return true
             
         }

@@ -21,20 +21,20 @@ class UserTest: XCTestCase
         super.setUp()
         
         // Favourites
-        let firstFavouriteFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointSingle_1_1", ofType: "json")
-        let secondFavouriteFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointSingle_1_2", ofType: "json")
-        let thirdFavouriteFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointSingle_2_1", ofType: "json")
-        let fourthFavouriteFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointSingle_2_2", ofType: "json")
+        let firstFavouriteFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointSingle_1_1", ofType: "json")
+        let secondFavouriteFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointSingle_1_2", ofType: "json")
+        let thirdFavouriteFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointSingle_2_1", ofType: "json")
+        let fourthFavouriteFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointSingle_2_2", ofType: "json")
         
-        let firstFavouriteJSONData = try! NSData(contentsOfFile: firstFavouriteFilePath!, options:.DataReadingMappedIfSafe)
-        let secondFavouriteJSONData = try! NSData(contentsOfFile: secondFavouriteFilePath!, options:.DataReadingMappedIfSafe)
-        let thirdFavouriteJSONData = try! NSData(contentsOfFile: thirdFavouriteFilePath!, options:.DataReadingMappedIfSafe)
-        let fourthFavouriteJSONData = try! NSData(contentsOfFile: fourthFavouriteFilePath!, options:.DataReadingMappedIfSafe)
+        let firstFavouriteJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstFavouriteFilePath!), options:.mappedIfSafe)
+        let secondFavouriteJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondFavouriteFilePath!), options:.mappedIfSafe)
+        let thirdFavouriteJSONData = try! Data(contentsOf: URL(fileURLWithPath: thirdFavouriteFilePath!), options:.mappedIfSafe)
+        let fourthFavouriteJSONData = try! Data(contentsOf: URL(fileURLWithPath: fourthFavouriteFilePath!), options:.mappedIfSafe)
         
-        let firstFavouriteJSON = try! NSJSONSerialization.JSONObjectWithData(firstFavouriteJSONData, options: .MutableContainers)
-        let secondFavouriteJSON = try! NSJSONSerialization.JSONObjectWithData(secondFavouriteJSONData, options: .MutableContainers)
-        let thirdFavouriteJSON = try! NSJSONSerialization.JSONObjectWithData(thirdFavouriteJSONData, options: .MutableContainers)
-        let fourthFavouriteJSON = try! NSJSONSerialization.JSONObjectWithData(fourthFavouriteJSONData, options: .MutableContainers)
+        let firstFavouriteJSON = try! JSONSerialization.jsonObject(with: firstFavouriteJSONData, options: .mutableContainers)
+        let secondFavouriteJSON = try! JSONSerialization.jsonObject(with: secondFavouriteJSONData, options: .mutableContainers)
+        let thirdFavouriteJSON = try! JSONSerialization.jsonObject(with: thirdFavouriteJSONData, options: .mutableContainers)
+        let fourthFavouriteJSON = try! JSONSerialization.jsonObject(with: fourthFavouriteJSONData, options: .mutableContainers)
         
         let firstFavouriteDictionary = JSON(firstFavouriteJSON)
         let secondFavouriteDictionary = JSON(secondFavouriteJSON)
@@ -49,20 +49,20 @@ class UserTest: XCTestCase
         favourites = [firstFavourite, secondFavourite, thirdFavourite, fourthFavourite]
         
         // Recents
-        let firstRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_1_1", ofType: "json")
-        let secondRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_1_2", ofType: "json")
-        let thirdRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_2_1", ofType: "json")
-        let fourthRecentFilePath = NSBundle(forClass: UserTest.self).pathForResource("RoutePointCombined_2_2", ofType: "json")
+        let firstRecentFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointCombined_1_1", ofType: "json")
+        let secondRecentFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointCombined_1_2", ofType: "json")
+        let thirdRecentFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointCombined_2_1", ofType: "json")
+        let fourthRecentFilePath = Bundle(for: UserTest.self).path(forResource: "RoutePointCombined_2_2", ofType: "json")
         
-        let firstRecentJSONData = try! NSData(contentsOfFile: firstRecentFilePath!, options:.DataReadingMappedIfSafe)
-        let secondRecentJSONData = try! NSData(contentsOfFile: secondRecentFilePath!, options:.DataReadingMappedIfSafe)
-        let thirdRecentJSONData = try! NSData(contentsOfFile: thirdRecentFilePath!, options:.DataReadingMappedIfSafe)
-        let fourthRecentJSONData = try! NSData(contentsOfFile: fourthRecentFilePath!, options:.DataReadingMappedIfSafe)
+        let firstRecentJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstRecentFilePath!), options:.mappedIfSafe)
+        let secondRecentJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondRecentFilePath!), options:.mappedIfSafe)
+        let thirdRecentJSONData = try! Data(contentsOf: URL(fileURLWithPath: thirdRecentFilePath!), options:.mappedIfSafe)
+        let fourthRecentJSONData = try! Data(contentsOf: URL(fileURLWithPath: fourthRecentFilePath!), options:.mappedIfSafe)
 
-        let firstRecentJSON = try! NSJSONSerialization.JSONObjectWithData(firstRecentJSONData, options: .MutableContainers)
-        let secondRecentJSON = try! NSJSONSerialization.JSONObjectWithData(secondRecentJSONData, options: .MutableContainers)
-        let thirdRecentJSON = try! NSJSONSerialization.JSONObjectWithData(thirdRecentJSONData, options: .MutableContainers)
-        let fourthRecentJSON = try! NSJSONSerialization.JSONObjectWithData(fourthRecentJSONData, options: .MutableContainers)
+        let firstRecentJSON = try! JSONSerialization.jsonObject(with: firstRecentJSONData, options: .mutableContainers)
+        let secondRecentJSON = try! JSONSerialization.jsonObject(with: secondRecentJSONData, options: .mutableContainers)
+        let thirdRecentJSON = try! JSONSerialization.jsonObject(with: thirdRecentJSONData, options: .mutableContainers)
+        let fourthRecentJSON = try! JSONSerialization.jsonObject(with: fourthRecentJSONData, options: .mutableContainers)
         
         let firstRecentDictionary = JSON(firstRecentJSON)
         let secondRecentDictionary = JSON(secondRecentJSON)

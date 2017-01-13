@@ -50,8 +50,8 @@ class SearchContainerViewController: UIViewController {
         self.addressLocationSearchBar.backgroundImage = UIImage()
 
         //Navigation Item configuration
-        let cancelButtonItem = UIBarButtonItem(title:  Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(goBackToMap))
-        cancelButtonItem.tintColor = UIColor.whiteColor()
+        let cancelButtonItem = UIBarButtonItem(title:  Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(goBackToMap))
+        cancelButtonItem.tintColor = UIColor.white
 
         self.navigationItem.leftBarButtonItem = cancelButtonItem
         self.navigationItem.title = "Buscar \(self.searchType.rawValue)"
@@ -67,7 +67,7 @@ class SearchContainerViewController: UIViewController {
 
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.addressLocationSearchBar.becomeFirstResponder()
     }
@@ -77,13 +77,13 @@ class SearchContainerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    private func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController){
+    fileprivate func cycleViewController(_ oldVC: UIViewController, toViewController newVC: UIViewController){
 
         if oldVC == newVC {
             return
         }
 
-        oldVC.willMoveToParentViewController(nil)
+        oldVC.willMove(toParentViewController: nil)
         self.addChildViewController(newVC)
 
 
@@ -93,20 +93,20 @@ class SearchContainerViewController: UIViewController {
         newVC.view.alpha = 0
         newVC.view.layoutIfNeeded()
 
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             newVC.view.alpha = 1.0
             oldVC.view.alpha = 0.0
             },
             completion:{ finished in
                 oldVC.view.removeFromSuperview()
                 oldVC.removeFromParentViewController()
-                newVC.didMoveToParentViewController(self)
+                newVC.didMove(toParentViewController: self)
         })
 
     }
 
     func goBackToMap(){
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 
 }
@@ -115,7 +115,7 @@ class SearchContainerViewController: UIViewController {
 // MARK: UISearchBarDelegate protocol methods
 extension SearchContainerViewController:UISearchBarDelegate {
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String){
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
 
         let charCount = searchText.characters.count
 
@@ -137,9 +137,9 @@ extension SearchContainerViewController:UISearchBarDelegate {
         }
     } // called when text changes (including clear)
 
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
-        if let searchTerm: String = searchBar.text, let count: Int = searchTerm.characters.count where count > 0 {
+        if let searchTerm: String = searchBar.text, let count: Int = searchTerm.characters.count, count > 0 {
             
             self.progressNotification.showLoadingNotification(self.view)
             
@@ -219,7 +219,7 @@ extension SearchContainerViewController:MainViewDelegate{
         
     }
 
-    func loadPositionFromFavsRecents(position: RoutePoint) {
+    func loadPositionFromFavsRecents(_ position: RoutePoint) {
         if self.searchType == SearchType.Origin {
             self.busRoadDelegate?.newOrigin(position)
         }else{

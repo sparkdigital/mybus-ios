@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class RoadSearch {
+open class RoadSearch {
     var idFirstLine: Int = 0
     var idSecondLine: Int = 0
     var firstDirection: Int = 0

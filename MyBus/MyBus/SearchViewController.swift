@@ -12,15 +12,15 @@ import RealmSwift
 
 protocol MapBusRoadDelegate {
     //func newBusRoad(mapBusRoad: MapBusRoad)
-    func newResults(busSearchResult: BusSearchResult)
-    func newCompleteBusRoute(route: CompleteBusRoute)
-    func newOrigin(routePoint: RoutePoint?)
-    func newDestination(routePoint: RoutePoint?)
+    func newResults(_ busSearchResult: BusSearchResult)
+    func newCompleteBusRoute(_ route: CompleteBusRoute)
+    func newOrigin(_ routePoint: RoutePoint?)
+    func newDestination(_ routePoint: RoutePoint?)
 }
 
 protocol MainViewDelegate: class {
     func loadPositionMainView()
-    func loadPositionFromFavsRecents(position: RoutePoint)
+    func loadPositionFromFavsRecents(_ position: RoutePoint)
 }
 
 class SearchViewController: UIViewController, UITableViewDelegate
@@ -52,7 +52,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
         self.searchTableView.dataSource = streetSuggestionsDataSource
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tappedCurrentLocation))
-        let view = UINib(nibName:"HeaderTableView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+        let view = UINib(nibName:"HeaderTableView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
         view.addGestureRecognizer(tap)
         self.searchTableView.tableHeaderView = view
 
@@ -60,15 +60,15 @@ class SearchViewController: UIViewController, UITableViewDelegate
         //Custom code
         
         // Listen for keyboard changes (if it's showing or hiding)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWasShown(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWasHidden(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         //You could initialize nonetheless the table footer with a custom height
         self.setupTableViewFooter(kMinimumKeyboardHeight)
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func tappedCurrentLocation(){
@@ -76,14 +76,14 @@ class SearchViewController: UIViewController, UITableViewDelegate
         self.mainViewDelegate?.loadPositionMainView()
     }
 
-    override func viewDidAppear(animated: Bool) {}
+    override func viewDidAppear(_ animated: Bool) {}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         switch indexPath.section {
         case 0:
@@ -100,36 +100,36 @@ class SearchViewController: UIViewController, UITableViewDelegate
     }
     
     // MARK: Keyboard was shown or hidden
-    func keyboardWasShown(sender:NSNotification){
+    func keyboardWasShown(_ sender:Notification){
         self.isSearching = true
         
-        guard let info: NSDictionary = sender.userInfo else {
+        guard let info: NSDictionary = sender.userInfo as NSDictionary? else {
             NSLog("SearchCountry - No user info found in notification")
             return
         }
         
-        guard let value: NSValue = info.valueForKey(UIKeyboardFrameBeginUserInfoKey) as? NSValue else {
+        guard let value: NSValue = info.value(forKey: UIKeyboardFrameBeginUserInfoKey) as? NSValue else {
             NSLog("SearchCountry - No frame found for keyboard in userInfo")
             return
         }
         
         //Get the current keyboard size (I guess it varies across devices)
-        let keyboardSize: CGSize = value.CGRectValue().size
+        let keyboardSize: CGSize = value.cgRectValue.size
         self.setupTableViewFooter(keyboardSize.height + kSearchBarNavBarHeight)
         
     }
     
     // Setup an empty footer
-    func keyboardWasHidden(sender:NSNotification){
+    func keyboardWasHidden(_ sender:Notification){
         self.isSearching = false
         self.setupTableViewFooter(0.0)
     }
     
-    private func setupTableViewFooter(height:CGFloat){
+    fileprivate func setupTableViewFooter(_ height:CGFloat){
         if height > 0.0 {
-            self.searchTableView.tableFooterView = UIView(frame: CGRectMake(0.0,0.0,self.view.frame.width,height))
+            self.searchTableView.tableFooterView = UIView(frame: CGRect(x: 0.0,y: 0.0,width: self.view.frame.width,height: height))
         }else{
-            self.searchTableView.tableFooterView = UIView(frame:CGRectZero)
+            self.searchTableView.tableFooterView = UIView(frame:CGRect.zero)
         }
     }
 }

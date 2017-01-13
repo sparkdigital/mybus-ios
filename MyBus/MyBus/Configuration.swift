@@ -9,26 +9,15 @@
 import Foundation
 
 class Configuration {
-    private static let streetsArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("Streets", ofType: "plist")!)!
-    private static let busessArray = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("BusesRates", ofType: "plist")!)!
-    private static let infoBussesArray = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("BusesRates", ofType: "plist")!)!
-    private static let colorBussesArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("BusColors", ofType: "plist")!)!
-    private static let suggestedPlacesArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("SuggestedPlaces", ofType: "plist")!)!
+    fileprivate static let streetsArray = NSArray(contentsOfFile: Bundle.main.path(forResource: "Streets", ofType: "plist")!)!
+    fileprivate static let busessArray = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "BusesRates", ofType: "plist")!)!
+    fileprivate static let infoBussesArray = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "BusesRates", ofType: "plist")!)!
+    fileprivate static let colorBussesArray = NSArray(contentsOfFile: Bundle.main.path(forResource: "BusColors", ofType: "plist")!)!
+    fileprivate static let suggestedPlacesArray = NSArray(contentsOfFile: Bundle.main.path(forResource: "SuggestedPlaces", ofType: "plist")!)!
 
-    private static let thirdServicesConfiguration = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("AppConfiguration", ofType: "plist")!)!
-
-    // MARK: Gis Service Configuration
-    class func gisMunicipalityApiURL()->String{
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["GisMGPMunicipality"]!!["ApiURL"] as! String
-    }
-
-    class func gisMunicipalityApiWebServicePath()->String{
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["GisMGPMunicipality"]!!["ApiWSPath"] as! String
-    }
-
-    class func gisMunicipalityApiAccessToken()->String{
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["GisMGPMunicipality"]!!["ApiKey"] as! String
-    }
+    fileprivate static let thirdServicesConfiguration = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "AppConfiguration", ofType: "plist")!)!
+    
+    fileprivate static let thirdServicesConfigurationTwo = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "AppConfiguration", ofType: "plist")!)!
 
     class func streetsName() -> [String] {
         return Configuration.streetsArray as! [String]
@@ -39,20 +28,21 @@ class Configuration {
         for item in Configuration.busessArray{
             rates.append((item.key as! String, item.value as! String))
         }
-        var sortedArray = rates.sort { (element1, element2) -> Bool in
+        var sortedArray = rates.sorted { (element1, element2) -> Bool in
             return element1.0 < element2.0
         }
         let aux = sortedArray.popLast()
-        sortedArray.insert(aux!, atIndex: 0)
+        sortedArray.insert(aux!, at: 0)
         return sortedArray
     }
 
     class func bussesInformation() -> [(String, String, String)]{
         var information = [(String, String, String)]()
-        for item in colorBussesArray{
-            information.append(item["id"] as! String, item["name"] as! String, item["color"] as! String)
+        for item in colorBussesArray {
+            var itemTwo = item as! [String: Any]
+            information.append((itemTwo["id"] as! String, itemTwo["name"] as! String, itemTwo["color"] as! String))
         }
-        let sortedArray = information.sort { (element1, element2) -> Bool in
+        let sortedArray = information.sorted { (element1, element2) -> Bool in
             return element1.1 < element2.1
         }
         return sortedArray
@@ -66,29 +56,44 @@ class Configuration {
 
     // MARK: MyBus Service Configuration
     class func myBusApiKey() -> String {
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["MyBus"]!!["ApiKey"] as! String
+        let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
+        let mybus = third["MyBus"] as! NSDictionary
+        
+        return mybus["ApiKey"] as! String
     }
 
     class func myBusApiUrl() -> String {
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["MyBus"]!!["ApiURL"] as! String
+        let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
+        let mybus = third["MyBus"] as! NSDictionary
+        
+        return mybus["ApiURL"] as! String
+//        return Configuration.thirdServicesConfiguration["ThirdServices"]!["MyBus"]!!["ApiURL"] as! String
     }
 
     // MARK: Google GeoCoding Service Configuration
     class func googleGeocodingURL()->String{
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["GoogleGeocoding"]!!["ApiURL"] as! String
+        let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
+        let mybus = third["GoogleGeocoding"] as! NSDictionary
+        
+        return mybus["ApiURL"] as! String
     }
 
     class func googleGeocodingAPIKey()->String{
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["GoogleGeocoding"]!!["ApiKey"] as! String
+        let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
+        let mybus = third["GoogleGeocoding"] as! NSDictionary
+        
+        return mybus["ApiKey"] as! String
     }
 
     // MARK: Flurry SDK Service Configuration
     class func flurryAPIKey()->String{
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["FlurryApiKey"]! as! String
+        let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
+        return third["FlurryApiKey"] as! String
     }
 
     // MARK: MapBox SDK Service Configuration
     class func mapBoxAPIKey()->String{
-        return Configuration.thirdServicesConfiguration["ThirdServices"]!["MapboxAPIKey"]! as! String
+        let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
+        return third["MapboxAPIKey"] as! String
     }
 }

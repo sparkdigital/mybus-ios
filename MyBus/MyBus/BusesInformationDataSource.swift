@@ -17,15 +17,15 @@ class BusesInformationDataSource: NSObject, UITableViewDataSource {
         self.busInformation = Configuration.bussesInformation()
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell: BusesInformationTableViewCell = tableView.dequeueReusableCellWithIdentifier("BusesInformationTableViewCell", forIndexPath: indexPath) as! BusesInformationTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell: BusesInformationTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BusesInformationTableViewCell", for: indexPath) as! BusesInformationTableViewCell
         let (id, busline, color) = busInformation[indexPath.row]
         cell.loadItem(id, busLineName:busline, color: UIColor(hexString: color))
 
         return cell
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return busInformation.count
     }
 

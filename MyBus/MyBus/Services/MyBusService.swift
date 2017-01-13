@@ -10,21 +10,21 @@ import Foundation
 import SwiftyJSON
 
 public enum MyBusRouteResultType {
-    case Combined, Single
+    case combined, single
 }
 
 protocol MyBusServiceDelegate {
-    func searchRoutes(latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: ([BusRouteResult]?, NSError?) -> ())
-    func searchRoads(roadType: MyBusRouteResultType, roadSearch: RoadSearch, completionHandler: (RoadResult?, NSError?) -> ())
-    func getCompleteRoads(idLine: Int, direction: Int, completionHandler: (CompleteBusRoute?, NSError?) -> ())
+    func searchRoutes(_ latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: @escaping ([BusRouteResult]?, Error?) -> ())
+    func searchRoads(_ roadType: MyBusRouteResultType, roadSearch: RoadSearch, completionHandler: @escaping (RoadResult?, Error?) -> ())
+    func getCompleteRoads(_ idLine: Int, direction: Int, completionHandler: @escaping (CompleteBusRoute?, Error?) -> ())
 }
 
-public class MyBusService: NSObject, MyBusServiceDelegate {
+open class MyBusService: NSObject, MyBusServiceDelegate {
 
-    func searchRoutes(latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: ([BusRouteResult]?, NSError?) -> ()) {
+    internal func searchRoutes(_ latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: @escaping ([BusRouteResult]?, Error?) -> ()) {
 
 
-        let request = MyBusRouter.SearchRoutes(latOrigin: latitudeOrigin, lngOrigin: longitudeOrigin, latDest: latitudeDestination, lngDest: longitudeDestination, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).URLRequest
+        let request = try! MyBusRouter.searchRoutes(latOrigin: latitudeOrigin, lngOrigin: longitudeOrigin, latDest: latitudeDestination, lngDest: longitudeDestination, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).asURLRequest()
 
         BaseNetworkService.performRequest(request) { json, error in
             guard let response = json else {
@@ -35,15 +35,13 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
             let results = response["Results"]
             let busResults: [BusRouteResult]
             
-            //print("BusRouteResult: \(json)")
-            
             busResults = BusRouteResult.parseResults(results, type: type)
             completionHandler(busResults, nil)
         }
 
     }
 
-    func searchRoads(roadType: MyBusRouteResultType, roadSearch: RoadSearch, completionHandler: (RoadResult?, NSError?) -> ()) {
+    internal func searchRoads(_ roadType: MyBusRouteResultType, roadSearch: RoadSearch, completionHandler: @escaping (RoadResult?, Error?) -> ()) {
 
         let idFirstLine = roadSearch.idFirstLine
         let idSecondLine = roadSearch.idSecondLine
@@ -59,20 +57,17 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
 
 
 
-        var request: NSURLRequest
+        var request: URLRequest
 
-        if roadType == .Single {
-            request = MyBusRouter.SearchSingleRoad(idLine: idFirstLine, direction: firstDirection, beginStopLine: beginStopFirstLine, endStopLine: endStopFirstLine, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).URLRequest
+        if roadType == .single {
+            request = try! MyBusRouter.searchSingleRoad(idLine: idFirstLine, direction: firstDirection, beginStopLine: beginStopFirstLine, endStopLine: endStopFirstLine, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).asURLRequest()
         }else{
-            request = MyBusRouter.SearchCombinedRoad(idFirstLine: idFirstLine, idSecondLine: idSecondLine, firstDirection: firstDirection, secondDirection: secondDirection, beginStopFirstLine: beginStopFirstLine, endStopFirstLine: endStopFirstLine, beginStopSecondLine: beginStopSecondLine, endStopSecondLine: endStopSecondLine, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).URLRequest
+            request = try! MyBusRouter.searchCombinedRoad(idFirstLine: idFirstLine, idSecondLine: idSecondLine, firstDirection: firstDirection, secondDirection: secondDirection, beginStopFirstLine: beginStopFirstLine, endStopFirstLine: endStopFirstLine, beginStopSecondLine: beginStopSecondLine, endStopSecondLine: endStopSecondLine, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).asURLRequest()
         }
 
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
-                
-                //print("SearchRoads: \(json)")
-                
                 completionHandler(RoadResult.parse(json), nil)
             } else {
                 LoggingManager.sharedInstance.logError("Road Result Search", error: error)
@@ -81,9 +76,9 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
         }
     }
 
-    func getCompleteRoads(idLine: Int, direction: Int, completionHandler: (CompleteBusRoute?, NSError?)->()) -> Void {
-        var request: NSURLRequest
-        request = MyBusRouter.CompleteRoads(idLine: idLine, direction: direction, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).URLRequest
+    internal func getCompleteRoads(_ idLine: Int, direction: Int, completionHandler: @escaping (CompleteBusRoute?, Error?)->()) -> Void {
+        var request: URLRequest
+        request = try! MyBusRouter.completeRoads(idLine: idLine, direction: direction, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).asURLRequest()
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
@@ -98,9 +93,9 @@ public class MyBusService: NSObject, MyBusServiceDelegate {
         }
     }
 
-    func getRechargeCardPoints(latitude: Double, longitude: Double, completionHandler: ([RechargePoint]?, NSError?)-> ()) -> Void {
-        var request: NSURLRequest
-        request = MyBusRouter.RechargeCardPoints(latitude: latitude, longitude: longitude, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).URLRequest
+    internal func getRechargeCardPoints(_ latitude: Double, longitude: Double, completionHandler: @escaping ([RechargePoint]?, Error?)-> ()) -> Void {
+        var request: URLRequest
+        request = try! MyBusRouter.rechargeCardPoints(latitude: latitude, longitude: longitude, accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).asURLRequest()
 
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {

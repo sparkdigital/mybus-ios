@@ -97,7 +97,7 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.searchSuggestionTableView.tableFooterView = UIView()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.suggestionsDataSource.bestMatches = bestMatches
         self.searchSuggestionTableView.reloadData()
 
@@ -108,13 +108,13 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         // Dispose of any resources that can be recreated.
     }
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchBar = searchBar
         self.suggestionsDataSource.bestMatches = self.applyFilter(searchText)
         self.searchSuggestionTableView.reloadData()
     }
 
-    func applyFilter(searchText: String) -> [SuggestionProtocol] {
+    func applyFilter(_ searchText: String) -> [SuggestionProtocol] {
         self.bestMatches = []
 
         if let recents = DBManager.sharedInstance.getRecents() {
@@ -141,7 +141,7 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
             }
         }
         //filter tourist places
-        let touristPlaces = Configuration.suggestedPlaces().filter{($0.name.lowercaseString).containsString(searchText.lowercaseString)}
+        let touristPlaces = Configuration.suggestedPlaces().filter{($0.name.lowercased()).contains(searchText.lowercased())}
         for place in touristPlaces {
             self.bestMatches.append(place)
         }
@@ -156,9 +156,9 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.aSuggestionWasSelected = false
     }
 
-    func  tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func  tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
 
         if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
             if let recentSelected = result as? RecentSuggestion {
@@ -179,18 +179,18 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     
     //MARK: DZNEmptyDataSet setup methods
     
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados_Titulo"))
     }
     
-    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes: [String : AnyObject] = [
-            NSForegroundColorAttributeName: UIColor.lightGrayColor()
+            NSForegroundColorAttributeName: UIColor.lightGray
         ]
         return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados"), attributes: attributes)
     }
     
-    func emptyDataSetShouldDisplay(scrollView: UIScrollView!) -> Bool {
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
         return !aSuggestionWasSelected
     }
 }

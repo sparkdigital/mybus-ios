@@ -11,44 +11,44 @@ import UIKit
 
 class GenerateMessageAlert
 {
-    class func generateAlert(viewController: UIViewController?, title: String, message: String){
-        let alert = UIAlertController.init(title: title, message: message, preferredStyle: .Alert)
-        let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
-        let viewControllerToDisplay = (viewController != nil) ? viewController! : UIApplication.sharedApplication().keyWindow?.rootViewController!
+    class func generateAlert(_ viewController: UIViewController?, title: String, message: String){
+        let alert = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        let viewControllerToDisplay = (viewController != nil) ? viewController! : UIApplication.shared.keyWindow?.rootViewController!
         alert.addAction(action)
-        viewControllerToDisplay!.presentViewController(alert, animated: true, completion: nil)
+        viewControllerToDisplay!.present(alert, animated: true, completion: nil)
     }
     
-    class func generateAlertToSetting(viewController: UIViewController){
+    class func generateAlertToSetting(_ viewController: UIViewController){
         
-        let alertController = UIAlertController (title: "Localización desactivada", message: "Para activar la localización: \n \n \n \n \n", preferredStyle: .Alert)
+        let alertController = UIAlertController (title: "Localización desactivada", message: "Para activar la localización: \n \n \n \n \n", preferredStyle: .alert)
         
         let x = alertController.view.frame.origin.x
         let y = alertController.view.frame.origin.y
-        alertController.view.frame=CGRectMake(x, y, alertController.view.frame.width, alertController.view.frame.height*0.25)
+        alertController.view.frame=CGRect(x: x, y: y, width: alertController.view.frame.width, height: alertController.view.frame.height*0.25)
         
         let stepsView = loadFromNibNamed("StepActivateLocate")
-        stepsView!.frame=CGRectMake(x+25, y+65, (stepsView?.frame.width)!, (stepsView?.frame.height)!)
+        stepsView!.frame=CGRect(x: x+25, y: y+65, width: (stepsView?.frame.width)!, height: (stepsView?.frame.height)!)
         alertController.view.addSubview(stepsView!)
         
-        let settingsAction = UIAlertAction(title: "Configuración", style: .Default) { (_) -> Void in
-            let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
+        let settingsAction = UIAlertAction(title: "Configuración", style: .default) { (_) -> Void in
+            let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
             if let url = settingsUrl {
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             }
         }
         alertController.addAction(settingsAction)
         
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .Default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .default, handler: nil)
         alertController.addAction(cancelAction)
         
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+        viewController.present(alertController, animated: true, completion: nil)
     }
     
-    class func loadFromNibNamed(nibNamed: String, bundle: NSBundle? = nil) -> UIView? {
+    class func loadFromNibNamed(_ nibNamed: String, bundle: Bundle? = nil) -> UIView? {
         return UINib(
             nibName: nibNamed,
             bundle: bundle
-            ).instantiateWithOwner(nil, options: nil)[0] as? UIView
+            ).instantiate(withOwner: nil, options: nil)[0] as? UIView
     }
 }

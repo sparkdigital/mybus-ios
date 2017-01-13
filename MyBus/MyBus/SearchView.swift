@@ -10,8 +10,8 @@ import UIKit
 
 class SearchView:UIView{
     
-    private var nibId:String = "SearchView"
-    private var viewHeight:CGFloat = 84
+    fileprivate var nibId:String = "SearchView"
+    fileprivate var viewHeight:CGFloat = 84
     
     //View Outlets
     @IBOutlet weak var invert: UIButton!
@@ -21,13 +21,13 @@ class SearchView:UIView{
     var searchDelegate:Searchable? {
         didSet {
             if let _ = searchDelegate {
-                invert.addTarget(self, action: #selector(invertEndpoints), forControlEvents: UIControlEvents.TouchUpInside)
+                invert.addTarget(self, action: #selector(invertEndpoints), for: UIControlEvents.touchUpInside)
             }
         }
     }
     
     override init(frame: CGRect) {
-        let rect = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, viewHeight)
+        let rect = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: viewHeight)
         super.init(frame: rect)
         xibSetup(nibIdentifier())
         self.origin.delegate = self
@@ -60,14 +60,14 @@ extension SearchView:SearchPresenter {
         return viewHeight
     }
     
-    func setSearchDelegate(delegate: Searchable) {
+    func setSearchDelegate(_ delegate: Searchable) {
         self.searchDelegate = delegate
     }
 
 }
 
 extension SearchView:UITextFieldDelegate {
-    func textFieldDidBeginEditing(textField: UITextField){
+    func textFieldDidBeginEditing(_ textField: UITextField){
         textField.resignFirstResponder()
         
         if textField == origin {

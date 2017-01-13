@@ -23,8 +23,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     var isMenuExpanded:Bool {
         return (roadRouteContainerHeight.constant == roadRouteContainerHeightExpanded)
     }
-    private let roadRouteContainerHeightCollapsed:CGFloat = 52.0
-    private let roadRouteContainerHeightExpanded:CGFloat = 190.0
+    fileprivate let roadRouteContainerHeightCollapsed:CGFloat = 52.0
+    fileprivate let roadRouteContainerHeightExpanded:CGFloat = 190.0
     
     let progressNotification = ProgressHUD()
 
@@ -48,8 +48,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.mapModel = MyBusMapModel()
 
         initMapboxView()
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.showCenterUserLocation(_:)), name: "applicationDidBecomeActive", object: nil)
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.showCenterUserLocation(_:)), name: NSNotification.Name(rawValue: "applicationDidBecomeActive"), object: nil)
     }
     
     func initMapboxView() {
@@ -57,9 +57,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
 
         // Setup offline pack notification handlers.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.offlinePackProgressDidChange(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
         
     }
     
@@ -77,7 +77,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
     // MARK: - Tapping Methods
 
-    @IBAction func switchRouteVisibleWay(sender: BetterSegmentedControl) {
+    @IBAction func switchRouteVisibleWay(_ sender: BetterSegmentedControl) {
         guard let completeBusRoute = self.mapModel.completeBusRoute else {
             return
         }
@@ -92,17 +92,17 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         }
     }
     
-    @IBAction func locateUserButtonTap(sender: AnyObject) {
+    @IBAction func locateUserButtonTap(_ sender: AnyObject) {
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_GPS_MAP)
         self.mapView.centerMapWithGPSLocation()
     }
     
-    func handleBusesResultMenuClose(recognizer:UIGestureRecognizer){
+    func handleBusesResultMenuClose(_ recognizer:UIGestureRecognizer){
         self.collapseBusesResultsMenu()
-        NSNotificationCenter.defaultCenter().postNotificationName(BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: BusesResultsMenuStatusNotification.Collapsed.rawValue), object: nil)
     }
 
-    func showCenterUserLocation(notification: NSNotification) {
+    func showCenterUserLocation(_ notification: Notification) {
         //Do not center if map already has a origin marker
         guard mapModel.originMarker == nil else {
             return
@@ -122,27 +122,27 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Mapbox delegate methods
 
-    func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
-        if MGLOfflineStorage.sharedOfflineStorage().packs?.count == 0 {
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        if MGLOfflineStorage.shared().packs?.count == 0 {
             //startOfflinePackDownload() Does not download offline maps programatically. //TODO User should agree
         }
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {            
+        let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {            
             self.mapView.centerMapWithGPSLocation(12)
         }
     }
 
-    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
     }
 
-    func existFavoritePlace(address: CLLocationCoordinate2D) -> Bool {
+    func existFavoritePlace(_ address: CLLocationCoordinate2D) -> Bool {
         if let favorites = DBManager.sharedInstance.getFavourites(){
             let filter  = favorites.filter{($0.latitude) == address.latitude && ($0.longitude) == address.longitude}
             return !filter.isEmpty
@@ -150,7 +150,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         return false
     }
 
-    func getLocationByAnnotation(annotation: MGLAnnotation, name: String) -> RoutePoint {
+    func getLocationByAnnotation(_ annotation: MGLAnnotation, name: String) -> RoutePoint {
         let location = RoutePoint()
         location.name = name
         location.latitude = annotation.coordinate.latitude
@@ -164,7 +164,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     /**
      This method sets the button of the annotation
      */
-    func mapView(mapView: MGLMapView, leftCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+    func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
         guard (annotation is MyBusMarkerDestinationPoint || annotation is MyBusMarkerOriginPoint) else {
             return nil
         }
@@ -172,8 +172,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         let alreadyIsFavorite = existFavoritePlace(locationCoordinate)
         let buttonImage = alreadyIsFavorite ? UIImage(named: "tabbar_favourite_fill") : UIImage(named: "tabbar_favourite_line")
 
-        let button = UIButton(type: .DetailDisclosure)
-        button.setImage(buttonImage, forState: UIControlState.Normal)
+        let button = UIButton(type: .detailDisclosure)
+        button.setImage(buttonImage, for: UIControlState())
         button.tag = alreadyIsFavorite ? 0 : 1
         return button
     }
@@ -181,7 +181,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     /**
      This method makes the search when the button is pressed on the annotation
      */
-    func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
         // Hide the callout view.
         mapView.deselectAnnotation(annotation, animated: false)
         progressNotification.showLoadingNotification(self.view)
@@ -189,70 +189,70 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         switch control.tag {
         case 0:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando") , message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.ActionSheet)
-            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
+            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando") , message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.actionSheet)
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: annotation.title!!)
             DBManager.sharedInstance.removeFavorite(location)
                 LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_DEL_MARKER)
                 })
-            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
 
         case 1:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Por_Favor"), preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addTextFieldWithConfigurationHandler({ (textField) in textField.placeholder = "Name" })
-            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
+            let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Por_Favor"), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addTextField(configurationHandler: { (textField) in textField.placeholder = "Name" })
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: alert.textFields![0].text!)
             DBManager.sharedInstance.addFavorite(location)
                 LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_NEW_MARKER)
                 })
-            alert.addAction(UIAlertAction(title:  Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title:  Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         default: break
         }
     }
 
-    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
+    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
         if let myBusMarker = annotation as? MyBusMarker {
             return myBusMarker.markerImage
         }
         return nil
     }
 
-    func mapView(mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
+    func mapView(_ mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
         return self.mapView.defaultAlphaForShapeAnnotation
     }
 
-    func mapView(mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat {
+    func mapView(_ mapView: MGLMapView, lineWidthForPolylineAnnotation annotation: MGLPolyline) -> CGFloat {
         return self.mapView.defaultLineWidthForPolylineAnnotation
     }
 
-    func mapView(mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
+    func mapView(_ mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
         if let annotation = annotation as? MyBusPolyline {
             return annotation.color ?? mapView.tintColor
         }
         return self.mapView.defaultBusPolylineColor
     }
 
-    func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
+    func mapView(_ mapView: MGLMapView, didFailToLocateUserWithError error: Error) {
         print("error locating user: \(error.localizedDescription)")
         GenerateMessageAlert.generateAlertToSetting(self)
     }
 
-    func mapView(mapView: MGLMapView, viewForAnnotation annotation: MGLAnnotation) -> MGLAnnotationView? {
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
         guard let myBusMarker = annotation as? MyBusMarker else {
             return nil
         }
 
-        if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(myBusMarker.markerImageIdentifier!) {
+        if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: myBusMarker.markerImageIdentifier!) {
             return annotationView
         } else {
             return myBusMarker.markerView
         }
     }
     
-    func mapView(mapView: MGLMapView, regionDidChangeAnimated animated: Bool){
+    func mapView(_ mapView: MGLMapView, regionDidChangeAnimated animated: Bool){
         //NSLog("Current Zoom Level = \(mapView.zoomLevel)")
         if let myBusMapView = mapView as? MyBusMapView, let currentRoadBusStopMarkers = self.mapModel.currentRoad?.roadIntermediateBusStopMarkers {
             myBusMapView.addIntermediateBusStopAnnotations(currentRoadBusStopMarkers)
@@ -260,7 +260,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
     
     // MARK: - Mapview bus roads manipulation Methods
-    func addBusLinesResults(busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
+    func addBusLinesResults(_ busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
         
         self.showBusesResultsMenu()
 
@@ -285,7 +285,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         
     }
 
-    func loadBusLineRoad(indexRouteSelected: Int) {
+    func loadBusLineRoad(_ indexRouteSelected: Int) {
         let bus = busResultsDetail[indexRouteSelected]
         
         getRoadForSelectedResult(bus)
@@ -314,11 +314,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func startOfflinePackDownload() {
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.minZoomLevel, toZoomLevel: mapView.maxZoomLevel)
         let userInfo = ["name": "OfflineMap"]
-        let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
+        let context = NSKeyedArchiver.archivedData(withRootObject: userInfo)
 
-        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context) { (pack, error) in
+        MGLOfflineStorage.shared().addPack(for: region, withContext: context) { (pack, error) in
             guard error == nil else {
-                print("Error: \(error?.localizedFailureReason)")
+                print("Error: \(error?.localizedDescription)")
                 return
             }
 
@@ -328,16 +328,16 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
     // MARK: - MGLOfflinePack Notification Handlers
 
-    func offlinePackProgressDidChange(notification: NSNotification) {
+    func offlinePackProgressDidChange(_ notification: Notification) {
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String] {
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String] {
             let progress = pack.progress
             let completedResources = progress.countOfResourcesCompleted
             let expectedResources = progress.countOfResourcesExpected
             let progressPercentage = Float(completedResources) / Float(expectedResources)
 
             if completedResources == expectedResources {
-                let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
+                let byteCount = ByteCountFormatter.string(fromByteCount: Int64(pack.progress.countOfBytesCompleted), countStyle: ByteCountFormatter.CountStyle.memory)
                 print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
             } else {
                 print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
@@ -345,23 +345,23 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         }
     }
 
-    func offlinePackDidReceiveError(notification: NSNotification) {
+    func offlinePackDidReceiveError(_ notification: Notification) {
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
+            let error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
             print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
         }
     }
 
-    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification) {
+    func offlinePackDidReceiveMaximumAllowedMapboxTiles(_ notification: Notification) {
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue {
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
+            let maximumCount = (notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey] as AnyObject).uint64Value {
             print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
         }
     }
     
-    func getRoadForSelectedResult(routeSelectedResult: BusRouteResult?) -> Void {
+    func getRoadForSelectedResult(_ routeSelectedResult: BusRouteResult?) -> Void {
         progressNotification.showLoadingNotification(self.view)
         if let route = routeSelectedResult {
             self.currentRouteDisplayed = route
@@ -379,7 +379,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
 
     //Newest implementation
-    func updateOrigin(newOrigin: RoutePoint?){
+    func updateOrigin(_ newOrigin: RoutePoint?){
         self.clearRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
         hideBusesResultsMenu()
@@ -398,7 +398,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         }
     }
 
-    func updateDestination(newDestination: RoutePoint?){
+    func updateDestination(_ newDestination: RoutePoint?){
         self.clearRouteAnnotations()
         self.mapView.clearExistingBusRoadAnnotations()
         hideBusesResultsMenu()
@@ -412,7 +412,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         }
     }
 
-    func updateRoad(newRoad: RoadResult){
+    func updateRoad(_ newRoad: RoadResult){
         self.clearRouteAnnotations()
         let mapRoad = MyBusMapRoad()
         mapRoad.walkingPath = MyBusPolylineFactory.buildWalkingRoutePolylineList(newRoad)
@@ -422,7 +422,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.mapModel.currentRoad = mapRoad
     }
 
-    func toggleRechargePoints(points: [RechargePoint]?){
+    func toggleRechargePoints(_ points: [RechargePoint]?){
         if let points = points {
             let rechargePointAnnotations = points.map { (point: RechargePoint) -> MyBusMarkerRechargePoint in
                 return MyBusMarkerFactory.createRechargePointMarker(point)
@@ -434,7 +434,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         }
     }
 
-    func updateCompleteBusRoute(newRoute: CompleteBusRoute){
+    func updateCompleteBusRoute(_ newRoute: CompleteBusRoute){
         self.mapModel.originMarker = nil
         self.mapModel.destinationMarker = nil
         self.mapModel.currentRoad = nil
@@ -462,16 +462,16 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
     
     // MARK: BusesResultsMenuViewController protocol delegate methods and additional functions
-    func didSelectBusRouteOption(busRouteSelected:BusRouteResult) {
+    func didSelectBusRouteOption(_ busRouteSelected:BusRouteResult) {
         if let currentRoute = self.currentRouteDisplayed {
             
             if !isMenuExpanded {
                 expandBusesResultsMenu()
-                NSNotificationCenter.defaultCenter().postNotificationName(BusesResultsMenuStatusNotification.Expanded.rawValue, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: BusesResultsMenuStatusNotification.Expanded.rawValue), object: nil)
             }else{
                 if currentRoute == busRouteSelected { //double tapping
                     collapseBusesResultsMenu()
-                    NSNotificationCenter.defaultCenter().postNotificationName(BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: BusesResultsMenuStatusNotification.Collapsed.rawValue), object: nil)
 
                 }
             }
@@ -488,19 +488,19 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     }
     
     func collapseBusesResultsMenu(){
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
             self.toggleClosingHandleContainerView(false)
             self.view.layoutIfNeeded()
-        }
+        }) 
     }
     
     func expandBusesResultsMenu(){
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightExpanded
             self.toggleClosingHandleContainerView(true)
             self.view.layoutIfNeeded()
-        }
+        }) 
     }
     
     func showBusesResultsMenu(){
@@ -512,14 +512,14 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
        self.toggleClosingHandleContainerView(false)
     }
     
-    private func toggleBusesResultsContainerView(show:Bool){
+    fileprivate func toggleBusesResultsContainerView(_ show:Bool){
         self.roadRouteContainerView.alpha = (show) ? CGFloat(1) : CGFloat(0)
-        self.roadRouteContainerView.userInteractionEnabled = show
+        self.roadRouteContainerView.isUserInteractionEnabled = show
         self.roadRouteContainerHeight.constant = (show) ? self.roadRouteContainerHeightExpanded : 0
     }
     
-    private func toggleClosingHandleContainerView(show:Bool){
+    fileprivate func toggleClosingHandleContainerView(_ show:Bool){
         self.busesResultsCloseHandleViewContainer.alpha = (show) ? CGFloat(1) : CGFloat(0)
-        self.busesResultsCloseHandleViewContainer.userInteractionEnabled = show
+        self.busesResultsCloseHandleViewContainer.isUserInteractionEnabled = show
     }
 }

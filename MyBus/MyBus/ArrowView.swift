@@ -13,7 +13,7 @@ import UIKit
 class ArrowView:UIView {
     
     var bezierArrowLayer:CAShapeLayer!
-    @IBInspectable var arrowColor:UIColor = UIColor.orangeColor() {
+    @IBInspectable var arrowColor:UIColor = UIColor.orange {
         didSet{
             layoutSubviews()
         }
@@ -22,24 +22,24 @@ class ArrowView:UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         
         let midHeight:CGFloat = self.bounds.size.height / 2
         let midWidth:CGFloat = self.bounds.width / 2
         let fillPath:UIBezierPath = UIBezierPath()
         
-        fillPath.moveToPoint(CGPointMake(0, midHeight))
-        fillPath.addLineToPoint(CGPointMake(midWidth, 0))
-        fillPath.addLineToPoint(CGPointMake(self.bounds.width, midHeight))
-        fillPath.addLineToPoint(CGPointMake(self.bounds.width, self.bounds.height))
-        fillPath.addLineToPoint(CGPointMake(midWidth, midHeight))
-        fillPath.addLineToPoint(CGPointMake(0, self.bounds.height))
-        fillPath.closePath()
+        fillPath.move(to: CGPoint(x: 0, y: midHeight))
+        fillPath.addLine(to: CGPoint(x: midWidth, y: 0))
+        fillPath.addLine(to: CGPoint(x: self.bounds.width, y: midHeight))
+        fillPath.addLine(to: CGPoint(x: self.bounds.width, y: self.bounds.height))
+        fillPath.addLine(to: CGPoint(x: midWidth, y: midHeight))
+        fillPath.addLine(to: CGPoint(x: 0, y: self.bounds.height))
+        fillPath.close()
         
         bezierArrowLayer = CAShapeLayer()
         bezierArrowLayer.frame = self.bounds
-        bezierArrowLayer.path = fillPath.CGPath
-        bezierArrowLayer.fillColor = arrowColor.CGColor
+        bezierArrowLayer.path = fillPath.cgPath
+        bezierArrowLayer.fillColor = arrowColor.cgColor
         
         layer.addSublayer(bezierArrowLayer)        
     }

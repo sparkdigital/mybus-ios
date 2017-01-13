@@ -10,18 +10,18 @@ import Foundation
 import SwiftyJSON
 
 protocol GeoCodingServiceDelegate {
-    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ())
+    func getCoordinateFromAddress(_ streetName: String, completionHandler: @escaping (RoutePoint?, Error?) -> ())
 }
 
-public class GeoCodingService: NSObject, GeoCodingServiceDelegate {
-    func getCoordinateFromAddress(streetName: String, completionHandler: (RoutePoint?, NSError?) -> ()) {
+open class GeoCodingService: NSObject, GeoCodingServiceDelegate {
+    internal func getCoordinateFromAddress(_ streetName: String, completionHandler: @escaping (RoutePoint?, Error?) -> ()) {
         print("Address to resolve geocoding: \(streetName)")
-
+        
         let address = "\(streetName), mar del plata"
         let components = "administrative_area:General Pueyrredón"
-
-        let request: NSURLRequest = GeoCodingRouter.CoordinateFromAddressComponents(address: address, components: components, key: GeoCodingRouter.GEO_CODING_API_KEY).URLRequest
-
+        
+        let request: URLRequest =  try! GeoCodingRouter.coordinateFromAddressComponents(address: address, components: components, key: GeoCodingRouter.GEO_CODING_API_KEY).asURLRequest()
+        
         BaseNetworkService.performRequest(request) { response, error in
             if let json = response {
                 completionHandler(RoutePoint.parseFromGeoGoogle(json), error)
@@ -29,6 +29,5 @@ public class GeoCodingService: NSObject, GeoCodingServiceDelegate {
                 completionHandler(nil, error)
             }
         }
-
     }
 }

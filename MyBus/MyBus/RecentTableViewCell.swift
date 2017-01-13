@@ -12,7 +12,7 @@ class RecenTableViewCell: UITableViewCell {
 
     @IBOutlet weak var address: UILabel!
 
-    func loadItem(street: String) {
+    func loadItem(_ street: String) {
         self.address.text = street
     }
 }

@@ -10,12 +10,12 @@ import Foundation
 import SwiftyJSON
 import Mapbox
 
-public class CompleteBusRoute {
+open class CompleteBusRoute {
     var busLineName: String = ""
     var goingPointList: [RoutePoint] = []
     var returnPointList: [RoutePoint] = []
 
-    func parseOneWayBusRoute(json: JSON, busLineName: String) -> CompleteBusRoute {
+    func parseOneWayBusRoute(_ json: JSON, busLineName: String) -> CompleteBusRoute {
         let completeBusRoute = CompleteBusRoute()
         completeBusRoute.busLineName = busLineName
 

@@ -12,12 +12,12 @@ import MapKit
 
 protocol GisServiceDelegate {
     func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
-    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
+    func getAddressFromCoordinate(_ latitude: Double, longitude: Double, completionHandler: @escaping (RoutePoint?, NSError?) -> ())
 }
 
-public class GisService: NSObject, GisServiceDelegate {
+open class GisService: NSObject, GisServiceDelegate {
 
-    func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
+    internal func getStreetNamesByFile(forName address: String, completionHandler: ([String]?, NSError?) -> ())
     {
         let streets = Configuration.streetsName()
 
@@ -25,11 +25,11 @@ public class GisService: NSObject, GisServiceDelegate {
             let error: NSError = NSError(domain:"street plist", code:2, userInfo:nil)
             return completionHandler(nil, error)
         }
-        let streetsFiltered = streets.filter{($0.lowercaseString).containsString(address.lowercaseString)}
+        let streetsFiltered = streets.filter{($0.lowercased()).contains(address.lowercased())}
         completionHandler(streetsFiltered, nil)
     }
     
-    func getAllStreetNamesByFile(completionHandler: ([String]?, NSError?) -> ())
+    internal func getAllStreetNamesByFile(_ completionHandler: ([String]?, NSError?) -> ())
     {
         let streets = Configuration.streetsName()
         
@@ -41,7 +41,7 @@ public class GisService: NSObject, GisServiceDelegate {
         completionHandler(streets, nil)
     }
 
-    func getAddressFromCoordinate(latitude: Double, longitude: Double, completionHandler: (RoutePoint?, NSError?) -> ())
+    internal func getAddressFromCoordinate(_ latitude: Double, longitude: Double, completionHandler: @escaping (RoutePoint?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
         let validLocalities = ["general pueyrredón", "mar del plata", "sierra de los padres", "batán"]
@@ -53,7 +53,7 @@ public class GisService: NSObject, GisServiceDelegate {
                 return completionHandler(nil,convertedError)
             }
             
-            guard let locality = placemark?.locality where validLocalities.contains(locality.lowercaseString) else {
+            guard let locality = placemark?.locality, validLocalities.contains(locality.lowercased()) else {
                 let invalidLocalityError = NSError(domain: "Location Error Domain", code: 2, userInfo: [NSLocalizedDescriptionKey:"Invalid locality found"])
                 return completionHandler(nil, invalidLocalityError)
             }
@@ -62,8 +62,8 @@ public class GisService: NSObject, GisServiceDelegate {
             point.latitude = latitude
             point.longitude = longitude
             if let street = placemark?.thoroughfare, let houseNumber = placemark?.subThoroughfare {
-                let streetName = (street as String).stringByReplacingOccurrencesOfString("Calle ", withString: "")
-                let house = (houseNumber as String).componentsSeparatedByString("–").first! ?? ""
+                let streetName = (street as String).replacingOccurrences(of: "Calle ", with: "")
+                let house = (houseNumber as String).components(separatedBy: "–").first! 
                 let address = "\(streetName) \(house)"
                 point.address = address
             } else {

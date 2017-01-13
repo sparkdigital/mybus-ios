@@ -23,7 +23,7 @@ class BusesInformationViewController: UIViewController, UITableViewDelegate
         self.informationTableView.dataSource = busesInformationDataSource
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         progressNotification.showLoadingNotification(self.view)
         let bus = self.busesInformationDataSource.busInformation[indexPath.row]
         let busName = bus.1

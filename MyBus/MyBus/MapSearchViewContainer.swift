@@ -11,7 +11,7 @@ import UIKit
 protocol SearchPresenter{
     func nibIdentifier() -> String
     func preferredHeight() -> CGFloat
-    func setSearchDelegate(delegate:Searchable)    
+    func setSearchDelegate(_ delegate:Searchable)    
 }
 
 class MapSearchViewContainer: UIView {
@@ -22,27 +22,27 @@ class MapSearchViewContainer: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = MapSearchViewContainer.myBusBlueColor
-        self.tintColor = UIColor.clearColor()
+        self.tintColor = UIColor.clear
     }
     
     required init?(coder aDecoder:NSCoder){
         super.init(coder: aDecoder)
         self.backgroundColor = MapSearchViewContainer.myBusBlueColor
-        self.tintColor = UIColor.clearColor()
+        self.tintColor = UIColor.clear
     }
     
     func loadBasicSearch(){
         loadConcreteSearchView(SimpleSearchBarView(frame: bounds))
     }
     
-    func loadComplexSearch(origin:RoutePoint?, destination:RoutePoint?){
+    func loadComplexSearch(_ origin:RoutePoint?, destination:RoutePoint?){
         let complexSearchView = SearchView(frame: bounds)
         complexSearchView.origin.text = origin?.address
         complexSearchView.destination.text = destination?.address
         loadConcreteSearchView(complexSearchView)
     }
     
-    private func loadConcreteSearchView(aPresenter:SearchPresenter){
+    fileprivate func loadConcreteSearchView(_ aPresenter:SearchPresenter){
         clearViewSubviews()
         presenter = aPresenter        
         addAutoPinnedSubview(presenter as! UIView, toView: self)

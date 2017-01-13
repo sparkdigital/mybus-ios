@@ -26,7 +26,7 @@ class GeoCodingServiceTest: XCTestCase
     
     func testResultContentsForCoordinateFromAddress()
     {
-        let coordinateFromAddressExpectation = expectationWithDescription("GeoCodingServiceGatherCoordinateFromAddress")
+        let coordinateFromAddressExpectation = expectation(description: "GeoCodingServiceGatherCoordinateFromAddress")
         
         // El Gaucho Monument's LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -54,7 +54,7 @@ class GeoCodingServiceTest: XCTestCase
             coordinateFromAddressExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(10)
+        waitForExpectations(timeout: 10)
         { error in
             
             if let error = error

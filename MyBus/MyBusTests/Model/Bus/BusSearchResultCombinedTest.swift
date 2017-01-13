@@ -27,20 +27,20 @@ class BusSearchResultCombinedTest: XCTestCase
     {
         super.setUp()
 
-        let firstCombinedRouteFilePath = NSBundle(forClass: BusSearchResultCombinedTest.self).pathForResource("BusRouteResultCombined_1", ofType: "json")
-        let secondCombinedRouteFilePath = NSBundle(forClass: BusSearchResultCombinedTest.self).pathForResource("BusRouteResultCombined_2", ofType: "json")
+        let firstCombinedRouteFilePath = Bundle(for: BusSearchResultCombinedTest.self).path(forResource: "BusRouteResultCombined_1", ofType: "json")
+        let secondCombinedRouteFilePath = Bundle(for: BusSearchResultCombinedTest.self).path(forResource: "BusRouteResultCombined_2", ofType: "json")
         
-        let firstCombinedOriginRoutePointFilePath = NSBundle(forClass: BusSearchResultCombinedTest.self).pathForResource("RoutePointCombined_1_1", ofType: "json")
-        let firstCombinedDestinationRoutePointFilePath = NSBundle(forClass: BusSearchResultCombinedTest.self).pathForResource("RoutePointCombined_1_2", ofType: "json")
-        let secondCombinedOriginRoutePointFilePath = NSBundle(forClass: BusSearchResultCombinedTest.self).pathForResource("RoutePointCombined_2_1", ofType: "json")
-        let secondCombinedDestinationRoutePointFilePath = NSBundle(forClass: BusSearchResultCombinedTest.self).pathForResource("RoutePointCombined_2_2", ofType: "json")
+        let firstCombinedOriginRoutePointFilePath = Bundle(for: BusSearchResultCombinedTest.self).path(forResource: "RoutePointCombined_1_1", ofType: "json")
+        let firstCombinedDestinationRoutePointFilePath = Bundle(for: BusSearchResultCombinedTest.self).path(forResource: "RoutePointCombined_1_2", ofType: "json")
+        let secondCombinedOriginRoutePointFilePath = Bundle(for: BusSearchResultCombinedTest.self).path(forResource: "RoutePointCombined_2_1", ofType: "json")
+        let secondCombinedDestinationRoutePointFilePath = Bundle(for: BusSearchResultCombinedTest.self).path(forResource: "RoutePointCombined_2_2", ofType: "json")
         
         // Combined Routes
-        let firstCombinedRouteJSONData = try! NSData(contentsOfFile: firstCombinedRouteFilePath!, options:.DataReadingMappedIfSafe)
-        let secondCombinedRouteJSONData = try! NSData(contentsOfFile: secondCombinedRouteFilePath!, options:.DataReadingMappedIfSafe)
+        let firstCombinedRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstCombinedRouteFilePath!), options:.mappedIfSafe)
+        let secondCombinedRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondCombinedRouteFilePath!), options:.mappedIfSafe)
         
-        let firstCombinedRouteJSON = try! NSJSONSerialization.JSONObjectWithData(firstCombinedRouteJSONData, options: .MutableContainers)
-        let secondCombinedRouteJSON = try! NSJSONSerialization.JSONObjectWithData(secondCombinedRouteJSONData, options: .MutableContainers)
+        let firstCombinedRouteJSON = try! JSONSerialization.jsonObject(with: firstCombinedRouteJSONData, options: .mutableContainers)
+        let secondCombinedRouteJSON = try! JSONSerialization.jsonObject(with: secondCombinedRouteJSONData, options: .mutableContainers)
         
         var firstCombinedRouteDictionary = JSON(firstCombinedRouteJSON)
         var secondCombinedRouteDictionary = JSON(secondCombinedRouteJSON)
@@ -52,15 +52,15 @@ class BusSearchResultCombinedTest: XCTestCase
         let secondCombinedRouteResults = secondCombinedRouteDictionary["Results"]
         
         // Combined Routes' Points
-        let firstCombinedOriginRoutePointJSONData = try! NSData(contentsOfFile: firstCombinedOriginRoutePointFilePath!, options:.DataReadingMappedIfSafe)
-        let firstCombinedDestinationRoutePointJSONData = try! NSData(contentsOfFile: firstCombinedDestinationRoutePointFilePath!, options:.DataReadingMappedIfSafe)
-        let secondCombinedOriginRoutePointJSONData = try! NSData(contentsOfFile: secondCombinedOriginRoutePointFilePath!, options:.DataReadingMappedIfSafe)
-        let secondCombinedDestinationRoutePointJSONData = try! NSData(contentsOfFile: secondCombinedDestinationRoutePointFilePath!, options:.DataReadingMappedIfSafe)
+        let firstCombinedOriginRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstCombinedOriginRoutePointFilePath!), options:.mappedIfSafe)
+        let firstCombinedDestinationRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstCombinedDestinationRoutePointFilePath!), options:.mappedIfSafe)
+        let secondCombinedOriginRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondCombinedOriginRoutePointFilePath!), options:.mappedIfSafe)
+        let secondCombinedDestinationRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondCombinedDestinationRoutePointFilePath!), options:.mappedIfSafe)
         
-        let firstCombinedOriginRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(firstCombinedOriginRoutePointJSONData, options: .MutableContainers)
-        let firstCombinedDestinationRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(firstCombinedDestinationRoutePointJSONData, options: .MutableContainers)
-        let secondCombinedOriginRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(secondCombinedOriginRoutePointJSONData, options: .MutableContainers)
-        let secondCombinedDestinationRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(secondCombinedDestinationRoutePointJSONData, options: .MutableContainers)
+        let firstCombinedOriginRoutePointJSON = try! JSONSerialization.jsonObject(with: firstCombinedOriginRoutePointJSONData, options: .mutableContainers)
+        let firstCombinedDestinationRoutePointJSON = try! JSONSerialization.jsonObject(with: firstCombinedDestinationRoutePointJSONData, options: .mutableContainers)
+        let secondCombinedOriginRoutePointJSON = try! JSONSerialization.jsonObject(with: secondCombinedOriginRoutePointJSONData, options: .mutableContainers)
+        let secondCombinedDestinationRoutePointJSON = try! JSONSerialization.jsonObject(with: secondCombinedDestinationRoutePointJSONData, options: .mutableContainers)
         
         let firstCombinedOriginRoutePointDictionary = JSON(firstCombinedOriginRoutePointJSON)
         let firstCombinedDestinationRoutePointDictionary = JSON(firstCombinedDestinationRoutePointJSON)

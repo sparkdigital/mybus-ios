@@ -15,7 +15,7 @@ class MyBusPolyline: MGLPolyline {
 
 class MyBusWalkingPolyline: MyBusPolyline {
     override var color: UIColor? {
-        get { return UIColor.grayColor() }
+        get { return UIColor.gray }
         set {}
     }
 }
@@ -35,7 +35,7 @@ class MyBusRoadResultPolyline: MyBusPolyline {
     var busLineIdentifier: String?
     override var color: UIColor? {
         get {
-            let defaultLineColor = UIColor.grayColor()
+            let defaultLineColor = UIColor.gray
             guard let idBusIndex = busLineIdentifier else {
                 return defaultLineColor
             }

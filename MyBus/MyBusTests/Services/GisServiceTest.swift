@@ -31,7 +31,7 @@ class GisServiceTest: XCTestCase
     {
         searchText = "Av "
         
-        let avenuesExpectation = expectationWithDescription("GISServiceGatherAllAvenuesNames")
+        let avenuesExpectation = expectation(description: "GISServiceGatherAllAvenuesNames")
         
         mgpGISService.getStreetNamesByFile(forName: searchText)
         { (streets, error) in
@@ -58,7 +58,7 @@ class GisServiceTest: XCTestCase
             avenuesExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1)
+        waitForExpectations(timeout: 1)
         { error in
             
             if let error = error
@@ -104,7 +104,7 @@ class GisServiceTest: XCTestCase
     {
         searchText = "Diag "
         
-        let diagonalsExpectation = expectationWithDescription("GISServiceGatherAllDiagonalsNames")
+        let diagonalsExpectation = expectation(description: "GISServiceGatherAllDiagonalsNames")
         
         mgpGISService.getStreetNamesByFile(forName: searchText)
         { (streets, error) in
@@ -131,7 +131,7 @@ class GisServiceTest: XCTestCase
             diagonalsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1)
+        waitForExpectations(timeout: 1)
         { error in
             
             if let error = error
@@ -175,7 +175,7 @@ class GisServiceTest: XCTestCase
     
     func testResultContentsForAllStreetsSearch()
     {
-        let allStreetsExpectation = expectationWithDescription("GISServiceGatherAllStreetsNames")
+        let allStreetsExpectation = expectation(description: "GISServiceGatherAllStreetsNames")
         
         mgpGISService.getAllStreetNamesByFile()
             { (streets, error) in
@@ -202,7 +202,7 @@ class GisServiceTest: XCTestCase
                 allStreetsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(5)
+        waitForExpectations(timeout: 5)
         { error in
             
             if let error = error
@@ -244,7 +244,7 @@ class GisServiceTest: XCTestCase
     
     func testResultContentsForAddressFromCoordinate()
     {
-        let addressFromCoordinateExpectation = expectationWithDescription("GISServiceGatherAddressForCoordinate")
+        let addressFromCoordinateExpectation = expectation(description: "GISServiceGatherAddressForCoordinate")
         
         // Spark Digital's Mar del Plata Office LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.019984, longitude: -57.545083)
@@ -270,7 +270,7 @@ class GisServiceTest: XCTestCase
             addressFromCoordinateExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(10)
+        waitForExpectations(timeout: 10)
         { error in
             
             if let error = error

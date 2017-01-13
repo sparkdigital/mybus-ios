@@ -44,7 +44,7 @@ class ConnectivityTest: XCTestCase
     {
         searchText = "Av "
         
-        let avenuesExpectation = expectationWithDescription("ConnectivityGatherAllAvenuesNames")
+        let avenuesExpectation = expectation(description: "ConnectivityGatherAllAvenuesNames")
         
         connectivityService.getStreetNames(forName: searchText)
         { (streets, error) in
@@ -71,7 +71,7 @@ class ConnectivityTest: XCTestCase
             avenuesExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1)
+        waitForExpectations(timeout: 1)
         { error in
             
             if let error = error
@@ -117,7 +117,7 @@ class ConnectivityTest: XCTestCase
     {
         searchText = "Diag "
         
-        let diagonalsExpectation = expectationWithDescription("ConnectivityGatherAllDiagonalsNames")
+        let diagonalsExpectation = expectation(description: "ConnectivityGatherAllDiagonalsNames")
         
         connectivityService.getStreetNames(forName: searchText)
         { (streets, error) in
@@ -144,7 +144,7 @@ class ConnectivityTest: XCTestCase
             diagonalsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1)
+        waitForExpectations(timeout: 1)
         { error in
             
             if let error = error
@@ -188,7 +188,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForAllStreetsSearch()
     {
-        let allStreetsExpectation = expectationWithDescription("ConnectivityGatherAllStreetsNames")
+        let allStreetsExpectation = expectation(description: "ConnectivityGatherAllStreetsNames")
         
         connectivityService.getAllStreetNames()
         { (streets, error) in
@@ -215,7 +215,7 @@ class ConnectivityTest: XCTestCase
             allStreetsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(5)
+        waitForExpectations(timeout: 5)
         { error in
             
             if let error = error
@@ -257,7 +257,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForAddressFromCoordinate()
     {
-        let addressFromCoordinateExpectation = expectationWithDescription("ConnectivityGatherAddressForCoordinate")
+        let addressFromCoordinateExpectation = expectation(description: "ConnectivityGatherAddressForCoordinate")
         
         // Spark Digital's Mar del Plata Office LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.019984, longitude: -57.545083)
@@ -283,7 +283,7 @@ class ConnectivityTest: XCTestCase
             addressFromCoordinateExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(10)
+        waitForExpectations(timeout: 10)
         { error in
             
             if let error = error
@@ -325,7 +325,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCoordinateFromAddress()
     {
-        let coordinateFromAddressExpectation = expectationWithDescription("ConnectivityGatherCoordinateFromAddress")
+        let coordinateFromAddressExpectation = expectation(description: "ConnectivityGatherCoordinateFromAddress")
         
         // El Gaucho Monument's LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -353,7 +353,7 @@ class ConnectivityTest: XCTestCase
             coordinateFromAddressExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(60)
+        waitForExpectations(timeout: 60)
         { error in
             
             if let error = error
@@ -396,7 +396,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForBusLinesFromOriginDestinationSingle()
     {
-        let busLinesFromOriginDestinationSingleExpectation = expectationWithDescription("ConnectivityGatherBusLinesFromOriginDestinationSingle")
+        let busLinesFromOriginDestinationSingleExpectation = expectation(description: "ConnectivityGatherBusLinesFromOriginDestinationSingle")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -456,7 +456,7 @@ class ConnectivityTest: XCTestCase
             busLinesFromOriginDestinationSingleExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectations(timeout: 90)
         { error in
             
             if let error = error
@@ -524,7 +524,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForBusLinesFromOriginDestinationCombined()
     {
-        let busLinesFromOriginDestinationCombinedExpectation = expectationWithDescription("ConnectivityGatherBusLinesFromOriginDestinationCombined")
+        let busLinesFromOriginDestinationCombinedExpectation = expectation(description: "ConnectivityGatherBusLinesFromOriginDestinationCombined")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -584,7 +584,7 @@ class ConnectivityTest: XCTestCase
             busLinesFromOriginDestinationCombinedExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(120)
+        waitForExpectations(timeout: 120)
         { error in
             
             if let error = error
@@ -652,7 +652,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForSingleRoadResult()
     {
-        let singleRoadResultExpectation = expectationWithDescription("ConnectivityGatherSingleRoadResult")
+        let singleRoadResultExpectation = expectation(description: "ConnectivityGatherSingleRoadResult")
         
         // Bus 522 | From Origin: "Rosales 3458" to Destination: "Brasil 316"
         let busIDLine:Int = 9
@@ -701,7 +701,7 @@ class ConnectivityTest: XCTestCase
             singleRoadResultExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(60)
+        waitForExpectations(timeout: 60)
         { error in
             
             if let error = error
@@ -766,7 +766,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCombinedRoadResult()
     {
-        let combinedRoadResultExpectation = expectationWithDescription("ConnectivityGatherCombinedRoadResult")
+        let combinedRoadResultExpectation = expectation(description: "ConnectivityGatherCombinedRoadResult")
 
         // Buses 531 -> 511b | From Origin: "Luzuriaga 301" to Destination: "Velez Sarfield 257"
         let firstBusIDLine:Int = 11
@@ -821,7 +821,7 @@ class ConnectivityTest: XCTestCase
             combinedRoadResultExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectations(timeout: 90)
         { error in
             
             if let error = error
@@ -892,7 +892,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCompleteBusRoute531()
     {
-        let completeBusRoute531Expectation = expectationWithDescription("ConnectivityGatherCompleteBusRouteFor531")
+        let completeBusRoute531Expectation = expectation(description: "ConnectivityGatherCompleteBusRouteFor531")
         
         // Bus 531
         let busLineID:Int = 11
@@ -948,7 +948,7 @@ class ConnectivityTest: XCTestCase
         //Get route in going way
         connectivityService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -1020,7 +1020,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCompleteBusRoute542()
     {
-        let completeBusRoute542Expectation = expectationWithDescription("ConnectivityGatherCompleteBusRouteFor542")
+        let completeBusRoute542Expectation = expectation(description: "ConnectivityGatherCompleteBusRouteFor542")
         
         // Bus 542
         let busLineID:Int = 1
@@ -1076,7 +1076,7 @@ class ConnectivityTest: XCTestCase
         //Get route in going way
         connectivityService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -1148,7 +1148,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForRechargePoints()
     {
-        let rechargePointsExpectation = expectationWithDescription("ConnectivityGatherRechargePoints")
+        let rechargePointsExpectation = expectation(description: "ConnectivityGatherRechargePoints")
         
         // Avenida Pedro Luro y Avenida Independencia
         let userLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
@@ -1177,7 +1177,7 @@ class ConnectivityTest: XCTestCase
             rechargePointsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -1224,7 +1224,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForWalkingDirections()
     {
-        let walkingDirectionsExpectation = expectationWithDescription("ConnectivityGatherWalkingDirections")
+        let walkingDirectionsExpectation = expectation(description: "ConnectivityGatherWalkingDirections")
         
         // Avenida Pedro Luro and Avenida Independencia
         // To
@@ -1337,7 +1337,7 @@ class ConnectivityTest: XCTestCase
             walkingDirectionsExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error

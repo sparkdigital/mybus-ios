@@ -14,13 +14,13 @@ class SearchSuggestionsDataSource: NSObject, UITableViewDataSource {
 
     var bestMatches: [SuggestionProtocol] = []
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell: SuggestionSearchTableViewCell = tableView.dequeueReusableCellWithIdentifier("SuggestionSearchTableViewCell", forIndexPath: indexPath) as! SuggestionSearchTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell: SuggestionSearchTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SuggestionSearchTableViewCell", for: indexPath) as! SuggestionSearchTableViewCell
         cell.loadItem(bestMatches[indexPath.row])
         return cell
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bestMatches.count
     }
 

@@ -10,7 +10,7 @@ import UIKit
 import PageMenu
 
 protocol BusesResultsMenuDelegate {
-    func didSelectBusRouteOption(busRouteSelected:BusRouteResult)
+    func didSelectBusRouteOption(_ busRouteSelected:BusRouteResult)
 }
 
 enum BusesResultsMenuStatusNotification:String {
@@ -32,7 +32,7 @@ class BusesResultsMenuViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    func setup(busOptions:[BusRouteResult]?){
+    func setup(_ busOptions:[BusRouteResult]?){
         
         self.busRouteOptions = busOptions
         
@@ -45,27 +45,27 @@ class BusesResultsMenuViewController: UIViewController {
         }
         
         let parameters: [CAPSPageMenuOption] = [
-            .ScrollMenuBackgroundColor(UIColor(red:0.98, green:0.98, blue:0.98, alpha:1.0)),
-            .ViewBackgroundColor(UIColor.clearColor()),  //color del contenedor debajo de la vista del controller, solo funciona si el controller ingresado tiene el backcolor en ClearColor
-            .SelectionIndicatorColor(UIColor.orangeColor()), //color de la linea debajo de la seleccion
-            .SelectionIndicatorHeight(2.0), //linea corta debajo de la seleccion
-            .AddBottomMenuHairline(false), //linea continua debajo del menu
-            .BottomMenuHairlineColor(UIColor.greenColor()),//color de la linea continua debajo del menu
-            .MenuItemFont(UIFont(name: "HelveticaNeue", size: 20.0)!),
-            .MenuHeight(50.0),
-            .MenuItemWidthBasedOnTitleTextWidth(true),
-            .SelectedMenuItemLabelColor(UIColor.orangeColor()), //color del tab seleccionado,
-            .UnselectedMenuItemLabelColor(UIColor.blackColor())
+            .scrollMenuBackgroundColor(UIColor(red:0.98, green:0.98, blue:0.98, alpha:1.0)),
+            .viewBackgroundColor(UIColor.clear),  //color del contenedor debajo de la vista del controller, solo funciona si el controller ingresado tiene el backcolor en ClearColor
+            .selectionIndicatorColor(UIColor.orange), //color de la linea debajo de la seleccion
+            .selectionIndicatorHeight(2.0), //linea corta debajo de la seleccion
+            .addBottomMenuHairline(false), //linea continua debajo del menu
+            .bottomMenuHairlineColor(UIColor.green),//color de la linea continua debajo del menu
+            .menuItemFont(UIFont(name: "HelveticaNeue", size: 20.0)!),
+            .menuHeight(50.0),
+            .menuItemWidthBasedOnTitleTextWidth(true),
+            .selectedMenuItemLabelColor(UIColor.orange), //color del tab seleccionado,
+            .unselectedMenuItemLabelColor(UIColor.black)
         ]
         
-        let layoutFrameFull:CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        let layoutFrameFull:CGRect = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         
         initializeTabbedMenu(controllerArray, parameters: parameters, frame: layoutFrameFull, delegate: self)
        
     }
     
     
-    func initializeTabbedMenu(controllers:[BusResultViewController], parameters:[CAPSPageMenuOption], frame:CGRect, delegate:CAPSPageMenuDelegate?) {
+    func initializeTabbedMenu(_ controllers:[BusResultViewController], parameters:[CAPSPageMenuOption], frame:CGRect, delegate:CAPSPageMenuDelegate?) {
         
         pageMenu = CAPSPageMenu(viewControllers: controllers, frame: frame, pageMenuOptions: parameters)
         pageMenu?.delegate = delegate
@@ -74,7 +74,7 @@ class BusesResultsMenuViewController: UIViewController {
         
     }
     
-    func buildControllers(results:[BusRouteResult]) -> [BusResultViewController]{
+    func buildControllers(_ results:[BusRouteResult]) -> [BusResultViewController]{
         
         return results.map({ (routeResult) -> BusResultViewController in
             let busResultVC = BusResultViewController()
@@ -84,7 +84,7 @@ class BusesResultsMenuViewController: UIViewController {
         
     }
     
-    func setOptionSelected(preselectedIndex:Int){
+    func setOptionSelected(_ preselectedIndex:Int){
         if let _ = busRouteOptions?[preselectedIndex] {
             self.currentRouteSelectedViewController = controllerArray[preselectedIndex]
             self.pageMenu?.moveToPage(preselectedIndex)
@@ -92,7 +92,7 @@ class BusesResultsMenuViewController: UIViewController {
         return
     }
     
-    func updateCurrentOptionWithFetchedRoad(roadResult:RoadResult){
+    func updateCurrentOptionWithFetchedRoad(_ roadResult:RoadResult){
         if let current = self.currentRouteSelectedViewController {
             current.roadResult = roadResult
         }
@@ -108,11 +108,11 @@ class BusesResultsMenuViewController: UIViewController {
 
 extension BusesResultsMenuViewController:CAPSPageMenuDelegate {
     
-    func willMoveToPage(controller: UIViewController, index: Int){
+    func willMoveToPage(_ controller: UIViewController, index: Int){
         //NSLog("moving to page")
     }
     
-    func didMoveToPage(controller: UIViewController, index: Int){
+    func didMoveToPage(_ controller: UIViewController, index: Int){
         
         //NSLog("did move to page")
         guard let currentOption = controller as? BusResultViewController else {

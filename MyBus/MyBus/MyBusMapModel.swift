@@ -36,7 +36,7 @@ class MyBusMapRoute {
 }
 
 
-public class MyBusMapModel: NSObject {
+open class MyBusMapModel: NSObject {
     
     static let kPropertyChangedDescriptor:String = "MapPropertyChanged"
     
@@ -64,7 +64,7 @@ public class MyBusMapModel: NSObject {
     // Recharge Points to display
     var rechargePointList:[MyBusMarkerRechargePoint]? {
         didSet {
-            notifyPropertyChanged(MyBusMapModelNotificationKey.rechargePointsChanged, object: rechargePointList)
+            notifyPropertyChanged(MyBusMapModelNotificationKey.rechargePointsChanged, object: rechargePointList as AnyObject?)
         }
     }
     
@@ -89,12 +89,12 @@ public class MyBusMapModel: NSObject {
     }
     
     
-    private func notifyPropertyChanged(propertyKey:MyBusMapModelNotificationKey, object: AnyObject?){
+    fileprivate func notifyPropertyChanged(_ propertyKey:MyBusMapModelNotificationKey, object: AnyObject?){
         if object == nil {
             // Don't send the notification if the property has been set to nil
             NSLog("\(propertyKey.rawValue) is now nil")
         }else{
-            NSNotificationCenter.defaultCenter().postNotificationName(propertyKey.rawValue, object: nil, userInfo: [MyBusMapModel.kPropertyChangedDescriptor:object!])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: propertyKey.rawValue), object: nil, userInfo: [MyBusMapModel.kPropertyChangedDescriptor:object!])
         }        
     }
     

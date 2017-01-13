@@ -33,10 +33,10 @@ class MyBusMapView: MGLMapView{
 
 
     //walkingPathPolylineColor
-    @IBInspectable var walkingPathPolylineColor: UIColor = UIColor.blueColor()
+    @IBInspectable var walkingPathPolylineColor: UIColor = UIColor.blue
 
     //defaultBusPolylineColor
-    @IBInspectable var defaultBusPolylineColor: UIColor = UIColor.grayColor()
+    @IBInspectable var defaultBusPolylineColor: UIColor = UIColor.gray
 
     static let defaultZoomLevel:Double = 16
 
@@ -81,25 +81,25 @@ class MyBusMapView: MGLMapView{
 
     // Methods
 
-    func initialize(delegate: MGLMapViewDelegate){
+    func initialize(_ delegate: MGLMapViewDelegate){
         self.maximumZoomLevel = maxZoomLevel
         self.minimumZoomLevel = minZoomLevel
-        self.userTrackingMode = .None
+        self.userTrackingMode = .none
         self.delegate = delegate
         
         
         // Add observers
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addOriginPoint), name:MyBusMapModelNotificationKey.originChanged.rawValue , object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addDestinationPoint), name: MyBusMapModelNotificationKey.destinationChanged.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRoad), name: MyBusMapModelNotificationKey.currentRoadChanged.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRoute), name: MyBusMapModelNotificationKey.completeRouteChanged.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addRechargePointList), name: MyBusMapModelNotificationKey.rechargePointsChanged.rawValue, object: nil)
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(addOriginPoint), name:NSNotification.Name(rawValue: MyBusMapModelNotificationKey.originChanged.rawValue) , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addDestinationPoint), name: NSNotification.Name(rawValue: MyBusMapModelNotificationKey.destinationChanged.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addRoad), name: NSNotification.Name(rawValue: MyBusMapModelNotificationKey.currentRoadChanged.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addRoute), name: NSNotification.Name(rawValue: MyBusMapModelNotificationKey.completeRouteChanged.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addRechargePointList), name: NSNotification.Name(rawValue: MyBusMapModelNotificationKey.rechargePointsChanged.rawValue), object: nil)
         
     }
     
     deinit{
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func removeOriginPoint(){
@@ -110,23 +110,23 @@ class MyBusMapView: MGLMapView{
         clearAnnotations(self.annotationIsDestination)
     }
 
-    private func getPropertyChangedFromNotification(notification:NSNotification) -> AnyObject {
+    fileprivate func getPropertyChangedFromNotification(_ notification:Notification) -> AnyObject {
         let userInfo:[String : AnyObject] = notification.userInfo as! [String:AnyObject]
         return userInfo[MyBusMapModel.kPropertyChangedDescriptor]!
     }
     
-    func addOriginPoint(notification:NSNotification){
+    func addOriginPoint(_ notification:Notification){
         NSLog("New Origin detected")
         let newOrigin:MyBusMarkerOriginPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerOriginPoint
         
         clearRechargePointAnnotations()
         removeOriginPoint()
         addAnnotation(newOrigin)
-        setCenterCoordinate(newOrigin.coordinate, animated: true)
+        setCenter(newOrigin.coordinate, animated: true)
         selectMyBusAnnotation(newOrigin)
     }
     
-    func addDestinationPoint(notification:NSNotification){
+    func addDestinationPoint(_ notification:Notification){
         NSLog("New Destination detected")
         let newDestination:MyBusMarkerDestinationPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerDestinationPoint
         
@@ -136,7 +136,7 @@ class MyBusMapView: MGLMapView{
         selectMyBusAnnotation(newDestination)
     }
     
-    func addRoad(notification:NSNotification){
+    func addRoad(_ notification:Notification){
         NSLog("New Road detected")
         let newRoad:MyBusMapRoad = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoad
         
@@ -150,28 +150,28 @@ class MyBusMapView: MGLMapView{
     }
     
 
-    func addRoute(notification:NSNotification){
+    func addRoute(_ notification:Notification){
         NSLog("New Route detected")
         let newRoute:MyBusMapRoute = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoute
         clearRechargePointAnnotations()
         self.addGoingRoute(newRoute)
     }
     
-    func addReturnRoute(route: MyBusMapRoute) {
+    func addReturnRoute(_ route: MyBusMapRoute) {
         clearAnnotations()
         addAnnotations(route.returnRouteMarkers)
         addAnnotation(route.returnRoute)
         fitToAnnotationsInMap()
     }
     
-    func addGoingRoute(route: MyBusMapRoute) {
+    func addGoingRoute(_ route: MyBusMapRoute) {
         clearAnnotations()
         addAnnotations(route.goingRouteMarkers)
         addAnnotation(route.goingRoute)
         fitToAnnotationsInMap()
     }
     
-    func addRechargePointList(notification:NSNotification){
+    func addRechargePointList(_ notification:Notification){
         NSLog("New recharge list detected")
         let newRechargePoints:[MyBusMarkerRechargePoint] = self.getPropertyChangedFromNotification(notification) as! [MyBusMarkerRechargePoint]
         
@@ -179,29 +179,29 @@ class MyBusMapView: MGLMapView{
         fitToAnnotationsInMap()
     }
     
-    func currentGPSLocation(callback:((CLLocation?, error:String?)->Void)){
+    func currentGPSLocation(_ callback:@escaping ((CLLocation?, _ error:String?)->Void)){
         if let gpsLocation = LocationManager.sharedInstance.lastKnownLocation {
-            callback(gpsLocation, error: nil)
+            callback(gpsLocation, nil)
         }else{
             LocationManager.sharedInstance.startUpdatingWithCompletionHandler({ (location, error) in
-                callback(location, error: error)
+                callback(location, error)
             })
         }
         
     }
     
-    func centerMapWithGPSLocation(zoomLevel:Double? = nil) {
+    func centerMapWithGPSLocation(_ zoomLevel:Double? = nil) {
         
         self.currentGPSLocation { (location, error) in
             //App just works in Mar del Plata city, so if user location is outside region, we don't center map
             let mdqRegion = CLCircularRegion(center: CLLocationCoordinate2D(latitude: -37.986422, longitude: -57.608185), radius: 25000, identifier: "Mar del Plata")
             if let gpsLocation = location {
-                guard mdqRegion.containsCoordinate(gpsLocation.coordinate) else {
+                guard mdqRegion.contains(gpsLocation.coordinate) else {
                     return
                 }
             
                 self.showsUserLocation = true
-                self.setCenterCoordinate(gpsLocation.coordinate, zoomLevel: (zoomLevel ?? MyBusMapView.defaultZoomLevel), animated: true)
+                self.setCenter(gpsLocation.coordinate, zoomLevel: (zoomLevel ?? MyBusMapView.defaultZoomLevel), animated: true)
             }else{
                 NSLog("Location Error Ocurred: \(error!)")
             }
@@ -209,13 +209,13 @@ class MyBusMapView: MGLMapView{
         
     }
 
-    func selectMyBusAnnotation(annotation: MyBusMarker) {
+    func selectMyBusAnnotation(_ annotation: MyBusMarker) {
         //To prevent marker from displaying marker callout in a different position
         let seconds = 0.6
         let delay = seconds * Double(NSEC_PER_SEC)  // nanoseconds per seconds
-        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        let dispatchTime = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
         
-        dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+        DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
             
             // here code perfomed with delay
             self.selectAnnotation(annotation, animated: false)
@@ -257,13 +257,13 @@ class MyBusMapView: MGLMapView{
     }
 
     
-    func addIntermediateBusStopAnnotations(roadIntermediateBusStopMarkers:[MyBusMarkerIntermediateBusStopPoint]) {
+    func addIntermediateBusStopAnnotations(_ roadIntermediateBusStopMarkers:[MyBusMarkerIntermediateBusStopPoint]) {
         self.clearIntermediateBusStopAnnotations()
         let candidateAnnotations = self.visibleBusStops(self.zoomLevel, minZoom: self.minZoomLevel, busStopAnnotations: roadIntermediateBusStopMarkers)
         addAnnotations(candidateAnnotations)
     }
     
-    private func clearAnnotations(criteriaClosure: ((MGLAnnotation)->Bool)? = nil){
+    fileprivate func clearAnnotations(_ criteriaClosure: ((MGLAnnotation)->Bool)? = nil){
         guard let annotations = self.annotations else {
             NSLog("No Road annotations were found")
             return
@@ -281,7 +281,7 @@ class MyBusMapView: MGLMapView{
 
     }
     
-    private func visibleBusStops(currentZoom:Double, minZoom:Double, busStopAnnotations:[MGLAnnotation]) -> [MGLAnnotation] {
+    fileprivate func visibleBusStops(_ currentZoom:Double, minZoom:Double, busStopAnnotations:[MGLAnnotation]) -> [MGLAnnotation] {
         
         if !(busStopAnnotations.count > 0) { return []}
         

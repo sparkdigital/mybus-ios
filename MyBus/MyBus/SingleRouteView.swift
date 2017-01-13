@@ -20,8 +20,8 @@ protocol RoutePresenterDelegate {
 class SingleRouteView: UIView, RoutePresenterDelegate {
     
     //Constants
-    private var nibId:String = "SingleRouteView"
-    private var viewHeight:CGFloat = 135
+    fileprivate var nibId:String = "SingleRouteView"
+    fileprivate var viewHeight:CGFloat = 135
     
     //Xib Outlets
     @IBOutlet weak var lblOriginAddress: UILabel!
@@ -48,7 +48,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
     
     //Methods
     override init(frame: CGRect) {
-        let rect = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, viewHeight)
+        let rect = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: viewHeight)
         super.init(frame: rect)
         xibSetup(nibId)
     }
@@ -92,7 +92,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
         let walkDistanceToDestination:Double = roadModel.walkingRoutes.last?.distance ?? 0.0
         
         
-        UIView.animateWithDuration(0.2) {
+        UIView.animate(withDuration: 0.2, animations: {
             if walkDistanceToOrigin < 100.0 {
                 self.lblWalkDistanceToOrigin.alpha = 0
                 self.lblWalkDistanceToOrigin.text = ""
@@ -112,7 +112,7 @@ class SingleRouteView: UIView, RoutePresenterDelegate {
             }
             
             self.layoutIfNeeded()
-        }
+        }) 
        
         
     }

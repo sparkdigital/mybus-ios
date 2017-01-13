@@ -16,8 +16,8 @@ class RoadResult: NSObject {
     var totalDistances: Double = 0.0
     var travelTime: Int = 0
     var arrivalTime: Int = 0
-    var routeList: [Route] = [Route]()
-    var walkingRoutes: [MBRoute] = [MBRoute]()
+    var routeList: [Route] = []
+    var walkingRoutes: [MapboxDirections.Route] = []
     var idBusLine1: String = ""
     var idBusLine2: String = ""
     //Single
@@ -27,7 +27,7 @@ class RoadResult: NSObject {
     var midStartStop: CLLocationCoordinate2D?
     var midEndStop: CLLocationCoordinate2D?
 
-    static func parse(roadResultResponse: JSON) -> RoadResult {
+    static func parse(_ roadResultResponse: JSON) -> RoadResult {
         let singleRoad = RoadResult()
 
         if let type = roadResultResponse["Type"].int {
@@ -67,13 +67,13 @@ class RoadResult: NSObject {
         }
 
         for route in routeList {
-            pointsInRoute.appendContentsOf(route.pointList)
+            pointsInRoute.append(contentsOf: route.pointList)
         }
         return pointsInRoute
     }
 
     func busRouteResultType() -> MyBusRouteResultType {
-        return self.roadResultType == 0 ? .Single : .Combined
+        return self.roadResultType == 0 ? .single : .combined
     }
 
     /**
@@ -81,11 +81,11 @@ class RoadResult: NSObject {
 
      :returns: Completion callback empty
      */
-    func addWalkingDirection(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, completion: ()->()) -> Void {
+    func addWalkingDirection(_ from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, completion: @escaping ()->()) -> Void {
         Connectivity.sharedInstance.getWalkingDirections(from, destinationCoordinate: to) {
             response, error in
-            print(error)
-            if let walkRoute = response?.routes.first {
+            print(error ?? "")
+            if let walkRoute = response {
                 if walkRoute.distance > CLLocationDistance(100) {
                     self.walkingRoutes.append(walkRoute)
                     completion()
@@ -106,7 +106,7 @@ class RoadResult: NSObject {
         return "\(self.travelTime) min"
     }
     
-    func formattedWalkingDistance(walkRouteDistance:Double) -> String {
+    func formattedWalkingDistance(_ walkRouteDistance:Double) -> String {
         let distanceInBlocks = Int(round(walkRouteDistance / 100))
         let suffix = distanceInBlocks == 1 ? "cuadra" : "cuadras"
         return "\(distanceInBlocks) \(suffix)"

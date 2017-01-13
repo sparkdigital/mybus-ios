@@ -28,7 +28,7 @@ class MyBusServiceTest: XCTestCase
     
     func testResultContentsForBusLinesFromOriginDestinationSingle()
     {
-        let busLinesFromOriginDestinationSingleExpectation = expectationWithDescription("MyBusGatherBusLinesFromOriginDestinationSingle")
+        let busLinesFromOriginDestinationSingleExpectation = expectation(description: "MyBusGatherBusLinesFromOriginDestinationSingle")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -88,7 +88,7 @@ class MyBusServiceTest: XCTestCase
             busLinesFromOriginDestinationSingleExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectations(timeout: 90)
         { error in
             
             if let error = error
@@ -156,7 +156,7 @@ class MyBusServiceTest: XCTestCase
     
     func testResultContentsForBusLinesFromOriginDestinationCombined()
     {
-        let busLinesFromOriginDestinationCombinedExpectation = expectationWithDescription("MyBusGatherBusLinesFromOriginDestinationCombined")
+        let busLinesFromOriginDestinationCombinedExpectation = expectation(description: "MyBusGatherBusLinesFromOriginDestinationCombined")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -216,7 +216,7 @@ class MyBusServiceTest: XCTestCase
             busLinesFromOriginDestinationCombinedExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(120)
+        waitForExpectations(timeout: 120)
         { error in
             
             if let error = error
@@ -284,7 +284,7 @@ class MyBusServiceTest: XCTestCase
     
     func testResultContentsForSingleRoadResult()
     {
-        let singleRoadResultExpectation = expectationWithDescription("MyBusGatherSingleRoadResult")
+        let singleRoadResultExpectation = expectation(description: "MyBusGatherSingleRoadResult")
         
         // Bus 522 | From Origin: "Rosales 3458" to Destination: "Brasil 316"
         let busIDLine:Int = 9
@@ -335,7 +335,7 @@ class MyBusServiceTest: XCTestCase
             singleRoadResultExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(60)
+        waitForExpectations(timeout: 60)
         { error in
             
             if let error = error
@@ -402,7 +402,7 @@ class MyBusServiceTest: XCTestCase
     
     func testResultContentsForCombinedRoadResult()
     {
-        let combinedRoadResultExpectation = expectationWithDescription("MyBusGatherCombinedRoadResult")
+        let combinedRoadResultExpectation = expectation(description: "MyBusGatherCombinedRoadResult")
         
         // Buses 531 -> 511b | From Origin: "Luzuriaga 301" to Destination: "Velez Sarfield 257"
         let firstBusIDLine:Int = 11
@@ -459,7 +459,7 @@ class MyBusServiceTest: XCTestCase
             combinedRoadResultExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectations(timeout: 90)
         { error in
             
             if let error = error
@@ -532,7 +532,7 @@ class MyBusServiceTest: XCTestCase
     
     func testResultContentsForCompleteBusRoute531()
     {
-        let completeBusRoute531Expectation = expectationWithDescription("MyBusGatherCompleteBusRouteFor531")
+        let completeBusRoute531Expectation = expectation(description: "MyBusGatherCompleteBusRouteFor531")
         
         // Bus 531
         let busLineID:Int = 11
@@ -588,7 +588,7 @@ class MyBusServiceTest: XCTestCase
         //Get route in going way
         myBusService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -660,7 +660,7 @@ class MyBusServiceTest: XCTestCase
     
     func testResultContentsForCompleteBusRoute542()
     {
-        let completeBusRoute542Expectation = expectationWithDescription("MyBusGatherCompleteBusRouteFor542")
+        let completeBusRoute542Expectation = expectation(description: "MyBusGatherCompleteBusRouteFor542")
         
         // Bus 542
         let busLineID:Int = 1
@@ -716,7 +716,7 @@ class MyBusServiceTest: XCTestCase
         //Get route in going way
         myBusService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -788,7 +788,7 @@ class MyBusServiceTest: XCTestCase
     
     func testResultContentsForRechargePoints()
     {
-        let rechargePointsExpectation = expectationWithDescription("MyBusGatherRechargePoints")
+        let rechargePointsExpectation = expectation(description: "MyBusGatherRechargePoints")
         
         // Avenida Pedro Luro y Avenida Independencia
         
@@ -818,7 +818,7 @@ class MyBusServiceTest: XCTestCase
             rechargePointsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error

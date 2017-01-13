@@ -18,10 +18,10 @@ class RechargePointTest: XCTestCase
     {
         super.setUp()
 
-        let filePath = NSBundle(forClass: BusRouteSingleTest.self).pathForResource("RechargePoints_1", ofType: "json")
+        let filePath = Bundle(for: BusRouteSingleTest.self).path(forResource: "RechargePoints_1", ofType: "json")
 
-        let rechargePointsJSONData = try! NSData(contentsOfFile: filePath!, options:.DataReadingMappedIfSafe)
-        let rechargePointsJSON = try! NSJSONSerialization.JSONObjectWithData(rechargePointsJSONData, options: .MutableContainers)
+        let rechargePointsJSONData = try! Data(contentsOf: URL(fileURLWithPath: filePath!), options:.mappedIfSafe)
+        let rechargePointsJSON = try! JSONSerialization.jsonObject(with: rechargePointsJSONData, options: .mutableContainers)
 
         var rechargePointsDictionary = JSON(rechargePointsJSON)
         let rechargePointsResults = rechargePointsDictionary["Results"]

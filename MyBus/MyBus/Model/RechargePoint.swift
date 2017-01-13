@@ -42,48 +42,60 @@ extension RechargePoint {
         do {
             let digitRegEx = try NSRegularExpression(pattern: "[0-9]{2}", options: [])
             let openTime = openTime as NSString
-            let results = digitRegEx.matchesInString(openTime as String, options: [], range: NSMakeRange(0, openTime.length))
+            let results = digitRegEx.matches(in: openTime as String, options: [], range: NSMakeRange(0, openTime.length))
 
             guard results.count == 4 || results.count == 8 else {
                 self.isOpen = true
                 return
             }
 
-            let resultsFiltered = results.map { openTime.substringWithRange($0.range)}
+            let resultsFiltered = results.map { openTime.substring(with: $0.range)}
 
-            guard let openHour = Int(resultsFiltered[0]), openMinutes = Int(resultsFiltered[1]), closeHour = Int(resultsFiltered[2]), closeMinutes = Int(resultsFiltered[3]) else {
+            guard let openHour = Int(resultsFiltered[0]), let openMinutes = Int(resultsFiltered[1]), let closeHour = Int(resultsFiltered[2]), let closeMinutes = Int(resultsFiltered[3]) else {
                 self.isOpen = true
                 return
             }
 
-            let currentCalendar = NSCalendar.currentCalendar()
-            let now = NSDate()
-            let openDate = currentCalendar.dateBySettingHour(openHour, minute: openMinutes, second: 0, ofDate: NSDate(), options: [])
-            let closeDate = currentCalendar.dateBySettingHour(closeHour, minute: closeMinutes, second: 0, ofDate: NSDate(), options: [])
-            guard let pointOpenDate = openDate, pointCloseDate = closeDate else {
+            let currentCalendar = NSCalendar.current
+            let now = Date()
+            
+            var openDate = currentCalendar.date(bySetting: .hour, value: openHour, of: now)
+            openDate = currentCalendar.date(bySetting: .minute, value: openMinutes, of: openDate!)
+            
+            
+            var closeDate = currentCalendar.date(bySetting: .hour, value: closeHour, of: now)
+            closeDate = currentCalendar.date(bySetting: .minute, value: closeMinutes, of: closeDate!)
+            
+            guard let pointOpenDate = openDate, let pointCloseDate = closeDate else {
                 self.isOpen = true
                 return
             }
-            let minutesDiffOpen = NSCalendar.currentCalendar().components(.Minute, fromDate: pointOpenDate, toDate: now, options: []).minute
-            let minutesDiffClose = NSCalendar.currentCalendar().components(.Minute, fromDate: pointCloseDate, toDate: now, options: []).minute
-            var isOpen = minutesDiffOpen >= 0 && minutesDiffClose < 0
+            
+            let minutesDiffOpen = Calendar.current.dateComponents([.minute], from: pointOpenDate, to: now).minute
+            let minutesDiffClose = Calendar.current.dateComponents([.minute], from: pointCloseDate, to: now).minute
+            
+            
+            var isOpen = minutesDiffOpen! >= 0 && minutesDiffClose! < 0
 
             if results.count == 8 {
                 //Hace horario cortado
-                guard let openHour = Int(resultsFiltered[4]), openMinutes = Int(resultsFiltered[5]), closeHour = Int(resultsFiltered[6]), closeMinutes = Int(resultsFiltered[7]) else {
+                guard let openHour = Int(resultsFiltered[4]), let openMinutes = Int(resultsFiltered[5]), let closeHour = Int(resultsFiltered[6]), let closeMinutes = Int(resultsFiltered[7]) else {
                     self.isOpen = isOpen
                     return
                 }
-
-                let afternoonOpenDate = currentCalendar.dateBySettingHour(openHour, minute: openMinutes, second: 0, ofDate: NSDate(), options: [])
-                let afternoonCloseDate = currentCalendar.dateBySettingHour(closeHour, minute: closeMinutes, second: 0, ofDate: NSDate(), options: [])
-                guard let pointAfternoonOpenDate = afternoonOpenDate, pointAfternoonCloseDate = afternoonCloseDate else {
+                //TODO IT IS NOT WORKING
+                var afternoonOpenDate = currentCalendar.date(bySetting: .hour, value: openHour, of: now)
+                afternoonOpenDate = currentCalendar.date(bySetting: .minute, value: openMinutes, of: afternoonOpenDate!)
+                
+                var afternoonCloseDate = currentCalendar.date(bySetting: .hour, value: closeHour, of: now)
+                afternoonCloseDate = currentCalendar.date(bySetting: .minute, value: closeMinutes, of: afternoonCloseDate!)
+                guard let pointAfternoonOpenDate = afternoonOpenDate, let pointAfternoonCloseDate = afternoonCloseDate else {
                     self.isOpen = true
                     return
                 }
-                let minutesDiffOpen = NSCalendar.currentCalendar().components(.Minute, fromDate: pointAfternoonOpenDate, toDate: now, options: []).minute
-                let minutesDiffClose = NSCalendar.currentCalendar().components(.Minute, fromDate: pointAfternoonCloseDate, toDate: now, options: []).minute
-                isOpen = (minutesDiffOpen >= 0 && minutesDiffClose < 0) || isOpen
+                let minutesDiffOpen = Calendar.current.dateComponents([.minute], from: pointAfternoonOpenDate, to: now).minute
+                let minutesDiffClose = Calendar.current.dateComponents([.minute], from: pointAfternoonCloseDate, to: now).minute
+                isOpen = (minutesDiffOpen! >= 0 && minutesDiffClose! < 0) || isOpen
             }
 
             self.isOpen = isOpen

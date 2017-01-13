@@ -22,19 +22,19 @@ class BusesRatesViewController: UIViewController, UITableViewDelegate
         self.ratesTableView.dataSource = busesRatesDataSource
         
         
-        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
-        backButton.tintColor = UIColor.whiteColor()
+        backButton.tintColor = UIColor.white
         
         self.navigationItem.leftBarButtonItem = backButton
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.title = Localization.getLocalizedString("Tarifas")
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {}
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
     
     func backTapped(){
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
   
 }

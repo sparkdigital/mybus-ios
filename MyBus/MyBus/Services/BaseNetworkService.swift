@@ -15,93 +15,24 @@ enum GeoCodingRouter: URLRequestConvertible{
     static let GEO_CODING_URL: String = Configuration.googleGeocodingURL()
     static let GEO_CODING_API_KEY: String = Configuration.googleGeocodingAPIKey()
 
-    case CoordinateFromAddressComponents(address:String, components:String, key:String)
+    case coordinateFromAddressComponents(address:String, components:String, key:String)
 
-    var URLRequest: NSMutableURLRequest {
-
-        let (path, parameters, encoding, method): (String, [String: AnyObject], ParameterEncoding, Alamofire.Method) = {
-
+    // MARK: URLRequestConvertible
+    
+    func asURLRequest() throws -> URLRequest {
+        let (path, parameters, method): (String, Parameters, String) = {
             switch self {
-                case .CoordinateFromAddressComponents(let address, let components, let key):
-                    let params: [String:AnyObject] = ["address":address, "components":components, "key":key]
-                    return ("/json", params, .URL, .GET)
+            case .coordinateFromAddressComponents(let address, let components, let key):
+                let params: Parameters = ["address":address, "components":components, "key":key]
+                return ("/json", params, "GET")
             }
         }()
-
-
-        let URLRequestString = GeoCodingRouter.GEO_CODING_URL.stringByAppendingURLPath(path).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())! as String
-        let URL = NSURL(string: URLRequestString)
-        let URLRequest = NSMutableURLRequest(URL: URL!)
-
-        URLRequest.HTTPMethod = method.rawValue
-
-        return encoding.encode(URLRequest, parameters: parameters).0
-
-    }
-}
-
-
-enum GISRouter: URLRequestConvertible{
-
-    static let MUNICIPALITY_BASE_URL: String = Configuration.gisMunicipalityApiURL()
-    static let MUNICIPALITY_ACCESS_TOKEN: String = Configuration.gisMunicipalityApiAccessToken()
-    static let MUNICIPALITY_WS_PATH: String = Configuration.gisMunicipalityApiWebServicePath()
-    static let MUNICIPALITY_WS_METHOD: String = "rest"
-
-    /* streetNamesEndpointURL = "\(municipalityBaseURL)&endpoint=callejero_mgp&token=\(municipalityAccessToken)&nombre_calle=" */
-    case StreetNames(street:String)
-
-    /* coordinateToAddressEndpointURL = "\(municipalityBaseURL)&endpoint=coordenada_calleaaltura&token=\(municipalityAccessToken)&latitud=\(latitude)&longitud=\(longitude)"*/
-    case CoordinateToAddress(latitude:Double, longitude:Double)
-
-    /* addressToCoordinateEndpointURL = "\(municipalityBaseURL)&endpoint=callealtura_coordenada&token=\(municipalityAccessToken)" */
-    case AddressToCoordinate(streetCode:String, streetNumber:String)
-
-
-    var URLRequest: NSMutableURLRequest {
-
-        let (path, parameters, encoding, method): (String, [String: AnyObject], ParameterEncoding, Alamofire.Method) = {
-
-            switch self {
-                case .StreetNames(let street):
-                    var params = [String:AnyObject]()
-                    params["method"] = GISRouter.MUNICIPALITY_WS_METHOD
-                    params["endpoint"] = "callejero_mgp"
-                    params["token"] = GISRouter.MUNICIPALITY_ACCESS_TOKEN
-                    params["nombre_calle"] = street
-
-                    return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
-
-                case .CoordinateToAddress(let latitude, let longitude):
-                    var params = [String:AnyObject]()
-                    params["method"] = GISRouter.MUNICIPALITY_WS_METHOD
-                    params["endpoint"] = "coordenada_calleaaltura"
-                    params["token"] = GISRouter.MUNICIPALITY_ACCESS_TOKEN
-                    params["latitud"] = latitude
-                    params["longitud"] = longitude
-
-                    return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
-
-                case .AddressToCoordinate(let streetCode, let streetNumber):
-                    var params = [String:AnyObject]()
-                    params["method"] = GISRouter.MUNICIPALITY_WS_METHOD
-                    params["endpoint"] = "callealtura_coordenada"
-                    params["token"] = GISRouter.MUNICIPALITY_ACCESS_TOKEN
-                    params["codigocalle"] = streetCode
-                    params["altura"] = streetNumber
-
-                    return (GISRouter.MUNICIPALITY_WS_PATH, params, .URL, .GET)
-            }
-
-        }()
-
-        let URL = NSURL(string: GISRouter.MUNICIPALITY_BASE_URL)
-        let URLRequest = NSMutableURLRequest(URL: URL!.URLByAppendingPathComponent(path))
-
-        URLRequest.HTTPMethod = method.rawValue
-
-        return encoding.encode(URLRequest, parameters: parameters).0
-
+        
+        let url = try GeoCodingRouter.GEO_CODING_URL.asURL()
+        var urlRequest = URLRequest(url: url.appendingPathComponent(path))
+        urlRequest.httpMethod = method
+        
+        return try URLEncoding.default.encode(urlRequest, with: parameters)
     }
 }
 
@@ -120,7 +51,7 @@ enum MyBusRouter: URLRequestConvertible{
      // - longitudeDestination
      // - myBusAccessToken
      */
-    case SearchRoutes(latOrigin:Double, lngOrigin:Double, latDest:Double, lngDest:Double, accessToken:String)
+    case searchRoutes(latOrigin:Double, lngOrigin:Double, latDest:Double, lngDest:Double, accessToken:String)
 
 
     /*
@@ -133,7 +64,7 @@ enum MyBusRouter: URLRequestConvertible{
      // - stop2     (endStopFirstLine)
      // - tk        (myBusAccessToken)
      */
-    case SearchSingleRoad(idLine:Int, direction:Int, beginStopLine:Int, endStopLine:Int, accessToken:String)
+    case searchSingleRoad(idLine:Int, direction:Int, beginStopLine:Int, endStopLine:Int, accessToken:String)
 
     /*
      //Search Roads (combined)
@@ -149,13 +80,13 @@ enum MyBusRouter: URLRequestConvertible{
      // - L2stop2    (endStopSecondLine)
      // - tk         (myBusAccessToken)
      */
-    case SearchCombinedRoad(idFirstLine:Int, idSecondLine:Int, firstDirection:Int, secondDirection:Int, beginStopFirstLine:Int, endStopFirstLine:Int, beginStopSecondLine:Int, endStopSecondLine:Int, accessToken:String)
+    case searchCombinedRoad(idFirstLine:Int, idSecondLine:Int, firstDirection:Int, secondDirection:Int, beginStopFirstLine:Int, endStopFirstLine:Int, beginStopSecondLine:Int, endStopSecondLine:Int, accessToken:String)
 
     /*
      //No methods yet
      private let rechargeCardPointsEndpointURL = "\(myBusBaseURL)RechargeCardPointApi.php?"
     */
-    case RechargeCardPoints(latitude: Double, longitude: Double, accessToken: String)
+    case rechargeCardPoints(latitude: Double, longitude: Double, accessToken: String)
 
     /*
      //Complete Roads
@@ -165,40 +96,41 @@ enum MyBusRouter: URLRequestConvertible{
      // - direction (direction)
      // - tk        (myBusAccessToken)
     */
-    case CompleteRoads(idLine: Int, direction: Int, accessToken: String)
+    case completeRoads(idLine: Int, direction: Int, accessToken: String)
 
-    var URLRequest: NSMutableURLRequest {
-
-
-        let (path, parameters, encoding, method): (String, [String: AnyObject], ParameterEncoding, Alamofire.Method) = {
-
+    
+    // MARK: URLRequestConvertible
+    
+    func asURLRequest() throws -> URLRequest {
+        let (path, parameters, method): (String, Parameters, String) = {
+            
             switch self{
-
-            case .SearchRoutes(let latOrigin, let lngOrigin, let latDest, let lngDest, let accessToken):
-
-                var params: [String:AnyObject] = [:]
+                
+            case .searchRoutes(let latOrigin, let lngOrigin, let latDest, let lngDest, let accessToken):
+                
+                var params: Parameters = [:]
                 params["lat0"] = latOrigin
                 params["lng0"] = lngOrigin
                 params["lat1"] = latDest
                 params["lng1"] = lngDest
                 params["tk"]   = accessToken
-
-                return ("NexusApi.php", params, .URL, .GET)
-
-            case .SearchSingleRoad(let idLine, let direction, let beginStopLine, let endStopLine, let accessToken):
-
-                var params: [String:AnyObject] = [:]
+                
+                return ("NexusApi.php", params, "GET")
+                
+            case .searchSingleRoad(let idLine, let direction, let beginStopLine, let endStopLine, let accessToken):
+                
+                var params: Parameters = [:]
                 params["idline"]    = idLine
                 params["direction"] = direction
                 params["stop1"]     = beginStopLine
                 params["stop2"]     = endStopLine
                 params["tk"]        = accessToken
-
-                return ("SingleRoadApi.php", params, .URL, .GET)
-
-            case .SearchCombinedRoad(let idFirstLine, let idSecondLine, let firstDirection, let secondDirection, let beginStopFirstLine, let endStopFirstLine, let beginStopSecondLine, let endStopSecondLine, let accessToken):
-
-                var params: [String:AnyObject] = [:]
+                
+                return ("SingleRoadApi.php", params, "GET")
+                
+            case .searchCombinedRoad(let idFirstLine, let idSecondLine, let firstDirection, let secondDirection, let beginStopFirstLine, let endStopFirstLine, let beginStopSecondLine, let endStopSecondLine, let accessToken):
+                
+                var params: Parameters = [:]
                 params["idline1"] = idFirstLine
                 params["idline2"] = idSecondLine
                 params["direction1"] = firstDirection
@@ -208,38 +140,36 @@ enum MyBusRouter: URLRequestConvertible{
                 params["L2stop1"] = beginStopSecondLine
                 params["L2stop2"] = endStopSecondLine
                 params["tk"] = accessToken
-
-                return ("CombinedRoadApi.php", params, .URL, .GET)
-
-            case .RechargeCardPoints(let latitude, let longitude, let accessToken):
-
-                var params: [String:AnyObject] = [:]
+                
+                return ("CombinedRoadApi.php", params, "GET")
+                
+            case .rechargeCardPoints(let latitude, let longitude, let accessToken):
+                
+                var params: Parameters = [:]
                 params["lat"] = latitude
                 params["lng"] = longitude
                 params["tk"] = accessToken
-                params["ra"] = 1 // the radius of search // Temporarily disabled.
-
-                return ("RechargeCardPointApi.php", params, .URL, .GET)
-
-            case .CompleteRoads(let idLine, let direction, let accessToken):
-                var params: [String:AnyObject] = [:]
+                params["ra"] = 1 as AnyObject? // the radius of search // Temporarily disabled.
+                
+                return ("RechargeCardPointApi.php", params, "GET")
+                
+            case .completeRoads(let idLine, let direction, let accessToken):
+                var params: Parameters = [:]
                 params["idline"]    = idLine
                 params["direction"] = direction
                 params["tk"] = accessToken
-
-                return ("CompleteRoadsApi.php", params, .URL, .GET)
-
+                
+                return ("CompleteRoadsApi.php", params, "GET")
+                
             }
-
+            
         }()
-
-        let URL = NSURL(string: MyBusRouter.MYBUS_BASE_URL)
-        let URLRequest = NSMutableURLRequest(URL: URL!.URLByAppendingPathComponent(path))
-
-        URLRequest.HTTPMethod = method.rawValue
-
-        return encoding.encode(URLRequest, parameters: parameters).0
-
+        
+        let url = try MyBusRouter.MYBUS_BASE_URL.asURL()
+        var urlRequest = URLRequest(url: url.appendingPathComponent(path))
+        urlRequest.httpMethod = method
+        
+        return try URLEncoding.default.encode(urlRequest, with: parameters)
     }
 }
 
@@ -248,32 +178,29 @@ enum MyBusRouter: URLRequestConvertible{
 class BaseNetworkService{
 
 
-    class func performRequest(urlString: String, completionHandler: (JSON?, NSError?) -> Void) {
-        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
-        request.HTTPMethod = "GET"
-
-        Alamofire.request(request).responseJSON { response in
+    class func performRequest(_ urlString: String, completionHandler: @escaping (JSON?, Error?) -> Void) {
+        Alamofire.request(urlString).responseJSON { response in
             switch response.result
             {
-            case .Success(let value):
+            case .success(let value):
                 let json = JSON(value)
                 completionHandler(json, nil)
-            case .Failure(let error):
+            case .failure(let error):
                 print("\nError: \(error)")
                 completionHandler(nil, error)
             }
         }
     }
 
-    class func performRequest(request: NSURLRequest, completionHandler: (JSON?, NSError?)->Void){
+    class func performRequest(_ request: URLRequest, completionHandler: @escaping (JSON?, Error?)->Void){
 
         Alamofire.request(request).responseJSON { response in
             switch response.result
             {
-            case .Success(let value):
+            case .success(let value):
                 let json = JSON(value)
                 completionHandler(json, nil)
-            case .Failure(let error):
+            case .failure(let error):
                 print("\nError: \(error)")
                 completionHandler(nil, error)
             }

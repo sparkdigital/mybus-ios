@@ -19,14 +19,14 @@ class BusRouteResultSingleTest: XCTestCase
     {
         super.setUp()
     
-        let firstFilePath = NSBundle(forClass: BusRouteResultSingleTest.self).pathForResource("BusRouteResultSingle_1", ofType: "json")
-        let secondFilePath = NSBundle(forClass: BusRouteResultSingleTest.self).pathForResource("BusRouteResultSingle_2", ofType: "json")
+        let firstFilePath = Bundle(for: BusRouteResultSingleTest.self).path(forResource: "BusRouteResultSingle_1", ofType: "json")
+        let secondFilePath = Bundle(for: BusRouteResultSingleTest.self).path(forResource: "BusRouteResultSingle_2", ofType: "json")
         
-        let firstJSONData = try! NSData(contentsOfFile: firstFilePath!, options:.DataReadingMappedIfSafe)
-        let secondJSONData = try! NSData(contentsOfFile: secondFilePath!, options:.DataReadingMappedIfSafe)
+        let firstJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstFilePath!), options:.mappedIfSafe)
+        let secondJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondFilePath!), options:.mappedIfSafe)
         
-        let firstJSON = try! NSJSONSerialization.JSONObjectWithData(firstJSONData, options: .MutableContainers)
-        let secondJSON = try! NSJSONSerialization.JSONObjectWithData(secondJSONData, options: .MutableContainers)
+        let firstJSON = try! JSONSerialization.jsonObject(with: firstJSONData, options: .mutableContainers)
+        let secondJSON = try! JSONSerialization.jsonObject(with: secondJSONData, options: .mutableContainers)
         
         var firstRouteDictionary = JSON(firstJSON)
         var secondRouteDictionary = JSON(secondJSON)

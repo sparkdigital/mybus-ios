@@ -12,7 +12,7 @@ class BusResultViewController: UIViewController {
     
     var busResultScrollView:UIScrollView!
     
-    private var routeResultView:RoutePresenterDelegate?
+    fileprivate var routeResultView:RoutePresenterDelegate?
     
     var routeResult:BusRouteResult! {
         didSet {
@@ -31,7 +31,7 @@ class BusResultViewController: UIViewController {
     }
 
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
@@ -40,7 +40,7 @@ class BusResultViewController: UIViewController {
     }
     
     
-    private func reloadData(){
+    fileprivate func reloadData(){
         
         guard let result = self.routeResult else {
             return
@@ -51,7 +51,7 @@ class BusResultViewController: UIViewController {
         
         self.routeResultView = nil
         
-        if result.busRouteType == MyBusRouteResultType.Single {
+        if result.busRouteType == MyBusRouteResultType.single {
             //Build simple cell
             routeResultView = SingleRouteView(frame: self.view.bounds)
         }else{
@@ -68,10 +68,10 @@ class BusResultViewController: UIViewController {
         //Create and Setup ScrollView
         self.busResultScrollView = UIScrollView(frame: self.view.bounds)
         self.busResultScrollView.contentSize = CGSize(width: self.view.bounds.width, height: routeResultView!.preferredHeight())
-        self.busResultScrollView.scrollEnabled = true
+        self.busResultScrollView.isScrollEnabled = true
         self.busResultScrollView.bounces = false
         self.busResultScrollView.alwaysBounceVertical = false
-        self.busResultScrollView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+        self.busResultScrollView.autoresizingMask = UIViewAutoresizing.flexibleHeight
         
         //Add RouteResultView to scrollview
         self.view.addAutoPinnedSubview(routeResultView as! UIView, toView: self.busResultScrollView)
@@ -81,7 +81,7 @@ class BusResultViewController: UIViewController {
        
     }
     
-    private func updateRouteWithRoadInfo(){
+    fileprivate func updateRouteWithRoadInfo(){
         self.routeResultView?.roadResultModel = self.roadResult
     }
     

@@ -27,7 +27,7 @@ class MyBusMarker: MGLPointAnnotation {
         get {
             guard let identifier = markerImageIdentifier else { return nil }
             if var image = UIImage(named: identifier) {
-                image = image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+                image = image.withAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
                 return MGLAnnotationImage(image: image, reuseIdentifier: identifier)
             }
             return nil
@@ -35,7 +35,7 @@ class MyBusMarker: MGLPointAnnotation {
     }
     var markerView: MGLAnnotationView? {
         get {
-            guard let identifier = markerImageIdentifier where (self is MyBusMarkerOriginPoint || self is MyBusMarkerDestinationPoint) else { return nil }
+            guard let identifier = markerImageIdentifier, (self is MyBusMarkerOriginPoint || self is MyBusMarkerDestinationPoint) else { return nil }
             return MyBusMarkerAnnotationView(reuseIdentifier: identifier)
         }
     }

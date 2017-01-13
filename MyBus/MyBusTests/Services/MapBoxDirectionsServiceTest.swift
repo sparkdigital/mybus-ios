@@ -27,7 +27,7 @@ class MapBoxDirectionsServiceTest: XCTestCase
     
     func testResultContentsForWalkingDirections()
     {
-        let walkingDirectionsExpectation = expectationWithDescription("MapBoxDirectionsServiceGatherWalkingDirections")
+        let walkingDirectionsExpectation = expectation(description: "MapBoxDirectionsServiceGatherWalkingDirections")
         
         // Avenida Pedro Luro and Avenida Independencia
         // To
@@ -140,7 +140,7 @@ class MapBoxDirectionsServiceTest: XCTestCase
             walkingDirectionsExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error

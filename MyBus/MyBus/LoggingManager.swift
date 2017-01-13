@@ -44,11 +44,11 @@ enum LoggableAppEvent:String {
     case ENDPOINT_GPS_SEARCH = "Endpoint from current location - Search"
 }
 
-public class LoggingManager: NSObject {
+open class LoggingManager: NSObject {
 
-    private static let flurryApiKey: String = Configuration.flurryAPIKey()
-    private static var logTimestamp: NSTimeInterval {
-        return NSDate().timeIntervalSince1970 * 1000
+    fileprivate static let flurryApiKey: String = Configuration.flurryAPIKey()
+    fileprivate static var logTimestamp: TimeInterval {
+        return Date().timeIntervalSince1970 * 1000
     }
 
     var crashlyticsClassInstance: AnyObject {
@@ -56,11 +56,11 @@ public class LoggingManager: NSObject {
     }
 
     // MARK: - Singleton Instantiation
-    public class var sharedInstance: LoggingManager {
+    open class var sharedInstance: LoggingManager {
         return _sharedInstance
     }
 
-    private override init() {
+    fileprivate override init() {
         super.init()
     }
 
@@ -70,39 +70,39 @@ public class LoggingManager: NSObject {
         setupFirebase()
     }
     
-    private func setupFirebase(){
+    fileprivate func setupFirebase(){
         //Initialize Firebase
         FIRApp.configure()
     }
 
-    private func setupCrashlytics(){
+    fileprivate func setupCrashlytics(){
         //No custom setup at the moment
     }
 
-    private func setupFlurry(){
+    fileprivate func setupFlurry(){
         Flurry.setLogLevel(FlurryLogLevelDebug)
         Flurry.setCrashReportingEnabled(true)
         Flurry.startSession(LoggingManager.flurryApiKey)
     }
 
-    private func logCrashlytics(event: String){
-        Answers.logCustomEventWithName(event, customAttributes: ["evt_timestamp" : LoggingManager.logTimestamp])
+    fileprivate func logCrashlytics(_ event: String){
+        Answers.logCustomEvent(withName: event, customAttributes: ["evt_timestamp" : LoggingManager.logTimestamp])
     }
 
-    private func logFlurry(event: String){
+    fileprivate func logFlurry(_ event: String){
         Flurry.logEvent(event)
     }
     
-    private func logFirebaseEvent(event:LoggableAppEvent){
-        FIRAnalytics.logEventWithName(event.rawValue, parameters: nil)
+    fileprivate func logFirebaseEvent(_ event:LoggableAppEvent){
+        FIRAnalytics.logEvent(withName: event.rawValue, parameters: nil)
     }
     
-    private func logFirebaseSection(section:LoggableAppSection){
-        FIRAnalytics.logEventWithName(section.rawValue, parameters: nil)
+    fileprivate func logFirebaseSection(_ section:LoggableAppSection){
+        FIRAnalytics.logEvent(withName: section.rawValue, parameters: nil)
     }
     
-    private func logFirebaseError(error:String){
-        FIRAnalytics.logEventWithName("Error", parameters: [kFIRParameterValue:error])
+    fileprivate func logFirebaseError(_ error:String){
+        FIRAnalytics.logEvent(withName: "Error", parameters: [kFIRParameterValue:error as NSObject])
     }
     
     // MARK: Public interface
@@ -111,22 +111,22 @@ public class LoggingManager: NSObject {
         logFlurry("AppStarted")
     }
 
-    func logSection(section: LoggableAppSection){
+    func logSection(_ section: LoggableAppSection){
         let legend: String = "Entered to \(section.rawValue)"
         logCrashlytics(legend)
         logFlurry(legend)
         logFirebaseSection(section)
     }
     
-    func logEvent(event: LoggableAppEvent){
+    func logEvent(_ event: LoggableAppEvent){
         let legend:String = "Event = \(event.rawValue)"
         logFlurry(legend)
         logCrashlytics(legend)
         logFirebaseEvent(event)
     }
 
-    func logError(sender: String, error: NSError?){
-        let errorDescription = error?.description ?? "No description available"
+    func logError(_ sender: String, error: Error?){
+        let errorDescription = error?.localizedDescription ?? "No description available"
         let legend: String = "\(sender) - Error: \(errorDescription)"
         logCrashlytics(legend)
         logFlurry(legend)

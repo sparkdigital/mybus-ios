@@ -11,9 +11,9 @@ import UIKit
 class MoreSectionModel {
     var iconPath:String?
     var sectionName:String?
-    var executeAction:((sender:AnyObject)->Void)
+    var executeAction:((_ sender:AnyObject)->Void)
     
-    init(path:String, sectionName:String, action:(sender:AnyObject)->Void){
+    init(path:String, sectionName:String, action:@escaping (_ sender:AnyObject)->Void){
         self.iconPath = path
         self.sectionName = sectionName
         self.executeAction = action
@@ -43,7 +43,7 @@ class MoreTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -57,7 +57,7 @@ class MoreTableViewCell: UITableViewCell {
         }
         
         self.iconImageView.image = model.getIconImage()
-        self.iconImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        self.iconImageView.contentMode = UIViewContentMode.scaleAspectFit
         
         self.sectionLabel.text = model.sectionName
         

@@ -22,12 +22,12 @@ class FavoriteDataSource: NSObject, UITableViewDataSource {
         self.favorite = DBManager.sharedInstance.getFavourites()
     }
     
-    func addFavorite(point:RoutePoint){
+    func addFavorite(_ point:RoutePoint){
         DBManager.sharedInstance.addFavorite(point)
         loadFav()
     }
     
-    func removeFavorite(atIndex:NSIndexPath) -> Bool{
+    func removeFavorite(_ atIndex:IndexPath) -> Bool{
         
         guard let favs = favorite else {
             return false
@@ -44,13 +44,13 @@ class FavoriteDataSource: NSObject, UITableViewDataSource {
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell: FavoriteTableViewCell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell: FavoriteTableViewCell = tableView.dequeueReusableCell(withIdentifier: "FavoriteTableViewCell", for: indexPath) as! FavoriteTableViewCell
         cell.loadItem(favorite[indexPath.row])
         return cell
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard let favs = self.favorite else {
             return 0

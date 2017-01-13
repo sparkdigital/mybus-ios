@@ -27,20 +27,20 @@ class BusSearchResultSingleTest: XCTestCase
     {
         super.setUp()
         
-        let firstSingleRouteFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("BusRouteResultSingle_1", ofType: "json")
-        let secondSingleRouteFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("BusRouteResultSingle_2", ofType: "json")
+        let firstSingleRouteFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "BusRouteResultSingle_1", ofType: "json")
+        let secondSingleRouteFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "BusRouteResultSingle_2", ofType: "json")
 
-        let firstSingleOriginRoutePointFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("RoutePointSingle_1_1", ofType: "json")
-        let firstSingleDestinationRoutePointFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("RoutePointSingle_1_2", ofType: "json")
-        let secondSingleOriginRoutePointFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("RoutePointSingle_2_1", ofType: "json")
-        let secondSingleDestinationRoutePointFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("RoutePointSingle_2_2", ofType: "json")
+        let firstSingleOriginRoutePointFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "RoutePointSingle_1_1", ofType: "json")
+        let firstSingleDestinationRoutePointFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "RoutePointSingle_1_2", ofType: "json")
+        let secondSingleOriginRoutePointFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "RoutePointSingle_2_1", ofType: "json")
+        let secondSingleDestinationRoutePointFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "RoutePointSingle_2_2", ofType: "json")
         
         // Single Routes
-        let firstSingleRouteJSONData = try! NSData(contentsOfFile: firstSingleRouteFilePath!, options:.DataReadingMappedIfSafe)
-        let secondSingleRouteJSONData = try! NSData(contentsOfFile: secondSingleRouteFilePath!, options:.DataReadingMappedIfSafe)
+        let firstSingleRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstSingleRouteFilePath!), options:.mappedIfSafe)
+        let secondSingleRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondSingleRouteFilePath!), options:.mappedIfSafe)
         
-        let firstSingleRouteJSON = try! NSJSONSerialization.JSONObjectWithData(firstSingleRouteJSONData, options: .MutableContainers)
-        let secondSingleRouteJSON = try! NSJSONSerialization.JSONObjectWithData(secondSingleRouteJSONData, options: .MutableContainers)
+        let firstSingleRouteJSON = try! JSONSerialization.jsonObject(with: firstSingleRouteJSONData, options: .mutableContainers)
+        let secondSingleRouteJSON = try! JSONSerialization.jsonObject(with: secondSingleRouteJSONData, options: .mutableContainers)
         
         var firstSingleRouteDictionary = JSON(firstSingleRouteJSON)
         var secondSingleRouteDictionary = JSON(secondSingleRouteJSON)
@@ -52,15 +52,15 @@ class BusSearchResultSingleTest: XCTestCase
         let secondSingleRouteResults = secondSingleRouteDictionary["Results"]
         
         // Single Routes' Points
-        let firstSingleOriginRoutePointJSONData = try! NSData(contentsOfFile: firstSingleOriginRoutePointFilePath!, options:.DataReadingMappedIfSafe)
-        let firstSingleDestinationRoutePointJSONData = try! NSData(contentsOfFile: firstSingleDestinationRoutePointFilePath!, options:.DataReadingMappedIfSafe)
-        let secondSingleOriginRoutePointJSONData = try! NSData(contentsOfFile: secondSingleOriginRoutePointFilePath!, options:.DataReadingMappedIfSafe)
-        let secondSingleDestinatonRoutePointJSONData = try! NSData(contentsOfFile: secondSingleDestinationRoutePointFilePath!, options:.DataReadingMappedIfSafe)
+        let firstSingleOriginRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstSingleOriginRoutePointFilePath!), options:.mappedIfSafe)
+        let firstSingleDestinationRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstSingleDestinationRoutePointFilePath!), options:.mappedIfSafe)
+        let secondSingleOriginRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondSingleOriginRoutePointFilePath!), options:.mappedIfSafe)
+        let secondSingleDestinatonRoutePointJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondSingleDestinationRoutePointFilePath!), options:.mappedIfSafe)
         
-        let firstSingleOriginRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(firstSingleOriginRoutePointJSONData, options: .MutableContainers)
-        let firstSingleDestinationRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(firstSingleDestinationRoutePointJSONData, options: .MutableContainers)
-        let secondSingleOriginRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(secondSingleOriginRoutePointJSONData, options: .MutableContainers)
-        let secondSingleDestinationRoutePointJSON = try! NSJSONSerialization.JSONObjectWithData(secondSingleDestinatonRoutePointJSONData, options: .MutableContainers)
+        let firstSingleOriginRoutePointJSON = try! JSONSerialization.jsonObject(with: firstSingleOriginRoutePointJSONData, options: .mutableContainers)
+        let firstSingleDestinationRoutePointJSON = try! JSONSerialization.jsonObject(with: firstSingleDestinationRoutePointJSONData, options: .mutableContainers)
+        let secondSingleOriginRoutePointJSON = try! JSONSerialization.jsonObject(with: secondSingleOriginRoutePointJSONData, options: .mutableContainers)
+        let secondSingleDestinationRoutePointJSON = try! JSONSerialization.jsonObject(with: secondSingleDestinatonRoutePointJSONData, options: .mutableContainers)
         
         let firstSingleOriginRoutePointDictionary = JSON(firstSingleOriginRoutePointJSON)
         let firstSingleDestinationRoutePointDictionary = JSON(firstSingleDestinationRoutePointJSON)
