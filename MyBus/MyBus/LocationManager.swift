@@ -143,7 +143,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         verboseMessage = verboseMessageDictionary[status]!
 
         if hasAuthorized {
-            setupLocationManager()
+            startUpdating()
         }else{
             resetLocation()
 
