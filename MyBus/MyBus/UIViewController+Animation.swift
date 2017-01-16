@@ -10,10 +10,10 @@ import Foundation
 import UIKit
 
 extension UIViewController {
-    
+
     enum TransitionType {
         case fade, moveIn, push, reveal
-        
+
         func localizedDescription() -> String {
             switch self {
             case .fade:
@@ -27,10 +27,10 @@ extension UIViewController {
             }
         }
     }
-    
+
     enum TransitionSubtype {
         case fromLeft, fromRight, fromTop, fromBottom
-        
+
         func localizedDescription() -> String {
             switch self {
             case .fromBottom:
@@ -44,13 +44,13 @@ extension UIViewController {
             }
         }
     }
-    
-    
-    
-    func applyTransitionAnimation(withDuration duration:CFTimeInterval, transitionType:TransitionType, transitionSubType:TransitionSubtype?) -> Bool{
-        
+
+
+
+    func applyTransitionAnimation(withDuration duration: CFTimeInterval, transitionType: TransitionType, transitionSubType: TransitionSubtype?) -> Bool{
+
         if let target = self.view.window {
-            
+
             let transition = CATransition()
             transition.duration = duration
             transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
@@ -58,10 +58,10 @@ extension UIViewController {
             transition.subtype = transitionSubType?.localizedDescription()
             target.layer.add(transition, forKey: kCATransition)
             return true
-            
+
         }
-        
+
         return false
-        
+
     }
 }

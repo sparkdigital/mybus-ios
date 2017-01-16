@@ -22,7 +22,7 @@ open class MapBoxDirectionsService: NSObject, MapBoxDirectionsDelegate {
         let directions = Directions(accessToken: mapboxAccessToken)
         let options = RouteOptions(coordinates: [sourceCoordinate, destinationCoordinate], profileIdentifier: MBDirectionsProfileIdentifierWalking)
         options.includesSteps = true
-        
+
         _ = directions.calculate(options) { (waypoints, routes, error) in
             completionHandler(routes?.first, error)
         }

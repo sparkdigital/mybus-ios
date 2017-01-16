@@ -32,7 +32,7 @@ open class BusRouteResult: NSObject {
                 return routes.map({ (route: JSON) -> BusRouteResult in
                     return parseSingleRoute(route)
                 })
-                
+
             case 1:
                 return routes.map({ (route: JSON) -> BusRouteResult in
                     return parseCombinedRoute(route)

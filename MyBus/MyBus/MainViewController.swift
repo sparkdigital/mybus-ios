@@ -80,9 +80,9 @@ class MainViewController: UIViewController {
     var moreViewController: MoreViewController!
 
     var navRouter: NavRouter!
-    
+
     //Control variable for some Reachability flows
-    var alertPresented:Bool = false
+    var alertPresented: Bool = false
 
 
     //Reference to the currentViewController being shown
@@ -133,7 +133,7 @@ class MainViewController: UIViewController {
     }
 
     func addReachabilityObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)),name: ReachabilityChangedNotification,object: reachability)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
 
         let settingsAction = UIAlertAction(title: "Configuración", style: .default) { (_) -> Void in
             let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
@@ -260,7 +260,7 @@ class MainViewController: UIViewController {
         progressNotification.showLoadingNotification(self.view)
 
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newOrigin = routePoint {
                 self.newOrigin(newOrigin)
@@ -278,7 +278,7 @@ class MainViewController: UIViewController {
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
 
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
@@ -581,7 +581,7 @@ extension MainViewController {
 
         self.verifySearchStatus(mapModel)
 
-        let moreSelected: Bool = (self.tabBar.items?.last == self.tabBar.selectedItem) 
+        let moreSelected: Bool = (self.tabBar.items?.last == self.tabBar.selectedItem)
 
         if moreSelected {
             self.logoNavigationBar()
@@ -685,7 +685,7 @@ extension MainViewController {
             self.toggleSearchViewContainer(false)
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             self.view.layoutIfNeeded()
-        }) 
+        })
     }
 
     func busesMenuDidCollapse(_ notification: Notification){
@@ -694,7 +694,7 @@ extension MainViewController {
             self.toggleSearchViewContainer(true)
             self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.view.layoutIfNeeded()
-        }) 
+        })
     }
 
 }

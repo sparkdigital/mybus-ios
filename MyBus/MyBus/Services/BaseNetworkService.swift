@@ -18,7 +18,7 @@ enum GeoCodingRouter: URLRequestConvertible{
     case coordinateFromAddressComponents(address:String, components:String, key:String)
 
     // MARK: URLRequestConvertible
-    
+
     func asURLRequest() throws -> URLRequest {
         let (path, parameters, method): (String, Parameters, String) = {
             switch self {
@@ -27,11 +27,11 @@ enum GeoCodingRouter: URLRequestConvertible{
                 return ("/json", params, "GET")
             }
         }()
-        
+
         let url = try GeoCodingRouter.GEO_CODING_URL.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(path))
         urlRequest.httpMethod = method
-        
+
         return try URLEncoding.default.encode(urlRequest, with: parameters)
     }
 }
@@ -98,38 +98,38 @@ enum MyBusRouter: URLRequestConvertible{
     */
     case completeRoads(idLine: Int, direction: Int, accessToken: String)
 
-    
+
     // MARK: URLRequestConvertible
-    
+
     func asURLRequest() throws -> URLRequest {
         let (path, parameters, method): (String, Parameters, String) = {
-            
+
             switch self{
-                
+
             case .searchRoutes(let latOrigin, let lngOrigin, let latDest, let lngDest, let accessToken):
-                
+
                 var params: Parameters = [:]
                 params["lat0"] = latOrigin
                 params["lng0"] = lngOrigin
                 params["lat1"] = latDest
                 params["lng1"] = lngDest
                 params["tk"]   = accessToken
-                
+
                 return ("NexusApi.php", params, "GET")
-                
+
             case .searchSingleRoad(let idLine, let direction, let beginStopLine, let endStopLine, let accessToken):
-                
+
                 var params: Parameters = [:]
                 params["idline"]    = idLine
                 params["direction"] = direction
                 params["stop1"]     = beginStopLine
                 params["stop2"]     = endStopLine
                 params["tk"]        = accessToken
-                
+
                 return ("SingleRoadApi.php", params, "GET")
-                
+
             case .searchCombinedRoad(let idFirstLine, let idSecondLine, let firstDirection, let secondDirection, let beginStopFirstLine, let endStopFirstLine, let beginStopSecondLine, let endStopSecondLine, let accessToken):
-                
+
                 var params: Parameters = [:]
                 params["idline1"] = idFirstLine
                 params["idline2"] = idSecondLine
@@ -140,35 +140,35 @@ enum MyBusRouter: URLRequestConvertible{
                 params["L2stop1"] = beginStopSecondLine
                 params["L2stop2"] = endStopSecondLine
                 params["tk"] = accessToken
-                
+
                 return ("CombinedRoadApi.php", params, "GET")
-                
+
             case .rechargeCardPoints(let latitude, let longitude, let accessToken):
-                
+
                 var params: Parameters = [:]
                 params["lat"] = latitude
                 params["lng"] = longitude
                 params["tk"] = accessToken
                 params["ra"] = 1 as AnyObject? // the radius of search // Temporarily disabled.
-                
+
                 return ("RechargeCardPointApi.php", params, "GET")
-                
+
             case .completeRoads(let idLine, let direction, let accessToken):
                 var params: Parameters = [:]
                 params["idline"]    = idLine
                 params["direction"] = direction
                 params["tk"] = accessToken
-                
+
                 return ("CompleteRoadsApi.php", params, "GET")
-                
+
             }
-            
+
         }()
-        
+
         let url = try MyBusRouter.MYBUS_BASE_URL.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(path))
         urlRequest.httpMethod = method
-        
+
         return try URLEncoding.default.encode(urlRequest, with: parameters)
     }
 }

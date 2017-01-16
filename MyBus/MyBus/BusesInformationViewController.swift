@@ -31,9 +31,9 @@ class BusesInformationViewController: UIViewController, UITableViewDelegate
         guard let busId = Int(bus.0) else {
             return
         }
-        
+
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_SELECTED)
-        
+
         SearchManager.sharedInstance.getCompleteRoute(busId, busLineName: busName) { (completeRoute, error) in
             if let route = completeRoute {
                 self.searchViewProtocol?.newCompleteBusRoute(route)

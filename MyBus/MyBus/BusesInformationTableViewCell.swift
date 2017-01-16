@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 
 class BusesInformationTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var busLine: UILabel!
-   
+
     @IBOutlet weak var busColor: UIImageView!
-   
+
     var id: String = ""
-    
-    func loadItem(_ busLineId: String,busLineName: String, color: UIColor) {
+
+    func loadItem(_ busLineId: String, busLineName: String, color: UIColor) {
         self.id = busLineId
         self.busLine.text = busLineName
         self.busColor.backgroundColor = color

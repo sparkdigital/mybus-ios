@@ -25,14 +25,14 @@ protocol MainViewDelegate: class {
 
 class SearchViewController: UIViewController, UITableViewDelegate
 {
-    
+
     //Variable with a hardcoded height (usually is around this value)
-    let kSearchBarNavBarHeight:CGFloat = 140.0
-    let kMinimumKeyboardHeight:CGFloat = 216.0 + 140.0
-    
+    let kSearchBarNavBarHeight: CGFloat = 140.0
+    let kMinimumKeyboardHeight: CGFloat = 216.0 + 140.0
+
     //Control variable to see if we're using the search textfield or not
-    var isSearching:Bool = false
-    
+    var isSearching: Bool = false
+
     @IBOutlet weak var searchTableView: UITableView!
 
     var mainViewDelegate: MainViewDelegate?
@@ -56,13 +56,13 @@ class SearchViewController: UIViewController, UITableViewDelegate
         view.addGestureRecognizer(tap)
         self.searchTableView.tableHeaderView = view
 
-        
+
         //Custom code
-        
+
         // Listen for keyboard changes (if it's showing or hiding)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
+
         //You could initialize nonetheless the table footer with a custom height
         self.setupTableViewFooter(kMinimumKeyboardHeight)
     }
@@ -98,36 +98,36 @@ class SearchViewController: UIViewController, UITableViewDelegate
             break
         }
     }
-    
+
     // MARK: Keyboard was shown or hidden
     func keyboardWasShown(_ sender:Notification){
         self.isSearching = true
-        
+
         guard let info: NSDictionary = sender.userInfo as NSDictionary? else {
             NSLog("SearchCountry - No user info found in notification")
             return
         }
-        
+
         guard let value: NSValue = info.value(forKey: UIKeyboardFrameBeginUserInfoKey) as? NSValue else {
             NSLog("SearchCountry - No frame found for keyboard in userInfo")
             return
         }
-        
+
         //Get the current keyboard size (I guess it varies across devices)
         let keyboardSize: CGSize = value.cgRectValue.size
         self.setupTableViewFooter(keyboardSize.height + kSearchBarNavBarHeight)
-        
+
     }
-    
+
     // Setup an empty footer
     func keyboardWasHidden(_ sender:Notification){
         self.isSearching = false
         self.setupTableViewFooter(0.0)
     }
-    
+
     fileprivate func setupTableViewFooter(_ height:CGFloat){
         if height > 0.0 {
-            self.searchTableView.tableFooterView = UIView(frame: CGRect(x: 0.0,y: 0.0,width: self.view.frame.width,height: height))
+            self.searchTableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: height))
         }else{
             self.searchTableView.tableFooterView = UIView(frame:CGRect.zero)
         }

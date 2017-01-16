@@ -16,7 +16,7 @@ class Configuration {
     fileprivate static let suggestedPlacesArray = NSArray(contentsOfFile: Bundle.main.path(forResource: "SuggestedPlaces", ofType: "plist")!)!
 
     fileprivate static let thirdServicesConfiguration = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "AppConfiguration", ofType: "plist")!)!
-    
+
     fileprivate static let thirdServicesConfigurationTwo = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "AppConfiguration", ofType: "plist")!)!
 
     class func streetsName() -> [String] {
@@ -58,14 +58,14 @@ class Configuration {
     class func myBusApiKey() -> String {
         let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
         let mybus = third["MyBus"] as! NSDictionary
-        
+
         return mybus["ApiKey"] as! String
     }
 
     class func myBusApiUrl() -> String {
         let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
         let mybus = third["MyBus"] as! NSDictionary
-        
+
         return mybus["ApiURL"] as! String
 //        return Configuration.thirdServicesConfiguration["ThirdServices"]!["MyBus"]!!["ApiURL"] as! String
     }
@@ -74,14 +74,14 @@ class Configuration {
     class func googleGeocodingURL()->String{
         let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
         let mybus = third["GoogleGeocoding"] as! NSDictionary
-        
+
         return mybus["ApiURL"] as! String
     }
 
     class func googleGeocodingAPIKey()->String{
         let third = Configuration.thirdServicesConfigurationTwo["ThirdServices"] as! NSDictionary
         let mybus = third["GoogleGeocoding"] as! NSDictionary
-        
+
         return mybus["ApiKey"] as! String
     }
 

@@ -15,7 +15,7 @@ import FirebaseAnalytics
 
 private let _sharedInstance = LoggingManager()
 
-enum LoggableAppSection:String {
+enum LoggableAppSection: String {
     case MAP = "Search and Map Visualization"
     case FAVOURITES = "Favourites"
     case RECHARGE = "Recharge Points"
@@ -25,7 +25,7 @@ enum LoggableAppSection:String {
     case ABOUT = "About Us"
 }
 
-enum LoggableAppEvent:String {
+enum LoggableAppEvent: String {
     case FAVORITE_NEW_PLUS = "New Favorite from form"
     case FAVORITE_NEW_MARKER = "New Favorite from map annotation"
     case FAVORITE_DEL_LIST = "Removed Favorite from Wishlist"
@@ -69,7 +69,7 @@ open class LoggingManager: NSObject {
         setupFlurry()
         setupFirebase()
     }
-    
+
     fileprivate func setupFirebase(){
         //Initialize Firebase
         FIRApp.configure()
@@ -92,19 +92,19 @@ open class LoggingManager: NSObject {
     fileprivate func logFlurry(_ event: String){
         Flurry.logEvent(event)
     }
-    
-    fileprivate func logFirebaseEvent(_ event:LoggableAppEvent){
+
+    fileprivate func logFirebaseEvent(_ event: LoggableAppEvent){
         FIRAnalytics.logEvent(withName: event.rawValue, parameters: nil)
     }
-    
-    fileprivate func logFirebaseSection(_ section:LoggableAppSection){
+
+    fileprivate func logFirebaseSection(_ section: LoggableAppSection){
         FIRAnalytics.logEvent(withName: section.rawValue, parameters: nil)
     }
-    
-    fileprivate func logFirebaseError(_ error:String){
+
+    fileprivate func logFirebaseError(_ error: String){
         FIRAnalytics.logEvent(withName: "Error", parameters: [kFIRParameterValue:error as NSObject])
     }
-    
+
     // MARK: Public interface
     func startAppLogging(){
         logCrashlytics("AppStarted")
@@ -117,9 +117,9 @@ open class LoggingManager: NSObject {
         logFlurry(legend)
         logFirebaseSection(section)
     }
-    
+
     func logEvent(_ event: LoggableAppEvent){
-        let legend:String = "Event = \(event.rawValue)"
+        let legend: String = "Event = \(event.rawValue)"
         logFlurry(legend)
         logCrashlytics(legend)
         logFirebaseEvent(event)

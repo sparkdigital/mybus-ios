@@ -40,9 +40,9 @@ extension BusRouteResult {
         🚌.remove(at: 🚌.characters.index(before: 🚌.endIndex))
         return 🚌
     }
-    
+
     func toStringDescription() -> String{
-        
+
         if self.busRouteType == MyBusRouteResultType.single {
             guard let busOption = self.busRoutes.first else {
                 return ""

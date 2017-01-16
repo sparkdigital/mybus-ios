@@ -26,10 +26,10 @@ class BusesResultsTableViewController: UITableViewController {
         self.buses = buses.busRouteOptions
         self.tableView.reloadData()
         self.tableView.layoutIfNeeded()
-        
-        let indexPath:IndexPath = IndexPath(row: 0, section: 0)
+
+        let indexPath: IndexPath = IndexPath(row: 0, section: 0)
         self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.none, animated: true)
-        
+
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 

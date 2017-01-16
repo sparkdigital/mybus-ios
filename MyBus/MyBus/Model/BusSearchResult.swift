@@ -34,7 +34,7 @@ class BusSearchResult
         let originPoint: RoutePoint = RoutePoint()
         let destinationPoint: RoutePoint = RoutePoint()
         let busRoutesResults: [BusRouteResult] = []
-        
+
         self.init(origin: originPoint, destination: destinationPoint, busRoutes: busRoutesResults)
     }
 

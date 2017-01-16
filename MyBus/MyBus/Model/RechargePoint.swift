@@ -63,23 +63,23 @@ extension RechargePoint {
             openDateComponents.hour = openHour
             openDateComponents.minute = openMinutes
             let openDate = currentCalendar.date(from: openDateComponents)
-            
-            
+
+
             var closeDateComponents = currentCalendar.dateComponents([.year, .month, .day, .hour, .minute, .weekday, .weekOfYear],
                                                       from: now)
             closeDateComponents.hour = closeHour
             closeDateComponents.minute = closeMinutes
             let closeDate = currentCalendar.date(from: closeDateComponents)
-            
+
             guard let pointOpenDate = openDate, let pointCloseDate = closeDate else {
                 self.isOpen = true
                 return
             }
-            
+
             let minutesDiffOpen = Calendar.current.dateComponents([.minute], from: pointOpenDate, to: now).minute
             let minutesDiffClose = Calendar.current.dateComponents([.minute], from: pointCloseDate, to: now).minute
-            
-            
+
+
             var isOpen = minutesDiffOpen! >= 0 && minutesDiffClose! < 0
 
             if results.count == 8 {
@@ -88,21 +88,21 @@ extension RechargePoint {
                     self.isOpen = isOpen
                     return
                 }
-                
+
                 var afternoonOpenDateComponents = currentCalendar.dateComponents([.year, .month, .day, .hour, .minute, .weekday, .weekOfYear],
                                                                          from: now)
                 afternoonOpenDateComponents.hour = openHour
                 afternoonOpenDateComponents.minute = openMinutes
-                
+
                 let afternoonOpenDate = currentCalendar.date(from: afternoonOpenDateComponents)
-                
-                
+
+
                 var afternoonCloseDateComponents = currentCalendar.dateComponents([.year, .month, .day, .hour, .minute, .weekday, .weekOfYear],
                                                                                  from: now)
                 afternoonCloseDateComponents.hour = closeHour
                 afternoonCloseDateComponents.minute = closeMinutes
                 let afternoonCloseDate = currentCalendar.date(from: afternoonCloseDateComponents)
-    
+
                 guard let pointAfternoonOpenDate = afternoonOpenDate, let pointAfternoonCloseDate = afternoonCloseDate else {
                     self.isOpen = true
                     return

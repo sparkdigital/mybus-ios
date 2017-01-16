@@ -72,9 +72,9 @@ class RecentSuggestion: SuggestionProtocol {
 class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
     @IBOutlet weak var searchSuggestionTableView: UITableView!
-    
+
     //Boolean variable that keeps track when a user taps on a suggestion to give more control on displaying the EmptyDataset legend
-    var aSuggestionWasSelected:Bool = false
+    var aSuggestionWasSelected: Bool = false
     var bestMatches: [SuggestionProtocol] = []
     var suggestionsDataSource: SearchSuggestionsDataSource!
     var searchBarController: UISearchController!
@@ -89,8 +89,8 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
         self.suggestionsDataSource = SearchSuggestionsDataSource()
         self.searchSuggestionTableView.delegate = self
         self.searchSuggestionTableView.dataSource = suggestionsDataSource
-        
-        
+
+
         self.searchSuggestionTableView.emptyDataSetSource = self
         self.searchSuggestionTableView.emptyDataSetDelegate = self
         // A little trick for removing the cell separators
@@ -160,7 +160,8 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if let result: SuggestionProtocol = self.bestMatches[indexPath.row] {
+        if self.bestMatches.count > indexPath.row {
+            let result: SuggestionProtocol = self.bestMatches[indexPath.row]
             if let recentSelected = result as? RecentSuggestion {
                 LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_RECENTS)
                 self.mainViewDelegate?.loadPositionFromFavsRecents(recentSelected.getPoint())
@@ -173,23 +174,23 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
                 self.searchBar?.text = "\(result.name) "
             }
         }
-        
+
         self.aSuggestionWasSelected = true
     }
-    
+
     //MARK: DZNEmptyDataSet setup methods
-    
+
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados_Titulo"))
     }
-    
+
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes: [String : AnyObject] = [
             NSForegroundColorAttributeName: UIColor.lightGray
         ]
         return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados"), attributes: attributes)
     }
-    
+
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
         return !aSuggestionWasSelected
     }

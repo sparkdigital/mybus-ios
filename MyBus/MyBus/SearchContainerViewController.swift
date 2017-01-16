@@ -27,7 +27,7 @@ class SearchContainerViewController: UIViewController {
     weak var currentViewController: UIViewController!
     var searchType: SearchType = SearchType.Origin
     let progressNotification = ProgressHUD()
-   
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,7 +45,7 @@ class SearchContainerViewController: UIViewController {
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.currentViewController)
         self.view.addAutoPinnedSubview(currentViewController!.view, toView: searchContainerView)
-        
+
         self.addressLocationSearchBar.delegate = self
         self.addressLocationSearchBar.backgroundImage = UIImage()
 
@@ -106,7 +106,7 @@ class SearchContainerViewController: UIViewController {
     }
 
     func goBackToMap(){
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
 }
@@ -139,14 +139,14 @@ extension SearchContainerViewController:UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
-        if let searchTerm: String = searchBar.text, let count: Int = searchTerm.characters.count, count > 0 {
-            
+        if let searchTerm: String = searchBar.text, searchTerm.characters.count > 0 {
+
             self.progressNotification.showLoadingNotification(self.view)
-            
+
             if self.suggestionViewController.aSuggestionWasSelected {
                 LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_SUGGESTION)
             }
-            
+
             Connectivity.sharedInstance.getCoordinateFromAddress(searchTerm, completionHandler: { (point, error) in
 
                 self.progressNotification.stopLoadingNotification(self.view)
@@ -159,8 +159,8 @@ extension SearchContainerViewController:UISearchBarDelegate {
                     }
                     self.goBackToMap()
                 }else{
-                    let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
-                    let message = Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Pudimos_Resolver") , self.searchType.rawValue))
+                    let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos"), self.searchType.rawValue))
+                    let message = Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Pudimos_Resolver"), self.searchType.rawValue))
 
                     GenerateMessageAlert.generateAlert(self, title: title, message: message)
 
@@ -169,7 +169,7 @@ extension SearchContainerViewController:UISearchBarDelegate {
             })
 
         }else {
-            let message = Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("El_Campo", comment: "El campo") , self.searchType.rawValue))
+            let message = Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("El_Campo", comment: "El campo"), self.searchType.rawValue))
             GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("No_Sabemos_Que"), message: message)
         }
     }
@@ -180,43 +180,43 @@ extension SearchContainerViewController:MainViewDelegate{
 
     func loadPositionMainView() {
 
-        
+
         LocationManager.sharedInstance.startUpdatingWithCompletionHandler { (location, error) in
-            
+
             if let _ = error {
-                let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
+                let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos"), self.searchType.rawValue))
                 let message = Localization.getLocalizedString("No_Pudimos")
                 GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 return
             }
-            
+
             NSLog("Location found!")
-            
+
             self.progressNotification.showLoadingNotification(self.view)
-            
+
             Connectivity.sharedInstance.getAddressFromCoordinate(location!.coordinate.latitude, longitude: location!.coordinate.longitude) { (point, error) in
-                
+
                 self.progressNotification.stopLoadingNotification(self.view)
-                
+
                 if let p = point {
-                    
+
                     if self.searchType == SearchType.Origin {
                         self.busRoadDelegate?.newOrigin(p)
                     }else{
                         self.busRoadDelegate?.newDestination(p)
                     }
-                    
+
                     return self.goBackToMap()
-                    
+
                 }else{
-                    let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos") , self.searchType.rawValue))
+                    let title =  Localization.getLocalizedString(String.localizedStringWithFormat(NSLocalizedString("No_Sabemos", comment: "No_Sabemos"), self.searchType.rawValue))
                     let message = Localization.getLocalizedString("No_Pudimos")
                     GenerateMessageAlert.generateAlert(self, title: title, message: message)
                 }
             }
-           
+
         }
-        
+
     }
 
     func loadPositionFromFavsRecents(_ position: RoutePoint) {

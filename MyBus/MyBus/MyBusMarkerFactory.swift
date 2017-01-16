@@ -14,11 +14,11 @@ class MyBusMarkerFactory {
     class func buildGoingBusRouteStopMarkers(_ busRoute: CompleteBusRoute) -> [MyBusMarker] {
         let goingPointList = busRoute.goingPointList
         var markers: [MyBusMarker] = []
-        
+
         guard let startGoingPoint = goingPointList.first, let endGoingPoint = goingPointList.last else {
             return markers
         }
-        
+
         let startGoingMarker = MyBusMarkerFactory.createStartCompleteBusRouteMarker(startGoingPoint.getLatLong(), address: startGoingPoint.address, busLineName: busRoute.busLineName)
         markers.append(startGoingMarker)
         //Add END of GOING route
@@ -26,11 +26,11 @@ class MyBusMarkerFactory {
         markers.append(endGoingMarker)
         return markers
     }
-    
+
     class func buildReturnBusRouteStopMarkers(_ busRoute: CompleteBusRoute) -> [MyBusMarker] {
         let returnPointList = busRoute.returnPointList
         var markers: [MyBusMarker] = []
-        
+
         guard let startReturnPoint = returnPointList.first, let endReturnPoint = returnPointList.last else {
             return markers
         }
@@ -41,7 +41,7 @@ class MyBusMarkerFactory {
         markers.append(endReturnMarker)
         return markers
     }
-    
+
     class func buildCompleteBusRoadStopMarkers(_ completeBusRoute: CompleteBusRoute) -> [MyBusMarker] {
         var markers: [MyBusMarker] = []
         let goingPointList = completeBusRoute.goingPointList
@@ -149,35 +149,35 @@ class MyBusMarkerFactory {
 
         return roadStopsMarkerList
     }
-    
-    class func buildIntermediateBusStopMarkers(_ roadResult:RoadResult)->[MyBusMarkerIntermediateBusStopPoint] {
-        
+
+    class func buildIntermediateBusStopMarkers(_ roadResult: RoadResult)->[MyBusMarkerIntermediateBusStopPoint] {
+
         //Get Points
         var busStopRoutePoints = roadResult.getPointList()
-        
+
         // The user has elected origin and destination very close between them
         if busStopRoutePoints.count < 3 {
             return []
         }
-        
+
         //Filter waypoints
         busStopRoutePoints = busStopRoutePoints.filter { (busStopPoint) -> Bool in
             return busStopPoint.isWaypoint == false
         }
-        
+
         //Init markers array
-        var routeBusStops:[MyBusMarkerIntermediateBusStopPoint] = busStopRoutePoints.map { (busStopPoint) -> MyBusMarkerIntermediateBusStopPoint in
+        var routeBusStops: [MyBusMarkerIntermediateBusStopPoint] = busStopRoutePoints.map { (busStopPoint) -> MyBusMarkerIntermediateBusStopPoint in
             return MyBusMarkerFactory.createRoadBusStopMarker(busStopPoint)
         }
-        
+
         //Remove destination stop
         routeBusStops.removeLast()
-        
+
         //Remove origin stop
         routeBusStops.removeFirst()
-                
+
         return routeBusStops
-        
+
     }
 
     class func createOriginPointMarker(_ point: RoutePoint)->MyBusMarkerOriginPoint {
@@ -189,8 +189,8 @@ class MyBusMarkerFactory {
         let marker = MyBusMarkerDestinationPoint(position: point.getLatLong(), title: MyBusTitle.DestinationTitle.rawValue, subtitle: point.address, imageIdentifier: "markerDestino")
         return marker
     }
-    
-    class func createRoadBusStopMarker(_ point:RoutePoint) -> MyBusMarkerIntermediateBusStopPoint{
+
+    class func createRoadBusStopMarker(_ point: RoutePoint) -> MyBusMarkerIntermediateBusStopPoint{
         let marker = MyBusMarkerIntermediateBusStopPoint(position: point.getLatLong(), title: MyBusTitle.BusStop.rawValue, subtitle: point.address, imageIdentifier: "stop_marker")
         return marker
     }

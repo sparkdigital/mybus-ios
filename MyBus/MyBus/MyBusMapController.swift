@@ -16,25 +16,25 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     @IBOutlet weak var waySwitcher: BetterSegmentedControl!
 
     @IBOutlet weak var roadRouteContainerHeight: NSLayoutConstraint!
-    @IBOutlet var roadRouteContainerView:UIView!
-    @IBOutlet weak var busesResultsCloseHandleViewContainer:UIView!
-    var busesSearchOptions:BusesResultsMenuViewController!
-    
-    var isMenuExpanded:Bool {
+    @IBOutlet var roadRouteContainerView: UIView!
+    @IBOutlet weak var busesResultsCloseHandleViewContainer: UIView!
+    var busesSearchOptions: BusesResultsMenuViewController!
+
+    var isMenuExpanded: Bool {
         return (roadRouteContainerHeight.constant == roadRouteContainerHeightExpanded)
     }
-    fileprivate let roadRouteContainerHeightCollapsed:CGFloat = 52.0
-    fileprivate let roadRouteContainerHeightExpanded:CGFloat = 190.0
-    
+    fileprivate let roadRouteContainerHeightCollapsed: CGFloat = 52.0
+    fileprivate let roadRouteContainerHeightExpanded: CGFloat = 190.0
+
     let progressNotification = ProgressHUD()
 
     var destination: RoutePoint?
-    
+
     var busResultsDetail: [BusRouteResult] = []
     var currentRouteDisplayed: BusRouteResult?
 
     var mapModel: MyBusMapModel!
-    
+
     // MARK: - View Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,14 +44,14 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.hideBusesResultsMenu()
         self.toggleClosingHandleContainerView(false)
         self.addClosingHandleRecognizers()
-        
+
         self.mapModel = MyBusMapModel()
 
         initMapboxView()
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.showCenterUserLocation(_:)), name: NSNotification.Name(rawValue: "applicationDidBecomeActive"), object: nil)
     }
-    
+
     func initMapboxView() {
         mapView.initialize(self)
 
@@ -60,17 +60,17 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.offlinePackProgressDidChange(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveError(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MyBusMapController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
-        
+
     }
-    
-    
+
+
     func addClosingHandleRecognizers(){
         let tapHandleGesture = UITapGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
         self.busesResultsCloseHandleViewContainer.addGestureRecognizer(tapHandleGesture)
-        
+
         let swipeHandleGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
         self.busesResultsCloseHandleViewContainer.addGestureRecognizer(swipeHandleGesture)
-        
+
         let panHandleGesture = UIPanGestureRecognizer(target: self, action: #selector(handleBusesResultMenuClose))
         self.busesResultsCloseHandleViewContainer.addGestureRecognizer(panHandleGesture)
     }
@@ -91,12 +91,12 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             self.mapView.addReturnRoute(completeBusRoute)
         }
     }
-    
+
     @IBAction func locateUserButtonTap(_ sender: AnyObject) {
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_GPS_MAP)
         self.mapView.centerMapWithGPSLocation()
     }
-    
+
     func handleBusesResultMenuClose(_ recognizer:UIGestureRecognizer){
         self.collapseBusesResultsMenu()
         NotificationCenter.default.post(name: Notification.Name(rawValue: BusesResultsMenuStatusNotification.Collapsed.rawValue), object: nil)
@@ -131,9 +131,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         if MGLOfflineStorage.shared().packs?.count == 0 {
             //startOfflinePackDownload() Does not download offline maps programatically. //TODO User should agree
         }
-        
+
         let delayTime = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {            
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
             self.mapView.centerMapWithGPSLocation(12)
         }
     }
@@ -189,7 +189,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         switch control.tag {
         case 0:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando") , message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.actionSheet)
+            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando"), message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.actionSheet)
             alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: annotation.title!!)
             DBManager.sharedInstance.removeFavorite(location)
@@ -251,45 +251,45 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             return myBusMarker.markerView
         }
     }
-    
+
     func mapView(_ mapView: MGLMapView, regionDidChangeAnimated animated: Bool){
         //NSLog("Current Zoom Level = \(mapView.zoomLevel)")
         if let myBusMapView = mapView as? MyBusMapView, let currentRoadBusStopMarkers = self.mapModel.currentRoad?.roadIntermediateBusStopMarkers {
             myBusMapView.addIntermediateBusStopAnnotations(currentRoadBusStopMarkers)
         }
     }
-    
+
     // MARK: - Mapview bus roads manipulation Methods
     func addBusLinesResults(_ busRouteOptions: [BusRouteResult], preselectedRouteIndex: Int = 0){
-        
+
         self.showBusesResultsMenu()
 
         self.busResultsDetail = busRouteOptions
-        
+
         self.busesSearchOptions = BusesResultsMenuViewController()
         self.busesSearchOptions.setup(busRouteOptions)
         self.busesSearchOptions.busResultDelegate = self
         self.busesSearchOptions.view.translatesAutoresizingMaskIntoConstraints = false
         self.addChildViewController(self.busesSearchOptions)
-        
+
         self.roadRouteContainerView.clearViewSubviews()
-                
+
         self.view.addAutoPinnedSubview(self.busesSearchOptions!.view, toView: self.roadRouteContainerView)
-        
+
         self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
-        
+
         self.busesSearchOptions.setOptionSelected(preselectedRouteIndex)
-        
-        
+
+
         self.loadBusLineRoad(preselectedRouteIndex)
-        
+
     }
 
     func loadBusLineRoad(_ indexRouteSelected: Int) {
         let bus = busResultsDetail[indexRouteSelected]
-        
+
         getRoadForSelectedResult(bus)
-        
+
     }
 
 
@@ -308,7 +308,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     func hideWaySwitcher() {
         self.waySwitcher.alpha = 0
     }
-    
+
     // MARK: - Pack Download
 
     func startOfflinePackDownload() {
@@ -360,7 +360,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
         }
     }
-    
+
     func getRoadForSelectedResult(_ routeSelectedResult: BusRouteResult?) -> Void {
         progressNotification.showLoadingNotification(self.view)
         if let route = routeSelectedResult {
@@ -441,18 +441,18 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.mapView.clearAllAnnotations()
 
         let mapRoute = MyBusMapRoute()
-        
+
         mapRoute.markers = MyBusMarkerFactory.buildCompleteBusRoadStopMarkers(newRoute)
         mapRoute.polyline = MyBusPolylineFactory.buildCompleteBusRoutePolylineList(newRoute)
-        
+
         mapRoute.goingRouteMarkers = MyBusMarkerFactory.buildGoingBusRouteStopMarkers(newRoute)
         mapRoute.goingRoute = mapRoute.polyline.first
-        
+
         mapRoute.returnRouteMarkers = MyBusMarkerFactory.buildReturnBusRouteStopMarkers(newRoute)
         mapRoute.returnRoute = mapRoute.polyline.last
-        
+
         self.mapModel.completeBusRoute = mapRoute
-        
+
         self.waySwitcher.alpha = 1
         do {
             try self.waySwitcher.setIndex(0)
@@ -460,11 +460,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             NSLog("Error initializing complete bus route switcher at index O")
         }
     }
-    
+
     // MARK: BusesResultsMenuViewController protocol delegate methods and additional functions
     func didSelectBusRouteOption(_ busRouteSelected:BusRouteResult) {
         if let currentRoute = self.currentRouteDisplayed {
-            
+
             if !isMenuExpanded {
                 expandBusesResultsMenu()
                 NotificationCenter.default.post(name: Notification.Name(rawValue: BusesResultsMenuStatusNotification.Expanded.rawValue), object: nil)
@@ -475,49 +475,49 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
                 }
             }
-            
+
             if currentRoute != busRouteSelected {
                 progressNotification.showLoadingNotification(self.view)
                 getRoadForSelectedResult(busRouteSelected)
             } else {
                 self.mapView.fitToAnnotationsInMap()
             }
-            
-            
+
+
         }
     }
-    
+
     func collapseBusesResultsMenu(){
         UIView.animate(withDuration: 0.3, animations: {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightCollapsed
             self.toggleClosingHandleContainerView(false)
             self.view.layoutIfNeeded()
-        }) 
+        })
     }
-    
+
     func expandBusesResultsMenu(){
         UIView.animate(withDuration: 0.3, animations: {
             self.roadRouteContainerHeight.constant = self.roadRouteContainerHeightExpanded
             self.toggleClosingHandleContainerView(true)
             self.view.layoutIfNeeded()
-        }) 
+        })
     }
-    
+
     func showBusesResultsMenu(){
        self.toggleBusesResultsContainerView(true)
     }
-    
+
     func hideBusesResultsMenu(){
        self.toggleBusesResultsContainerView(false)
        self.toggleClosingHandleContainerView(false)
     }
-    
+
     fileprivate func toggleBusesResultsContainerView(_ show:Bool){
         self.roadRouteContainerView.alpha = (show) ? CGFloat(1) : CGFloat(0)
         self.roadRouteContainerView.isUserInteractionEnabled = show
         self.roadRouteContainerHeight.constant = (show) ? self.roadRouteContainerHeightExpanded : 0
     }
-    
+
     fileprivate func toggleClosingHandleContainerView(_ show:Bool){
         self.busesResultsCloseHandleViewContainer.alpha = (show) ? CGFloat(1) : CGFloat(0)
         self.busesResultsCloseHandleViewContainer.isUserInteractionEnabled = show

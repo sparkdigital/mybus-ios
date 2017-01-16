@@ -145,9 +145,9 @@ open class DBManager: NSObject {
                     if let indexLocation = user.favourites.index(of: location) {
                         favoritePlace.name = name ?? favoritePlace.name
                         if let updatedLocation = newFavLocation {
-                            favoritePlace.address = updatedLocation.address 
-                            favoritePlace.latitude = updatedLocation.latitude 
-                            favoritePlace.longitude = updatedLocation.longitude 
+                            favoritePlace.address = updatedLocation.address
+                            favoritePlace.latitude = updatedLocation.latitude
+                            favoritePlace.longitude = updatedLocation.longitude
                         }
                         user.favourites.replace(index: indexLocation, object: favoritePlace)
                     }

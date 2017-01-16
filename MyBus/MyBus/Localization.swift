@@ -10,8 +10,8 @@ import UIKit
 
 open class Localization: NSObject {
 
-    class func getLocalizedString(_ key : String) -> String{        
+    class func getLocalizedString(_ key: String) -> String{
         return NSLocalizedString(key, tableName: nil, bundle: Bundle.main, value: "", comment: "")
     }
-    
+
 }

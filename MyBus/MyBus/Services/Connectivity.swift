@@ -34,7 +34,7 @@ open class Connectivity: NSObject
     {
         mgpGisService.getStreetNamesByFile(forName: address, completionHandler: completionHandler)
     }
-    
+
     func getAllStreetNames(_ completionHandler: ([String]?, Error?) -> ())
     {
         mgpGisService.getAllStreetNamesByFile(completionHandler)

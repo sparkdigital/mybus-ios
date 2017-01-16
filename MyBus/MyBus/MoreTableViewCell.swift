@@ -9,35 +9,35 @@
 import UIKit
 
 class MoreSectionModel {
-    var iconPath:String?
-    var sectionName:String?
+    var iconPath: String?
+    var sectionName: String?
     var executeAction:((_ sender:AnyObject)->Void)
-    
-    init(path:String, sectionName:String, action:@escaping (_ sender:AnyObject)->Void){
+
+    init(path: String, sectionName: String, action:@escaping (_ sender:AnyObject)->Void){
         self.iconPath = path
         self.sectionName = sectionName
         self.executeAction = action
     }
-    
+
     func getIconImage()->UIImage?{
         if let path = iconPath {
             return UIImage(named: path)
         }
         return nil
     }
-    
+
 }
 
 class MoreTableViewCell: UITableViewCell {
-    
-    @IBOutlet weak var iconImageView:UIImageView!
-    @IBOutlet weak var sectionLabel:UILabel!
-    var moreModel:MoreSectionModel? {
+
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var sectionLabel: UILabel!
+    var moreModel: MoreSectionModel? {
         didSet{
             self.reloadCell()
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -48,19 +48,19 @@ class MoreTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
     func reloadCell(){
-        
+
         guard let model = self.moreModel else {
             NSLog("Cell model is nil")
             return
         }
-        
+
         self.iconImageView.image = model.getIconImage()
         self.iconImageView.contentMode = UIViewContentMode.scaleAspectFit
-        
+
         self.sectionLabel.text = model.sectionName
-        
+
     }
 
 }

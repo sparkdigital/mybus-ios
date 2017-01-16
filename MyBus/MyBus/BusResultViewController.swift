@@ -9,48 +9,48 @@
 import UIKit
 
 class BusResultViewController: UIViewController {
-    
-    var busResultScrollView:UIScrollView!
-    
-    fileprivate var routeResultView:RoutePresenterDelegate?
-    
-    var routeResult:BusRouteResult! {
+
+    var busResultScrollView: UIScrollView!
+
+    fileprivate var routeResultView: RoutePresenterDelegate?
+
+    var routeResult: BusRouteResult! {
         didSet {
             self.reloadData()
         }
     }
-    
-    var roadResult:RoadResult! {
+
+    var roadResult: RoadResult! {
         didSet{
             self.updateRouteWithRoadInfo()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    
+
+
     fileprivate func reloadData(){
-        
+
         guard let result = self.routeResult else {
             return
         }
-        
+
         //clean up views
         self.view.clearViewSubviews()
-        
+
         self.routeResultView = nil
-        
+
         if result.busRouteType == MyBusRouteResultType.single {
             //Build simple cell
             routeResultView = SingleRouteView(frame: self.view.bounds)
@@ -58,13 +58,13 @@ class BusResultViewController: UIViewController {
             //Build combinated cell
             routeResultView = CombinedRouteView(frame: self.view.bounds)
         }
-        
+
         //Set model
         routeResultView?.routeResultModel = result
-        
+
         //Set up title of controller (used by page menu item)
         self.title = result.toStringDescription()
-        
+
         //Create and Setup ScrollView
         self.busResultScrollView = UIScrollView(frame: self.view.bounds)
         self.busResultScrollView.contentSize = CGSize(width: self.view.bounds.width, height: routeResultView!.preferredHeight())
@@ -72,18 +72,18 @@ class BusResultViewController: UIViewController {
         self.busResultScrollView.bounces = false
         self.busResultScrollView.alwaysBounceVertical = false
         self.busResultScrollView.autoresizingMask = UIViewAutoresizing.flexibleHeight
-        
+
         //Add RouteResultView to scrollview
         self.view.addAutoPinnedSubview(routeResultView as! UIView, toView: self.busResultScrollView)
-        
+
         //Add ScrollView to viewController's view
         self.view.addAutoPinnedSubview(busResultScrollView, toView: self.view)
-       
+
     }
-    
+
     fileprivate func updateRouteWithRoadInfo(){
         self.routeResultView?.roadResultModel = self.roadResult
     }
-    
-    
+
+
 }
