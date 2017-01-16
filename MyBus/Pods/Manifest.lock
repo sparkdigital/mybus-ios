@@ -44,11 +44,11 @@ PODS:
   - MBProgressHUD (1.0.0)
   - PageMenu (1.2.9)
   - Polyline (4.0.0)
-  - Realm (2.1.2):
-    - Realm/Headers (= 2.1.2)
-  - Realm/Headers (2.1.2)
-  - RealmSwift (2.1.2):
-    - Realm (= 2.1.2)
+  - Realm (2.2.0):
+    - Realm/Headers (= 2.2.0)
+  - Realm/Headers (2.2.0)
+  - RealmSwift (2.2.0):
+    - Realm (= 2.2.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
@@ -102,8 +102,8 @@ SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
   Polyline: c6de7430bf6ff0bfff1f087343597b83b38fdb69
-  Realm: efe855f4d977c8ce5a82d3116d9f1ff155a6550c
-  RealmSwift: 17d6ee30b6f9df86364408c2197492e33bfea567
+  Realm: d95b8fb34c83f1e764b66d319277a62c2b6e4bf5
+  RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
 PODFILE CHECKSUM: 77e3ec0bc6e9dee323ddf9be73bbc29194ecdfdb
