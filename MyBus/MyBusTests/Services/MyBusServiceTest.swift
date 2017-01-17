@@ -8,7 +8,7 @@
 
 import XCTest
 import MapKit
-@testable import MyBus
+@testable import MYBUS
 
 class MyBusServiceTest: XCTestCase
 {
@@ -45,7 +45,7 @@ class MyBusServiceTest: XCTestCase
                     XCTAssertNotNil(item)
                     XCTAssert(item.busRoutes.count > 0)
                     XCTAssertNotNil(item.busRouteType)
-                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
                     
                     let routes = item.busRoutes
                     
@@ -108,7 +108,7 @@ class MyBusServiceTest: XCTestCase
         // Av. Independencia & Av. Pedro Luro LAT/LON coordinates
         let destinationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.995540099999999, longitude: -57.552269300000013)
         
-        self.measureBlock
+        self.measure
             {
                 self.myBusService.searchRoutes(originCoordinate.latitude, longitudeOrigin: originCoordinate.longitude, latitudeDestination: destinationCoordinate.latitude, longitudeDestination: destinationCoordinate.longitude) { (busRouteResultArray, error) in
                     
@@ -119,7 +119,7 @@ class MyBusServiceTest: XCTestCase
                             XCTAssertNotNil(item)
                             XCTAssert(item.busRoutes.count > 0)
                             XCTAssertNotNil(item.busRouteType)
-                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
                             
                             let routes = item.busRoutes
                             
@@ -173,7 +173,7 @@ class MyBusServiceTest: XCTestCase
                     XCTAssertNotNil(item)
                     XCTAssert(item.busRoutes.count > 0)
                     XCTAssertNotNil(item.busRouteType)
-                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.combined)
                     
                     let routes = item.busRoutes
                     
@@ -236,7 +236,7 @@ class MyBusServiceTest: XCTestCase
         // Luzuriaga 301 LAT/LON coordinates
         let destinationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.086793900000004, longitude: -57.548919800000007)
         
-        self.measureBlock
+        self.measure
             {
                 self.myBusService.searchRoutes(originCoordinate.latitude, longitudeOrigin: originCoordinate.longitude, latitudeDestination: destinationCoordinate.latitude, longitudeDestination: destinationCoordinate.longitude) { (busRouteResultArray, error) in
                     
@@ -247,7 +247,7 @@ class MyBusServiceTest: XCTestCase
                             XCTAssertNotNil(item)
                             XCTAssert(item.busRoutes.count > 0)
                             XCTAssertNotNil(item.busRouteType)
-                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.combined)
                             
                             let routes = item.busRoutes
                             
@@ -294,7 +294,7 @@ class MyBusServiceTest: XCTestCase
         
         let singleRoadSearch =  RoadSearch(singleRoad: busIDLine, firstDirection: direction, beginStopFirstLine: beginStopLine, endStopFirstLine: endStopLine)
         
-        myBusService.searchRoads(.Single, roadSearch: singleRoadSearch, completionHandler: { (roadResult, error) in
+        myBusService.searchRoads(.single, roadSearch: singleRoadSearch, completionHandler: { (roadResult, error) in
             
             if let singleRoadResult = roadResult
             {
@@ -310,10 +310,10 @@ class MyBusServiceTest: XCTestCase
                 
                 switch singleRoadResult.busRouteResultType()
                 {
-                case .Single:
+                case .single:
                     XCTAssertNotNil(singleRoadResult.firstBusStop)
                     XCTAssertNotNil(singleRoadResult.endBusStop)
-                case .Combined:
+                case .combined:
                     XCTAssertNotNil(singleRoadResult.midStartStop)
                     XCTAssertNotNil(singleRoadResult.midEndStop)
                 }
@@ -357,9 +357,9 @@ class MyBusServiceTest: XCTestCase
         
         let singleRoadSearch =  RoadSearch(singleRoad: busIDLine, firstDirection: direction, beginStopFirstLine: beginStopLine, endStopFirstLine: endStopLine)
         
-        self.measureBlock
+        self.measure
             {
-                self.myBusService.searchRoads(.Single, roadSearch: singleRoadSearch, completionHandler: { (roadResult, error) in
+                self.myBusService.searchRoads(.single, roadSearch: singleRoadSearch, completionHandler: { (roadResult, error) in
                     
                     if let singleRoadResult = roadResult
                     {
@@ -375,10 +375,10 @@ class MyBusServiceTest: XCTestCase
                         
                         switch singleRoadResult.busRouteResultType()
                         {
-                        case .Single:
+                        case .single:
                             XCTAssertNotNil(singleRoadResult.firstBusStop)
                             XCTAssertNotNil(singleRoadResult.endBusStop)
-                        case .Combined:
+                        case .combined:
                             XCTAssertNotNil(singleRoadResult.midStartStop)
                             XCTAssertNotNil(singleRoadResult.midEndStop)
                         }
@@ -417,7 +417,7 @@ class MyBusServiceTest: XCTestCase
         
         let combinedRoadSearch =  RoadSearch(combinedRoad: firstBusIDLine, firstDirection: firstDirection, beginStopFirstLine: firstBeginStopLine, endStopFirstLine: firstEndStopLine, idSecondLine: secondBusIDLine, secondDirection: secondDirection, beginStopSecondLine: secondBeginStopLine, endStopSecondLine: secondEndStopLine)
         
-        myBusService.searchRoads(.Combined, roadSearch: combinedRoadSearch, completionHandler:
+        myBusService.searchRoads(.combined, roadSearch: combinedRoadSearch, completionHandler:
         { (roadResult, error) in
             
             if let combinedRoadResult = roadResult
@@ -434,10 +434,10 @@ class MyBusServiceTest: XCTestCase
                 
                 switch combinedRoadResult.busRouteResultType()
                 {
-                case .Single:
+                case .single:
                     XCTAssertNotNil(combinedRoadResult.firstBusStop)
                     XCTAssertNotNil(combinedRoadResult.endBusStop)
-                case .Combined:
+                case .combined:
                     XCTAssertNotNil(combinedRoadResult.midStartStop)
                     XCTAssertNotNil(combinedRoadResult.midEndStop)
                 }
@@ -486,9 +486,9 @@ class MyBusServiceTest: XCTestCase
         
         let combinedRoadSearch =  RoadSearch(combinedRoad: firstBusIDLine, firstDirection: firstDirection, beginStopFirstLine: firstBeginStopLine, endStopFirstLine: firstEndStopLine, idSecondLine: secondBusIDLine, secondDirection: secondDirection, beginStopSecondLine: secondBeginStopLine, endStopSecondLine: secondEndStopLine)
         
-        self.measureBlock
+        self.measure
             {
-                self.myBusService.searchRoads(.Combined, roadSearch: combinedRoadSearch, completionHandler:
+                self.myBusService.searchRoads(.combined, roadSearch: combinedRoadSearch, completionHandler:
                 { (roadResult, error) in
                     
                     if let combinedRoadResult = roadResult
@@ -505,10 +505,10 @@ class MyBusServiceTest: XCTestCase
                         
                         switch combinedRoadResult.busRouteResultType()
                         {
-                        case .Single:
+                        case .single:
                             XCTAssertNotNil(combinedRoadResult.firstBusStop)
                             XCTAssertNotNil(combinedRoadResult.endBusStop)
-                        case .Combined:
+                        case .combined:
                             XCTAssertNotNil(combinedRoadResult.midStartStop)
                             XCTAssertNotNil(combinedRoadResult.midEndStop)
                         }
@@ -540,7 +540,7 @@ class MyBusServiceTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "531"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -608,7 +608,7 @@ class MyBusServiceTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "531"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -651,7 +651,7 @@ class MyBusServiceTest: XCTestCase
             }
         }
         
-        self.measureBlock
+        self.measure
             {
                 //Get route in going way
                 self.myBusService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
@@ -668,7 +668,7 @@ class MyBusServiceTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "542"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -736,7 +736,7 @@ class MyBusServiceTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "542"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -779,7 +779,7 @@ class MyBusServiceTest: XCTestCase
             }
         }
         
-        self.measureBlock
+        self.measure
             {
                 //Get route in going way
                 self.myBusService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
@@ -835,7 +835,7 @@ class MyBusServiceTest: XCTestCase
         // Avenida Pedro Luro y Avenida Independencia
         let userLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
         
-        self.measureBlock
+        self.measure
             {
                 self.myBusService.getRechargeCardPoints(userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude)
                 {

@@ -17,7 +17,6 @@
 		0807F6DE1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6DD1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift */; };
 		0807F6E01DE74F5500ACDFED /* GisServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6DF1DE74F5500ACDFED /* GisServiceTest.swift */; };
 		0807F6E21DE74F6E00ACDFED /* GeoCodingServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6E11DE74F6E00ACDFED /* GeoCodingServiceTest.swift */; };
-		081288C71DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288C61DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift */; };
 		081288C91DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288C81DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift */; };
 		081288CB1DF09B9300EC9B79 /* MyBusMapControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288CA1DF09B9300EC9B79 /* MyBusMapControllerTest.swift */; };
 		081288CD1DF09DB600EC9B79 /* SearchViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288CC1DF09DB600EC9B79 /* SearchViewControllerTest.swift */; };
@@ -198,7 +197,6 @@
 		0807F6DD1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBoxDirectionsServiceTest.swift; path = Services/MapBoxDirectionsServiceTest.swift; sourceTree = "<group>"; };
 		0807F6DF1DE74F5500ACDFED /* GisServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GisServiceTest.swift; path = Services/GisServiceTest.swift; sourceTree = "<group>"; };
 		0807F6E11DE74F6E00ACDFED /* GeoCodingServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingServiceTest.swift; path = Services/GeoCodingServiceTest.swift; sourceTree = "<group>"; };
-		081288C61DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchSuggestionsViewControllerTest.swift; path = Controllers/SearchSuggestionsViewControllerTest.swift; sourceTree = "<group>"; };
 		081288C81DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContainerViewControllerTest.swift; path = Controllers/SearchContainerViewControllerTest.swift; sourceTree = "<group>"; };
 		081288CA1DF09B9300EC9B79 /* MyBusMapControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyBusMapControllerTest.swift; path = Controllers/MyBusMapControllerTest.swift; sourceTree = "<group>"; };
 		081288CC1DF09DB600EC9B79 /* SearchViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewControllerTest.swift; path = Controllers/SearchViewControllerTest.swift; sourceTree = "<group>"; };
@@ -411,7 +409,6 @@
 		0826D1AB1DD36C1D00F9ED15 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				081288C61DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift */,
 				081288C81DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift */,
 				081288CA1DF09B9300EC9B79 /* MyBusMapControllerTest.swift */,
 				081288CC1DF09DB600EC9B79 /* SearchViewControllerTest.swift */,
@@ -938,6 +935,7 @@
 					};
 					08EC58631CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = S3HBAFMNTV;
 						LastSwiftMigration = 0820;
 						TestTargetID = 08EC584C1CBD482400E8410A;
 					};
@@ -1258,7 +1256,6 @@
 				0807F6E01DE74F5500ACDFED /* GisServiceTest.swift in Sources */,
 				081288C91DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift in Sources */,
 				081288D71DF09E5400EC9B79 /* BusesResultsTableViewControllerTest.swift in Sources */,
-				081288C71DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift in Sources */,
 				08E5F5321DD4B8D7004D0578 /* BusRouteResultSingleTest.swift in Sources */,
 				081288D51DF09E1E00EC9B79 /* SuggestionSearchViewControllerTest.swift in Sources */,
 				08E5F53B1DD4C271004D0578 /* SuggestedPlaceTest.swift in Sources */,
@@ -1448,10 +1445,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = S3HBAFMNTV;
 				INFOPLIST_FILE = MyBusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SparkDigital.MyBusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MYBUS.app/MYBUS";
 			};
@@ -1463,10 +1464,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = S3HBAFMNTV;
 				INFOPLIST_FILE = MyBusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SparkDigital.MyBusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MYBUS.app/MYBUS";
 			};

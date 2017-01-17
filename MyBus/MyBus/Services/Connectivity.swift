@@ -80,7 +80,7 @@ open class Connectivity: NSObject
     }
 
     // MARK: - Directions Endpoints
-    func getWalkingDirections(_ sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: @escaping (MapboxDirections.Route?, Error?) -> ())
+    func getWalkingDirections(_ sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: @escaping (MapboxDirections.Route?, [Waypoint]?, Error?) -> ())
     {
         directionsService.getWalkingDirections(sourceCoordinate, destinationCoordinate : destinationCoordinate, completionHandler : completionHandler)
     }

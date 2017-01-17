@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class RoadResultTest: XCTestCase
 {
@@ -53,10 +53,10 @@ class RoadResultTest: XCTestCase
         
         switch roadResult.busRouteResultType()
         {
-        case .Single:
+        case .single:
             XCTAssertNotNil(roadResult.firstBusStop)
             XCTAssertNotNil(roadResult.endBusStop)
-        case .Combined:
+        case .combined:
             XCTAssertNotNil(roadResult.midStartStop)
             XCTAssertNotNil(roadResult.midEndStop)
         }

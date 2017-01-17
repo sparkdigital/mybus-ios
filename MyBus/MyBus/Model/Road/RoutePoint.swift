@@ -70,7 +70,7 @@ class RoutePoint: Object {
             geoPoint.latitude = originLocation["lat"].doubleValue
             geoPoint.longitude = originLocation["lng"].doubleValue
             geoPoint.address = address ?? "Ubicación sin nombre"
-
+            geoPoint.address = geoPoint.address.components(separatedBy: "-").first ?? geoPoint.address
             return geoPoint
         default:
             return nil

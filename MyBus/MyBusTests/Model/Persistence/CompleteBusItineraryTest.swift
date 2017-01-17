@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class CompleteBusItineraryTest: XCTestCase
 {
@@ -61,13 +61,13 @@ class CompleteBusItineraryTest: XCTestCase
         complete571BRoute.returnPointList = returning571BCompleteRoute.goingPointList
         
         bus511AItinerary.busLineName = complete511ARoute.busLineName
-        bus511AItinerary.goingItineraryPoint.appendContentsOf(complete511ARoute.goingPointList)
-        bus511AItinerary.returnItineraryPoint.appendContentsOf(complete511ARoute.returnPointList)
+        bus511AItinerary.goingItineraryPoint.append(objectsIn: complete511ARoute.goingPointList)
+        bus511AItinerary.returnItineraryPoint.append(objectsIn: complete511ARoute.returnPointList)
         bus511AItinerary.savedDate = Date()
         
         bus571BItinerary.busLineName = complete571BRoute.busLineName
-        bus571BItinerary.goingItineraryPoint.appendContentsOf(complete571BRoute.goingPointList)
-        bus571BItinerary.returnItineraryPoint.appendContentsOf(complete571BRoute.returnPointList)
+        bus571BItinerary.goingItineraryPoint.append(objectsIn: complete571BRoute.goingPointList)
+        bus571BItinerary.returnItineraryPoint.append(objectsIn: complete571BRoute.returnPointList)
         bus571BItinerary.savedDate = Date()
     }
     

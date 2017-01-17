@@ -8,7 +8,7 @@
 
 import XCTest
 import MapKit
-@testable import MyBus
+@testable import MYBUS
 
 class GisServiceTest: XCTestCase
 {
@@ -74,7 +74,7 @@ class GisServiceTest: XCTestCase
     {
         searchText = "Av "
         
-        self.measureBlock
+        self.measure
             {
                 self.mgpGISService.getStreetNamesByFile(forName: self.searchText)
                 { (streets, error) in
@@ -147,7 +147,7 @@ class GisServiceTest: XCTestCase
     {
         searchText = "Diag "
         
-        self.measureBlock
+        self.measure
             {
                 self.mgpGISService.getStreetNamesByFile(forName: self.searchText)
                 { (streets, error) in
@@ -216,7 +216,7 @@ class GisServiceTest: XCTestCase
     
     func testPerformanceForAllStreetsSearch()
     {
-        self.measureBlock
+        self.measure
             {
                 self.mgpGISService.getAllStreetNamesByFile()
                     { (streets, error) in
@@ -287,7 +287,7 @@ class GisServiceTest: XCTestCase
         // Spark Digital's Mar del Plata Office LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.019984, longitude: -57.545083)
         
-        self.measureBlock
+        self.measure
             {
                 self.mgpGISService.getAddressFromCoordinate(coordinate.latitude, longitude: coordinate.longitude, completionHandler: { (routePoint, error) in
                     

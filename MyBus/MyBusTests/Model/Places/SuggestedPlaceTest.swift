@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import MyBus
+@testable import MYBUS
 
 class SuggestedPlaceTest: XCTestCase
 {
@@ -17,7 +17,7 @@ class SuggestedPlaceTest: XCTestCase
     {
         super.setUp()
     
-        let suggestedPlacesArray = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("SuggestedPlaces", ofType: "plist")!)!
+        let suggestedPlacesArray = NSArray(contentsOfFile: Bundle.main.path(forResource: "SuggestedPlaces", ofType: "plist")!)!
         
         suggestedPlaces = suggestedPlacesArray.map { (placeDict) -> SuggestedPlace in
             return SuggestedPlace(object: placeDict as! NSDictionary)
@@ -47,7 +47,7 @@ class SuggestedPlaceTest: XCTestCase
         
         for case let item:SuggestedPlace in suggestedPlaces
         {
-            let indexOfSuggestedItem = suggestedPlaces.indexOf({$0 === item})
+            let indexOfSuggestedItem = suggestedPlaces.index(where: {$0 === item})
             
             XCTAssertNotNil(item.name)
             XCTAssertNotNil(item.description)

@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class BusRouteResultSingleTest: XCTestCase
 {
@@ -72,7 +72,7 @@ class BusRouteResultSingleTest: XCTestCase
             XCTAssertNotNil(item)
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
-            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
             
             let busRouteDescription = "BusRouteResult with Type:\(item.busRouteType) and Routes #:\(item.busRoutes.count)\n"
             
@@ -85,7 +85,7 @@ class BusRouteResultSingleTest: XCTestCase
             XCTAssertNotNil(item)
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
-            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
             
             let busRouteDescription = "BusRouteResult with Type:\(item.busRouteType) and Routes #:\(item.busRoutes.count)\n"
             

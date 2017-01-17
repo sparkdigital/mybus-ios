@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class BusRouteSingleTest: XCTestCase
 {

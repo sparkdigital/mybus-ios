@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class BusSearchResultSingleTest: XCTestCase
 {
@@ -119,7 +119,7 @@ class BusSearchResultSingleTest: XCTestCase
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertEqual(item.busRoutes.count > 0, firstBusSearchResultSingle.hasRouteOptions)
             XCTAssertNotNil(item.busRouteType)
-            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
             
             let busSearchDescription = "BusSearchResult with Type:\(item.busRouteType) and CombinationDistance:\(item.combinationDistance)\n"
             
@@ -133,7 +133,7 @@ class BusSearchResultSingleTest: XCTestCase
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertEqual(item.busRoutes.count > 0, secondBusSearchResultSingle.hasRouteOptions)
             XCTAssertNotNil(item.busRouteType)
-            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
             
             let busSearchDescription = "BusSearchResult with Type:\(item.busRouteType) and CombinationDistance:\(item.combinationDistance)\n"
             

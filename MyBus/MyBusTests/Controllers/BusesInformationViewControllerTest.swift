@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import MyBus
+@testable import MYBUS
 
 class BusesInformationViewControllerTest: XCTestCase {
     

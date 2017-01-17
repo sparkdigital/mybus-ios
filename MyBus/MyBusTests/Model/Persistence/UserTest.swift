@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class UserTest: XCTestCase
 {
@@ -76,8 +76,8 @@ class UserTest: XCTestCase
         
         recents = [firstRecent, secondRecent, thirdRecent, fourthRecent]
         
-        user.favourites.appendContentsOf(favourites)
-        user.recents.appendContentsOf(recents)
+        user.favourites.append(objectsIn: favourites)
+        user.recents.append(objectsIn: recents)
     }
     
     override func tearDown()
