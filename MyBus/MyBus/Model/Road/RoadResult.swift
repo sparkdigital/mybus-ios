@@ -84,15 +84,12 @@ class RoadResult: NSObject {
     func addWalkingDirection(_ from: CLLocationCoordinate2D, to: CLLocationCoordinate2D, completion: @escaping ()->()) -> Void {
         Connectivity.sharedInstance.getWalkingDirections(from, destinationCoordinate: to) {
             route, waypoints, error in
-            print(error ?? "")
+            
             if let walkRoute = route {
-                if walkRoute.distance > CLLocationDistance(100) {
-                    self.walkingRoutes.append(walkRoute)
-                    completion()
-                } else {
-                    completion()
-                }
+                self.walkingRoutes.append(walkRoute)
+                completion()
             } else {
+                print(error ?? "")
                 completion()
             }
         }
