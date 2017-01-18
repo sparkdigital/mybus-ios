@@ -187,20 +187,28 @@ class MainViewController: UIViewController {
     func reachabilityChanged(_ note: Notification) {
         let reachability = note.object as! ReachabilityMyBus
         if reachability.isReachable {
-            if reachability.isReachableViaWiFi {
-                print("Reachable via WiFi")
-            } else {
-                print("Reachable via Cellular")
-            }
-            alertNetworkNotReachable.dismiss(animated: true, completion: nil)
-            alertPresented = false
+            internetIsReachable(reachability: reachability)
         } else {
-            print("Network not reachable")
-            if alertNetworkNotReachable.view.window == nil && !alertPresented {
-                self.present(alertNetworkNotReachable, animated: true, completion: nil)
-                alertPresented = true
-            }
+            internetIsNotReachable()
         }
+    }
+    
+    func internetIsNotReachable() {
+        print("Network not reachable")
+        if alertNetworkNotReachable.view.window == nil && !alertPresented {
+            self.present(alertNetworkNotReachable, animated: true, completion: nil)
+            alertPresented = true
+        }
+    }
+    
+    func internetIsReachable(reachability: ReachabilityMyBus) {
+        if reachability.isReachableViaWiFi {
+            print("Reachable via WiFi")
+        } else {
+            print("Reachable via Cellular")
+        }
+        alertNetworkNotReachable.dismiss(animated: true, completion: nil)
+        alertPresented = false
     }
 
     func handleSingleLongTap(_ tap: UITapGestureRecognizer) {
@@ -300,6 +308,12 @@ class MainViewController: UIViewController {
     }
 
     func startReachablity(_ note: Notification?) {
+        if reachability.isReachable {
+            internetIsReachable(reachability: reachability)
+        } else {
+            internetIsNotReachable()
+        }
+        
         do {
             try reachability.startNotifier()
         } catch {
