@@ -12,15 +12,15 @@ class MoreViewController: UIViewController {
 
     //Closures
     var faresActionClosure:(_ sender:AnyObject)->Void = { sender in
-        sender.showBusFares(sender)
+        (sender as! MoreViewController).showBusFares(sender)
     }
 
     var termsActionClosure:(_ sender:AnyObject)->Void = { sender in
-        sender.showTerms(sender)
+        (sender as! MoreViewController).showTerms(sender)
     }
 
     var aboutActionClosure:(_ sender:AnyObject)->Void = { sender in
-        sender.showAboutUs(sender)
+        (sender as! MoreViewController).showAboutUs(sender)
     }
 
     @IBOutlet weak var moreTableView: UITableView!

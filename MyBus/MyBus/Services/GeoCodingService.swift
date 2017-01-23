@@ -20,14 +20,18 @@ open class GeoCodingService: NSObject, GeoCodingServiceDelegate {
         let address = "\(streetName), mar del plata"
         let components = "administrative_area:General Pueyrredón"
 
-        let request: URLRequest =  try! GeoCodingRouter.coordinateFromAddressComponents(address: address, components: components, key: GeoCodingRouter.GEO_CODING_API_KEY).asURLRequest()
+        do {
+            let request: URLRequest =  try GeoCodingRouter.coordinateFromAddressComponents(address: address, components: components, key: GeoCodingRouter.GEO_CODING_API_KEY).asURLRequest()
 
-        BaseNetworkService.performRequest(request) { response, error in
-            if let json = response {
-                completionHandler(RoutePoint.parseFromGeoGoogle(json), error)
-            } else {
-                completionHandler(nil, error)
+            BaseNetworkService.performRequest(request) { response, error in
+                if let json = response {
+                    completionHandler(RoutePoint.parseFromGeoGoogle(json), error)
+                } else {
+                    completionHandler(nil, error)
+                }
             }
+        } catch {
+            NSLog("Failed building coordinate from address URL request")
         }
     }
 }

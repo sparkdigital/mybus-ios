@@ -44,7 +44,7 @@ open class GisService: NSObject, GisServiceDelegate {
     internal func getAddressFromCoordinate(_ latitude: Double, longitude: Double, completionHandler: @escaping (RoutePoint?, NSError?) -> ())
     {
         print("You tapped at: \(latitude), \(longitude)")
-        let validLocalities = ["general pueyrredón", "mar del plata", "sierra de los padres", "batán"]
+        let validLocalities = ["general pueyrredón", "mar del plata", "sierra de los padres", "batán", "chapadmalal"]
 
         LocationManager.sharedInstance.CLReverseGeocoding(latitude, longitude: longitude) { (placemark, error) in
 
