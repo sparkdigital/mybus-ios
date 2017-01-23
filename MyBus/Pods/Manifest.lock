@@ -38,7 +38,7 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
-  - Mapbox-iOS-SDK (3.3.7)
+  - Mapbox-iOS-SDK (3.4.0)
   - MapboxDirections.swift (0.6.0):
     - Polyline (~> 4.0.0)
   - MBProgressHUD (1.0.0)
@@ -60,7 +60,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Messaging
   - Flurry-iOS-SDK (~> 7.9)
-  - Mapbox-iOS-SDK (~> 3.3)
+  - Mapbox-iOS-SDK (~> 3.4)
   - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, branch `swift3`)
   - MBProgressHUD (~> 1.0)
   - PageMenu (from `https://github.com/orazz/PageMenu.git`)
@@ -97,7 +97,7 @@ SPEC CHECKSUMS:
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  Mapbox-iOS-SDK: 142301fa63a6719cbd2eacc0f9e8bf36c65930d9
+  Mapbox-iOS-SDK: 0b466a2e2346589e93050e0b1d1c253f6b2510bc
   MapboxDirections.swift: 4acd753d0079bae4f2fae2b2cbda98922909de09
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
@@ -106,6 +106,6 @@ SPEC CHECKSUMS:
   RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 77e3ec0bc6e9dee323ddf9be73bbc29194ecdfdb
+PODFILE CHECKSUM: 2a2a75804a63dcad726fa67e4b342bbf9a324cb6
 
 COCOAPODS: 1.1.1
