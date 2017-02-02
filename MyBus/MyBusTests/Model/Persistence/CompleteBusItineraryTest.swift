@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class CompleteBusItineraryTest: XCTestCase
 {
@@ -27,21 +27,21 @@ class CompleteBusItineraryTest: XCTestCase
     {
         super.setUp()
     
-        let going511ACompleteRouteFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("511AGoingCompleteBusRoute", ofType: "json")
-        let returning511ACompleteRouteFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("511AReturningCompleteBusRoute", ofType: "json")
+        let going511ACompleteRouteFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "511AGoingCompleteBusRoute", ofType: "json")
+        let returning511ACompleteRouteFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "511AReturningCompleteBusRoute", ofType: "json")
         
-        let going571BCompleteRouteFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("571BGoingCompleteBusRoute", ofType: "json")
-        let returning571BCompleteRouteFilePath = NSBundle(forClass: BusSearchResultSingleTest.self).pathForResource("571BReturningCompleteBusRoute", ofType: "json")
+        let going571BCompleteRouteFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "571BGoingCompleteBusRoute", ofType: "json")
+        let returning571BCompleteRouteFilePath = Bundle(for: BusSearchResultSingleTest.self).path(forResource: "571BReturningCompleteBusRoute", ofType: "json")
         
-        let going511ACompleteRouteJSONData = try! NSData(contentsOfFile: going511ACompleteRouteFilePath!, options:.DataReadingMappedIfSafe)
-        let returning511ACompleteRouteJSONData = try! NSData(contentsOfFile: returning511ACompleteRouteFilePath!, options:.DataReadingMappedIfSafe)
-        let going571BCompleteRouteJSONData = try! NSData(contentsOfFile: going571BCompleteRouteFilePath!, options:.DataReadingMappedIfSafe)
-        let returning571BCompleteRouteJSONData = try! NSData(contentsOfFile: returning571BCompleteRouteFilePath!, options:.DataReadingMappedIfSafe)
+        let going511ACompleteRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: going511ACompleteRouteFilePath!), options:.mappedIfSafe)
+        let returning511ACompleteRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: returning511ACompleteRouteFilePath!), options:.mappedIfSafe)
+        let going571BCompleteRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: going571BCompleteRouteFilePath!), options:.mappedIfSafe)
+        let returning571BCompleteRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: returning571BCompleteRouteFilePath!), options:.mappedIfSafe)
         
-        let going511ACompleteRouteJSON = try! NSJSONSerialization.JSONObjectWithData(going511ACompleteRouteJSONData, options: .MutableContainers)
-        let returning511ACompleteRouteJSON = try! NSJSONSerialization.JSONObjectWithData(returning511ACompleteRouteJSONData, options: .MutableContainers)
-        let going571BCompleteRouteJSON = try! NSJSONSerialization.JSONObjectWithData(going571BCompleteRouteJSONData, options: .MutableContainers)
-        let returning571BCompleteRouteJSON = try! NSJSONSerialization.JSONObjectWithData(returning571BCompleteRouteJSONData, options: .MutableContainers)
+        let going511ACompleteRouteJSON = try! JSONSerialization.jsonObject(with: going511ACompleteRouteJSONData, options: .mutableContainers)
+        let returning511ACompleteRouteJSON = try! JSONSerialization.jsonObject(with: returning511ACompleteRouteJSONData, options: .mutableContainers)
+        let going571BCompleteRouteJSON = try! JSONSerialization.jsonObject(with: going571BCompleteRouteJSONData, options: .mutableContainers)
+        let returning571BCompleteRouteJSON = try! JSONSerialization.jsonObject(with: returning571BCompleteRouteJSONData, options: .mutableContainers)
         
         let going511ACompleteRouteDictionary = JSON(going511ACompleteRouteJSON)
         let returning511ACompleteRouteDictionary = JSON(returning511ACompleteRouteJSON)
@@ -61,14 +61,14 @@ class CompleteBusItineraryTest: XCTestCase
         complete571BRoute.returnPointList = returning571BCompleteRoute.goingPointList
         
         bus511AItinerary.busLineName = complete511ARoute.busLineName
-        bus511AItinerary.goingItineraryPoint.appendContentsOf(complete511ARoute.goingPointList)
-        bus511AItinerary.returnItineraryPoint.appendContentsOf(complete511ARoute.returnPointList)
-        bus511AItinerary.savedDate = NSDate()
+        bus511AItinerary.goingItineraryPoint.append(objectsIn: complete511ARoute.goingPointList)
+        bus511AItinerary.returnItineraryPoint.append(objectsIn: complete511ARoute.returnPointList)
+        bus511AItinerary.savedDate = Date()
         
         bus571BItinerary.busLineName = complete571BRoute.busLineName
-        bus571BItinerary.goingItineraryPoint.appendContentsOf(complete571BRoute.goingPointList)
-        bus571BItinerary.returnItineraryPoint.appendContentsOf(complete571BRoute.returnPointList)
-        bus571BItinerary.savedDate = NSDate()
+        bus571BItinerary.goingItineraryPoint.append(objectsIn: complete571BRoute.goingPointList)
+        bus571BItinerary.returnItineraryPoint.append(objectsIn: complete571BRoute.returnPointList)
+        bus571BItinerary.savedDate = Date()
     }
     
     override func tearDown() {

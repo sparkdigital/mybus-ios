@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class RoadResultTest: XCTestCase
 {
@@ -18,11 +18,11 @@ class RoadResultTest: XCTestCase
     {
         super.setUp()
         
-        let filePath = NSBundle(forClass: BusRouteSingleTest.self).pathForResource("RoadResult_1", ofType: "json")
+        let filePath = Bundle(for: BusRouteSingleTest.self).path(forResource: "RoadResult_1", ofType: "json")
         
-        let jsonData = try! NSData(contentsOfFile: filePath!, options:.DataReadingMappedIfSafe)
+        let jsonData = try! Data(contentsOf: URL(fileURLWithPath: filePath!), options:.mappedIfSafe)
         
-        let json = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableContainers)
+        let json = try! JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
         
         let roadResultDictionary = JSON(json)
         
@@ -53,10 +53,10 @@ class RoadResultTest: XCTestCase
         
         switch roadResult.busRouteResultType()
         {
-        case .Single:
+        case .single:
             XCTAssertNotNil(roadResult.firstBusStop)
             XCTAssertNotNil(roadResult.endBusStop)
-        case .Combined:
+        case .combined:
             XCTAssertNotNil(roadResult.midStartStop)
             XCTAssertNotNil(roadResult.midEndStop)
         }

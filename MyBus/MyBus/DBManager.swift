@@ -11,11 +11,11 @@ import RealmSwift
 
 private let _sharedInstance = DBManager()
 
-public class DBManager: NSObject {
+open class DBManager: NSObject {
     var db: Realm?
     var currentUser: User? {
         if let db = db {
-            let users = db.objects(User)
+            let users = db.objects(User.self)
             if let user = users.first {
                 return user
             }
@@ -24,7 +24,7 @@ public class DBManager: NSObject {
     }
 
     // MARK: - Instantiation
-    public class var sharedInstance: DBManager {
+    open class var sharedInstance: DBManager {
         return _sharedInstance
     }
 
@@ -37,7 +37,7 @@ public class DBManager: NSObject {
         }
     }
 
-    func getCompleteBusRoutes(busLineName: String) -> Results<CompleteBusItineray>? {
+    func getCompleteBusRoutes(_ busLineName: String) -> Results<CompleteBusItineray>? {
         if let db = db {
             let results = db.objects(CompleteBusItineray.self).filter("busLineName = '\(busLineName)'")
             return results
@@ -63,7 +63,7 @@ public class DBManager: NSObject {
         }
     }
 
-    func addRecent(newRecentPoint: RoutePoint) {
+    func addRecent(_ newRecentPoint: RoutePoint) {
         if let user = currentUser, let db = db {
             do {
                 try db.write({
@@ -77,7 +77,7 @@ public class DBManager: NSObject {
                     if user.recents.count == 5 {
                         user.recents.removeLast()
                     }
-                    user.recents.insert(newRecentPoint, atIndex: 0)
+                    user.recents.insert(newRecentPoint, at: 0)
                 })
             } catch let error as NSError {
                 NSLog("### Realm ### Error writing a new recent : \(error)")
@@ -90,7 +90,7 @@ public class DBManager: NSObject {
         }
     }
 
-    func addFavorite(newFavoritePlace: RoutePoint) {
+    func addFavorite(_ newFavoritePlace: RoutePoint) {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
@@ -114,16 +114,16 @@ public class DBManager: NSObject {
         }
     }
 
-    func removeFavorite(favoritePlace: RoutePoint) {
+    func removeFavorite(_ favoritePlace: RoutePoint) {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
-                    if let indexLocation = user.favourites.indexOf(favoritePlace) {
-                        user.favourites.removeAtIndex(indexLocation)
+                    if let indexLocation = user.favourites.index(of: favoritePlace) {
+                        user.favourites.remove(at: indexLocation)
                     } else {
                         let location = user.favourites.filter {($0.address == favoritePlace.address)}[0]
-                        if let indexLocation = user.favourites.indexOf(location) {
-                            user.favourites.removeAtIndex(indexLocation)
+                        if let indexLocation = user.favourites.index(of: location) {
+                            user.favourites.remove(at: indexLocation)
                         }
                     }
                 }
@@ -137,19 +137,19 @@ public class DBManager: NSObject {
         }
     }
 
-    func updateFavorite(favoritePlace: RoutePoint, name: String?, newFavLocation: RoutePoint?) {
+    func updateFavorite(_ favoritePlace: RoutePoint, name: String?, newFavLocation: RoutePoint?) {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
                     let location = user.favourites.filter {($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
-                    if let indexLocation = user.favourites.indexOf(location) {
+                    if let indexLocation = user.favourites.index(of: location) {
                         favoritePlace.name = name ?? favoritePlace.name
                         if let updatedLocation = newFavLocation {
-                            favoritePlace.address = updatedLocation.address ?? favoritePlace.address
-                            favoritePlace.latitude = updatedLocation.latitude ?? favoritePlace.latitude
-                            favoritePlace.longitude = updatedLocation.longitude ?? favoritePlace.longitude
+                            favoritePlace.address = updatedLocation.address
+                            favoritePlace.latitude = updatedLocation.latitude
+                            favoritePlace.longitude = updatedLocation.longitude
                         }
-                        user.favourites.replace(indexLocation, object: favoritePlace)
+                        user.favourites.replace(index: indexLocation, object: favoritePlace)
                     }
                 }
             } catch let error as NSError {
@@ -158,17 +158,17 @@ public class DBManager: NSObject {
         }
     }
 
-    func updateCompleteBusItinerary(itinerary: CompleteBusRoute) {
+    func updateCompleteBusItinerary(_ itinerary: CompleteBusRoute) {
         let itineray = CompleteBusItineray()
         itineray.busLineName = itinerary.busLineName
-        itineray.goingItineraryPoint.appendContentsOf(itinerary.goingPointList)
-        itineray.returnItineraryPoint.appendContentsOf(itinerary.returnPointList)
-        itineray.savedDate = NSDate()
+        itineray.goingItineraryPoint.append(objectsIn: itinerary.goingPointList)
+        itineray.returnItineraryPoint.append(objectsIn: itinerary.returnPointList)
+        itineray.savedDate = Date()
 
         self.addDataModelEntry(itineray, isUpdate: true)
     }
 
-    func findOneCompleteBusItinerary(busLine: String) -> CompleteBusItineray? {
+    func findOneCompleteBusItinerary(_ busLine: String) -> CompleteBusItineray? {
         if let db = db {
             let results = db.objects(CompleteBusItineray.self).filter("busLineName = '\(busLine)'")
             return results.first ?? nil
@@ -177,7 +177,7 @@ public class DBManager: NSObject {
         }
     }
 
-    func addDataModelEntry(object: Object, isUpdate: Bool? = false) {
+    func addDataModelEntry(_ object: Object, isUpdate: Bool? = false) {
         if let db = db {
             do {
                 db.beginWrite()

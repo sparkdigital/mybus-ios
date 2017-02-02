@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class BusRouteResultCombinedTest: XCTestCase
 {
@@ -19,14 +19,14 @@ class BusRouteResultCombinedTest: XCTestCase
     {
         super.setUp()
         
-        let firstFilePath = NSBundle(forClass: BusRouteResultCombinedTest.self).pathForResource("BusRouteResultCombined_1", ofType: "json")
-        let secondFilePath = NSBundle(forClass: BusRouteResultCombinedTest.self).pathForResource("BusRouteResultCombined_2", ofType: "json")
+        let firstFilePath = Bundle(for: BusRouteResultCombinedTest.self).path(forResource: "BusRouteResultCombined_1", ofType: "json")
+        let secondFilePath = Bundle(for: BusRouteResultCombinedTest.self).path(forResource: "BusRouteResultCombined_2", ofType: "json")
         
-        let firstJSONData = try! NSData(contentsOfFile: firstFilePath!, options:.DataReadingMappedIfSafe)
-        let secondJSONData = try! NSData(contentsOfFile: secondFilePath!, options:.DataReadingMappedIfSafe)
+        let firstJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstFilePath!), options:.mappedIfSafe)
+        let secondJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondFilePath!), options:.mappedIfSafe)
         
-        let firstJSON = try! NSJSONSerialization.JSONObjectWithData(firstJSONData, options: .MutableContainers)
-        let secondJSON = try! NSJSONSerialization.JSONObjectWithData(secondJSONData, options: .MutableContainers)
+        let firstJSON = try! JSONSerialization.jsonObject(with: firstJSONData, options: .mutableContainers)
+        let secondJSON = try! JSONSerialization.jsonObject(with: secondJSONData, options: .mutableContainers)
         
         var firstRouteDictionary = JSON(firstJSON)
         var secondRouteDictionary = JSON(secondJSON)
@@ -72,7 +72,7 @@ class BusRouteResultCombinedTest: XCTestCase
             XCTAssertNotNil(item)
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
-            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.combined)
             XCTAssertGreaterThanOrEqual(item.combinationDistance, 0.0)
             
             let busRouteDescription = "BusRouteResult with Type:\(item.busRouteType) and CombinationDistance:\(item.combinationDistance)\n"
@@ -86,7 +86,7 @@ class BusRouteResultCombinedTest: XCTestCase
             XCTAssertNotNil(item)
             XCTAssert(item.busRoutes.count > 0)
             XCTAssertNotNil(item.busRouteType)
-            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.combined)
             XCTAssertGreaterThanOrEqual(item.combinationDistance, 0.0)
             
             let busRouteDescription = "BusRouteResult with Type:\(item.busRouteType) and CombinationDistance:\(item.combinationDistance)\n"

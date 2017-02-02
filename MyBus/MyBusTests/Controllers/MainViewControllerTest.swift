@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import MyBus
+@testable import MYBUS
 
 class MainViewControllerTest: XCTestCase
 {
@@ -32,9 +32,6 @@ class MainViewControllerTest: XCTestCase
 
         // IBOutlet
         XCTAssertNil(mainController.containerView)
-        XCTAssertNil(mainController.locateUserButton)
-        XCTAssertNil(mainController.searchToolbar)
-        XCTAssertNil(mainController.searchBar)
         XCTAssertNil(mainController.tabBar)
         XCTAssertNil(mainController.mapSearchViewContainer)
         XCTAssertNil(mainController.mapSearchViewHeightConstraint)
@@ -48,7 +45,6 @@ class MainViewControllerTest: XCTestCase
         XCTAssertNil(mainController.suggestionSearchViewController)
         XCTAssertNil(mainController.searchContainerViewController)
         XCTAssertNil(mainController.favoriteViewController)
-        XCTAssertNil(mainController.busesRatesViewController)
         XCTAssertNil(mainController.busesInformationViewController)
         XCTAssertNil(mainController.busesResultsTableViewController)
         XCTAssertNil(mainController.navRouter)

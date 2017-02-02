@@ -18,7 +18,7 @@ extension BusSearchResult {
         }
     }
 
-    func getStringBusResultRow(busRouteResult: BusRouteResult) -> String {
+    func getStringBusResultRow(_ busRouteResult: BusRouteResult) -> String {
         return busRouteResult.emojiDescription()
     }
 }
@@ -37,13 +37,13 @@ extension BusRouteResult {
             let busLineFormatted = route.busLineName.characters.count == 3 ? route.busLineName+"  " : route.busLineName
             🚌 = "\(🚌) \(busLineFormatted) ➡"
         }
-        🚌.removeAtIndex(🚌.endIndex.predecessor())
+        🚌.remove(at: 🚌.characters.index(before: 🚌.endIndex))
         return 🚌
     }
-    
+
     func toStringDescription() -> String{
-        
-        if self.busRouteType == MyBusRouteResultType.Single {
+
+        if self.busRouteType == MyBusRouteResultType.single {
             guard let busOption = self.busRoutes.first else {
                 return ""
             }

@@ -11,22 +11,22 @@ import UIKit
 
 
 class BusesRatesDataSource: NSObject, UITableViewDataSource {
-    
-    var busRate : [(String, String)]
+
+    var busRate: [(String, String)]
 
     override init() {
         self.busRate = Configuration.bussesRates()
     }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell: BusesRatesTableViewCell = tableView.dequeueReusableCellWithIdentifier("BusesRatesTableViewCell", forIndexPath: indexPath) as! BusesRatesTableViewCell
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell: BusesRatesTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BusesRatesTableViewCell", for: indexPath) as! BusesRatesTableViewCell
         let (busline, busprice) = busRate[indexPath.row]
-        cell.loadItem(busline,busPrice: busprice)
+        cell.loadItem(busline, busPrice: busprice)
         return cell
     }
-   
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        return busRate.count
     }
-    
+
 }

@@ -12,28 +12,28 @@ import UIKit
 class NavRouter {
 
     //story board ids
-    private let main: String = "Main"
-    private let search: String = "Search"
-    private let buses: String = "Buses"
-    private let more: String = "More"
+    fileprivate let main: String = "Main"
+    fileprivate let search: String = "Search"
+    fileprivate let buses: String = "Buses"
+    fileprivate let more: String = "More"
 
     //Storyboard view controller identifiers
-    private let searchViewIdentifier: String = "SearchViewController"
-    private let mapViewIdentifier: String = "MapViewController"
-    private let ratesViewIdentifier: String = "BusesRatesViewController"
-    private let informationViewIdentifier: String = "BusesInformationViewController"
-    private let suggestionViewIdentifier: String = "SuggestionSearchViewController"
-    private let searchContainerViewIdentifier: String = "SearchContainerViewController"
-    private let busesResultsTableViewIdentifier: String = "BusesResultsTableVC"
-    private let favoriteViewIdentifier: String = "FavoriteViewController"
-    private let aboutUsViewIdentifier: String = "AboutUsViewController"
-    private let moreViewIdentifier: String = "MoreViewController"
-    private let termsViewIdentfier: String = "TermsViewController"
+    fileprivate let searchViewIdentifier: String = "SearchViewController"
+    fileprivate let mapViewIdentifier: String = "MapViewController"
+    fileprivate let ratesViewIdentifier: String = "BusesRatesViewController"
+    fileprivate let informationViewIdentifier: String = "BusesInformationViewController"
+    fileprivate let suggestionViewIdentifier: String = "SuggestionSearchViewController"
+    fileprivate let searchContainerViewIdentifier: String = "SearchContainerViewController"
+    fileprivate let busesResultsTableViewIdentifier: String = "BusesResultsTableVC"
+    fileprivate let favoriteViewIdentifier: String = "FavoriteViewController"
+    fileprivate let aboutUsViewIdentifier: String = "AboutUsViewController"
+    fileprivate let moreViewIdentifier: String = "MoreViewController"
+    fileprivate let termsViewIdentfier: String = "TermsViewController"
 
     //Method that receives a storyboard string identifier and returns a view controller object
-    private func buildComponentVC(identifier: String, storyBoard: String) -> UIViewController {
+    fileprivate func buildComponentVC(_ identifier: String, storyBoard: String) -> UIViewController {
         let storyboard: UIStoryboard = UIStoryboard(name: storyBoard, bundle: nil)
-        return storyboard.instantiateViewControllerWithIdentifier(identifier)
+        return storyboard.instantiateViewController(withIdentifier: identifier)
     }
 
     func aboutUsController()->UIViewController {

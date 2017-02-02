@@ -9,7 +9,7 @@
 import XCTest
 import MapKit
 import MapboxDirections
-@testable import MyBus
+@testable import MYBUS
 
 class ConnectivityTest: XCTestCase
 {
@@ -44,7 +44,7 @@ class ConnectivityTest: XCTestCase
     {
         searchText = "Av "
         
-        let avenuesExpectation = expectationWithDescription("ConnectivityGatherAllAvenuesNames")
+        let avenuesExpectation = expectation(description: "ConnectivityGatherAllAvenuesNames")
         
         connectivityService.getStreetNames(forName: searchText)
         { (streets, error) in
@@ -71,7 +71,7 @@ class ConnectivityTest: XCTestCase
             avenuesExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1)
+        waitForExpectations(timeout: 1)
         { error in
             
             if let error = error
@@ -87,7 +87,7 @@ class ConnectivityTest: XCTestCase
     {
         searchText = "Av "
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getStreetNames(forName: self.searchText)
                 { (streets, error) in
@@ -117,7 +117,7 @@ class ConnectivityTest: XCTestCase
     {
         searchText = "Diag "
         
-        let diagonalsExpectation = expectationWithDescription("ConnectivityGatherAllDiagonalsNames")
+        let diagonalsExpectation = expectation(description: "ConnectivityGatherAllDiagonalsNames")
         
         connectivityService.getStreetNames(forName: searchText)
         { (streets, error) in
@@ -144,7 +144,7 @@ class ConnectivityTest: XCTestCase
             diagonalsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(1)
+        waitForExpectations(timeout: 1)
         { error in
             
             if let error = error
@@ -160,7 +160,7 @@ class ConnectivityTest: XCTestCase
     {
         searchText = "Diag "
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getStreetNames(forName: self.searchText)
                 { (streets, error) in
@@ -188,7 +188,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForAllStreetsSearch()
     {
-        let allStreetsExpectation = expectationWithDescription("ConnectivityGatherAllStreetsNames")
+        let allStreetsExpectation = expectation(description: "ConnectivityGatherAllStreetsNames")
         
         connectivityService.getAllStreetNames()
         { (streets, error) in
@@ -215,7 +215,7 @@ class ConnectivityTest: XCTestCase
             allStreetsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(5)
+        waitForExpectations(timeout: 5)
         { error in
             
             if let error = error
@@ -229,7 +229,7 @@ class ConnectivityTest: XCTestCase
     
     func testPerformanceForAllStreetsSearch()
     {
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getAllStreetNames()
                     { (streets, error) in
@@ -257,7 +257,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForAddressFromCoordinate()
     {
-        let addressFromCoordinateExpectation = expectationWithDescription("ConnectivityGatherAddressForCoordinate")
+        let addressFromCoordinateExpectation = expectation(description: "ConnectivityGatherAddressForCoordinate")
         
         // Spark Digital's Mar del Plata Office LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.019984, longitude: -57.545083)
@@ -283,7 +283,7 @@ class ConnectivityTest: XCTestCase
             addressFromCoordinateExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(10)
+        waitForExpectations(timeout: 10)
         { error in
             
             if let error = error
@@ -300,7 +300,7 @@ class ConnectivityTest: XCTestCase
         // Spark Digital's Mar del Plata Office LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.019984, longitude: -57.545083)
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getAddressFromCoordinate(coordinate.latitude, longitude: coordinate.longitude, completionHandler: { (routePoint, error) in
                     
@@ -325,12 +325,11 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCoordinateFromAddress()
     {
-        let coordinateFromAddressExpectation = expectationWithDescription("ConnectivityGatherCoordinateFromAddress")
+        let coordinateFromAddressExpectation = expectation(description: "ConnectivityGatherCoordinateFromAddress")
         
         // El Gaucho Monument's LAT/LON coordinates
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
         let address = "Av. Juan B. Justo 6200"
-        let expectedAddress = "Av. Juan B. Justo 6200-6102"
         
         connectivityService.getCoordinateFromAddress(address, completionHandler: { (routePoint, error) in
             if let point = routePoint
@@ -345,7 +344,7 @@ class ConnectivityTest: XCTestCase
                 
                 XCTAssertEqual(point.latitude, coordinate.latitude)
                 XCTAssertEqual(point.longitude, coordinate.longitude)
-                XCTAssertEqual(point.address, expectedAddress)
+                XCTAssertEqual(point.address, address)
                 
                 print("\nAddress: \(point.address) from coordinate (LAT:\(point.latitude),LON:\(point.longitude))")
             }
@@ -353,7 +352,7 @@ class ConnectivityTest: XCTestCase
             coordinateFromAddressExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(60)
+        waitForExpectations(timeout: 60)
         { error in
             
             if let error = error
@@ -371,7 +370,7 @@ class ConnectivityTest: XCTestCase
         let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
         let address = "Av. Juan B. Justo 6200"
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getCoordinateFromAddress(address, completionHandler: { (routePoint, error) in
                     if let point = routePoint
@@ -396,7 +395,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForBusLinesFromOriginDestinationSingle()
     {
-        let busLinesFromOriginDestinationSingleExpectation = expectationWithDescription("ConnectivityGatherBusLinesFromOriginDestinationSingle")
+        let busLinesFromOriginDestinationSingleExpectation = expectation(description: "ConnectivityGatherBusLinesFromOriginDestinationSingle")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -413,7 +412,7 @@ class ConnectivityTest: XCTestCase
                     XCTAssertNotNil(item)
                     XCTAssert(item.busRoutes.count > 0)
                     XCTAssertNotNil(item.busRouteType)
-                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
                     
                     let routes = item.busRoutes
                     
@@ -456,7 +455,7 @@ class ConnectivityTest: XCTestCase
             busLinesFromOriginDestinationSingleExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectations(timeout: 90)
         { error in
             
             if let error = error
@@ -476,7 +475,7 @@ class ConnectivityTest: XCTestCase
         // Av. Independencia & Av. Pedro Luro LAT/LON coordinates
         let destinationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.995540099999999, longitude: -57.552269300000013)
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getBusLinesFromOriginDestination(originCoordinate.latitude, longitudeOrigin: originCoordinate.longitude, latitudeDestination: destinationCoordinate.latitude, longitudeDestination: destinationCoordinate.longitude) { (busRouteResultArray, error) in
                     
@@ -487,7 +486,7 @@ class ConnectivityTest: XCTestCase
                             XCTAssertNotNil(item)
                             XCTAssert(item.busRoutes.count > 0)
                             XCTAssertNotNil(item.busRouteType)
-                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Single)
+                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.single)
                             
                             let routes = item.busRoutes
                             
@@ -524,7 +523,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForBusLinesFromOriginDestinationCombined()
     {
-        let busLinesFromOriginDestinationCombinedExpectation = expectationWithDescription("ConnectivityGatherBusLinesFromOriginDestinationCombined")
+        let busLinesFromOriginDestinationCombinedExpectation = expectation(description: "ConnectivityGatherBusLinesFromOriginDestinationCombined")
         
         // El Gaucho Monument's LAT/LON coordinates
         let originCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.999347899999997, longitude: -57.596915499999987)
@@ -541,7 +540,7 @@ class ConnectivityTest: XCTestCase
                     XCTAssertNotNil(item)
                     XCTAssert(item.busRoutes.count > 0)
                     XCTAssertNotNil(item.busRouteType)
-                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+                    XCTAssertEqual(item.busRouteType, MyBusRouteResultType.combined)
                     
                     let routes = item.busRoutes
                     
@@ -584,7 +583,7 @@ class ConnectivityTest: XCTestCase
             busLinesFromOriginDestinationCombinedExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(120)
+        waitForExpectations(timeout: 120)
         { error in
             
             if let error = error
@@ -604,7 +603,7 @@ class ConnectivityTest: XCTestCase
         // Luzuriaga 301 LAT/LON coordinates
         let destinationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.086793900000004, longitude: -57.548919800000007)
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getBusLinesFromOriginDestination(originCoordinate.latitude, longitudeOrigin: originCoordinate.longitude, latitudeDestination: destinationCoordinate.latitude, longitudeDestination: destinationCoordinate.longitude) { (busRouteResultArray, error) in
                     
@@ -615,7 +614,7 @@ class ConnectivityTest: XCTestCase
                             XCTAssertNotNil(item)
                             XCTAssert(item.busRoutes.count > 0)
                             XCTAssertNotNil(item.busRouteType)
-                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.Combined)
+                            XCTAssertEqual(item.busRouteType, MyBusRouteResultType.combined)
                             
                             let routes = item.busRoutes
                             
@@ -652,7 +651,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForSingleRoadResult()
     {
-        let singleRoadResultExpectation = expectationWithDescription("ConnectivityGatherSingleRoadResult")
+        let singleRoadResultExpectation = expectation(description: "ConnectivityGatherSingleRoadResult")
         
         // Bus 522 | From Origin: "Rosales 3458" to Destination: "Brasil 316"
         let busIDLine:Int = 9
@@ -676,10 +675,10 @@ class ConnectivityTest: XCTestCase
                 
                 switch singleRoadResult.busRouteResultType()
                 {
-                case .Single:
+                case .single:
                     XCTAssertNotNil(singleRoadResult.firstBusStop)
                     XCTAssertNotNil(singleRoadResult.endBusStop)
-                case .Combined:
+                case .combined:
                     XCTAssertNotNil(singleRoadResult.midStartStop)
                     XCTAssertNotNil(singleRoadResult.midEndStop)
                 }
@@ -701,7 +700,7 @@ class ConnectivityTest: XCTestCase
             singleRoadResultExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(60)
+        waitForExpectations(timeout: 60)
         { error in
             
             if let error = error
@@ -721,7 +720,7 @@ class ConnectivityTest: XCTestCase
         let beginStopLine:Int = 50
         let endStopLine:Int = 158
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getSingleResultRoadApi(busIDLine, firstDirection: direction, beginStopFirstLine: beginStopLine, endStopFirstLine: endStopLine) { (roadResult, error) in
                     
@@ -739,10 +738,10 @@ class ConnectivityTest: XCTestCase
                         
                         switch singleRoadResult.busRouteResultType()
                         {
-                        case .Single:
+                        case .single:
                             XCTAssertNotNil(singleRoadResult.firstBusStop)
                             XCTAssertNotNil(singleRoadResult.endBusStop)
-                        case .Combined:
+                        case .combined:
                             XCTAssertNotNil(singleRoadResult.midStartStop)
                             XCTAssertNotNil(singleRoadResult.midEndStop)
                         }
@@ -766,7 +765,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCombinedRoadResult()
     {
-        let combinedRoadResultExpectation = expectationWithDescription("ConnectivityGatherCombinedRoadResult")
+        let combinedRoadResultExpectation = expectation(description: "ConnectivityGatherCombinedRoadResult")
 
         // Buses 531 -> 511b | From Origin: "Luzuriaga 301" to Destination: "Velez Sarfield 257"
         let firstBusIDLine:Int = 11
@@ -796,10 +795,10 @@ class ConnectivityTest: XCTestCase
                 
                 switch combinedRoadResult.busRouteResultType()
                 {
-                case .Single:
+                case .single:
                     XCTAssertNotNil(combinedRoadResult.firstBusStop)
                     XCTAssertNotNil(combinedRoadResult.endBusStop)
-                case .Combined:
+                case .combined:
                     XCTAssertNotNil(combinedRoadResult.midStartStop)
                     XCTAssertNotNil(combinedRoadResult.midEndStop)
                 }
@@ -821,7 +820,7 @@ class ConnectivityTest: XCTestCase
             combinedRoadResultExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(90)
+        waitForExpectations(timeout: 90)
         { error in
             
             if let error = error
@@ -846,7 +845,7 @@ class ConnectivityTest: XCTestCase
         let secondBeginStopLine:Int = 38
         let secondEndStopLine:Int = 131
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getCombinedResultRoadApi(firstBusIDLine, idSecondLine: secondBusIDLine, firstDirection: firstDirection, secondDirection: secondDirection, beginStopFirstLine: firstBeginStopLine, endStopFirstLine: firstEndStopLine, beginStopSecondLine: secondBeginStopLine, endStopSecondLine: secondEndStopLine)
                 { (roadResult, error) in
@@ -865,10 +864,10 @@ class ConnectivityTest: XCTestCase
                         
                         switch combinedRoadResult.busRouteResultType()
                         {
-                        case .Single:
+                        case .single:
                             XCTAssertNotNil(combinedRoadResult.firstBusStop)
                             XCTAssertNotNil(combinedRoadResult.endBusStop)
-                        case .Combined:
+                        case .combined:
                             XCTAssertNotNil(combinedRoadResult.midStartStop)
                             XCTAssertNotNil(combinedRoadResult.midEndStop)
                         }
@@ -892,7 +891,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCompleteBusRoute531()
     {
-        let completeBusRoute531Expectation = expectationWithDescription("ConnectivityGatherCompleteBusRouteFor531")
+        let completeBusRoute531Expectation = expectation(description: "ConnectivityGatherCompleteBusRouteFor531")
         
         // Bus 531
         let busLineID:Int = 11
@@ -900,7 +899,7 @@ class ConnectivityTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "531"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -948,7 +947,7 @@ class ConnectivityTest: XCTestCase
         //Get route in going way
         connectivityService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -968,7 +967,7 @@ class ConnectivityTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "531"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -1011,7 +1010,7 @@ class ConnectivityTest: XCTestCase
             }
         }
         
-        self.measureBlock
+        self.measure
             {
                 //Get route in going way
                 self.connectivityService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
@@ -1020,7 +1019,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForCompleteBusRoute542()
     {
-        let completeBusRoute542Expectation = expectationWithDescription("ConnectivityGatherCompleteBusRouteFor542")
+        let completeBusRoute542Expectation = expectation(description: "ConnectivityGatherCompleteBusRouteFor542")
         
         // Bus 542
         let busLineID:Int = 1
@@ -1028,7 +1027,7 @@ class ConnectivityTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "542"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -1076,7 +1075,7 @@ class ConnectivityTest: XCTestCase
         //Get route in going way
         connectivityService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -1096,7 +1095,7 @@ class ConnectivityTest: XCTestCase
         let returningDirection:Int = 1
         let busLineName:String = "542"
         
-        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, NSError?) -> Void = { (justGoingBusRoute, error) in
+        let connectivtyResultsCompletionHandler: (CompleteBusRoute?, Error?) -> Void = { (justGoingBusRoute, error) in
             if let completeRoute = justGoingBusRoute
             {
                 //Get route in returning way
@@ -1139,7 +1138,7 @@ class ConnectivityTest: XCTestCase
             }
         }
         
-        self.measureBlock
+        self.measure
             {
                 //Get route in going way
                 self.connectivityService.getCompleteRoads(busLineID, direction: goingDirection, completionHandler: connectivtyResultsCompletionHandler)
@@ -1148,7 +1147,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForRechargePoints()
     {
-        let rechargePointsExpectation = expectationWithDescription("ConnectivityGatherRechargePoints")
+        let rechargePointsExpectation = expectation(description: "ConnectivityGatherRechargePoints")
         
         // Avenida Pedro Luro y Avenida Independencia
         let userLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
@@ -1177,7 +1176,7 @@ class ConnectivityTest: XCTestCase
             rechargePointsExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -1194,7 +1193,7 @@ class ConnectivityTest: XCTestCase
         // Avenida Pedro Luro y Avenida Independencia
         let userLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
         
-        self.measureBlock
+        self.measure
             {
                 self.connectivityService.getRechargeCardPoints(userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude)
                 {
@@ -1224,7 +1223,7 @@ class ConnectivityTest: XCTestCase
     
     func testResultContentsForWalkingDirections()
     {
-        let walkingDirectionsExpectation = expectationWithDescription("ConnectivityGatherWalkingDirections")
+        let walkingDirectionsExpectation = expectation(description: "ConnectivityGatherWalkingDirections")
         
         // Avenida Pedro Luro and Avenida Independencia
         // To
@@ -1233,14 +1232,14 @@ class ConnectivityTest: XCTestCase
         let originLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
         let destinationLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.005980, longitude: -57.545158)
         
-        connectivityService.getWalkingDirections(originLocationCoordinate, destinationCoordinate: destinationLocationCoordinate, completionHandler: { (directionResponse, error) in
+        connectivityService.getWalkingDirections(originLocationCoordinate, destinationCoordinate: destinationLocationCoordinate, completionHandler: { (route, waypoints, error) in
             
-            if let walkingDirection = directionResponse
+            if let route = route, let waypoints = waypoints
             {
-                let source: MBPoint = walkingDirection.source
-                let destination: MBPoint = walkingDirection.destination
-                let waypoints: [MBPoint] = walkingDirection.waypoints
-                let routes: [MBRoute] = walkingDirection.routes
+                let source: Waypoint = waypoints.first!
+                let destination: Waypoint = waypoints.last!
+                let waypoints: [Waypoint] = waypoints
+                let route: MapboxDirections.Route = route
                 
                 XCTAssertNotNil(source)
                 XCTAssertNotNil(source.name)
@@ -1254,7 +1253,7 @@ class ConnectivityTest: XCTestCase
                 XCTAssertNotNil(destination.coordinate.latitude)
                 XCTAssertNotNil(destination.coordinate.longitude)
                 
-                for case let item:MBPoint in waypoints
+                for case let item:Waypoint in waypoints
                 {
                     XCTAssertNotNil(item)
                     
@@ -1264,80 +1263,72 @@ class ConnectivityTest: XCTestCase
                     XCTAssertNotNil(item.coordinate.longitude)
                 }
                 
-                for case let item:MBRoute in routes
+                let item:MapboxDirections.Route = route
+                XCTAssertNotNil(item)
+                
+                XCTAssertNotNil(item.legs)
+                for case let subItem:RouteLeg in item.legs
                 {
-                    XCTAssertNotNil(item)
-                    
-                    XCTAssertNotNil(item.legs)
-                    for case let subItem:MBRouteLeg in item.legs
+                    XCTAssertNotNil(subItem.steps)
+                    for case let underSubItem:RouteStep in subItem.steps
                     {
-                        XCTAssertNotNil(subItem.steps)
-                        for case let underSubItem:MBRouteStep in subItem.steps
+                        XCTAssertNotNil(underSubItem.transportType)
+                        XCTAssertNotNil(underSubItem.maneuverType)
+                        XCTAssertNotNil(underSubItem.instructions)
+                        XCTAssertNotNil(underSubItem.distance)
+                        
+                        XCTAssertNotNil(underSubItem.coordinates)
+                        for case let ultimateItem:CLLocationCoordinate2D in underSubItem.coordinates!
                         {
-                            XCTAssertNotNil(underSubItem.transportType)
-                            XCTAssertNotNil(underSubItem.maneuverType)
-                            XCTAssertNotNil(underSubItem.instructions)
-                            XCTAssertNotNil(underSubItem.distance)
-                            XCTAssertNotNil(underSubItem.profileIdentifier)
-                            
-                            XCTAssertNotNil(underSubItem.geometry)
-                            for case let ultimateItem:CLLocationCoordinate2D in underSubItem.geometry!
-                            {
-                                XCTAssertNotNil(ultimateItem.latitude)
-                                XCTAssertNotNil(ultimateItem.longitude)
-                            }
-                            
-                            XCTAssertNotNil(underSubItem.duration)
-                            XCTAssertNotNil(underSubItem.name)
-                            XCTAssertNotNil(underSubItem.initialHeading)
-                            XCTAssertNotNil(underSubItem.finalHeading)
-                            XCTAssertNotNil(underSubItem.maneuverLocation)
-                            XCTAssertNotNil(underSubItem.maneuverLocation.latitude)
-                            XCTAssertNotNil(underSubItem.maneuverLocation.longitude)
+                            XCTAssertNotNil(ultimateItem.latitude)
+                            XCTAssertNotNil(ultimateItem.longitude)
                         }
                         
-                        XCTAssertNotNil(subItem.name)
-                        XCTAssertNotNil(subItem.distance)
-                        XCTAssertNotNil(subItem.expectedTravelTime)
-                        XCTAssertGreaterThanOrEqual(subItem.expectedTravelTime, 0.0)
-                        XCTAssertNotNil(subItem.transportType)
-                        XCTAssertNotNil(subItem.profileIdentifier)
-                        XCTAssertNotNil(subItem.source)
-                        XCTAssertNotNil(subItem.destination)
+                        XCTAssertNotNil(underSubItem.expectedTravelTime)
+                        XCTAssertNotNil(underSubItem.names)
+                        XCTAssertNotNil(underSubItem.initialHeading)
+                        XCTAssertNotNil(underSubItem.finalHeading)
+                        XCTAssertNotNil(underSubItem.maneuverLocation)
+                        XCTAssertNotNil(underSubItem.maneuverLocation.latitude)
+                        XCTAssertNotNil(underSubItem.maneuverLocation.longitude)
                     }
                     
-                    XCTAssertNotNil(item.distance)
-                    XCTAssertGreaterThanOrEqual(item.distance, 0.0)
-                    XCTAssertNotNil(item.expectedTravelTime)
-                    XCTAssertGreaterThanOrEqual(item.expectedTravelTime, 0.0)
-                    XCTAssertNotNil(item.transportType)
-                    XCTAssertNotNil(item.profileIdentifier)
-                    
-                    XCTAssertNotNil(item.geometry)
-                    for case let subItem:CLLocationCoordinate2D in item.geometry
-                    {
-                        XCTAssertNotNil(subItem.latitude)
-                        XCTAssertNotNil(subItem.longitude)
-                    }
-                    
-                    XCTAssertNotNil(item.source)
-                    XCTAssertNotNil(item.destination)
-                    
-                    XCTAssertNotNil(item.waypoints)
-                    for case let subItem:MBPoint in item.waypoints
-                    {
-                        XCTAssertNotNil(subItem.name)
-                        XCTAssertNotNil(subItem.coordinate)
-                        XCTAssertNotNil(subItem.coordinate.latitude)
-                        XCTAssertNotNil(subItem.coordinate.longitude)
-                    }
+                    XCTAssertNotNil(subItem.name)
+                    XCTAssertNotNil(subItem.distance)
+                    XCTAssertNotNil(subItem.expectedTravelTime)
+                    XCTAssertGreaterThanOrEqual(subItem.expectedTravelTime, 0.0)
+                    XCTAssertNotNil(subItem.profileIdentifier)
+                    XCTAssertNotNil(subItem.source)
+                    XCTAssertNotNil(subItem.destination)
+                }
+                
+                XCTAssertNotNil(item.distance)
+                XCTAssertGreaterThanOrEqual(item.distance, 0.0)
+                XCTAssertNotNil(item.expectedTravelTime)
+                XCTAssertGreaterThanOrEqual(item.expectedTravelTime, 0.0)
+                XCTAssertNotNil(item.profileIdentifier)
+                
+                XCTAssertNotNil(item.coordinates)
+                for case let subItem:CLLocationCoordinate2D in item.coordinates!
+                {
+                    XCTAssertNotNil(subItem.latitude)
+                    XCTAssertNotNil(subItem.longitude)
+                }
+                
+                XCTAssertNotNil(waypoints)
+                for case let subItem:Waypoint in waypoints
+                {
+                    XCTAssertNotNil(subItem.name)
+                    XCTAssertNotNil(subItem.coordinate)
+                    XCTAssertNotNil(subItem.coordinate.latitude)
+                    XCTAssertNotNil(subItem.coordinate.longitude)
                 }
             }
             
             walkingDirectionsExpectation.fulfill()
         })
         
-        waitForExpectationsWithTimeout(30)
+        waitForExpectations(timeout: 30)
         { error in
             
             if let error = error
@@ -1358,16 +1349,16 @@ class ConnectivityTest: XCTestCase
         let originLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -37.9962268, longitude: -57.5535847)
         let destinationLocationCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: -38.005980, longitude: -57.545158)
         
-        self.measureBlock
+        self.measure
             {
-                self.connectivityService.getWalkingDirections(originLocationCoordinate, destinationCoordinate: destinationLocationCoordinate, completionHandler: { (directionResponse, error) in
+                self.connectivityService.getWalkingDirections(originLocationCoordinate, destinationCoordinate: destinationLocationCoordinate, completionHandler: { (route, waypoints, error) in
                     
-                    if let walkingDirection = directionResponse
+                    if let walkingDirection = route, let waypoints = waypoints
                     {
-                        let source: MBPoint = walkingDirection.source
-                        let destination: MBPoint = walkingDirection.destination
-                        let waypoints: [MBPoint] = walkingDirection.waypoints
-                        let routes: [MBRoute] = walkingDirection.routes
+                        let source: Waypoint = waypoints.first!
+                        let destination: Waypoint = waypoints.last!
+                        let waypoints: [Waypoint] = waypoints
+                        let route: MapboxDirections.Route = walkingDirection
                         
                         XCTAssertNotNil(source)
                         XCTAssertNotNil(source.name)
@@ -1381,7 +1372,7 @@ class ConnectivityTest: XCTestCase
                         XCTAssertNotNil(destination.coordinate.latitude)
                         XCTAssertNotNil(destination.coordinate.longitude)
                         
-                        for case let item:MBPoint in waypoints
+                        for case let item:Waypoint in waypoints
                         {
                             XCTAssertNotNil(item)
                             
@@ -1391,73 +1382,65 @@ class ConnectivityTest: XCTestCase
                             XCTAssertNotNil(item.coordinate.longitude)
                         }
                         
-                        for case let item:MBRoute in routes
+                        let item:MapboxDirections.Route = route
+                        XCTAssertNotNil(item)
+                        
+                        XCTAssertNotNil(item.legs)
+                        for case let subItem:RouteLeg in item.legs
                         {
-                            XCTAssertNotNil(item)
-                            
-                            XCTAssertNotNil(item.legs)
-                            for case let subItem:MBRouteLeg in item.legs
+                            XCTAssertNotNil(subItem.steps)
+                            for case let underSubItem:RouteStep in subItem.steps
                             {
-                                XCTAssertNotNil(subItem.steps)
-                                for case let underSubItem:MBRouteStep in subItem.steps
+                                XCTAssertNotNil(underSubItem.transportType)
+                                XCTAssertNotNil(underSubItem.maneuverType)
+                                XCTAssertNotNil(underSubItem.instructions)
+                                XCTAssertNotNil(underSubItem.distance)
+                                
+                                XCTAssertNotNil(underSubItem.coordinates)
+                                for case let ultimateItem:CLLocationCoordinate2D in underSubItem.coordinates!
                                 {
-                                    XCTAssertNotNil(underSubItem.transportType)
-                                    XCTAssertNotNil(underSubItem.maneuverType)
-                                    XCTAssertNotNil(underSubItem.instructions)
-                                    XCTAssertNotNil(underSubItem.distance)
-                                    XCTAssertNotNil(underSubItem.profileIdentifier)
-                                    
-                                    XCTAssertNotNil(underSubItem.geometry)
-                                    for case let ultimateItem:CLLocationCoordinate2D in underSubItem.geometry!
-                                    {
-                                        XCTAssertNotNil(ultimateItem.latitude)
-                                        XCTAssertNotNil(ultimateItem.longitude)
-                                    }
-                                    
-                                    XCTAssertNotNil(underSubItem.duration)
-                                    XCTAssertNotNil(underSubItem.name)
-                                    XCTAssertNotNil(underSubItem.initialHeading)
-                                    XCTAssertNotNil(underSubItem.finalHeading)
-                                    XCTAssertNotNil(underSubItem.maneuverLocation)
-                                    XCTAssertNotNil(underSubItem.maneuverLocation.latitude)
-                                    XCTAssertNotNil(underSubItem.maneuverLocation.longitude)
+                                    XCTAssertNotNil(ultimateItem.latitude)
+                                    XCTAssertNotNil(ultimateItem.longitude)
                                 }
                                 
-                                XCTAssertNotNil(subItem.name)
-                                XCTAssertNotNil(subItem.distance)
-                                XCTAssertNotNil(subItem.expectedTravelTime)
-                                XCTAssertGreaterThanOrEqual(subItem.expectedTravelTime, 0.0)
-                                XCTAssertNotNil(subItem.transportType)
-                                XCTAssertNotNil(subItem.profileIdentifier)
-                                XCTAssertNotNil(subItem.source)
-                                XCTAssertNotNil(subItem.destination)
+                                XCTAssertNotNil(underSubItem.expectedTravelTime)
+                                XCTAssertNotNil(underSubItem.names)
+                                XCTAssertNotNil(underSubItem.initialHeading)
+                                XCTAssertNotNil(underSubItem.finalHeading)
+                                XCTAssertNotNil(underSubItem.maneuverLocation)
+                                XCTAssertNotNil(underSubItem.maneuverLocation.latitude)
+                                XCTAssertNotNil(underSubItem.maneuverLocation.longitude)
                             }
                             
-                            XCTAssertNotNil(item.distance)
-                            XCTAssertGreaterThanOrEqual(item.distance, 0.0)
-                            XCTAssertNotNil(item.expectedTravelTime)
-                            XCTAssertGreaterThanOrEqual(item.expectedTravelTime, 0.0)
-                            XCTAssertNotNil(item.transportType)
-                            XCTAssertNotNil(item.profileIdentifier)
-                            
-                            XCTAssertNotNil(item.geometry)
-                            for case let subItem:CLLocationCoordinate2D in item.geometry
-                            {
-                                XCTAssertNotNil(subItem.latitude)
-                                XCTAssertNotNil(subItem.longitude)
-                            }
-                            
-                            XCTAssertNotNil(item.source)
-                            XCTAssertNotNil(item.destination)
-                            
-                            XCTAssertNotNil(item.waypoints)
-                            for case let subItem:MBPoint in item.waypoints
-                            {
-                                XCTAssertNotNil(subItem.name)
-                                XCTAssertNotNil(subItem.coordinate)
-                                XCTAssertNotNil(subItem.coordinate.latitude)
-                                XCTAssertNotNil(subItem.coordinate.longitude)
-                            }
+                            XCTAssertNotNil(subItem.name)
+                            XCTAssertNotNil(subItem.distance)
+                            XCTAssertNotNil(subItem.expectedTravelTime)
+                            XCTAssertGreaterThanOrEqual(subItem.expectedTravelTime, 0.0)
+                            XCTAssertNotNil(subItem.profileIdentifier)
+                            XCTAssertNotNil(subItem.source)
+                            XCTAssertNotNil(subItem.destination)
+                        }
+                        
+                        XCTAssertNotNil(item.distance)
+                        XCTAssertGreaterThanOrEqual(item.distance, 0.0)
+                        XCTAssertNotNil(item.expectedTravelTime)
+                        XCTAssertGreaterThanOrEqual(item.expectedTravelTime, 0.0)
+                        XCTAssertNotNil(item.profileIdentifier)
+                        
+                        XCTAssertNotNil(item.coordinates)
+                        for case let subItem:CLLocationCoordinate2D in item.coordinates!
+                        {
+                            XCTAssertNotNil(subItem.latitude)
+                            XCTAssertNotNil(subItem.longitude)
+                        }
+                        
+                        XCTAssertNotNil(waypoints)
+                        for case let subItem:Waypoint in waypoints
+                        {
+                            XCTAssertNotNil(subItem.name)
+                            XCTAssertNotNil(subItem.coordinate)
+                            XCTAssertNotNil(subItem.coordinate.latitude)
+                            XCTAssertNotNil(subItem.coordinate.longitude)
                         }
                     }
                 })

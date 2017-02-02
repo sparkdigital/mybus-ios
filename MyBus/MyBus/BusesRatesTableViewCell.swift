@@ -14,7 +14,7 @@ class BusesRatesTableViewCell: UITableViewCell {
     @IBOutlet weak var busPriceLevel: UILabel!
     @IBOutlet weak var busLineLabel: UILabel!
 
-    func loadItem(busLine: String, busPrice: String) {
+    func loadItem(_ busLine: String, busPrice: String) {
         self.busLineLabel.text = busLine
         self.busPriceLevel.text = busPrice
     }

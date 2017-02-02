@@ -12,14 +12,14 @@ import MapKit
 
 protocol Searchable {
     func initWithBasicSearch()
-    func initWithComplexSearch(origin: RoutePoint?, destination: RoutePoint?)
+    func initWithComplexSearch(_ origin: RoutePoint?, destination: RoutePoint?)
     func newOriginSearchRequest()
     func newDestinationSearchRequest()
     func invertSearch()
 }
 
 protocol MapViewModelDelegate {
-    func endPointsInverted(from: RoutePoint?, to: RoutePoint?)
+    func endPointsInverted(_ from: RoutePoint?, to: RoutePoint?)
 }
 
 class MapViewModel {
@@ -80,24 +80,24 @@ class MainViewController: UIViewController {
     var moreViewController: MoreViewController!
 
     var navRouter: NavRouter!
-    
+
     //Control variable for some Reachability flows
-    var alertPresented:Bool = false
+    var alertPresented: Bool = false
 
 
     //Reference to the currentViewController being shown
     weak var currentViewController: UIViewController?
 
     let progressNotification = ProgressHUD()
-    var reachability: ReachabilityMyBus?
+    var reachability: ReachabilityMyBus = ReachabilityMyBus()!
 
-    let alertNetworkNotReachable = UIAlertController.init(title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Observamos"), preferredStyle: .ActionSheet)
+    let alertNetworkNotReachable = UIAlertController.init(title: Localization.getLocalizedString("Malas_Noticias"), message: Localization.getLocalizedString("No_Observamos"), preferredStyle: .actionSheet)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navRouter = NavRouter()
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         initMapModel()
         initTabBarControllers()
@@ -116,28 +116,29 @@ class MainViewController: UIViewController {
     }
 
     func setupSearchViewContainer(){
-        self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).CGColor
+        self.mapSearchViewContainer.layer.borderColor = UIColor(red: 2/255, green: 136/255, blue: 209/255, alpha: 1).cgColor
         self.mapSearchViewContainer.layer.borderWidth = 8
     }
 
     func addDragDropMarkersObservers() {
         // Add observers
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedOrigin), name:MyBusEndpointNotificationKey.originChanged.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateDraggedDestination), name: MyBusEndpointNotificationKey.destinationChanged.rawValue, object: nil)
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDraggedOrigin), name:NSNotification.Name(rawValue: MyBusEndpointNotificationKey.originChanged.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDraggedDestination), name: NSNotification.Name(rawValue: MyBusEndpointNotificationKey.destinationChanged.rawValue), object: nil)
     }
 
     func addBusesResultsMenuStatusObservers(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidExpand), name: BusesResultsMenuStatusNotification.Expanded.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(busesMenuDidCollapse), name: BusesResultsMenuStatusNotification.Collapsed.rawValue, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(busesMenuDidExpand), name: NSNotification.Name(rawValue: BusesResultsMenuStatusNotification.Expanded.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(busesMenuDidCollapse), name: NSNotification.Name(rawValue: BusesResultsMenuStatusNotification.Collapsed.rawValue), object: nil)
     }
 
     func addReachabilityObserver() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
-        let settingsAction = UIAlertAction(title: "Configuración", style: .Default) { (_) -> Void in
-            let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
+
+        let settingsAction = UIAlertAction(title: "Configuración", style: .default) { (_) -> Void in
+            let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
             if let url = settingsUrl {
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
                 self.alertPresented = false
             }
         }
@@ -146,7 +147,7 @@ class MainViewController: UIViewController {
     }
 
     func addAppBecameActiveObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: "applicationDidBecomeActive", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.startReachablity(_:)), name: NSNotification.Name(rawValue: "applicationDidBecomeActive"), object: nil)
     }
 
     func setUpMapGestures() {
@@ -157,7 +158,7 @@ class MainViewController: UIViewController {
 
         // Delay single tap recognition until it is clearly not a double
         let singleLongTap = UILongPressGestureRecognizer(target: self, action: #selector(MainViewController.handleSingleLongTap(_:)))
-        singleLongTap.requireGestureRecognizerToFail(doubleTap)
+        singleLongTap.require(toFail: doubleTap)
         self.mapViewController.mapView.addGestureRecognizer(singleLongTap)
     }
 
@@ -183,45 +184,53 @@ class MainViewController: UIViewController {
 
     }
 
-    func reachabilityChanged(note: NSNotification) {
+    func reachabilityChanged(_ note: Notification) {
         let reachability = note.object as! ReachabilityMyBus
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
-                print("Reachable via WiFi")
-            } else {
-                print("Reachable via Cellular")
-            }
-            alertNetworkNotReachable.dismissViewControllerAnimated(true, completion: nil)
-            alertPresented = false
+        if reachability.isReachable {
+            internetIsReachable(reachability: reachability)
         } else {
-            print("Network not reachable")
-            if alertNetworkNotReachable.view.window == nil && !alertPresented {
-                self.presentViewController(alertNetworkNotReachable, animated: true, completion: nil)
-                alertPresented = true
-            }
+            internetIsNotReachable()
         }
     }
+    
+    func internetIsNotReachable() {
+        print("Network not reachable")
+        if alertNetworkNotReachable.view.window == nil && !alertPresented {
+            self.present(alertNetworkNotReachable, animated: true, completion: nil)
+            alertPresented = true
+        }
+    }
+    
+    func internetIsReachable(reachability: ReachabilityMyBus) {
+        if reachability.isReachableViaWiFi {
+            print("Reachable via WiFi")
+        } else {
+            print("Reachable via Cellular")
+        }
+        alertNetworkNotReachable.dismiss(animated: true, completion: nil)
+        alertPresented = false
+    }
 
-    func handleSingleLongTap(tap: UITapGestureRecognizer) {
-        if (tap.state == .Ended) {
+    func handleSingleLongTap(_ tap: UITapGestureRecognizer) {
+        if (tap.state == .ended) {
             NSLog("Long press Ended")
-        } else if (tap.state == .Began) {
+        } else if (tap.state == .began) {
             self.mapViewController.mapView.showsUserLocation = true
             // Convert tap location (CGPoint) to geographic coordinates (CLLocationCoordinate2D)
-            let tappedLocation = self.mapViewController.mapView.convertPoint(tap.locationInView(self.mapViewController.mapView), toCoordinateFromView: self.mapViewController.mapView)
+            let tappedLocation = self.mapViewController.mapView.convert(tap.location(in: self.mapViewController.mapView), toCoordinateFrom: self.mapViewController.mapView)
 
             progressNotification.showLoadingNotification(self.view)
 
             if let annotations = self.mapViewController.mapView.annotations {
                 if( annotations.count > 1 ){
                     self.progressNotification.stopLoadingNotification(self.view)
-                    let alert = UIAlertController(title: Localization.getLocalizedString("Borrar_Busqueda"), message: Localization.getLocalizedString("Confirmar_Borrado_Busqueda"), preferredStyle: UIAlertControllerStyle.ActionSheet)
-                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.Default) { (_) -> Void in
+                    let alert = UIAlertController(title: Localization.getLocalizedString("Borrar_Busqueda"), message: Localization.getLocalizedString("Confirmar_Borrado_Busqueda"), preferredStyle: UIAlertControllerStyle.actionSheet)
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.default) { (_) -> Void in
 
                         self.progressNotification.showLoadingNotification(self.view)
                         self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)})
-                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.Cancel) { (_) -> Void in})
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.cancel) { (_) -> Void in})
+                    self.present(alert, animated: true, completion: nil)
                 }else{
                     self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
                 }
@@ -232,7 +241,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    private func defineOriginDestination(latitude: Double, longitude: Double){
+    fileprivate func defineOriginDestination(_ latitude: Double, longitude: Double){
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_FROM_LONGPRESS)
         Connectivity.sharedInstance.getAddressFromCoordinate(latitude, longitude: longitude) { (routePoint, error) in
             if let destination = routePoint {
@@ -247,19 +256,19 @@ class MainViewController: UIViewController {
         }
     }
 
-    private func getPropertyChangedFromNotification(notification: NSNotification) -> AnyObject {
+    fileprivate func getPropertyChangedFromNotification(_ notification: Notification) -> AnyObject {
         let userInfo: [String : AnyObject] = notification.userInfo as! [String:AnyObject]
         return userInfo[MyBusMarkerAnnotationView.kPropertyChangedDescriptor]!
     }
 
-    func updateDraggedOrigin(notification: NSNotification) {
+    func updateDraggedOrigin(_ notification: Notification) {
         NSLog("Origin dragged detected")
         let draggedOrigin: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedOrigin.coordinate
         progressNotification.showLoadingNotification(self.view)
 
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
-        
+
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
             if let newOrigin = routePoint {
                 self.newOrigin(newOrigin)
@@ -272,12 +281,12 @@ class MainViewController: UIViewController {
         }
     }
 
-    func updateDraggedDestination(notification: NSNotification) {
+    func updateDraggedDestination(_ notification: Notification) {
         NSLog("Destination dragged detected")
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
         progressNotification.showLoadingNotification(self.view)
-        
+
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.MARKER_DRAGGED)
 
         Connectivity.sharedInstance.getAddressFromCoordinate(location.latitude, longitude: location.longitude) { (routePoint, error) in
@@ -292,35 +301,35 @@ class MainViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startReachablity(nil)
         homeNavigationBar(mapViewModel)
     }
 
-    func startReachablity(note: NSNotification?) {
-        do {
-            reachability = try ReachabilityMyBus.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
+    func startReachablity(_ note: Notification?) {
+        if reachability.isReachable {
+            internetIsReachable(reachability: reachability)
+        } else {
+            internetIsNotReachable()
         }
-
+        
         do {
-            try reachability?.startNotifier()
+            try reachability.startNotifier()
         } catch {
             print("could not start reachability notifier")
         }
     }
 
     //This method receives the old view controller to be replaced with the new controller
-    func cycleViewController(oldVC: UIViewController, toViewController newVC: UIViewController) {
+    func cycleViewController(_ oldVC: UIViewController, toViewController newVC: UIViewController) {
 
         //If it's triggered by the same button, dismiss action
         if oldVC == newVC {
             return
         }
 
-        oldVC.willMoveToParentViewController(nil)
+        oldVC.willMove(toParentViewController: nil)
         self.addChildViewController(newVC)
         newVC.view.translatesAutoresizingMaskIntoConstraints = false
         //Add new view to the container
@@ -335,19 +344,19 @@ class MainViewController: UIViewController {
 
         oldVC.view.removeFromSuperview()
         oldVC.removeFromParentViewController()
-        newVC.didMoveToParentViewController(self)
+        newVC.didMove(toParentViewController: self)
 
     }
 
     func hideTabBar() {
         self.menuTabBar.layer.zPosition = -1
-        self.menuTabBar.hidden = true
+        self.menuTabBar.isHidden = true
         self.menuTabBarHeightConstraint.constant = 0
     }
 
     func showTabBar() {
         self.menuTabBar.layer.zPosition = 0
-        self.menuTabBar.hidden = false
+        self.menuTabBar.isHidden = false
         self.menuTabBarHeightConstraint.constant = defaultTabBarHeight
     }
 
@@ -394,7 +403,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController:MapViewModelDelegate {
-    func endPointsInverted(from: RoutePoint?, to: RoutePoint?) {
+    func endPointsInverted(_ from: RoutePoint?, to: RoutePoint?) {
 
         //Do nothing if both endpoints are nil
         if mapViewModel.isEmpty() {
@@ -431,7 +440,7 @@ extension MainViewController:Searchable{
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
     }
 
-    func initWithComplexSearch(origin: RoutePoint?, destination: RoutePoint?) {
+    func initWithComplexSearch(_ origin: RoutePoint?, destination: RoutePoint?) {
         mapSearchViewContainer.loadComplexSearch(origin, destination: destination)
         mapSearchViewContainer.presenter.setSearchDelegate(self)
         updateSearchViewLayout(mapSearchViewContainer.presenter.preferredHeight())
@@ -444,13 +453,13 @@ extension MainViewController:Searchable{
         self.createSearchRequest(SearchType.Destiny)
     }
 
-    func updateSearchViewLayout(preferredHeight: CGFloat){
+    func updateSearchViewLayout(_ preferredHeight: CGFloat){
         mapSearchViewHeightConstraint.constant = preferredHeight
         mapSearchViewContainer.updateConstraints()
         mapSearchViewContainer.layoutIfNeeded()
     }
 
-    func createSearchRequest(type: SearchType){
+    func createSearchRequest(_ type: SearchType){
         let searchController: SearchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
         searchController.busRoadDelegate = self
 
@@ -469,7 +478,7 @@ extension MainViewController:Searchable{
 // MARK: Tab Bar Delegate methods
 extension MainViewController:UITabBarDelegate {
 
-    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if (item.tag == 0){
             self.homeNavigationBar(self.mapViewModel)
             self.cycleViewController(self.currentViewController!, toViewController: mapViewController)
@@ -481,8 +490,8 @@ extension MainViewController:UITabBarDelegate {
             self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
             self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
             self.currentViewController = favoriteViewController
-            let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(self.addFavoritePlace))
-            add.tintColor = UIColor.whiteColor()
+            let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.addFavoritePlace))
+            add.tintColor = UIColor.white
             self.navigationItem.rightBarButtonItem = add
             LoggingManager.sharedInstance.logSection(LoggableAppSection.FAVOURITES)
         }
@@ -531,7 +540,7 @@ extension MainViewController:UITabBarDelegate {
 // MARK: UISearchBarDelegate protocol methods
 extension MainViewController:UISearchBarDelegate {
 
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //Load searchviewcontroller
         searchBar.resignFirstResponder()
         self.createSearchRequest(SearchType.Origin)
@@ -548,7 +557,7 @@ extension MainViewController:MapBusRoadDelegate {
     //self.mapViewController.addBusRoad(mapBusRoad)
     //}
 
-    func newResults(busSearchResult: BusSearchResult) {
+    func newResults(_ busSearchResult: BusSearchResult) {
         self.showTabBar()
 
         if busSearchResult.hasRouteOptions {
@@ -562,17 +571,17 @@ extension MainViewController:MapBusRoadDelegate {
         self.currentViewController = self.mapViewController
     }
 
-    func newOrigin(routePoint: RoutePoint?) {
+    func newOrigin(_ routePoint: RoutePoint?) {
         self.mapViewController.updateOrigin(routePoint)
         self.mapViewModel.origin = routePoint
     }
 
-    func newDestination(routePoint: RoutePoint?) {
+    func newDestination(_ routePoint: RoutePoint?) {
         self.mapViewController.updateDestination(routePoint)
         self.mapViewModel.destiny = routePoint
     }
 
-    func newCompleteBusRoute(route: CompleteBusRoute) -> Void {
+    func newCompleteBusRoute(_ route: CompleteBusRoute) -> Void {
         self.clearActiveSearch()
         self.mapViewController.updateCompleteBusRoute(route)
     }
@@ -582,11 +591,11 @@ extension MainViewController:MapBusRoadDelegate {
 // MARK: Custom Navigation bars extension
 extension MainViewController {
 
-    func homeNavigationBar(mapModel: MapViewModel){
+    func homeNavigationBar(_ mapModel: MapViewModel){
 
         self.verifySearchStatus(mapModel)
 
-        let moreSelected: Bool = (self.tabBar.items?.last == self.tabBar.selectedItem) ?? false
+        let moreSelected: Bool = (self.tabBar.items?.last == self.tabBar.selectedItem)
 
         if moreSelected {
             self.logoNavigationBar()
@@ -612,7 +621,7 @@ extension MainViewController {
 
     }
 
-    func verifySearchStatus(mapModel: MapViewModel){
+    func verifySearchStatus(_ mapModel: MapViewModel){
         //SearchViewContainer Logic
 
         if mapModel.isEmpty() {
@@ -623,52 +632,52 @@ extension MainViewController {
     }
 
     func logoNavigationBar(){
-        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+        let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
         self.navigationItem.titleView = titleView
         self.navigationItem.leftBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = nil
     }
 
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.None
+    func adaptivePresentationStyleForPresentationController(_ controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
 
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
 
-        let cancelButton = UIBarButtonItem(title: Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.clearActiveSearch))
-        cancelButton.tintColor = UIColor.lightGrayColor()
+        let cancelButton = UIBarButtonItem(title: Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.clearActiveSearch))
+        cancelButton.tintColor = UIColor.lightGray
 
-        let searchRouteButton = UIBarButtonItem(title: Localization.getLocalizedString("Buscar"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.searchRoute))
-        searchRouteButton.tintColor = UIColor.lightGrayColor()
+        let searchRouteButton = UIBarButtonItem(title: Localization.getLocalizedString("Buscar"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.searchRoute))
+        searchRouteButton.tintColor = UIColor.lightGray
 
         self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.leftBarButtonItem!.tintColor = UIColor.whiteColor()
+        self.navigationItem.leftBarButtonItem!.tintColor = UIColor.white
         self.navigationItem.rightBarButtonItem = searchRouteButton
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
 
         self.navigationItem.title = Localization.getLocalizedString("Buscar_Ruta")
     }
 
-    func sectionNavigationBar(title: String){
+    func sectionNavigationBar(_ title: String){
         addBackNavItem(title)
         self.toggleSearchViewContainer(false)
     }
 
-    func addBackNavItem(title: String) {
+    func addBackNavItem(_ title: String) {
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
 
-        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.backTapped) )
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
-        backButton.tintColor = UIColor.whiteColor()
+        backButton.tintColor = UIColor.white
 
         self.navigationItem.leftBarButtonItem = backButton
         self.navigationItem.rightBarButtonItem = nil
     }
 
-    func toggleSearchViewContainer(show: Bool){
-        self.mapSearchViewContainer.hidden = !show
+    func toggleSearchViewContainer(_ show: Bool){
+        self.mapSearchViewContainer.isHidden = !show
         mapSearchViewHeightConstraint.constant = !show ? 0 : mapSearchViewContainer.presenter.preferredHeight()
     }
 
@@ -684,22 +693,22 @@ extension MainViewController {
         self.favoriteViewController.addFavoritePlace()
     }
 
-    func busesMenuDidExpand(notification: NSNotification){
-        UIView.animateWithDuration(0.4) {
+    func busesMenuDidExpand(_ notification: Notification){
+        UIView.animate(withDuration: 0.4, animations: {
             self.hideTabBar()
             self.toggleSearchViewContainer(false)
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             self.view.layoutIfNeeded()
-        }
+        })
     }
 
-    func busesMenuDidCollapse(notification: NSNotification){
-        UIView.animateWithDuration(0.4) {
+    func busesMenuDidCollapse(_ notification: Notification){
+        UIView.animate(withDuration: 0.4, animations: {
             self.showTabBar()
             self.toggleSearchViewContainer(true)
             self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.view.layoutIfNeeded()
-        }
+        })
     }
 
 }

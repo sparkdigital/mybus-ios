@@ -13,19 +13,19 @@ enum MyBusEndpointNotificationKey: String {
     case destinationChanged = "markerDestinationEndDragged"
 }
 
-public class MyBusMarkerAnnotationView: MGLAnnotationView {
+open class MyBusMarkerAnnotationView: MGLAnnotationView {
 
     static let kPropertyChangedDescriptor: String = "MapPropertyChanged"
 
     init(reuseIdentifier: String, size: CGFloat? = 30.0) {
         super.init(reuseIdentifier: reuseIdentifier)
-        draggable = true
+        isDraggable = true
         scalesWithViewingDistance = false
         if var image = UIImage(named: reuseIdentifier) {
-            image =  image.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+            image =  image.withAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
             let imageView = UIImageView(image: image)
-            self.frame = CGRectMake(0, 0, image.size.width + 5, image.size.height + 5)
-            self.backgroundColor = .clearColor()
+            self.frame = CGRect(x: 0, y: 0, width: image.size.width + 5, height: image.size.height + 5)
+            self.backgroundColor = .clear
             self.addSubview(imageView)
         }
     }
@@ -40,34 +40,34 @@ public class MyBusMarkerAnnotationView: MGLAnnotationView {
     }
 
     // Custom handler for changes in the annotation’s drag state.
-    override public func setDragState(dragState: MGLAnnotationViewDragState, animated: Bool) {
+    override open func setDragState(_ dragState: MGLAnnotationViewDragState, animated: Bool) {
         super.setDragState(dragState, animated: animated)
 
         switch dragState {
-        case .Starting:
+        case .starting:
             startDragging()
-        case .Dragging:
+        case .dragging:
             print(".", terminator: "")
-        case .Ending, .Canceling:
+        case .ending, .canceling:
             endDragging()
-        case .None:
+        case .none:
             return
         }
     }
 
     // When the user interacts with an annotation, animate opacity and scale changes.
     func startDragging() {
-        UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
             self.layer.opacity = 0.8
-            self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5)
+            self.transform = CGAffineTransform.identity.scaledBy(x: 1.5, y: 1.5)
             }, completion: nil)
     }
 
     func endDragging() {
-        transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5)
-        UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
+        transform = CGAffineTransform.identity.scaledBy(x: 1.5, y: 1.5)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
             self.layer.opacity = 1
-            self.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1)
+            self.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
             }, completion: nil)
 
         if let annotation = self.annotation {
@@ -79,12 +79,12 @@ public class MyBusMarkerAnnotationView: MGLAnnotationView {
         }
     }
 
-    private func notifyPropertyChanged(propertyKey: MyBusEndpointNotificationKey, object: AnyObject?){
+    fileprivate func notifyPropertyChanged(_ propertyKey: MyBusEndpointNotificationKey, object: AnyObject?){
         if object == nil {
             // Don't send the notification if the property has been set to nil
             NSLog("\(propertyKey.rawValue) is now nil")
         } else {
-            NSNotificationCenter.defaultCenter().postNotificationName(propertyKey.rawValue, object: nil, userInfo: [MyBusMarkerAnnotationView.kPropertyChangedDescriptor
+            NotificationCenter.default.post(name: Notification.Name(rawValue: propertyKey.rawValue), object: nil, userInfo: [MyBusMarkerAnnotationView.kPropertyChangedDescriptor
                 :object!])
         }
     }

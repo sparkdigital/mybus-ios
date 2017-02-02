@@ -23,7 +23,7 @@ class BusesInformationViewController: UIViewController, UITableViewDelegate
         self.informationTableView.dataSource = busesInformationDataSource
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         progressNotification.showLoadingNotification(self.view)
         let bus = self.busesInformationDataSource.busInformation[indexPath.row]
         let busName = bus.1
@@ -31,9 +31,9 @@ class BusesInformationViewController: UIViewController, UITableViewDelegate
         guard let busId = Int(bus.0) else {
             return
         }
-        
+
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_SELECTED)
-        
+
         SearchManager.sharedInstance.getCompleteRoute(busId, busLineName: busName) { (completeRoute, error) in
             if let route = completeRoute {
                 self.searchViewProtocol?.newCompleteBusRoute(route)

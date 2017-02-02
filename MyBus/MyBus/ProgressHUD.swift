@@ -10,17 +10,17 @@ import Foundation
 import MBProgressHUD
 
 
-public class ProgressHUD
+open class ProgressHUD
 {
-    func showLoadingNotification(view:UIView?)
+    func showLoadingNotification(_ view: UIView?)
     {
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(UIApplication.sharedApplication().keyWindow?.rootViewController!.view, animated:true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Cargando"
+        let loadingNotification = MBProgressHUD.showAdded(to: (UIApplication.shared.keyWindow?.rootViewController!.view)!, animated:true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Cargando"
     }
-    
-    func stopLoadingNotification(view:UIView?)
+
+    func stopLoadingNotification(_ view: UIView?)
     {
-        MBProgressHUD.hideAllHUDsForView(UIApplication.sharedApplication().keyWindow?.rootViewController!.view,animated: true)
+        MBProgressHUD.hideAllHUDs(for: (UIApplication.shared.keyWindow?.rootViewController!.view)!, animated: true)
     }
 }

@@ -11,14 +11,14 @@ import Mapbox
 
 class MyBusMarkerFactory {
 
-    class func buildGoingBusRouteStopMarkers(busRoute: CompleteBusRoute) -> [MyBusMarker] {
+    class func buildGoingBusRouteStopMarkers(_ busRoute: CompleteBusRoute) -> [MyBusMarker] {
         let goingPointList = busRoute.goingPointList
         var markers: [MyBusMarker] = []
-        
+
         guard let startGoingPoint = goingPointList.first, let endGoingPoint = goingPointList.last else {
             return markers
         }
-        
+
         let startGoingMarker = MyBusMarkerFactory.createStartCompleteBusRouteMarker(startGoingPoint.getLatLong(), address: startGoingPoint.address, busLineName: busRoute.busLineName)
         markers.append(startGoingMarker)
         //Add END of GOING route
@@ -26,11 +26,11 @@ class MyBusMarkerFactory {
         markers.append(endGoingMarker)
         return markers
     }
-    
-    class func buildReturnBusRouteStopMarkers(busRoute: CompleteBusRoute) -> [MyBusMarker] {
+
+    class func buildReturnBusRouteStopMarkers(_ busRoute: CompleteBusRoute) -> [MyBusMarker] {
         let returnPointList = busRoute.returnPointList
         var markers: [MyBusMarker] = []
-        
+
         guard let startReturnPoint = returnPointList.first, let endReturnPoint = returnPointList.last else {
             return markers
         }
@@ -41,8 +41,8 @@ class MyBusMarkerFactory {
         markers.append(endReturnMarker)
         return markers
     }
-    
-    class func buildCompleteBusRoadStopMarkers(completeBusRoute: CompleteBusRoute) -> [MyBusMarker] {
+
+    class func buildCompleteBusRoadStopMarkers(_ completeBusRoute: CompleteBusRoute) -> [MyBusMarker] {
         var markers: [MyBusMarker] = []
         let goingPointList = completeBusRoute.goingPointList
         let returnPointList = completeBusRoute.returnPointList
@@ -91,7 +91,7 @@ class MyBusMarkerFactory {
         return markers
     }
 
-    class func buildBusRoadStopMarkers(roadResult: RoadResult)->[MyBusMarker]{
+    class func buildBusRoadStopMarkers(_ roadResult: RoadResult)->[MyBusMarker]{
 
         var roadStopsMarkerList: [MyBusMarker] = []
 
@@ -102,7 +102,7 @@ class MyBusMarkerFactory {
                 return roadStopsMarkerList
             }
             switch busRouteType {
-            case .Single:
+            case .single:
                 guard let stopOriginCoordinate = firstRoute.getFirstLatLng() else {
                     break
                 }
@@ -115,7 +115,7 @@ class MyBusMarkerFactory {
                 let stopDestinationMapPoint = MyBusMarkerFactory.createBusStopDestinationMarker(stopDestionationCoordinate, address: stopDestination.address)
                 roadStopsMarkerList.append(stopDestinationMapPoint)
 
-            case .Combined:
+            case .combined:
                 guard let secondBusStopOrigin = lastRoute.pointList.first, let secondBusStopDestination = lastRoute.pointList.last else {
                     break
                 }
@@ -149,94 +149,94 @@ class MyBusMarkerFactory {
 
         return roadStopsMarkerList
     }
-    
-    class func buildIntermediateBusStopMarkers(roadResult:RoadResult)->[MyBusMarkerIntermediateBusStopPoint] {
-        
+
+    class func buildIntermediateBusStopMarkers(_ roadResult: RoadResult)->[MyBusMarkerIntermediateBusStopPoint] {
+
         //Get Points
         var busStopRoutePoints = roadResult.getPointList()
-        
+
         // The user has elected origin and destination very close between them
         if busStopRoutePoints.count < 3 {
             return []
         }
-        
+
         //Filter waypoints
         busStopRoutePoints = busStopRoutePoints.filter { (busStopPoint) -> Bool in
             return busStopPoint.isWaypoint == false
         }
-        
+
         //Init markers array
-        var routeBusStops:[MyBusMarkerIntermediateBusStopPoint] = busStopRoutePoints.map { (busStopPoint) -> MyBusMarkerIntermediateBusStopPoint in
+        var routeBusStops: [MyBusMarkerIntermediateBusStopPoint] = busStopRoutePoints.map { (busStopPoint) -> MyBusMarkerIntermediateBusStopPoint in
             return MyBusMarkerFactory.createRoadBusStopMarker(busStopPoint)
         }
-        
+
         //Remove destination stop
         routeBusStops.removeLast()
-        
+
         //Remove origin stop
         routeBusStops.removeFirst()
-                
+
         return routeBusStops
-        
+
     }
 
-    class func createOriginPointMarker(point: RoutePoint)->MyBusMarkerOriginPoint {
+    class func createOriginPointMarker(_ point: RoutePoint)->MyBusMarkerOriginPoint {
         let marker = MyBusMarkerOriginPoint(position: point.getLatLong(), title: MyBusTitle.OriginTitle.rawValue, subtitle: point.address, imageIdentifier: "markerOrigen")
         return marker
     }
 
-    class func createDestinationPointMarker(point: RoutePoint)->MyBusMarkerDestinationPoint {
+    class func createDestinationPointMarker(_ point: RoutePoint)->MyBusMarkerDestinationPoint {
         let marker = MyBusMarkerDestinationPoint(position: point.getLatLong(), title: MyBusTitle.DestinationTitle.rawValue, subtitle: point.address, imageIdentifier: "markerDestino")
         return marker
     }
-    
-    class func createRoadBusStopMarker(point:RoutePoint) -> MyBusMarkerIntermediateBusStopPoint{
+
+    class func createRoadBusStopMarker(_ point: RoutePoint) -> MyBusMarkerIntermediateBusStopPoint{
         let marker = MyBusMarkerIntermediateBusStopPoint(position: point.getLatLong(), title: MyBusTitle.BusStop.rawValue, subtitle: point.address, imageIdentifier: "stop_marker")
         return marker
     }
 
-    class func createOriginPointMarker(coord: CLLocationCoordinate2D, address: String)->MyBusMarkerOriginPoint{
+    class func createOriginPointMarker(_ coord: CLLocationCoordinate2D, address: String)->MyBusMarkerOriginPoint{
         let marker = MyBusMarkerOriginPoint(position: coord, title: MyBusTitle.OriginTitle.rawValue, subtitle: address, imageIdentifier: "markerOrigen")
         return marker
     }
 
-    class func createDestinationPointMarker(coord: CLLocationCoordinate2D, address: String)->MyBusMarkerDestinationPoint{
+    class func createDestinationPointMarker(_ coord: CLLocationCoordinate2D, address: String)->MyBusMarkerDestinationPoint{
         let marker = MyBusMarkerDestinationPoint(position: coord, title: MyBusTitle.DestinationTitle.rawValue, subtitle: address, imageIdentifier: "markerDestino")
         return marker
     }
 
-    class func createBusStopOriginMarker(coord: CLLocationCoordinate2D, address: String)->MyBusMarker{
+    class func createBusStopOriginMarker(_ coord: CLLocationCoordinate2D, address: String)->MyBusMarker{
         let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopOriginTitle.rawValue, subtitle: address, imageIdentifier: "stopOrigen")
         return marker
     }
 
 
-    class func createBusStopDestinationMarker(coord: CLLocationCoordinate2D, address: String)->MyBusMarkerBusStopPoint{
+    class func createBusStopDestinationMarker(_ coord: CLLocationCoordinate2D, address: String)->MyBusMarkerBusStopPoint{
         let marker = MyBusMarkerBusStopPoint(position: coord, title: MyBusTitle.StopDestinationTitle.rawValue, subtitle: address, imageIdentifier: "stopDestino")
         return marker
     }
 
-    class func createSameStartEndCompleteBusRouteMarker(coord: CLLocationCoordinate2D, address: String, busLineName: String)->MyBusMarker{
+    class func createSameStartEndCompleteBusRouteMarker(_ coord: CLLocationCoordinate2D, address: String, busLineName: String)->MyBusMarker{
         let sameStartEndTitle = "\(MyBusTitle.SameStartEndCompleteBusRoute.rawValue) \(busLineName)"
 
         let marker = MyBusMarkerSameStartEndCompleteRoutePoint(position: coord, title: sameStartEndTitle, subtitle: address, imageIdentifier: "map_from_to_route")
         return marker
     }
 
-    class func createStartCompleteBusRouteMarker(coord: CLLocationCoordinate2D, address: String, busLineName: String)->MyBusMarker{
+    class func createStartCompleteBusRouteMarker(_ coord: CLLocationCoordinate2D, address: String, busLineName: String)->MyBusMarker{
         let startTitle = "\(MyBusTitle.StartCompleteBusRoute.rawValue) \(busLineName)"
 
         let marker = MyBusMarkerBusStopPoint(position: coord, title: startTitle, subtitle: address, imageIdentifier: "stopOrigen")
         return marker
     }
 
-    class func createEndCompleteBusRouteMarker(coord: CLLocationCoordinate2D, address: String, busLineName: String)->MyBusMarker{
+    class func createEndCompleteBusRouteMarker(_ coord: CLLocationCoordinate2D, address: String, busLineName: String)->MyBusMarker{
         let endTitle = "\(MyBusTitle.EndCompleteBusRoute.rawValue) \(busLineName)"
         let marker = MyBusMarkerBusStopPoint(position: coord, title: endTitle, subtitle: address, imageIdentifier: "stopDestino")
         return marker
     }
 
-    class func createRechargePointMarker(point: RechargePoint)-> MyBusMarkerRechargePoint{
+    class func createRechargePointMarker(_ point: RechargePoint)-> MyBusMarkerRechargePoint{
         let marker = MyBusMarkerRechargePoint(position: point.getLatLong(), title: point.address, subtitle: point.openTime, imageIdentifier: point.isOpen ? "map_charge" : "map_charge_close")
         return marker
     }
