@@ -15,47 +15,48 @@ class FavoriteDataSource: NSObject, UITableViewDataSource {
     var favorite: List<RoutePoint>!
 
     override init() {
-        super.init()        
+        super.init()
     }
 
     func loadFav() {
         self.favorite = DBManager.sharedInstance.getFavourites()
     }
-    
-    func addFavorite(point:RoutePoint){
+
+    func addFavorite(_ point: RoutePoint){
         DBManager.sharedInstance.addFavorite(point)
         loadFav()
     }
-    
-    func removeFavorite(atIndex:NSIndexPath) -> Bool{
-        
+
+    func removeFavorite(_ atIndex: IndexPath) -> Bool{
+
         guard let favs = favorite else {
             return false
         }
-        
-        if let unfavedPoint:RoutePoint = favs[atIndex.row] {
+
+        if favs.count > atIndex.row {
+            let unfavedPoint: RoutePoint = favs[atIndex.row]
             DBManager.sharedInstance.removeFavorite(unfavedPoint)
             loadFav()
             return true
         }else{
             return false
         }
-       
-        
+
+
     }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell: FavoriteTableViewCell = tableView.dequeueReusableCellWithIdentifier("FavoriteTableViewCell", forIndexPath: indexPath) as! FavoriteTableViewCell
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell: FavoriteTableViewCell = tableView.dequeueReusableCell(withIdentifier: "FavoriteTableViewCell", for: indexPath) as! FavoriteTableViewCell
         cell.loadItem(favorite[indexPath.row])
         return cell
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
         guard let favs = self.favorite else {
             return 0
         }
-        
+
         return favs.count
     }
 }

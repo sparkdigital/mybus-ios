@@ -9,7 +9,7 @@
 import XCTest
 import PageMenu
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class BusesResultsMenuViewControllerTest: XCTestCase
 {
@@ -20,11 +20,11 @@ class BusesResultsMenuViewControllerTest: XCTestCase
     {
         super.setUp()
         
-        let filePath = NSBundle(forClass: BusesResultsMenuViewControllerTest.self).pathForResource("BusRouteResultSingle_1", ofType: "json")
+        let filePath = Bundle(for: BusesResultsMenuViewControllerTest.self).path(forResource: "BusRouteResultSingle_1", ofType: "json")
         
-        let jsonData = try! NSData(contentsOfFile: filePath!, options:.DataReadingMappedIfSafe)
+        let jsonData = try! Data(contentsOf: URL(fileURLWithPath: filePath!), options:.mappedIfSafe)
         
-        let json = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableContainers)
+        let json = try! JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
         
         var firstRouteDictionary = JSON(json)
         

@@ -1,14 +1,14 @@
 PODS:
-  - Alamofire (3.3.1)
-  - BetterSegmentedControl (0.4)
-  - Crashlytics (3.7.0):
+  - Alamofire (4.2.0)
+  - BetterSegmentedControl (0.7)
+  - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
   - DZNEmptyDataSet (1.8.1)
-  - Fabric (1.6.7)
-  - Firebase/Core (3.10.0):
+  - Fabric (1.6.11)
+  - Firebase/Core (3.11.0):
     - FirebaseAnalytics (= 3.6.0)
-    - FirebaseCore (= 3.4.5)
-  - Firebase/Messaging (3.10.0):
+    - FirebaseCore (= 3.4.6)
+  - Firebase/Messaging (3.11.0):
     - Firebase/Core
     - FirebaseMessaging (= 1.2.1)
   - FirebaseAnalytics (3.6.0):
@@ -17,7 +17,7 @@ PODS:
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCore (3.4.5):
+  - FirebaseCore (3.4.6):
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseInstanceID (1.0.8)
@@ -27,88 +27,85 @@ PODS:
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
-  - Flurry-iOS-SDK/FlurrySDK (7.8.2)
+  - Flurry-iOS-SDK (7.9.2):
+    - Flurry-iOS-SDK/FlurrySDK (= 7.9.2)
+  - Flurry-iOS-SDK/FlurrySDK (7.9.2)
   - GoogleInterchangeUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
-  - GoogleToolboxForMac/Defines (2.1.0)
-  - GoogleToolboxForMac/Logger (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-  - GoogleToolboxForMac/NSData+zlib (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-  - Mapbox-iOS-SDK (3.3.4)
-  - MapboxDirections.swift (0.4.0):
-    - NBNRequestKit
-    - Polyline (~> 3.0)
-  - MBProgressHUD (0.9.2)
-  - NBNRequestKit (0.3.0)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/Logger (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - Mapbox-iOS-SDK (3.4.0)
+  - MapboxDirections.swift (0.6.0):
+    - Polyline (~> 4.0.0)
+  - MBProgressHUD (1.0.0)
   - PageMenu (1.2.9)
-  - Polyline (3.0.0)
-  - Realm (1.1.0):
-    - Realm/Headers (= 1.1.0)
-  - Realm/Headers (1.1.0)
-  - RealmSwift (1.1.0):
-    - Realm (= 1.1.0)
-  - SwiftyJSON (2.3.2)
+  - Polyline (4.0.0)
+  - Realm (2.2.0):
+    - Realm/Headers (= 2.2.0)
+  - Realm/Headers (2.2.0)
+  - RealmSwift (2.2.0):
+    - Realm (= 2.2.0)
+  - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.3.1)
-  - BetterSegmentedControl (= 0.4)
-  - Crashlytics (~> 3.7.0)
+  - Alamofire (~> 4.2)
+  - BetterSegmentedControl (~> 0.7)
+  - Crashlytics (~> 3.8)
   - DZNEmptyDataSet (~> 1.8)
-  - Fabric (~> 1.6.7)
+  - Fabric (~> 1.6)
   - Firebase/Core
   - Firebase/Messaging
-  - Flurry-iOS-SDK/FlurrySDK (~> 7.8.2)
-  - Mapbox-iOS-SDK (~> 3.3.4)
-  - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, tag `v0.5.0`)
-  - MBProgressHUD (~> 0.9.2)
-  - NBNRequestKit (from `https://github.com/1ec5/RequestKit.git`, branch `mapbox-podspec`)
-  - PageMenu (~> 1.2.9)
-  - RealmSwift (~> 1.1.0)
-  - SwiftyJSON (~> 2.3.2)
+  - Flurry-iOS-SDK (~> 7.9)
+  - Mapbox-iOS-SDK (~> 3.4)
+  - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, branch `swift3`)
+  - MBProgressHUD (~> 1.0)
+  - PageMenu (from `https://github.com/orazz/PageMenu.git`)
+  - RealmSwift (~> 2.1)
+  - SwiftyJSON (~> 3.1)
 
 EXTERNAL SOURCES:
   MapboxDirections.swift:
+    :branch: swift3
     :git: https://github.com/mapbox/MapboxDirections.swift.git
-    :tag: v0.5.0
-  NBNRequestKit:
-    :branch: mapbox-podspec
-    :git: https://github.com/1ec5/RequestKit.git
+  PageMenu:
+    :git: https://github.com/orazz/PageMenu.git
 
 CHECKOUT OPTIONS:
   MapboxDirections.swift:
+    :commit: 581f246ae4f821a62af6bbe8c4ea1aac67b0cf9b
     :git: https://github.com/mapbox/MapboxDirections.swift.git
-    :tag: v0.5.0
-  NBNRequestKit:
-    :commit: 77220407aa576e70232e4300a01d31870345b275
-    :git: https://github.com/1ec5/RequestKit.git
+  PageMenu:
+    :commit: ace3d8d095c9c165113d3ac797f317fe7faecbae
+    :git: https://github.com/orazz/PageMenu.git
 
 SPEC CHECKSUMS:
-  Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
-  BetterSegmentedControl: 982368e9cae749f28b7a2e969a37dcb73c375400
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  BetterSegmentedControl: 0b4dde1caac22de345820858a5e2789132378c1c
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  Firebase: 387f37c7dca894a02708da9ff35ba147040eae9e
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Firebase: b8134e285eb33201115bc688bc5d7f112923bc1f
   FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
-  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
+  FirebaseCore: 03da1cb32615569bbc2830a22f9ad753d9a02ef5
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
-  Flurry-iOS-SDK: 8ed76252016d0162a893363c108a010ab97d424c
+  Flurry-iOS-SDK: 300dc1d78443dea3d433a38e76292f20f14f0a96
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
-  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
-  Mapbox-iOS-SDK: b22da0d9703fcfb0a8b592b6a7f6a21264fe44b0
-  MapboxDirections.swift: baa69039463d0853ec7cca2370ed686f507695bf
-  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  NBNRequestKit: 300c68172965d586ac6e0cefbe5a4fe415b71dbf
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  Mapbox-iOS-SDK: 0b466a2e2346589e93050e0b1d1c253f6b2510bc
+  MapboxDirections.swift: 4acd753d0079bae4f2fae2b2cbda98922909de09
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
-  Polyline: 18026fd6675f754a15e70b4fd7ca01d0d156b6d7
-  Realm: ceecf1a4540c4ce9efe196fe73fa9855bce05bd8
-  RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
-  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  Polyline: c6de7430bf6ff0bfff1f087343597b83b38fdb69
+  Realm: d95b8fb34c83f1e764b66d319277a62c2b6e4bf5
+  RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 53c40bee34ec7c9003c30246a84689c6db073bd2
+PODFILE CHECKSUM: 2a2a75804a63dcad726fa67e4b342bbf9a324cb6
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

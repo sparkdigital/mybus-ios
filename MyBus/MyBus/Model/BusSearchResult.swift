@@ -34,7 +34,7 @@ class BusSearchResult
         let originPoint: RoutePoint = RoutePoint()
         let destinationPoint: RoutePoint = RoutePoint()
         let busRoutesResults: [BusRouteResult] = []
-        
+
         self.init(origin: originPoint, destination: destinationPoint, busRoutes: busRoutesResults)
     }
 
@@ -45,7 +45,7 @@ class BusSearchResult
 
      :returns: RoadResult for a BusRouteResult or nil
     */
-    func roads(busRouteResult: BusRouteResult) -> RoadResult? {
+    func roads(_ busRouteResult: BusRouteResult) -> RoadResult? {
         let busRouteKey = self.getStringBusResultRow(busRouteResult)
         if let roadResult = road[busRouteKey] {
             return roadResult
@@ -57,7 +57,7 @@ class BusSearchResult
     /**
      Add RoadResult for a BusRouteResult key
      */
-    func addRoad(key: String, roadResult: RoadResult) -> Void {
+    func addRoad(_ key: String, roadResult: RoadResult) -> Void {
         road.updateValue(roadResult, forKey: key)
     }
 }

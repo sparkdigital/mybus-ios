@@ -29,10 +29,10 @@ class SearchDataSource: NSObject, UITableViewDataSource {
         favourites = DBManager.sharedInstance.getFavourites()
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("RecentTableViewCell", forIndexPath: indexPath) as! RecenTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "RecentTableViewCell", for: indexPath) as! RecenTableViewCell
             cell.loadItem(recents[indexPath.row].address)
             return cell
         case 1:
@@ -40,23 +40,23 @@ class SearchDataSource: NSObject, UITableViewDataSource {
                 return UITableViewCell()
             }
 
-            let cell = tableView.dequeueReusableCellWithIdentifier("SearchFavoriteTableViewCell", forIndexPath: indexPath) as! SearchFavoriteTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SearchFavoriteTableViewCell", for: indexPath) as! SearchFavoriteTableViewCell
             cell.loadItem(favs[indexPath.row])
 
             return cell
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("SearchFavoriteTableViewCell", forIndexPath: indexPath) as UITableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SearchFavoriteTableViewCell", for: indexPath) as UITableViewCell
             return cell
         }
     }
 
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             if let listRecents = recents {
@@ -74,7 +74,7 @@ class SearchDataSource: NSObject, UITableViewDataSource {
     }
 
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
             return "RECIENTES"

@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class RouteTest: XCTestCase
 {
@@ -20,22 +20,22 @@ class RouteTest: XCTestCase
         super.setUp()
         
         // First Route
-        let firstRouteFilePath = NSBundle(forClass: RouteTest.self).pathForResource("Route_1", ofType: "json")
+        let firstRouteFilePath = Bundle(for: RouteTest.self).path(forResource: "Route_1", ofType: "json")
         
-        let firstRouteJSONData = try! NSData(contentsOfFile: firstRouteFilePath!, options:.DataReadingMappedIfSafe)
+        let firstRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: firstRouteFilePath!), options:.mappedIfSafe)
         
-        let firstRouteJSON = try! NSJSONSerialization.JSONObjectWithData(firstRouteJSONData, options: .MutableContainers)
+        let firstRouteJSON = try! JSONSerialization.jsonObject(with: firstRouteJSONData, options: .mutableContainers)
         
         let firstRouteDictionary = JSON(firstRouteJSON)
         
         firstRoute = Route.parse(firstRouteDictionary.arrayValue)
         
         // Second Route
-        let secondRouteFilePath = NSBundle(forClass: RouteTest.self).pathForResource("Route_2", ofType: "json")
+        let secondRouteFilePath = Bundle(for: RouteTest.self).path(forResource: "Route_2", ofType: "json")
         
-        let secondRouteJSONData = try! NSData(contentsOfFile: secondRouteFilePath!, options:.DataReadingMappedIfSafe)
+        let secondRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: secondRouteFilePath!), options:.mappedIfSafe)
         
-        let secondRouteJSON = try! NSJSONSerialization.JSONObjectWithData(secondRouteJSONData, options: .MutableContainers)
+        let secondRouteJSON = try! JSONSerialization.jsonObject(with: secondRouteJSONData, options: .mutableContainers)
         
         let secondRouteDictionary = JSON(secondRouteJSON)
         

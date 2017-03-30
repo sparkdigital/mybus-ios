@@ -9,18 +9,18 @@
 import UIKit
 
 class SimpleSearchBarView: UIView {
-    
-    private var nibId: String = "SimpleSearchBarView"
-    private var viewHeight:CGFloat = 44
+
+    fileprivate var nibId: String = "SimpleSearchBarView"
+    fileprivate var viewHeight: CGFloat = 44
     @IBOutlet weak var searchBar: UISearchBar!
-    
+
     override init(frame: CGRect) {
-        let rect = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, viewHeight)
+        let rect = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: viewHeight)
         super.init(frame: rect)
         xibSetup(nibIdentifier())
     }
-    
-    required init?(coder aDecoder:NSCoder){
+
+    required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
         xibSetup(nibIdentifier())
     }
@@ -28,18 +28,18 @@ class SimpleSearchBarView: UIView {
 }
 
 extension SimpleSearchBarView:SearchPresenter {
-    
+
     // MARK: SearchPresenter Delegate methods
     func nibIdentifier() -> String{
         return nibId
     }
-    
+
     func preferredHeight() -> CGFloat {
         return viewHeight
     }
-    
-    func setSearchDelegate(delegate: Searchable) {
+
+    func setSearchDelegate(_ delegate: Searchable) {
         self.searchBar.delegate = delegate as? UISearchBarDelegate
     }
-  
+
 }

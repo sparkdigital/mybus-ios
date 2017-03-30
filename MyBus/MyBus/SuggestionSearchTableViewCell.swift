@@ -14,7 +14,7 @@ class SuggestionSearchTableViewCell: UITableViewCell {
     @IBOutlet var imageCell: UIImageView!
     @IBOutlet weak var address: UILabel!
 
-    func loadItem(suggestion: SuggestionProtocol) {
+    func loadItem(_ suggestion: SuggestionProtocol) {
         self.address.text = suggestion.name
         self.imageCell.image = suggestion.getImage()
     }

@@ -17,7 +17,6 @@
 		0807F6DE1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6DD1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift */; };
 		0807F6E01DE74F5500ACDFED /* GisServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6DF1DE74F5500ACDFED /* GisServiceTest.swift */; };
 		0807F6E21DE74F6E00ACDFED /* GeoCodingServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0807F6E11DE74F6E00ACDFED /* GeoCodingServiceTest.swift */; };
-		081288C71DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288C61DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift */; };
 		081288C91DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288C81DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift */; };
 		081288CB1DF09B9300EC9B79 /* MyBusMapControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288CA1DF09B9300EC9B79 /* MyBusMapControllerTest.swift */; };
 		081288CD1DF09DB600EC9B79 /* SearchViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081288CC1DF09DB600EC9B79 /* SearchViewControllerTest.swift */; };
@@ -105,11 +104,12 @@
 		11DFABEF1D424E1D002DC06E /* SearchSuggestionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */; };
 		11E215E01D63AF10007069F7 /* BusSearchResultStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */; };
 		11F2CFED1D63785900862324 /* BusSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2CFEC1D63785900862324 /* BusSearchResult.swift */; };
-		5FBD9D1C8287246997BCCA51 /* Pods_MyBusTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC046FCD33236186FD39A30 /* Pods_MyBusTests.framework */; };
 		66EDF97A1DF0847B00092C29 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66EDF9781DF0847B00092C29 /* Localizable.strings */; };
 		66EFFE401DF083C300E2F9F0 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EFFE3F1DF083C300E2F9F0 /* Localization.swift */; };
+		7071782A1E1AA4F40080D598 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 707178291E1AA4F40080D598 /* BusesRates.plist */; };
 		70985C191E0B0BDD000997CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70985C181E0B0BDD000997CE /* GoogleService-Info.plist */; };
 		70DC86E81DFF2B9B0005AADC /* AboutUs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70DC86E71DFF2B9B0005AADC /* AboutUs.xib */; };
+		7D86E0A3648C39B74C7D1835 /* Pods_MYBUS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 318B2E73A2760E96B4BC96F6 /* Pods_MYBUS.framework */; };
 		9982576E1CC532ED00909F1B /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9982576D1CC532ED00909F1B /* Street.swift */; };
 		998257711CC5523E00909F1B /* BestMatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */; };
 		A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AD4531CF7C0530088F592 /* MyBusService.swift */; };
@@ -151,8 +151,7 @@
 		B4C575951E049EC500DBB977 /* MyBus_Terms_And_Conditions.html in Resources */ = {isa = PBXBuildFile; fileRef = B4C575941E049EC500DBB977 /* MyBus_Terms_And_Conditions.html */; };
 		B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */; };
 		B4F0B99D1E0885C900444EED /* UIViewController+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F0B99C1E0885C900444EED /* UIViewController+Animation.swift */; };
-		B9F1EDC0E6462FB614561F20 /* Pods_MyBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D9D2B423B1576EA6A24F2C /* Pods_MyBus.framework */; };
-		C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C50CC65C1D7A17130039C316 /* BusesRates.plist */; };
+		B74BD9B8EFD73B10CED82B69 /* Pods_MyBusTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D0010762F96F9AF988327B /* Pods_MyBusTests.framework */; };
 		C518AFD81D6CA96800A9407D /* StepActivateLocate.xib in Resources */ = {isa = PBXBuildFile; fileRef = C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */; };
 		C5348A311D9070C1004EADEC /* TitleMainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5348A301D9070C1004EADEC /* TitleMainView.xib */; };
 		C5421B271D5B609C007C8987 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5421B261D5B609C007C8987 /* ProgressHUD.swift */; };
@@ -198,7 +197,6 @@
 		0807F6DD1DE74F4500ACDFED /* MapBoxDirectionsServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapBoxDirectionsServiceTest.swift; path = Services/MapBoxDirectionsServiceTest.swift; sourceTree = "<group>"; };
 		0807F6DF1DE74F5500ACDFED /* GisServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GisServiceTest.swift; path = Services/GisServiceTest.swift; sourceTree = "<group>"; };
 		0807F6E11DE74F6E00ACDFED /* GeoCodingServiceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingServiceTest.swift; path = Services/GeoCodingServiceTest.swift; sourceTree = "<group>"; };
-		081288C61DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchSuggestionsViewControllerTest.swift; path = Controllers/SearchSuggestionsViewControllerTest.swift; sourceTree = "<group>"; };
 		081288C81DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContainerViewControllerTest.swift; path = Controllers/SearchContainerViewControllerTest.swift; sourceTree = "<group>"; };
 		081288CA1DF09B9300EC9B79 /* MyBusMapControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyBusMapControllerTest.swift; path = Controllers/MyBusMapControllerTest.swift; sourceTree = "<group>"; };
 		081288CC1DF09DB600EC9B79 /* SearchViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewControllerTest.swift; path = Controllers/SearchViewControllerTest.swift; sourceTree = "<group>"; };
@@ -254,7 +252,7 @@
 		08E5F53E1DD4C3BA004D0578 /* RoadResultTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResultTest.swift; path = Model/Road/RoadResultTest.swift; sourceTree = "<group>"; };
 		08E5F5401DD4C3E7004D0578 /* RoadSearchTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadSearchTest.swift; path = Model/Road/RoadSearchTest.swift; sourceTree = "<group>"; };
 		08E5F5421DD4C43C004D0578 /* CompleteBusRouteTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompleteBusRouteTest.swift; path = Model/Road/CompleteBusRouteTest.swift; sourceTree = "<group>"; };
-		08EC584D1CBD482400E8410A /* MyBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08EC584D1CBD482400E8410A /* MYBUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MYBUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EC58501CBD482400E8410A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08EC58521CBD482400E8410A /* MyBusMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBusMapController.swift; sourceTree = "<group>"; };
 		08EC58551CBD482400E8410A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -290,16 +288,17 @@
 		11DFABEE1D424E1D002DC06E /* SearchSuggestionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsDataSource.swift; sourceTree = "<group>"; };
 		11E215DF1D63AF10007069F7 /* BusSearchResultStringFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSearchResultStringFormatter.swift; sourceTree = "<group>"; };
 		11F2CFEC1D63785900862324 /* BusSearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusSearchResult.swift; path = Model/BusSearchResult.swift; sourceTree = "<group>"; };
-		16D9D2B423B1576EA6A24F2C /* Pods_MyBus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EC046FCD33236186FD39A30 /* Pods_MyBusTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBusTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		44984E5E10C62976B2EE908C /* Pods-MyBusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBusTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests.release.xcconfig"; sourceTree = "<group>"; };
+		30C1CAF7F20A3EE2B617B344 /* Pods-MYBUS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MYBUS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MYBUS/Pods-MYBUS.release.xcconfig"; sourceTree = "<group>"; };
+		318B2E73A2760E96B4BC96F6 /* Pods_MYBUS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MYBUS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		66D0010762F96F9AF988327B /* Pods_MyBusTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBusTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66EDF9761DF0843D00092C29 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		66EDF9771DF0843D00092C29 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		66EDF9791DF0847B00092C29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = MyBus/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		66EFFE3F1DF083C300E2F9F0 /* Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		707178291E1AA4F40080D598 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
 		70985C181E0B0BDD000997CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70DC86E71DFF2B9B0005AADC /* AboutUs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUs.xib; sourceTree = "<group>"; };
-		7717A1B83A0E9990CCE0D7D0 /* Pods-MyBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.release.xcconfig"; sourceTree = "<group>"; };
+		9862E59426E1CA5273482FD7 /* Pods-MyBusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBusTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests.debug.xcconfig"; sourceTree = "<group>"; };
 		98D816095DB973CAEBACCA90 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9982576D1CC532ED00909F1B /* Street.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Street.swift; path = Model/Street.swift; sourceTree = "<group>"; };
 		998257701CC5523E00909F1B /* BestMatchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BestMatchTableViewCell.swift; path = Cells/BestMatchTableViewCell.swift; sourceTree = "<group>"; };
@@ -319,7 +318,6 @@
 		A0CF2BAE1D88A9F80044499F /* RechargePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RechargePoint.swift; path = Model/RechargePoint.swift; sourceTree = "<group>"; };
 		A0D8B21E1D80D5150062A339 /* CompleteBusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompleteBusRoute.swift; path = Model/Road/CompleteBusRoute.swift; sourceTree = "<group>"; };
 		A0E1430A1CFB9A6E00BAA6AD /* BaseNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseNetworkService.swift; path = Services/BaseNetworkService.swift; sourceTree = "<group>"; };
-		AEA4DB90A81953AC2EA7322C /* Pods-MyBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBus/Pods-MyBus.debug.xcconfig"; sourceTree = "<group>"; };
 		B44695701DDD040A0073BC2C /* BusesResultsMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusesResultsMenuViewController.swift; sourceTree = "<group>"; };
 		B44695721DDD66DA0073BC2C /* BusResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusResultViewController.swift; sourceTree = "<group>"; };
 		B455FA9B1DB1803500069F22 /* MyBusMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapModel.swift; sourceTree = "<group>"; };
@@ -343,8 +341,6 @@
 		B4C575941E049EC500DBB977 /* MyBus_Terms_And_Conditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MyBus_Terms_And_Conditions.html; sourceTree = "<group>"; };
 		B4C6A1131D8B25B400863FCD /* MyBusMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBusMapView.swift; sourceTree = "<group>"; };
 		B4F0B99C1E0885C900444EED /* UIViewController+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Animation.swift"; sourceTree = "<group>"; };
-		BEDB14F654962D4683958CAE /* Pods-MyBusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBusTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests.debug.xcconfig"; sourceTree = "<group>"; };
-		C50CC65C1D7A17130039C316 /* BusesRates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BusesRates.plist; sourceTree = "<group>"; };
 		C518AFD71D6CA96800A9407D /* StepActivateLocate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepActivateLocate.xib; sourceTree = "<group>"; };
 		C5348A301D9070C1004EADEC /* TitleMainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleMainView.xib; sourceTree = "<group>"; };
 		C5421B261D5B609C007C8987 /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
@@ -367,6 +363,8 @@
 		C5CE59CF1D8AF572003A8FE4 /* RecentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentTableViewCell.swift; sourceTree = "<group>"; };
 		C5CE59D31D8B1549003A8FE4 /* HeaderTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTableView.xib; sourceTree = "<group>"; };
 		C5FD67451D89CCC400460131 /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
+		DD834DC1AFF2C6ACD97F0228 /* Pods-MYBUS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MYBUS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MYBUS/Pods-MYBUS.debug.xcconfig"; sourceTree = "<group>"; };
+		E4000619D31BE4FB453429E7 /* Pods-MyBusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBusTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -374,7 +372,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9F1EDC0E6462FB614561F20 /* Pods_MyBus.framework in Frameworks */,
+				7D86E0A3648C39B74C7D1835 /* Pods_MYBUS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +380,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBD9D1C8287246997BCCA51 /* Pods_MyBusTests.framework in Frameworks */,
+				B74BD9B8EFD73B10CED82B69 /* Pods_MyBusTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,7 +409,6 @@
 		0826D1AB1DD36C1D00F9ED15 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				081288C61DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift */,
 				081288C81DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift */,
 				081288CA1DF09B9300EC9B79 /* MyBusMapControllerTest.swift */,
 				081288CC1DF09DB600EC9B79 /* SearchViewControllerTest.swift */,
@@ -560,14 +557,14 @@
 				08EC58671CBD482400E8410A /* MyBusTests */,
 				08EC584E1CBD482400E8410A /* Products */,
 				CC85FE20DFF084B8042A3803 /* Frameworks */,
-				9005941DFA73E0EE32E8AA78 /* Pods */,
+				F273D6C67DEF617D05914805 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
 		08EC584E1CBD482400E8410A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				08EC584D1CBD482400E8410A /* MyBus.app */,
+				08EC584D1CBD482400E8410A /* MYBUS.app */,
 				08EC58641CBD482400E8410A /* MyBusTests.xctest */,
 			);
 			name = Products;
@@ -673,8 +670,8 @@
 				08EC585F1CBD482400E8410A /* Info.plist */,
 				A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */,
 				114E67091D79DD5200D8F746 /* BusColors.plist */,
-				C50CC65C1D7A17130039C316 /* BusesRates.plist */,
 				11DF624D1DA2CE0900E21320 /* SuggestedPlaces.plist */,
+				707178291E1AA4F40080D598 /* BusesRates.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -801,17 +798,6 @@
 			name = BusesControllers;
 			sourceTree = "<group>";
 		};
-		9005941DFA73E0EE32E8AA78 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AEA4DB90A81953AC2EA7322C /* Pods-MyBus.debug.xcconfig */,
-				7717A1B83A0E9990CCE0D7D0 /* Pods-MyBus.release.xcconfig */,
-				BEDB14F654962D4683958CAE /* Pods-MyBusTests.debug.xcconfig */,
-				44984E5E10C62976B2EE908C /* Pods-MyBusTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		9982576F1CC5520E00909F1B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -862,46 +848,57 @@
 			isa = PBXGroup;
 			children = (
 				98D816095DB973CAEBACCA90 /* Pods.framework */,
-				16D9D2B423B1576EA6A24F2C /* Pods_MyBus.framework */,
-				2EC046FCD33236186FD39A30 /* Pods_MyBusTests.framework */,
+				318B2E73A2760E96B4BC96F6 /* Pods_MYBUS.framework */,
+				66D0010762F96F9AF988327B /* Pods_MyBusTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F273D6C67DEF617D05914805 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD834DC1AFF2C6ACD97F0228 /* Pods-MYBUS.debug.xcconfig */,
+				30C1CAF7F20A3EE2B617B344 /* Pods-MYBUS.release.xcconfig */,
+				9862E59426E1CA5273482FD7 /* Pods-MyBusTests.debug.xcconfig */,
+				E4000619D31BE4FB453429E7 /* Pods-MyBusTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		08EC584C1CBD482400E8410A /* MyBus */ = {
+		08EC584C1CBD482400E8410A /* MYBUS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MyBus" */;
+			buildConfigurationList = 08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MYBUS" */;
 			buildPhases = (
-				DDF201DCC37DEE666EE31C6E /* [CP] Check Pods Manifest.lock */,
+				6FC3AEAEE778AACE8C88A503 /* [CP] Check Pods Manifest.lock */,
 				08EC58491CBD482400E8410A /* Sources */,
 				08EC584A1CBD482400E8410A /* Frameworks */,
 				08EC584B1CBD482400E8410A /* Resources */,
 				086A78FF1CBD7EE200370E76 /* ShellScript */,
-				C226C0B3A66877162723E341 /* [CP] Embed Pods Frameworks */,
-				A6C58A4CF81EC885DE19D94B /* [CP] Copy Pods Resources */,
+				28C7C6CDD548C71EEFAE6F40 /* [CP] Embed Pods Frameworks */,
+				D2DD5D6B86956A1182D34C51 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = MyBus;
+			name = MYBUS;
 			productName = MyBus;
-			productReference = 08EC584D1CBD482400E8410A /* MyBus.app */;
+			productReference = 08EC584D1CBD482400E8410A /* MYBUS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		08EC58631CBD482400E8410A /* MyBusTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08EC58701CBD482400E8410A /* Build configuration list for PBXNativeTarget "MyBusTests" */;
 			buildPhases = (
-				7625322735F15EF086688869 /* [CP] Check Pods Manifest.lock */,
+				5B371FAE79EA00EC8A6B83ED /* [CP] Check Pods Manifest.lock */,
 				08EC58601CBD482400E8410A /* Sources */,
 				08EC58611CBD482400E8410A /* Frameworks */,
 				08EC58621CBD482400E8410A /* Resources */,
-				BE28BA9FB080894446959708 /* [CP] Embed Pods Frameworks */,
-				E153B35A66E434378C25D819 /* [CP] Copy Pods Resources */,
+				5B7EF6A5EF7684B6153F6B45 /* [CP] Embed Pods Frameworks */,
+				19A511EBE6BD26B7009BE40A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -920,12 +917,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Spark Digital";
 				TargetAttributes = {
 					08EC584C1CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = VXBU7JZRFH;
+						DevelopmentTeam = S3HBAFMNTV;
+						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -937,6 +935,8 @@
 					};
 					08EC58631CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = S3HBAFMNTV;
+						LastSwiftMigration = 0820;
 						TestTargetID = 08EC584C1CBD482400E8410A;
 					};
 				};
@@ -954,7 +954,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				08EC584C1CBD482400E8410A /* MyBus */,
+				08EC584C1CBD482400E8410A /* MYBUS */,
 				08EC58631CBD482400E8410A /* MyBusTests */,
 			);
 		};
@@ -985,8 +985,8 @@
 				B47A8E801DDE167600D6F9A4 /* CombinedRouteView.xib in Resources */,
 				C5CE59D41D8B1549003A8FE4 /* HeaderTableView.xib in Resources */,
 				70985C191E0B0BDD000997CE /* GoogleService-Info.plist in Resources */,
-				C50CC65D1D7A17130039C316 /* BusesRates.plist in Resources */,
 				70DC86E81DFF2B9B0005AADC /* AboutUs.xib in Resources */,
+				7071782A1E1AA4F40080D598 /* BusesRates.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1038,24 +1038,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 8bb8e613a86950d5300af3fc3b466729e6d371eb c71d889e64a5a21d41f9901ea56b8779f95b2047b6bef9ee189009e73e7cad8e";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" b2c25b07fff25462b0fcd8fa96debc1a54f0bb23 9026a1ba97fd20936c7ec722bfd8d179bfe7ea0fc44ff1edeed55841a6f82cb9";
 		};
-		7625322735F15EF086688869 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		A6C58A4CF81EC885DE19D94B /* [CP] Copy Pods Resources */ = {
+		19A511EBE6BD26B7009BE40A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1067,10 +1052,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBus/Pods-MyBus-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BE28BA9FB080894446959708 /* [CP] Embed Pods Frameworks */ = {
+		28C7C6CDD548C71EEFAE6F40 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MYBUS/Pods-MYBUS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5B371FAE79EA00EC8A6B83ED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5B7EF6A5EF7684B6153F6B45 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1085,22 +1100,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C226C0B3A66877162723E341 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBus/Pods-MyBus-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DDF201DCC37DEE666EE31C6E /* [CP] Check Pods Manifest.lock */ = {
+		6FC3AEAEE778AACE8C88A503 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1112,10 +1112,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		E153B35A66E434378C25D819 /* [CP] Copy Pods Resources */ = {
+		D2DD5D6B86956A1182D34C51 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1127,7 +1127,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyBusTests/Pods-MyBusTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MYBUS/Pods-MYBUS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1256,7 +1256,6 @@
 				0807F6E01DE74F5500ACDFED /* GisServiceTest.swift in Sources */,
 				081288C91DF09B7D00EC9B79 /* SearchContainerViewControllerTest.swift in Sources */,
 				081288D71DF09E5400EC9B79 /* BusesResultsTableViewControllerTest.swift in Sources */,
-				081288C71DF09B6600EC9B79 /* SearchSuggestionsViewControllerTest.swift in Sources */,
 				08E5F5321DD4B8D7004D0578 /* BusRouteResultSingleTest.swift in Sources */,
 				081288D51DF09E1E00EC9B79 /* SuggestionSearchViewControllerTest.swift in Sources */,
 				08E5F53B1DD4C271004D0578 /* SuggestedPlaceTest.swift in Sources */,
@@ -1269,7 +1268,7 @@
 /* Begin PBXTargetDependency section */
 		08EC58661CBD482400E8410A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 08EC584C1CBD482400E8410A /* MyBus */;
+			target = 08EC584C1CBD482400E8410A /* MYBUS */;
 			targetProxy = 08EC58651CBD482400E8410A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1308,6 +1307,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1318,8 +1318,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
@@ -1349,6 +1351,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1356,6 +1359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1366,8 +1370,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
@@ -1389,65 +1395,85 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "acdeb20f-eb76-4224-9b7f-a1bfab68fd69";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		08EC586E1CBD482400E8410A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AEA4DB90A81953AC2EA7322C /* Pods-MyBus.debug.xcconfig */;
+			baseConfigurationReference = DD834DC1AFF2C6ACD97F0228 /* Pods-MYBUS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Roberto Claudio Martinez (6C3HNP84R7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mario Lucchelli (H3HPJYDJJ4)";
+				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mybus.mdq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8b9b85af-338b-4e6a-94b0-b7589cfdf4a1";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		08EC586F1CBD482400E8410A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7717A1B83A0E9990CCE0D7D0 /* Pods-MyBus.release.xcconfig */;
+			baseConfigurationReference = 30C1CAF7F20A3EE2B617B344 /* Pods-MYBUS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Roberto Claudio Martinez (VXBU7JZRFH)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Mario Lucchelli (S3HBAFMNTV)";
+				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = MyBus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SparkDigital.MyBus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mybus.mdq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "acdeb20f-eb76-4224-9b7f-a1bfab68fd69";
+				PROVISIONING_PROFILE = "e025cf37-b9cf-4a73-bb9f-a90343b45424";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		08EC58711CBD482400E8410A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEDB14F654962D4683958CAE /* Pods-MyBusTests.debug.xcconfig */;
+			baseConfigurationReference = 9862E59426E1CA5273482FD7 /* Pods-MyBusTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = S3HBAFMNTV;
 				INFOPLIST_FILE = MyBusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SparkDigital.MyBusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyBus.app/MyBus";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MYBUS.app/MYBUS";
 			};
 			name = Debug;
 		};
 		08EC58721CBD482400E8410A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 44984E5E10C62976B2EE908C /* Pods-MyBusTests.release.xcconfig */;
+			baseConfigurationReference = E4000619D31BE4FB453429E7 /* Pods-MyBusTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = S3HBAFMNTV;
 				INFOPLIST_FILE = MyBusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SparkDigital.MyBusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyBus.app/MyBus";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MYBUS.app/MYBUS";
 			};
 			name = Release;
 		};
@@ -1463,7 +1489,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MyBus" */ = {
+		08EC586D1CBD482400E8410A /* Build configuration list for PBXNativeTarget "MYBUS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				08EC586E1CBD482400E8410A /* Debug */,

@@ -11,7 +11,7 @@ import RealmSwift
 
 class CompleteBusItineray: Object {
     dynamic var busLineName: String = ""
-    dynamic var savedDate: NSDate = NSDate()
+    dynamic var savedDate: Date = Date()
     let goingItineraryPoint = List<RoutePoint>()
     let returnItineraryPoint = List<RoutePoint>()
 

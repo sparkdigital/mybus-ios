@@ -12,15 +12,15 @@ import MapboxDirections
 
 class MyBusPolylineFactory {
 
-    class func buildWalkingRoutePolylineList(roadResult: RoadResult)-> [MyBusPolyline]{
+    class func buildWalkingRoutePolylineList(_ roadResult: RoadResult)-> [MyBusPolyline]{
         let walkingRoutes = roadResult.walkingRoutes
         return walkingRoutes.map { (route) -> MyBusPolyline in
-            var stepsCoordinates: [CLLocationCoordinate2D] = route.geometry
+            var stepsCoordinates: [CLLocationCoordinate2D] = route.coordinates!
             return MyBusWalkingPolyline(coordinates: &stepsCoordinates, count: UInt(stepsCoordinates.count))
         }
     }
 
-    class func createBusRoutePolyline(busRoute: Route, busLineId: String) -> MyBusPolyline {
+    class func createBusRoutePolyline(_ busRoute: Route, busLineId: String) -> MyBusPolyline {
         var busRouteCoordinates: [CLLocationCoordinate2D] = busRoute.pointList.map { (point: RoutePoint) -> CLLocationCoordinate2D in
             return point.getLatLong()
         }
@@ -29,7 +29,7 @@ class MyBusPolylineFactory {
         return busPolyline
     }
 
-    class func buildBusRoutePolylineList(roadResult: RoadResult)-> [MyBusPolyline] {
+    class func buildBusRoutePolylineList(_ roadResult: RoadResult)-> [MyBusPolyline] {
 
         var busRoutePolylineList: [MyBusPolyline] = []
 
@@ -42,7 +42,7 @@ class MyBusPolylineFactory {
         busRoutePolylineList.append(firstBusLine)
 
         // If road is combinated, we add second bus route polyline
-        if roadResult.busRouteResultType() == .Combined
+        if roadResult.busRouteResultType() == .combined
         {
             let secondBusRoute = roadResult.routeList[1]
             let secondBusLine = MyBusPolylineFactory.createBusRoutePolyline(secondBusRoute, busLineId: roadResult.idBusLine2)
@@ -52,7 +52,7 @@ class MyBusPolylineFactory {
         return busRoutePolylineList
     }
 
-    class func buildCompleteBusRoutePolylineList(completeBusRoute: CompleteBusRoute) -> [MyBusPolyline] {
+    class func buildCompleteBusRoutePolylineList(_ completeBusRoute: CompleteBusRoute) -> [MyBusPolyline] {
         let goingPointList = completeBusRoute.goingPointList
         let returnPointList = completeBusRoute.returnPointList
 

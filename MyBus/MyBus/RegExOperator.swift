@@ -8,12 +8,12 @@
 
 import Foundation
 
-prefix operator ~/ {}
+prefix operator ~/
 
 prefix func ~/ (pattern: String) -> NSRegularExpression {
-    return try! NSRegularExpression(pattern: pattern, options: .CaseInsensitive)
+    return try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
 }
 
 func ~= (pattern: NSRegularExpression, str: String) -> Bool {
-    return pattern.numberOfMatchesInString(str, options: [], range: NSRange(location: 0, length: str.characters.count)) > 0
+    return pattern.numberOfMatches(in: str, options: [], range: NSRange(location: 0, length: str.characters.count)) > 0
 }

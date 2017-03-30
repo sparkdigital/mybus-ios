@@ -8,7 +8,7 @@
 
 import XCTest
 import SwiftyJSON
-@testable import MyBus
+@testable import MYBUS
 
 class RoadSearchTest: XCTestCase
 {
@@ -22,11 +22,11 @@ class RoadSearchTest: XCTestCase
         super.setUp()
         
         // Single Bus Route
-        let singleRouteFilePath = NSBundle(forClass: RoadSearchTest.self).pathForResource("BusRouteResultSingle_1", ofType: "json")
+        let singleRouteFilePath = Bundle(for: RoadSearchTest.self).path(forResource: "BusRouteResultSingle_1", ofType: "json")
         
-        let singleRouteJSONData = try! NSData(contentsOfFile: singleRouteFilePath!, options:.DataReadingMappedIfSafe)
+        let singleRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: singleRouteFilePath!), options:.mappedIfSafe)
         
-        let singleRouteJSON = try! NSJSONSerialization.JSONObjectWithData(singleRouteJSONData, options: .MutableContainers)
+        let singleRouteJSON = try! JSONSerialization.jsonObject(with: singleRouteJSONData, options: .mutableContainers)
         
         var singleRouteDictionary = JSON(singleRouteJSON)
         
@@ -34,11 +34,11 @@ class RoadSearchTest: XCTestCase
         let singleResults = singleRouteDictionary["Results"]
         
         // Combined Bus Route
-        let combinedRouteFilePath = NSBundle(forClass: RoadSearchTest.self).pathForResource("BusRouteResultCombined_1", ofType: "json")
+        let combinedRouteFilePath = Bundle(for: RoadSearchTest.self).path(forResource: "BusRouteResultCombined_1", ofType: "json")
         
-        let combinedRouteJSONData = try! NSData(contentsOfFile: combinedRouteFilePath!, options:.DataReadingMappedIfSafe)
+        let combinedRouteJSONData = try! Data(contentsOf: URL(fileURLWithPath: combinedRouteFilePath!), options:.mappedIfSafe)
         
-        let combinedRouteJSON = try! NSJSONSerialization.JSONObjectWithData(combinedRouteJSONData, options: .MutableContainers)
+        let combinedRouteJSON = try! JSONSerialization.jsonObject(with: combinedRouteJSONData, options: .mutableContainers)
         
         var combinedRouteDictionary = JSON(combinedRouteJSON)
         

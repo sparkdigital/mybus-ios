@@ -19,7 +19,7 @@ class RoutePoint: Object {
     dynamic var isWaypoint: Bool = false
     dynamic var name: String = ""
 
-    static func parse(routePointJson: JSON) -> RoutePoint
+    static func parse(_ routePointJson: JSON) -> RoutePoint
     {
         let point = RoutePoint()
         if let stopId = routePointJson["StopId"].string
@@ -36,7 +36,7 @@ class RoutePoint: Object {
         }
     }
 
-    static func parse(latitude: Double, longitude: Double) -> RoutePoint
+    static func parse(_ latitude: Double, longitude: Double) -> RoutePoint
     {
         let point = RoutePoint()
         point.latitude = latitude
@@ -45,14 +45,14 @@ class RoutePoint: Object {
         return point
     }
 
-    static func parseFromGeoGoogle(geoPointJson: JSON) -> RoutePoint? {
+    static func parseFromGeoGoogle(_ geoPointJson: JSON) -> RoutePoint? {
         let validTypes = ["street_address", "intersection", "natural_feature", "airport", "park", "point_of_interest", "establishment", "bus_station", "route"]
         let successCode: String = "OK"
         let geoPoint = RoutePoint()
         let firstResultJson = geoPointJson["results"][0]
         let setValidTypes = Set(validTypes)
-        let responseTypes = firstResultJson["types"].arrayObject as! [String]
-        let isValid = !(setValidTypes.intersect(responseTypes).isEmpty)
+        let responseTypes = Set(firstResultJson["types"].arrayObject as! [String])
+        let isValid = !(setValidTypes.intersection(responseTypes).isEmpty)
 
         let jsonStatus = geoPointJson["status"].stringValue
 
@@ -64,13 +64,13 @@ class RoutePoint: Object {
         case successCode:
             let originLocation = firstResultJson["geometry"]["location"]
 
-            var address = firstResultJson["formatted_address"].stringValue.componentsSeparatedByString(",").first
-            address = address?.stringByReplacingOccurrencesOfString("&", withString: "Y")
+            var address = firstResultJson["formatted_address"].stringValue.components(separatedBy: ",").first
+            address = address?.replacingOccurrences(of: "&", with: "Y")
 
             geoPoint.latitude = originLocation["lat"].doubleValue
             geoPoint.longitude = originLocation["lng"].doubleValue
             geoPoint.address = address ?? "Ubicación sin nombre"
-
+            geoPoint.address = geoPoint.address.components(separatedBy: "-").first ?? geoPoint.address
             return geoPoint
         default:
             return nil

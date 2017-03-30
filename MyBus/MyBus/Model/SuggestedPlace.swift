@@ -17,11 +17,11 @@ class SuggestedPlace: SuggestionProtocol {
     var location: (latitude: Double, longitude: Double)
 
     init(object: NSDictionary){
-        self.name = object.objectForKey("name") as! String
-        self.description = object.objectForKey("description") as? String
-        self.address = object.objectForKey("address") as? String
-        self.photoUrl = object.objectForKey("photoUrl") as? String
-        self.location = (object.objectForKey("lat") as! Double, object.objectForKey("lng") as! Double)
+        self.name = object.object(forKey: "name") as! String
+        self.description = object.object(forKey: "description") as? String
+        self.address = object.object(forKey: "address") as? String
+        self.photoUrl = object.object(forKey: "photoUrl") as? String
+        self.location = (object.object(forKey: "lat") as! Double, object.object(forKey: "lng") as! Double)
     }
 
     func getImage() -> UIImage {
