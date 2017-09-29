@@ -121,8 +121,10 @@ open class DBManager: NSObject {
                     if let indexLocation = user.favourites.index(of: favoritePlace) {
                         user.favourites.remove(at: indexLocation)
                     } else {
-                        let location = user.favourites.filter {($0.address == favoritePlace.address)}[0]
-                        if let indexLocation = user.favourites.index(of: location) {
+                        let location = user.favourites.filter({ (route) -> Bool in
+                            return route.address == favoritePlace.address
+                        }).first
+                        if let location = location, let indexLocation = user.favourites.index(of: location) {
                             user.favourites.remove(at: indexLocation)
                         }
                     }
@@ -141,8 +143,10 @@ open class DBManager: NSObject {
         if let user = currentUser, let db = db {
             do {
                 try db.write {
-                    let location = user.favourites.filter {($0.latitude == favoritePlace.latitude &&  $0.longitude == favoritePlace.longitude)}[0]
-                    if let indexLocation = user.favourites.index(of: location) {
+                    let location = user.favourites.filter({ (route) -> Bool in
+                        return (route.latitude == favoritePlace.latitude &&  route.longitude == favoritePlace.longitude)
+                    }).first
+                    if let location = location, let indexLocation = user.favourites.index(of: location) {
                         favoritePlace.name = name ?? favoritePlace.name
                         if let updatedLocation = newFavLocation {
                             favoritePlace.address = updatedLocation.address
