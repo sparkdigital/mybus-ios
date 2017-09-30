@@ -27,8 +27,8 @@ class SearchViewController: UIViewController, UITableViewDelegate
 {
 
     //Variable with a hardcoded height (usually is around this value)
-    let kSearchBarNavBarHeight: CGFloat = 140.0
-    let kMinimumKeyboardHeight: CGFloat = 216.0 + 140.0
+    let kSearchBarNavBarHeight: CGFloat = 54.0
+    let kMinimumKeyboardHeight: CGFloat = 216.0 + 54.0
 
     //Control variable to see if we're using the search textfield or not
     var isSearching: Bool = false
@@ -108,7 +108,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
             return
         }
 
-        guard let value: NSValue = info.value(forKey: UIKeyboardFrameBeginUserInfoKey) as? NSValue else {
+        guard let value: NSValue = info.value(forKey: UIKeyboardFrameEndUserInfoKey) as? NSValue else {
             NSLog("SearchCountry - No frame found for keyboard in userInfo")
             return
         }
