@@ -10,8 +10,8 @@ import Foundation
 import RealmSwift
 
 class CompleteBusItineray: Object {
-    dynamic var busLineName: String = ""
-    dynamic var savedDate: Date = Date()
+    @objc dynamic var busLineName: String = ""
+    @objc dynamic var savedDate: Date = Date()
     let goingItineraryPoint = List<RoutePoint>()
     let returnItineraryPoint = List<RoutePoint>()
 

@@ -105,7 +105,7 @@ class SearchContainerViewController: UIViewController {
 
     }
 
-    func goBackToMap(){
+    @objc func goBackToMap(){
         _ = self.navigationController?.popViewController(animated: true)
     }
 

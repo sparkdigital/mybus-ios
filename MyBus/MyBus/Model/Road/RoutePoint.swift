@@ -12,12 +12,12 @@ import Mapbox
 import RealmSwift
 
 class RoutePoint: Object {
-    dynamic var stopId: String = " "
-    dynamic var latitude: Double = 0.0
-    dynamic var longitude: Double = 0.0
-    dynamic var address: String = " "
-    dynamic var isWaypoint: Bool = false
-    dynamic var name: String = ""
+    @objc dynamic var stopId: String = " "
+    @objc dynamic var latitude: Double = 0.0
+    @objc dynamic var longitude: Double = 0.0
+    @objc dynamic var address: String = " "
+    @objc dynamic var isWaypoint: Bool = false
+    @objc dynamic var name: String = ""
 
     static func parse(_ routePointJson: JSON) -> RoutePoint
     {

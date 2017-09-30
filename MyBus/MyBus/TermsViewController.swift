@@ -57,7 +57,7 @@ class TermsViewController: UIViewController, UIWebViewDelegate  {
 
     }
 
-    func dismissTerms(){
+    @objc func dismissTerms(){
         let _ = self.applyTransitionAnimation(withDuration: 0.4, transitionType: TransitionType.moveIn, transitionSubType: TransitionSubtype.fromTop)
         self.dismiss(animated: false, completion: nil)
     }

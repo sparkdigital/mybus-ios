@@ -71,7 +71,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
         NotificationCenter.default.removeObserver(self)
     }
 
-    func tappedCurrentLocation(){
+    @objc func tappedCurrentLocation(){
         LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ENDPOINT_GPS_SEARCH)
         self.mainViewDelegate?.loadPositionMainView()
     }
@@ -100,7 +100,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
     }
 
     // MARK: Keyboard was shown or hidden
-    func keyboardWasShown(_ sender:Notification){
+    @objc func keyboardWasShown(_ sender:Notification){
         self.isSearching = true
 
         guard let info: NSDictionary = sender.userInfo as NSDictionary? else {
@@ -120,7 +120,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
     }
 
     // Setup an empty footer
-    func keyboardWasHidden(_ sender:Notification){
+    @objc func keyboardWasHidden(_ sender:Notification){
         self.isSearching = false
         self.setupTableViewFooter(0.0)
     }

@@ -184,7 +184,7 @@ class MainViewController: UIViewController {
 
     }
 
-    func reachabilityChanged(_ note: Notification) {
+    @objc func reachabilityChanged(_ note: Notification) {
         let reachability = note.object as! ReachabilityMyBus
         if reachability.isReachable {
             internetIsReachable(reachability: reachability)
@@ -211,7 +211,7 @@ class MainViewController: UIViewController {
         alertPresented = false
     }
 
-    func handleSingleLongTap(_ tap: UITapGestureRecognizer) {
+    @objc func handleSingleLongTap(_ tap: UITapGestureRecognizer) {
         if (tap.state == .ended) {
             NSLog("Long press Ended")
         } else if (tap.state == .began) {
@@ -261,7 +261,7 @@ class MainViewController: UIViewController {
         return userInfo[MyBusMarkerAnnotationView.kPropertyChangedDescriptor]!
     }
 
-    func updateDraggedOrigin(_ notification: Notification) {
+    @objc func updateDraggedOrigin(_ notification: Notification) {
         NSLog("Origin dragged detected")
         let draggedOrigin: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedOrigin.coordinate
@@ -281,7 +281,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    func updateDraggedDestination(_ notification: Notification) {
+    @objc func updateDraggedDestination(_ notification: Notification) {
         NSLog("Destination dragged detected")
         let draggedDestination: MyBusMarker = self.getPropertyChangedFromNotification(notification) as! MyBusMarker
         let location = draggedDestination.coordinate
@@ -307,7 +307,7 @@ class MainViewController: UIViewController {
         homeNavigationBar(mapViewModel)
     }
 
-    func startReachablity(_ note: Notification?) {
+    @objc func startReachablity(_ note: Notification?) {
         if reachability.isReachable {
             internetIsReachable(reachability: reachability)
         } else {
@@ -360,7 +360,7 @@ class MainViewController: UIViewController {
         self.menuTabBarHeightConstraint.constant = defaultTabBarHeight
     }
 
-    func searchRoute(){
+    @objc func searchRoute(){
         if self.mapViewModel.hasOrigin && self.mapViewModel.hasDestiny {
             self.progressNotification.showLoadingNotification(self.view)
             SearchManager.sharedInstance.search(mapViewModel.origin!, destination: mapViewModel.destiny!, completionHandler: { (searchResult, error) in
@@ -393,7 +393,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    func clearActiveSearch(){
+    @objc func clearActiveSearch(){
         self.mapViewModel.clearModel()
         self.mapViewController.resetMapSearch()
         SearchManager.sharedInstance.currentSearch = nil
@@ -681,7 +681,7 @@ extension MainViewController {
         mapSearchViewHeightConstraint.constant = !show ? 0 : mapSearchViewContainer.presenter.preferredHeight()
     }
 
-    func backTapped(){
+    @objc func backTapped(){
         if(self.navigationItem.title == Localization.getLocalizedString("Rutas_Encontradas")){
             self.mapViewModel.clearModel()
             self.mapViewController.resetMapSearch()
@@ -689,11 +689,11 @@ extension MainViewController {
         self.homeNavigationBar(self.mapViewModel)
     }
 
-    func addFavoritePlace(){
+    @objc func addFavoritePlace(){
         self.favoriteViewController.addFavoritePlace()
     }
 
-    func busesMenuDidExpand(_ notification: Notification){
+    @objc func busesMenuDidExpand(_ notification: Notification){
         UIView.animate(withDuration: 0.4, animations: {
             self.hideTabBar()
             self.toggleSearchViewContainer(false)
@@ -702,7 +702,7 @@ extension MainViewController {
         })
     }
 
-    func busesMenuDidCollapse(_ notification: Notification){
+    @objc func busesMenuDidCollapse(_ notification: Notification){
         UIView.animate(withDuration: 0.4, animations: {
             self.showTabBar()
             self.toggleSearchViewContainer(true)

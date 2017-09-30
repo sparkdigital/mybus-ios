@@ -33,7 +33,7 @@ class BusesRatesViewController: UIViewController, UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
 
-    func backTapped(){
+    @objc func backTapped(){
         let _ = self.navigationController?.popViewController(animated: true)
     }
 
