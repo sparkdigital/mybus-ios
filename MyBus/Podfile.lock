@@ -66,7 +66,7 @@ DEPENDENCIES:
   - MapboxDirections.swift (~> 0.10)
   - MBProgressHUD (~> 1.0)
   - PageMenu
-  - RealmSwift (~> 2.1)
+  - RealmSwift (= 2.10.2)
   - SwiftyJSON (~> 3.1)
 
 SPEC CHECKSUMS:
