@@ -69,7 +69,6 @@
                                 <rect key="frame" x="15" y="459" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="jXP-dU-4ne"/>
-                                    <constraint firstAttribute="width" constant="30" id="r4e-MR-eSK"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="location-icon"/>
                                 <connections>
@@ -115,6 +114,7 @@
                             <constraint firstItem="9vg-At-fCn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="RW1-If-USE"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="trailing" secondItem="9vg-At-fCn" secondAttribute="trailing" id="Zhf-hk-d6N"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="top" secondItem="9vg-At-fCn" secondAttribute="bottom" id="aDs-dc-mty"/>
+                            <constraint firstItem="HHz-A5-EQO" firstAttribute="leading" secondItem="bP3-cn-kav" secondAttribute="trailing" constant="-45" id="cLV-ly-W73"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="HHz-A5-EQO" secondAttribute="bottom" id="hOk-Z9-ciW"/>
                             <constraint firstItem="Mqf-Jm-JrU" firstAttribute="top" secondItem="9vg-At-fCn" secondAttribute="bottom" id="q32-Fn-ZVj"/>
                             <constraint firstItem="HHz-A5-EQO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sb0-Mq-jVX"/>
