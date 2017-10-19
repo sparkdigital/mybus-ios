@@ -57,7 +57,7 @@ open class BusRouteResult: NSObject {
         busRoute = setBusLineInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
         busRoute = setStartBusStopInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
         busRoute = setDestinationBusStopInfo(route, busRoute: busRoute, isCombinated: false, isFirstLine: false)
-
+        busRoute.busArrivalTime = route["ArrivalTimes"].arrayValue.map({$0.intValue})
         busRouteResult.busRoutes.append(busRoute)
 
         return busRouteResult
@@ -75,6 +75,7 @@ open class BusRouteResult: NSObject {
         firstBusRoute = setBusLineInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
         firstBusRoute = setStartBusStopInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
         firstBusRoute = setDestinationBusStopInfo(route, busRoute: firstBusRoute, isCombinated: true, isFirstLine: true)
+        firstBusRoute.busArrivalTime = route["FirstLineArrivalTimes"].arrayValue.map({$0.intValue})
 
         busRouteResult.busRoutes.append(firstBusRoute)
 
@@ -83,7 +84,7 @@ open class BusRouteResult: NSObject {
         secondBusRoute = setBusLineInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
         secondBusRoute = setStartBusStopInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
         secondBusRoute = setDestinationBusStopInfo(route, busRoute: secondBusRoute, isCombinated: true, isFirstLine: false)
-
+        secondBusRoute.busArrivalTime = route["SecondLineArrivalTimes"].arrayValue.map({$0.intValue})
         busRouteResult.busRoutes.append(secondBusRoute)
 
         busRouteResult.combinationDistance = route["CombinationDistance"].doubleValue

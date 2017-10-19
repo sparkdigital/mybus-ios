@@ -17,4 +17,5 @@ class CombinedResultTableViewCell: UITableViewCell {
     @IBOutlet weak var addressOriginStopLastLine: UILabel!
     @IBOutlet weak var addressEndStopLastLine: UILabel!
 
+    @IBOutlet weak var firstBusArrivalTime: UILabel!
 }

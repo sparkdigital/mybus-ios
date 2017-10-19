@@ -25,4 +25,5 @@ class BusRoute {
     var destinationBusStopStreetName: String = " "
     var destinationBusStopStreetNumber: Int = 0
     var destinationBusStopDistanceToDestination: Double = 0.0
+    var busArrivalTime: [Int] = []
 }
