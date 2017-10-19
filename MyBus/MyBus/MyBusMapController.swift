@@ -83,11 +83,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             return
         }
         if sender.index == 0 {
-            self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "0288D1")
+            self.waySwitcher.options = [.indicatorViewBackgroundColor(UIColor.init(hexString: "0288D1"))]
             LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_GOING_TAPPED)
             self.mapView.addGoingRoute(completeBusRoute)
         } else {
-            self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "EE236F")
+            self.waySwitcher.options = [.indicatorViewBackgroundColor(UIColor.init(hexString: "EE236F"))]
             LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_RETURN_TAPPED)
             self.mapView.addReturnRoute(completeBusRoute)
         }
