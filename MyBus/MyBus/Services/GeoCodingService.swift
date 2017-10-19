@@ -18,7 +18,7 @@ open class GeoCodingService: NSObject, GeoCodingServiceDelegate {
         print("Address to resolve geocoding: \(streetName)")
 
         let address = "\(streetName), mar del plata"
-        let components = "administrative_area:General Pueyrredón"
+        let components = "political:Buenos%20Aires|political:General%20Pueyrredón%20Partido|political:Mar%20del%20Plata"
 
         do {
             let request: URLRequest =  try GeoCodingRouter.coordinateFromAddressComponents(address: address, components: components, key: GeoCodingRouter.GEO_CODING_API_KEY).asURLRequest()
