@@ -34,10 +34,10 @@ extension BusRouteResult {
     func emojiDescription() -> String{
         var 🚌 : String = "🚍"
         for route in self.busRoutes {
-            let busLineFormatted = route.busLineName.characters.count == 3 ? route.busLineName+"  " : route.busLineName
+            let busLineFormatted = route.busLineName.count == 3 ? route.busLineName+"  " : route.busLineName
             🚌 = "\(🚌) \(busLineFormatted) ➡"
         }
-        🚌.remove(at: 🚌.characters.index(before: 🚌.endIndex))
+        🚌.remove(at: 🚌.index(before: 🚌.endIndex))
         return 🚌
     }
 

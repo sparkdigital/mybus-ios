@@ -117,7 +117,7 @@ extension SearchContainerViewController:UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
 
-        let charCount = searchText.characters.count
+        let charCount = searchText.count
 
         if charCount < 1 {
             //All cleared
@@ -139,7 +139,7 @@ extension SearchContainerViewController:UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
-        if let searchTerm: String = searchBar.text, searchTerm.characters.count > 0 {
+        if let searchTerm: String = searchBar.text, searchTerm.count > 0 {
 
             self.progressNotification.showLoadingNotification(self.view)
 

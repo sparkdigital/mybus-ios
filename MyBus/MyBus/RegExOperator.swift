@@ -15,5 +15,5 @@ prefix func ~/ (pattern: String) -> NSRegularExpression {
 }
 
 func ~= (pattern: NSRegularExpression, str: String) -> Bool {
-    return pattern.numberOfMatches(in: str, options: [], range: NSRange(location: 0, length: str.characters.count)) > 0
+    return pattern.numberOfMatches(in: str, options: [], range: NSRange(location: 0, length: str.count)) > 0
 }
