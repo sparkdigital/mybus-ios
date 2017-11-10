@@ -13,5 +13,6 @@ class SimpleResultTableViewCell: UITableViewCell {
     @IBOutlet weak var busLine: UILabel!
     @IBOutlet weak var addressStopOrigin: UILabel!
     @IBOutlet weak var addressStopDestination: UILabel!
-
+    @IBOutlet weak var busArrivalTime: UILabel!
+    
 }

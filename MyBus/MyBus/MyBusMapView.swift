@@ -115,7 +115,7 @@ class MyBusMapView: MGLMapView{
         return userInfo[MyBusMapModel.kPropertyChangedDescriptor]!
     }
 
-    func addOriginPoint(_ notification:Notification){
+    @objc func addOriginPoint(_ notification:Notification){
         NSLog("New Origin detected")
         let newOrigin:MyBusMarkerOriginPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerOriginPoint
 
@@ -126,7 +126,7 @@ class MyBusMapView: MGLMapView{
         selectMyBusAnnotation(newOrigin)
     }
 
-    func addDestinationPoint(_ notification:Notification){
+    @objc func addDestinationPoint(_ notification:Notification){
         NSLog("New Destination detected")
         let newDestination:MyBusMarkerDestinationPoint = self.getPropertyChangedFromNotification(notification) as! MyBusMarkerDestinationPoint
 
@@ -136,7 +136,7 @@ class MyBusMapView: MGLMapView{
         selectMyBusAnnotation(newDestination)
     }
 
-    func addRoad(_ notification:Notification){
+    @objc func addRoad(_ notification:Notification){
         NSLog("New Road detected")
         let newRoad:MyBusMapRoad = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoad
 
@@ -150,7 +150,7 @@ class MyBusMapView: MGLMapView{
     }
 
 
-    func addRoute(_ notification:Notification){
+    @objc func addRoute(_ notification:Notification){
         NSLog("New Route detected")
         let newRoute:MyBusMapRoute = self.getPropertyChangedFromNotification(notification) as! MyBusMapRoute
         clearRechargePointAnnotations()
@@ -171,7 +171,7 @@ class MyBusMapView: MGLMapView{
         fitToAnnotationsInMap()
     }
 
-    func addRechargePointList(_ notification:Notification){
+    @objc func addRechargePointList(_ notification:Notification){
         NSLog("New recharge list detected")
         let newRechargePoints:[MyBusMarkerRechargePoint] = self.getPropertyChangedFromNotification(notification) as! [MyBusMarkerRechargePoint]
 

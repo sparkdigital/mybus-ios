@@ -67,13 +67,18 @@ class BusesResultsTableViewController: UITableViewController {
             }
             cell.busLine.text = busOption.busLineName
             cell.addressStopOrigin.text = "\(busOption.startBusStopStreetName) \(busOption.startBusStopStreetNumber)"
-
+            if let nextArrival = busOption.busArrivalTime.first {
+                cell.busArrivalTime.text = "Llega en \(nextArrival) min"
+            }
             cell.addressStopDestination.text = "\(busOption.destinationBusStopStreetName) \(busOption.destinationBusStopStreetNumber)"
             return cell
         case .combined:
             let combinedResultCell = tableView.dequeueReusableCell(withIdentifier: combinedCellIdentifier, for: indexPath) as! CombinedResultTableViewCell
             guard let firstBusOfOption = bus.busRoutes.first, let secondBusOfOption = bus.busRoutes.last else {
                 return combinedResultCell
+            }
+            if let nextArrival = firstBusOfOption.busArrivalTime.first {
+                combinedResultCell.firstBusArrivalTime.text = "En \(nextArrival)'"
             }
             combinedResultCell.firstBusLine.text = "\(firstBusOfOption.busLineName) → \(secondBusOfOption.busLineName)"
             combinedResultCell.addressOriginStopFirstLine.text = "\(firstBusOfOption.startBusStopStreetName) \(firstBusOfOption.startBusStopStreetNumber)"

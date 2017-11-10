@@ -10,6 +10,7 @@ import UIKit
 import Mapbox
 import MapKit
 import BetterSegmentedControl
+@objcMembers
 class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenuDelegate {
 
     @IBOutlet var mapView: MyBusMapView!
@@ -82,11 +83,11 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
             return
         }
         if sender.index == 0 {
-            self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "0288D1")
+            self.waySwitcher.options = [.indicatorViewBackgroundColor(UIColor.init(hexString: "0288D1"))]
             LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_GOING_TAPPED)
             self.mapView.addGoingRoute(completeBusRoute)
         } else {
-            self.waySwitcher.indicatorViewBackgroundColor = UIColor.init(hexString: "EE236F")
+            self.waySwitcher.options = [.indicatorViewBackgroundColor(UIColor.init(hexString: "EE236F"))]
             LoggingManager.sharedInstance.logEvent(LoggableAppEvent.ROUTE_RETURN_TAPPED)
             self.mapView.addReturnRoute(completeBusRoute)
         }
@@ -318,7 +319,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
         MGLOfflineStorage.shared().addPack(for: region, withContext: context) { (pack, error) in
             guard error == nil else {
-                print("Error: \(error?.localizedDescription)")
+                print("Error: \(error?.localizedDescription ?? "")")
                 return
             }
 
@@ -338,9 +339,9 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
 
             if completedResources == expectedResources {
                 let byteCount = ByteCountFormatter.string(fromByteCount: Int64(pack.progress.countOfBytesCompleted), countStyle: ByteCountFormatter.CountStyle.memory)
-                print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
+                print("Offline pack “\(userInfo["name"] ?? "")” completed: \(byteCount), \(completedResources) resources")
             } else {
-                print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
+                print("Offline pack “\(userInfo["name"] ?? "")” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
             }
         }
     }
@@ -349,7 +350,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
             let error = notification.userInfo?[MGLOfflinePackUserInfoKey.error] as? NSError {
-            print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
+            print("Offline pack “\(userInfo["name"] ?? "")” received error: \(error.localizedFailureReason ?? "")")
         }
     }
 
@@ -357,7 +358,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
             let maximumCount = (notification.userInfo?[MGLOfflinePackUserInfoKey.maximumCount] as AnyObject).uint64Value {
-            print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
+            print("Offline pack “\(userInfo["name"] ?? "")” reached limit of \(maximumCount) tiles.")
         }
     }
 

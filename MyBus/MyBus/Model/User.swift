@@ -11,7 +11,7 @@ import RealmSwift
 
 class User: Object
 {
-    dynamic var name = "DeviceiOS"
+    @objc dynamic var name = "DeviceiOS"
     var favourites = List<RoutePoint> ()
     var recents = List<RoutePoint>()
 }

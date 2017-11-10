@@ -68,9 +68,10 @@ class FavoriteTableViewCell: UITableViewCell, UITextFieldDelegate {
         guard let favorites = DBManager.sharedInstance.getFavourites() else {
             return false
         }
-        return favorites.filter({ (fav) -> Bool in
+        let equalFavorites = favorites.filter({ (fav) -> Bool in
             return ((fav.latitude == newFav.latitude && fav.longitude == newFav.longitude) || fav.address == newFav.address)
-        }).count == 0
+        })
+        return equalFavorites.count == 0
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

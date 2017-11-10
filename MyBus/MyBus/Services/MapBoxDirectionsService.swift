@@ -20,7 +20,7 @@ open class MapBoxDirectionsService: NSObject, MapBoxDirectionsDelegate {
     internal func getWalkingDirections(_ sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: @escaping (MapboxDirections.Route?, [Waypoint]? ,NSError?) -> ())
     {
         let directions = Directions(accessToken: mapboxAccessToken)
-        let options = RouteOptions(coordinates: [sourceCoordinate, destinationCoordinate], profileIdentifier: MBDirectionsProfileIdentifierWalking)
+        let options = RouteOptions(coordinates: [sourceCoordinate, destinationCoordinate], profileIdentifier: MBDirectionsProfileIdentifier.walking)
         options.includesSteps = true
 
         _ = directions.calculate(options) { (waypoints, routes, error) in

@@ -105,8 +105,8 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDat
     }
 
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        let attributes: [String : AnyObject] = [
-            NSForegroundColorAttributeName: UIColor.lightGray
+        let attributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.foregroundColor: UIColor.lightGray
         ]
         return NSAttributedString(string: Localization.getLocalizedString("No_favoritos_Mensaje"), attributes: attributes)
     }

@@ -51,17 +51,18 @@ open class SearchManager: NSObject {
             Connectivity.sharedInstance.getCoordinateFromAddress(destination) {
                 destinationPoint, error in
 
-                guard (destinationPoint != nil) else {
+                guard let destinationPoint = destinationPoint, let originPoint = originPoint else {
                     return completionHandler(nil, error)
                 }
-                self.getBusLines((originPoint?.getLatLong())!, destination: (destinationPoint?.getLatLong())!, completionHandler: {
+                
+                self.getBusLines((originPoint.getLatLong()), destination: (destinationPoint.getLatLong()), completionHandler: {
                     (busRouteResult, error) in
 
                     if let result = busRouteResult {
 
                         print("Origin: \(originPoint)| Destination: \(destinationPoint) | BusRoutes: \(result)")
 
-                        self.currentSearch = BusSearchResult(origin: originPoint!, destination: destinationPoint!, busRoutes: result)
+                        self.currentSearch = BusSearchResult(origin: originPoint, destination: destinationPoint, busRoutes: result)
                         completionHandler(self.currentSearch, nil)
                     } else {
                         completionHandler(nil, error)

@@ -72,7 +72,7 @@ open class LoggingManager: NSObject {
 
     fileprivate func setupFirebase(){
         //Initialize Firebase
-        FIRApp.configure()
+        FirebaseApp.configure()
     }
 
     fileprivate func setupCrashlytics(){
@@ -80,9 +80,12 @@ open class LoggingManager: NSObject {
     }
 
     fileprivate func setupFlurry(){
-        Flurry.setLogLevel(FlurryLogLevelDebug)
-        Flurry.setCrashReportingEnabled(true)
-        Flurry.startSession(LoggingManager.flurryApiKey)
+        let builder = FlurrySessionBuilder.init()
+            .withLogLevel(FlurryLogLevelDebug)
+            .withCrashReporting(true)
+            .withSessionContinueSeconds(10)
+        
+        Flurry.startSession(LoggingManager.flurryApiKey, with: builder)
     }
 
     fileprivate func logCrashlytics(_ event: String){
@@ -94,15 +97,15 @@ open class LoggingManager: NSObject {
     }
 
     fileprivate func logFirebaseEvent(_ event: LoggableAppEvent){
-        FIRAnalytics.logEvent(withName: event.rawValue, parameters: nil)
+        Analytics.logEvent(event.rawValue, parameters: nil)
     }
 
     fileprivate func logFirebaseSection(_ section: LoggableAppSection){
-        FIRAnalytics.logEvent(withName: section.rawValue, parameters: nil)
+        Analytics.logEvent(section.rawValue, parameters: nil)
     }
 
     fileprivate func logFirebaseError(_ error: String){
-        FIRAnalytics.logEvent(withName: "Error", parameters: [kFIRParameterValue:error as NSObject])
+        Analytics.logEvent("Error", parameters: [AnalyticsParameterValue:error as NSObject])
     }
 
     // MARK: Public interface
