@@ -122,6 +122,7 @@
 		A0926D171CFA540F00246534 /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0926D161CFA540F00246534 /* GeoCodingService.swift */; };
 		A0AA4C1D1D4ABEBA00F2A1F6 /* AppConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */; };
 		A0AA4C1F1D4AD95600F2A1F6 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */; };
+		A0ABAA3C200784DC00BEBD77 /* BusFares.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ABAA3B200784DC00BEBD77 /* BusFares.swift */; };
 		A0AFB0ED1CCED7E3001DD3B6 /* BusRouteResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */; };
 		A0AFB0EF1CCED7FF001DD3B6 /* BusRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */; };
 		A0AFB0F21CCED92A001DD3B6 /* RoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */; };
@@ -312,6 +313,7 @@
 		A0926D161CFA540F00246534 /* GeoCodingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoCodingService.swift; path = Services/GeoCodingService.swift; sourceTree = "<group>"; };
 		A0AA4C1C1D4ABEBA00F2A1F6 /* AppConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppConfiguration.plist; sourceTree = "<group>"; };
 		A0AA4C1E1D4AD95600F2A1F6 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		A0ABAA3B200784DC00BEBD77 /* BusFares.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BusFares.swift; path = Model/BusFares.swift; sourceTree = "<group>"; };
 		A0AFB0EC1CCED7E3001DD3B6 /* BusRouteResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRouteResult.swift; path = Model/BusRouteResult.swift; sourceTree = "<group>"; };
 		A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusRoute.swift; path = Model/BusRoute.swift; sourceTree = "<group>"; };
 		A0AFB0F11CCED92A001DD3B6 /* RoadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RoadResult.swift; path = Model/Road/RoadResult.swift; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				A0AFB0EE1CCED7FF001DD3B6 /* BusRoute.swift */,
 				A0CF2BAE1D88A9F80044499F /* RechargePoint.swift */,
 				11DF624F1DA2D11600E21320 /* SuggestedPlace.swift */,
+				A0ABAA3B200784DC00BEBD77 /* BusFares.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1243,6 +1246,7 @@
 				B4C6A1141D8B25B400863FCD /* MyBusMapView.swift in Sources */,
 				B472990D1DA2C74300D8D6D7 /* SearchContainerViewController.swift in Sources */,
 				A00AD4541CF7C0530088F592 /* MyBusService.swift in Sources */,
+				A0ABAA3C200784DC00BEBD77 /* BusFares.swift in Sources */,
 				11A552831DA6B6CB00CF4C95 /* MyBusMarkerFactory.swift in Sources */,
 				C57886F71D7DB5F90056A5E1 /* BusesRatesTableViewCell.swift in Sources */,
 				A06C061D1D908F39000023FC /* CompleteBusItineray.swift in Sources */,

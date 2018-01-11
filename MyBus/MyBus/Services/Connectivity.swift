@@ -78,6 +78,10 @@ open class Connectivity: NSObject
     {
         myBusService.getRechargeCardPoints(latitude, longitude: longitude, completionHandler: completionHandler)
     }
+    
+    func getBusFares(completionHandler: @escaping (BusFares?,Error?) -> ()) {
+        myBusService.getBusFares(completionHandler: completionHandler)
+    }
 
     // MARK: - Directions Endpoints
     func getWalkingDirections(_ sourceCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D, completionHandler: @escaping (MapboxDirections.Route?, [Waypoint]?, Error?) -> ())

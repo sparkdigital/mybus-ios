@@ -98,7 +98,14 @@ enum MyBusRouter: URLRequestConvertible{
     */
     case completeRoads(idLine: Int, direction: Int, accessToken: String)
 
-
+    /*
+     //Bus Fares
+     //Params:
+     // - busFares api url = PricesApi
+     // - tk        (myBusAccessToken)
+     */
+    case busFares(accessToken: String)
+    
     // MARK: URLRequestConvertible
 
     func asURLRequest() throws -> URLRequest {
@@ -160,7 +167,12 @@ enum MyBusRouter: URLRequestConvertible{
                 params["tk"] = accessToken
 
                 return ("CompleteRoadsApi.php", params, "GET")
-
+                
+            case .busFares(let accessToken):
+                var params: Parameters = [:]
+                params["tk"] = accessToken
+                
+                return ("PricesApi.php", params, "GET")
             }
 
         }()

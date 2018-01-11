@@ -17,6 +17,7 @@ protocol MyBusServiceDelegate {
     func searchRoutes(_ latitudeOrigin: Double, longitudeOrigin: Double, latitudeDestination: Double, longitudeDestination: Double, completionHandler: @escaping ([BusRouteResult]?, Error?) -> ())
     func searchRoads(_ roadType: MyBusRouteResultType, roadSearch: RoadSearch, completionHandler: @escaping (RoadResult?, Error?) -> ())
     func getCompleteRoads(_ idLine: Int, direction: Int, completionHandler: @escaping (CompleteBusRoute?, Error?) -> ())
+    func getBusFares(completionHandler: @escaping (BusFares?, Error?) -> ())
 }
 
 open class MyBusService: NSObject, MyBusServiceDelegate {
@@ -140,6 +141,32 @@ open class MyBusService: NSObject, MyBusServiceDelegate {
                     completionHandler(nil, error)
                 }
             }
+        } catch {
+            NSLog("Failed building recharge points URL request")
+        }
+    }
+    
+    internal func getBusFares(completionHandler: @escaping (BusFares?, Error?) -> ()) {
+        do {
+            let request = try MyBusRouter.busFares(accessToken: MyBusRouter.MYBUS_ACCESS_TOKEN).asURLRequest()
+            BaseNetworkService.performRequest(request) { response, error in
+                if let json = response {
+                    
+                    print("BusFares: \(json)")
+                    let fares = BusFares(json: json)
+                    
+                    if let results = fares.results, results.count == 0 {
+                        LoggingManager.sharedInstance.logError("Recharge Points, No Points", error: error)
+                        completionHandler(nil, error)
+                    } else {
+                        completionHandler(fares, error)
+                    }
+                } else {
+                    LoggingManager.sharedInstance.logError("Recharge Points", error: error)
+                    completionHandler(nil, error)
+                }
+            }
+            
         } catch {
             NSLog("Failed building recharge points URL request")
         }
