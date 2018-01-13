@@ -9,10 +9,10 @@ use_frameworks!
 target 'MYBUS' do
     pod 'Alamofire', '~> 4.2'
     pod 'MBProgressHUD', '~> 1.0'
-    pod 'SwiftyJSON', '~> 3.1'
+    pod 'SwiftyJSON', '~> 4'
     pod 'Fabric', '~> 1.6'
     pod 'Crashlytics', '~> 3.8'
-    pod 'Mapbox-iOS-SDK', '~> 3.4'
+    pod 'Mapbox-iOS-SDK', '~> 3.6.4' # Since 3.7.0 until 3.7.3 exists a bug that crash the app
     pod 'RealmSwift', '~> 3.0'
     pod 'MapboxDirections.swift', '~> 0.10'
     pod 'PageMenu'
@@ -26,10 +26,10 @@ end
 target 'MyBusTests' do
     pod 'Alamofire', '~> 4.2'
     pod 'MBProgressHUD', '~> 1.0'
-    pod 'SwiftyJSON', '~> 3.1'
+    pod 'SwiftyJSON', '~> 4'
     pod 'Fabric', '~> 1.6'
     pod 'Crashlytics', '~> 3.8'
-    pod 'Mapbox-iOS-SDK', '~> 3.4'
+    pod 'Mapbox-iOS-SDK', '~> 3.6.4'
     pod 'RealmSwift', '~> 3.0'
     pod 'MapboxDirections.swift', '~> 0.10'
     pod 'PageMenu'
@@ -40,10 +40,4 @@ target 'MyBusTests' do
     pod 'Firebase/Messaging'
 end
 
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['SWIFT_VERSION'] = '3.2'
-    end
-  end
-end
+
