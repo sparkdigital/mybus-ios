@@ -455,11 +455,8 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.mapModel.completeBusRoute = mapRoute
 
         self.waySwitcher.alpha = 1
-        do {
-            try self.waySwitcher.setIndex(0)
-        } catch {
-            NSLog("Error initializing complete bus route switcher at index O")
-        }
+
+        self.waySwitcher.setIndex(0)
     }
 
     // MARK: BusesResultsMenuViewController protocol delegate methods and additional functions

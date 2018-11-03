@@ -170,15 +170,15 @@ class MainViewController: UIViewController {
     }
 
     func initTabBarControllers() {
-        self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
-        self.searchViewController = self.navRouter.searchController() as! SearchViewController
-        self.favoriteViewController = self.navRouter.favoriteController() as! FavoriteViewController
-        self.suggestionSearchViewController = self.navRouter.suggestionController() as! SuggestionSearchViewController
-        self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
-        self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
+        self.mapViewController =  self.navRouter.mapViewController() as? MyBusMapController
+        self.searchViewController = self.navRouter.searchController() as? SearchViewController
+        self.favoriteViewController = self.navRouter.favoriteController() as? FavoriteViewController
+        self.suggestionSearchViewController = self.navRouter.suggestionController() as? SuggestionSearchViewController
+        self.searchContainerViewController = self.navRouter.searchContainerViewController() as? SearchContainerViewController
+        self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as? BusesResultsTableViewController
         self.busesResultsTableViewController.mainViewDelegate = self
-        self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
-        self.moreViewController = self.navRouter.moreViewController() as! MoreViewController
+        self.busesInformationViewController = self.navRouter.busesInformationController() as? BusesInformationViewController
+        self.moreViewController = self.navRouter.moreViewController() as? MoreViewController
 
         self.tabBar.delegate = self
 

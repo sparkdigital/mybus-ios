@@ -35,10 +35,10 @@ class SearchContainerViewController: UIViewController {
 
         let router = NavRouter()
 
-        self.shortcutsViewController = router.searchController() as! SearchViewController
+        self.shortcutsViewController = router.searchController() as? SearchViewController
         self.shortcutsViewController.mainViewDelegate = self
 
-        self.suggestionViewController = router.suggestionController() as! SuggestionSearchViewController
+        self.suggestionViewController = router.suggestionController() as? SuggestionSearchViewController
         self.suggestionViewController.mainViewDelegate = self
 
         self.currentViewController = shortcutsViewController
