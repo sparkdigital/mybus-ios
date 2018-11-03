@@ -71,7 +71,7 @@ class BusResultViewController: UIViewController {
         self.busResultScrollView.isScrollEnabled = true
         self.busResultScrollView.bounces = false
         self.busResultScrollView.alwaysBounceVertical = false
-        self.busResultScrollView.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        self.busResultScrollView.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
 
         //Add RouteResultView to scrollview
         self.view.addAutoPinnedSubview(routeResultView as! UIView, toView: self.busResultScrollView)

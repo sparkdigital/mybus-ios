@@ -13,7 +13,7 @@ class GenerateMessageAlert
 {
     class func generateAlert(_ viewController: UIViewController?, title: String, message: String){
         let alert = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        let action = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default, handler: nil)
         let viewControllerToDisplay = (viewController != nil) ? viewController! : UIApplication.shared.keyWindow?.rootViewController!
         alert.addAction(action)
         viewControllerToDisplay!.present(alert, animated: true, completion: nil)
@@ -32,7 +32,7 @@ class GenerateMessageAlert
         alertController.view.addSubview(stepsView!)
 
         let settingsAction = UIAlertAction(title: "Configuración", style: .default) { (_) -> Void in
-            let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+            let settingsUrl = URL(string: UIApplication.openSettingsURLString)
             if let url = settingsUrl {
                 UIApplication.shared.openURL(url)
             }

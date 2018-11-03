@@ -185,8 +185,8 @@ class SuggestionSearchViewController: UIViewController, UITableViewDelegate, UIS
     }
 
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        let attributes: [NSAttributedStringKey : Any] = [
-            NSAttributedStringKey.foregroundColor: UIColor.lightGray
+        let attributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.lightGray
         ]
         return NSAttributedString(string: Localization.getLocalizedString("Sin_Resultados"), attributes: attributes)
     }

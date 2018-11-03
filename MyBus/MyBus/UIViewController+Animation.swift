@@ -17,13 +17,13 @@ extension UIViewController {
         func localizedDescription() -> String {
             switch self {
             case .fade:
-                return kCATransitionFade
+                return convertFromCATransitionType(CATransitionType.fade)
             case .moveIn:
-                return kCATransitionMoveIn
+                return convertFromCATransitionType(CATransitionType.moveIn)
             case .push:
-                return kCATransitionPush
+                return convertFromCATransitionType(CATransitionType.push)
             case .reveal:
-                return kCATransitionReveal
+                return convertFromCATransitionType(CATransitionType.reveal)
             }
         }
     }
@@ -34,13 +34,13 @@ extension UIViewController {
         func localizedDescription() -> String {
             switch self {
             case .fromBottom:
-                return kCATransitionFromBottom
+                return convertFromCATransitionSubtype(CATransitionSubtype.fromBottom)
             case .fromTop:
-                return kCATransitionFromTop
+                return convertFromCATransitionSubtype(CATransitionSubtype.fromTop)
             case .fromLeft:
-                return kCATransitionFromLeft
+                return convertFromCATransitionSubtype(CATransitionSubtype.fromLeft)
             case .fromRight:
-                return kCATransitionFromRight
+                return convertFromCATransitionSubtype(CATransitionSubtype.fromRight)
             }
         }
     }
@@ -53,9 +53,9 @@ extension UIViewController {
 
             let transition = CATransition()
             transition.duration = duration
-            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-            transition.type = transitionType.localizedDescription()
-            transition.subtype = transitionSubType?.localizedDescription()
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+            transition.type = convertToCATransitionType(transitionType.localizedDescription())
+            transition.subtype = convertToOptionalCATransitionSubtype(transitionSubType?.localizedDescription())
             target.layer.add(transition, forKey: kCATransition)
             return true
 
@@ -64,4 +64,25 @@ extension UIViewController {
         return false
 
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCATransitionType(_ input: CATransitionType) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCATransitionSubtype(_ input: CATransitionSubtype) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToCATransitionType(_ input: String) -> CATransitionType {
+	return CATransitionType(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalCATransitionSubtype(_ input: String?) -> CATransitionSubtype? {
+	guard let input = input else { return nil }
+	return CATransitionSubtype(rawValue: input)
 }

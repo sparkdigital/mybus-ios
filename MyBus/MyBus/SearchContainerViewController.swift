@@ -43,14 +43,14 @@ class SearchContainerViewController: UIViewController {
 
         self.currentViewController = shortcutsViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(self.currentViewController)
+        self.addChild(self.currentViewController)
         self.view.addAutoPinnedSubview(currentViewController!.view, toView: searchContainerView)
 
         self.addressLocationSearchBar.delegate = self
         self.addressLocationSearchBar.backgroundImage = UIImage()
 
         //Navigation Item configuration
-        let cancelButtonItem = UIBarButtonItem(title:  Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(goBackToMap))
+        let cancelButtonItem = UIBarButtonItem(title:  Localization.getLocalizedString("Cancelar"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(goBackToMap))
         cancelButtonItem.tintColor = UIColor.white
 
         self.navigationItem.leftBarButtonItem = cancelButtonItem
@@ -83,8 +83,8 @@ class SearchContainerViewController: UIViewController {
             return
         }
 
-        oldVC.willMove(toParentViewController: nil)
-        self.addChildViewController(newVC)
+        oldVC.willMove(toParent: nil)
+        self.addChild(newVC)
 
 
         //Add new view to the container
@@ -99,8 +99,8 @@ class SearchContainerViewController: UIViewController {
             },
             completion:{ finished in
                 oldVC.view.removeFromSuperview()
-                oldVC.removeFromParentViewController()
-                newVC.didMove(toParentViewController: self)
+                oldVC.removeFromParent()
+                newVC.didMove(toParent: self)
         })
 
     }

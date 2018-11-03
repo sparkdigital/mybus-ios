@@ -229,7 +229,7 @@ class MyBusMapView: MGLMapView{
     func fitToAnnotationsInMap() -> Void {
         if let annotations = self.annotations {
             //Used 90 for top edge inset to prevent from callout view (popover) is not visible if marker is located in top edge of view
-            self.showAnnotations(annotations, edgePadding: UIEdgeInsetsMake(CGFloat(90), CGFloat(30), CGFloat(30), CGFloat(30)), animated: true)
+            self.showAnnotations(annotations, edgePadding: UIEdgeInsets.init(top: CGFloat(90), left: CGFloat(30), bottom: CGFloat(30), right: CGFloat(30)), animated: true)
         }
     }
 

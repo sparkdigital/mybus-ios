@@ -174,7 +174,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         let buttonImage = alreadyIsFavorite ? UIImage(named: "tabbar_favourite_fill") : UIImage(named: "tabbar_favourite_line")
 
         let button = UIButton(type: .detailDisclosure)
-        button.setImage(buttonImage, for: UIControlState())
+        button.setImage(buttonImage, for: UIControl.State())
         button.tag = alreadyIsFavorite ? 0 : 1
         return button
     }
@@ -190,25 +190,25 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         switch control.tag {
         case 0:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando"), message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.actionSheet)
-            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.default) { (_) -> Void in
+            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando"), message:  Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertController.Style.actionSheet)
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertAction.Style.default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: annotation.title!!)
             DBManager.sharedInstance.removeFavorite(location)
                 LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_DEL_MARKER)
                 })
-            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertAction.Style.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
 
         case 1:
             self.progressNotification.stopLoadingNotification(self.view)
-            let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Por_Favor"), preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Por_Favor"), preferredStyle: UIAlertController.Style.alert)
             alert.addTextField(configurationHandler: { (textField) in textField.placeholder = "Name" })
-            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.default) { (_) -> Void in
+            alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertAction.Style.default) { (_) -> Void in
             let location = self.getLocationByAnnotation(annotation, name: alert.textFields![0].text!)
             DBManager.sharedInstance.addFavorite(location)
                 LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_NEW_MARKER)
                 })
-            alert.addAction(UIAlertAction(title:  Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title:  Localization.getLocalizedString("Cancelar"), style: UIAlertAction.Style.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         default: break
         }
@@ -271,7 +271,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         self.busesSearchOptions.setup(busRouteOptions)
         self.busesSearchOptions.busResultDelegate = self
         self.busesSearchOptions.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(self.busesSearchOptions)
+        self.addChild(self.busesSearchOptions)
 
         self.roadRouteContainerView.clearViewSubviews()
 

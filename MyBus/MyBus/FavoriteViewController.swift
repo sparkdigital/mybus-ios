@@ -40,19 +40,19 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDat
 
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Borrar") { (action, indexPath ) -> Void in
+        let deleteAction = UITableViewRowAction(style: UITableViewRowAction.Style.default, title: "Borrar") { (action, indexPath ) -> Void in
             self.isEditing = false
-            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando"), message: Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertControllerStyle.actionSheet)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (_) -> Void in
+            let alert = UIAlertController(title: Localization.getLocalizedString("Eliminando"), message: Localization.getLocalizedString("Esta_seguro"), preferredStyle: UIAlertController.Style.actionSheet)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (_) -> Void in
                 let _ = self.favoriteDataSource.removeFavorite(indexPath)
                 LoggingManager.sharedInstance.logEvent(LoggableAppEvent.FAVORITE_DEL_LIST)
                 self.favoriteTableView.reloadData()})
-            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.cancel) { (_) -> Void in
+            alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertAction.Style.cancel) { (_) -> Void in
                 self.favoriteTableView.setEditing(false, animated: true)})
             self.present(alert, animated: true, completion: nil)
         }
 
-        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Editar") { (action, indexPath ) -> Void in
+        let editAction = UITableViewRowAction(style: UITableViewRowAction.Style.default, title: "Editar") { (action, indexPath ) -> Void in
             let cell: FavoriteTableViewCell = self.favoriteTableView.cellForRow(at: indexPath) as! FavoriteTableViewCell
             cell.editCell()
             self.favoriteTableView.setEditing(false, animated: true)
@@ -62,12 +62,12 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDat
     }
 
     func addFavoritePlace() {
-        let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Nuevo_Favorito_Mensaje"), preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: Localization.getLocalizedString("Agregando"), message: Localization.getLocalizedString("Nuevo_Favorito_Mensaje"), preferredStyle: UIAlertController.Style.alert)
         alert.addTextField(configurationHandler: { (textField) in textField.placeholder = "Nombre" })
         alert.addTextField(configurationHandler: { (textField) in textField.placeholder = "Calle" })
         alert.addTextField(configurationHandler: { (textField) in textField.placeholder = "Altura" })
 
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (_) -> Void in
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (_) -> Void in
             guard let textFields = alert.textFields else {
                 return
             }
@@ -94,7 +94,7 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDat
                 GenerateMessageAlert.generateAlert(self, title: Localization.getLocalizedString("No_Sabemos_Que"), message: Localization.getLocalizedString("Nuevo_Favorito_Error"))
             }})
 
-        alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancelar", style: UIAlertAction.Style.cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 
@@ -105,8 +105,8 @@ class FavoriteViewController: UIViewController, UITableViewDelegate, DZNEmptyDat
     }
 
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        let attributes: [NSAttributedStringKey : Any] = [
-            NSAttributedStringKey.foregroundColor: UIColor.lightGray
+        let attributes: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.lightGray
         ]
         return NSAttributedString(string: Localization.getLocalizedString("No_favoritos_Mensaje"), attributes: attributes)
     }

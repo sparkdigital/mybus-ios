@@ -924,7 +924,7 @@
 					08EC584C1CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = S3HBAFMNTV;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -938,7 +938,7 @@
 					08EC58631CBD482400E8410A = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = S3HBAFMNTV;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						TestTargetID = 08EC584C1CBD482400E8410A;
 					};
 				};
@@ -1477,8 +1477,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1501,8 +1500,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1520,8 +1518,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = SparkDigital.MyBusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MYBUS.app/MYBUS";
 			};
 			name = Debug;
@@ -1540,8 +1537,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = SparkDigital.MyBusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MYBUS.app/MYBUS";
 			};
 			name = Release;
