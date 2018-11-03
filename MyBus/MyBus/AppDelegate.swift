@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
 
-        Fabric.with([LoggingManager.sharedInstance.crashlyticsClassInstance, MGLAccountManager.self])
-        MGLAccountManager.setAccessToken(Configuration.mapBoxAPIKey())
+        Fabric.with([LoggingManager.sharedInstance.crashlyticsClassInstance])
+        MGLAccountManager.accessToken = Configuration.mapBoxAPIKey()
         LoggingManager.sharedInstance.setup()
         let config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used

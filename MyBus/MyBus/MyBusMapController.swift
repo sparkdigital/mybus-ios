@@ -40,7 +40,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.waySwitcher.titles = ["Ida", "Vuelta"]
+        self.waySwitcher.segments = LabelSegment.segments(withTitles: ["Ida", "Vuelta"])
 
         self.hideBusesResultsMenu()
         self.toggleClosingHandleContainerView(false)
@@ -129,7 +129,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
     // MARK: - Mapbox delegate methods
 
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        if MGLOfflineStorage.shared().packs?.count == 0 {
+        if MGLOfflineStorage.shared.packs?.count == 0 {
             //startOfflinePackDownload() Does not download offline maps programatically. //TODO User should agree
         }
 
@@ -317,7 +317,7 @@ class MyBusMapController: UIViewController, MGLMapViewDelegate, BusesResultsMenu
         let userInfo = ["name": "OfflineMap"]
         let context = NSKeyedArchiver.archivedData(withRootObject: userInfo)
 
-        MGLOfflineStorage.shared().addPack(for: region, withContext: context) { (pack, error) in
+        MGLOfflineStorage.shared.addPack(for: region, withContext: context) { (pack, error) in
             guard error == nil else {
                 print("Error: \(error?.localizedDescription ?? "")")
                 return
