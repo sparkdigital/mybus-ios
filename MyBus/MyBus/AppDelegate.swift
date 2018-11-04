@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import Fabric
 import Mapbox
 import RealmSwift
 
@@ -20,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
 
-        Fabric.with([LoggingManager.sharedInstance.crashlyticsClassInstance])
         MGLAccountManager.accessToken = Configuration.mapBoxAPIKey()
         LoggingManager.sharedInstance.setup()
         let config = Realm.Configuration(

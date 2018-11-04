@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Crashlytics
 import Flurry_iOS_SDK
 import Firebase
 import FirebaseMessaging
