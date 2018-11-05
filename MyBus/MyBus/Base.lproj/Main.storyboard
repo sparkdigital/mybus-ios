@@ -155,7 +155,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PYi-zB-pA7">
-                                <rect key="frame" x="0.0" y="44" width="375" height="597"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="596"/>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OEo-aK-iz3" customClass="MapSearchViewContainer" customModule="MYBUS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -165,7 +165,7 @@
                                 </constraints>
                             </view>
                             <tabBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WxU-N3-lcX">
-                                <rect key="frame" x="0.0" y="641" width="375" height="49"/>
+                                <rect key="frame" x="0.0" y="640" width="375" height="49"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="0O1-Qe-wM6"/>
@@ -190,7 +190,7 @@
                             <constraint firstItem="PYi-zB-pA7" firstAttribute="top" secondItem="nix-BZ-8fb" secondAttribute="top" id="HKa-so-vUD"/>
                             <constraint firstItem="OEo-aK-iz3" firstAttribute="leading" secondItem="nix-BZ-8fb" secondAttribute="leading" id="Xm2-8f-tHk"/>
                             <constraint firstItem="WxU-N3-lcX" firstAttribute="leading" secondItem="nix-BZ-8fb" secondAttribute="leading" id="dBB-ja-r5T"/>
-                            <constraint firstItem="WxU-N3-lcX" firstAttribute="bottom" secondItem="nix-BZ-8fb" secondAttribute="bottom" id="fz7-ax-KBx"/>
+                            <constraint firstItem="WxU-N3-lcX" firstAttribute="bottom" secondItem="nix-BZ-8fb" secondAttribute="bottom" constant="-1" id="fz7-ax-KBx"/>
                             <constraint firstItem="PYi-zB-pA7" firstAttribute="leading" secondItem="nix-BZ-8fb" secondAttribute="leading" id="hoj-cc-6SG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nix-BZ-8fb"/>
