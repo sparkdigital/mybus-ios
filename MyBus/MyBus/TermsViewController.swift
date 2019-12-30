@@ -35,7 +35,7 @@ class TermsViewController: UIViewController, UIWebViewDelegate  {
 
         let titleView = UINib(nibName:"TitleMainView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
 
-        let doneBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: "Listo", style: UIBarButtonItemStyle.done, target: self, action: #selector(dismissTerms))
+        let doneBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: "Listo", style: UIBarButtonItem.Style.done, target: self, action: #selector(dismissTerms))
         doneBarButtonItem.tintColor = UIColor.white
 
         self.navigationItem.titleView = titleView
@@ -63,9 +63,9 @@ class TermsViewController: UIViewController, UIWebViewDelegate  {
     }
 
     // MARK: UIWebViewDelegate protocol methods
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
 
-        if navigationType == UIWebViewNavigationType.linkClicked {
+        if navigationType == UIWebView.NavigationType.linkClicked {
             //A Link was tapped
             NSLog("Link Tapped")
 

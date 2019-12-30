@@ -136,7 +136,7 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(MainViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
 
         let settingsAction = UIAlertAction(title: "Configuración", style: .default) { (_) -> Void in
-            let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+            let settingsUrl = URL(string: UIApplication.openSettingsURLString)
             if let url = settingsUrl {
                 UIApplication.shared.openURL(url)
                 self.alertPresented = false
@@ -165,20 +165,20 @@ class MainViewController: UIViewController {
     func setCurrentViewController() {
         self.currentViewController = mapViewController
         self.currentViewController?.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(self.currentViewController!)
+        self.addChild(self.currentViewController!)
         self.view.addAutoPinnedSubview(self.currentViewController!.view, toView: self.containerView)
     }
 
     func initTabBarControllers() {
-        self.mapViewController =  self.navRouter.mapViewController() as! MyBusMapController
-        self.searchViewController = self.navRouter.searchController() as! SearchViewController
-        self.favoriteViewController = self.navRouter.favoriteController() as! FavoriteViewController
-        self.suggestionSearchViewController = self.navRouter.suggestionController() as! SuggestionSearchViewController
-        self.searchContainerViewController = self.navRouter.searchContainerViewController() as! SearchContainerViewController
-        self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as! BusesResultsTableViewController
+        self.mapViewController =  self.navRouter.mapViewController() as? MyBusMapController
+        self.searchViewController = self.navRouter.searchController() as? SearchViewController
+        self.favoriteViewController = self.navRouter.favoriteController() as? FavoriteViewController
+        self.suggestionSearchViewController = self.navRouter.suggestionController() as? SuggestionSearchViewController
+        self.searchContainerViewController = self.navRouter.searchContainerViewController() as? SearchContainerViewController
+        self.busesResultsTableViewController = self.navRouter.busesResultsTableViewController() as? BusesResultsTableViewController
         self.busesResultsTableViewController.mainViewDelegate = self
-        self.busesInformationViewController = self.navRouter.busesInformationController() as! BusesInformationViewController
-        self.moreViewController = self.navRouter.moreViewController() as! MoreViewController
+        self.busesInformationViewController = self.navRouter.busesInformationController() as? BusesInformationViewController
+        self.moreViewController = self.navRouter.moreViewController() as? MoreViewController
 
         self.tabBar.delegate = self
 
@@ -224,12 +224,12 @@ class MainViewController: UIViewController {
             if let annotations = self.mapViewController.mapView.annotations {
                 if( annotations.count > 1 ){
                     self.progressNotification.stopLoadingNotification(self.view)
-                    let alert = UIAlertController(title: Localization.getLocalizedString("Borrar_Busqueda"), message: Localization.getLocalizedString("Confirmar_Borrado_Busqueda"), preferredStyle: UIAlertControllerStyle.actionSheet)
-                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertActionStyle.default) { (_) -> Void in
+                    let alert = UIAlertController(title: Localization.getLocalizedString("Borrar_Busqueda"), message: Localization.getLocalizedString("Confirmar_Borrado_Busqueda"), preferredStyle: UIAlertController.Style.actionSheet)
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Ok"), style: UIAlertAction.Style.default) { (_) -> Void in
 
                         self.progressNotification.showLoadingNotification(self.view)
                         self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)})
-                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertActionStyle.cancel) { (_) -> Void in})
+                    alert.addAction(UIAlertAction(title: Localization.getLocalizedString("Cancelar"), style: UIAlertAction.Style.cancel) { (_) -> Void in})
                     self.present(alert, animated: true, completion: nil)
                 }else{
                     self.defineOriginDestination(tappedLocation.latitude, longitude: tappedLocation.longitude)
@@ -329,8 +329,8 @@ class MainViewController: UIViewController {
             return
         }
 
-        oldVC.willMove(toParentViewController: nil)
-        self.addChildViewController(newVC)
+        oldVC.willMove(toParent: nil)
+        self.addChild(newVC)
         newVC.view.translatesAutoresizingMaskIntoConstraints = false
         //Add new view to the container
         self.view.addAutoPinnedSubview(newVC.view, toView: self.containerView)
@@ -343,8 +343,8 @@ class MainViewController: UIViewController {
         oldVC.view.alpha = 0.0
 
         oldVC.view.removeFromSuperview()
-        oldVC.removeFromParentViewController()
-        newVC.didMove(toParentViewController: self)
+        oldVC.removeFromParent()
+        newVC.didMove(toParent: self)
 
     }
 
@@ -490,7 +490,7 @@ extension MainViewController:UITabBarDelegate {
             self.sectionNavigationBar(Localization.getLocalizedString(Localization.getLocalizedString("Favoritos")))
             self.cycleViewController(self.currentViewController!, toViewController: favoriteViewController)
             self.currentViewController = favoriteViewController
-            let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.addFavoritePlace))
+            let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(self.addFavoritePlace))
             add.tintColor = UIColor.white
             self.navigationItem.rightBarButtonItem = add
             LoggingManager.sharedInstance.logSection(LoggableAppSection.FAVOURITES)
@@ -645,10 +645,10 @@ extension MainViewController {
     func searchNavigationBar(){
         self.navigationItem.titleView = nil
 
-        let cancelButton = UIBarButtonItem(title: Localization.getLocalizedString("Cancelar"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.clearActiveSearch))
+        let cancelButton = UIBarButtonItem(title: Localization.getLocalizedString("Cancelar"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.clearActiveSearch))
         cancelButton.tintColor = UIColor.lightGray
 
-        let searchRouteButton = UIBarButtonItem(title: Localization.getLocalizedString("Buscar"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.searchRoute))
+        let searchRouteButton = UIBarButtonItem(title: Localization.getLocalizedString("Buscar"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.searchRoute))
         searchRouteButton.tintColor = UIColor.lightGray
 
         self.navigationItem.leftBarButtonItem = cancelButton
@@ -668,7 +668,7 @@ extension MainViewController {
         self.navigationItem.titleView = nil
         self.navigationItem.title = title
 
-        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.backTapped) )
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
         backButton.tintColor = UIColor.white
 

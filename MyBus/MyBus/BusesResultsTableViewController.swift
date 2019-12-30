@@ -28,7 +28,7 @@ class BusesResultsTableViewController: UITableViewController {
         self.tableView.layoutIfNeeded()
 
         let indexPath: IndexPath = IndexPath(row: 0, section: 0)
-        self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.none, animated: true)
+        self.tableView.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.none, animated: true)
 
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
@@ -48,7 +48,7 @@ class BusesResultsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

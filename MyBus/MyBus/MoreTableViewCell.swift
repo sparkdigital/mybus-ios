@@ -57,7 +57,7 @@ class MoreTableViewCell: UITableViewCell {
         }
 
         self.iconImageView.image = model.getIconImage()
-        self.iconImageView.contentMode = UIViewContentMode.scaleAspectFit
+        self.iconImageView.contentMode = UIView.ContentMode.scaleAspectFit
 
         self.sectionLabel.text = model.sectionName
 

@@ -22,7 +22,7 @@ class BusesRatesViewController: UIViewController, UITableViewDelegate
         self.ratesTableView.dataSource = busesRatesDataSource
 
 
-        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.backTapped) )
+        let backButton = UIBarButtonItem(title: " ", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.backTapped) )
         backButton.image = UIImage(named:"arrow_back")
         backButton.tintColor = UIColor.white
 

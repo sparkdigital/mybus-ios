@@ -60,8 +60,8 @@ class SearchViewController: UIViewController, UITableViewDelegate
         //Custom code
 
         // Listen for keyboard changes (if it's showing or hiding)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         //You could initialize nonetheless the table footer with a custom height
         self.setupTableViewFooter(kMinimumKeyboardHeight)
@@ -108,7 +108,7 @@ class SearchViewController: UIViewController, UITableViewDelegate
             return
         }
 
-        guard let value: NSValue = info.value(forKey: UIKeyboardFrameEndUserInfoKey) as? NSValue else {
+        guard let value: NSValue = info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
             NSLog("SearchCountry - No frame found for keyboard in userInfo")
             return
         }

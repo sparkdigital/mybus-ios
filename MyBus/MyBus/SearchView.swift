@@ -21,7 +21,7 @@ class SearchView: UIView{
     var searchDelegate: Searchable? {
         didSet {
             if let _ = searchDelegate {
-                invert.addTarget(self, action: #selector(invertEndpoints), for: UIControlEvents.touchUpInside)
+                invert.addTarget(self, action: #selector(invertEndpoints), for: UIControl.Event.touchUpInside)
             }
         }
     }

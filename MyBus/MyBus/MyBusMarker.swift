@@ -27,7 +27,7 @@ class MyBusMarker: MGLPointAnnotation {
         get {
             guard let identifier = markerImageIdentifier else { return nil }
             if var image = UIImage(named: identifier) {
-                image = image.withAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+                image = image.withAlignmentRectInsets(UIEdgeInsets.init(top: 0, left: 0, bottom: image.size.height/2, right: 0))
                 return MGLAnnotationImage(image: image, reuseIdentifier: identifier)
             }
             return nil

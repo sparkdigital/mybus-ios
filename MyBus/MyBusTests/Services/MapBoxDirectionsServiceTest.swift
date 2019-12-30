@@ -111,7 +111,7 @@ class MapBoxDirectionsServiceTest: XCTestCase
                 XCTAssertGreaterThanOrEqual(item.distance, 0.0)
                 XCTAssertNotNil(item.expectedTravelTime)
                 XCTAssertGreaterThanOrEqual(item.expectedTravelTime, 0.0)
-                XCTAssertNotNil(item.profileIdentifier)
+                XCTAssertNotNil(item.routeIdentifier)
                 
                 XCTAssertNotNil(item.coordinates)
                 for case let subItem:CLLocationCoordinate2D in item.coordinates!
@@ -230,7 +230,7 @@ class MapBoxDirectionsServiceTest: XCTestCase
                         XCTAssertGreaterThanOrEqual(item.distance, 0.0)
                         XCTAssertNotNil(item.expectedTravelTime)
                         XCTAssertGreaterThanOrEqual(item.expectedTravelTime, 0.0)
-                        XCTAssertNotNil(item.profileIdentifier)
+                        XCTAssertNotNil(item.routeIdentifier)
                         
                         XCTAssertNotNil(item.coordinates)
                         for case let subItem:CLLocationCoordinate2D in item.coordinates!

@@ -22,7 +22,7 @@ open class MyBusMarkerAnnotationView: MGLAnnotationView {
         isDraggable = true
         scalesWithViewingDistance = false
         if var image = UIImage(named: reuseIdentifier) {
-            image =  image.withAlignmentRectInsets(UIEdgeInsetsMake(0, 0, image.size.height/2, 0))
+            image =  image.withAlignmentRectInsets(UIEdgeInsets.init(top: 0, left: 0, bottom: image.size.height/2, right: 0))
             let imageView = UIImageView(image: image)
             self.frame = CGRect(x: 0, y: 0, width: image.size.width + 5, height: image.size.height + 5)
             self.backgroundColor = .clear
